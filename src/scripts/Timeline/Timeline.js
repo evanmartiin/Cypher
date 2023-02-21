@@ -11,7 +11,7 @@ class Timeline {
 		this.nextDOM = document.querySelector('#next');
 		this.timer = new Timer();
 
-		STEPS.forEach((s) => this.steps.push(new s()));
+		STEPS.forEach((Step) => this.steps.push(new Step()));
 		this.nextDOM.addEventListener('click', () => this.next());
 	}
 
@@ -25,6 +25,7 @@ class Timeline {
 	}
 
 	next() {
+		// console.log(this.steps, this.current);
 		this.current.stop();
 		if (this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length]) {
 			this.current = this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length];

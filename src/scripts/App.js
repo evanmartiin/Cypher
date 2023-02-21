@@ -28,6 +28,7 @@ class App {
 
 	async load() {
 		await this.core.assetsManager.load();
+		await this.tools.recorder.init();
 		this.debug?.mapping.init();
 		state.emit(EVENTS.ATTACH);
 		state.emit(EVENTS.RESIZE, this.tools.viewport.infos);

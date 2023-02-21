@@ -13,10 +13,12 @@ export default class DanceStep extends Step {
 		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
 		app.timeline.timer.setGauge(this.duration);
 		app.webgl.scene.setColor(0xff0000);
+		app.tools.recorder.start();
 	}
 
 	stop() {
 		clearTimeout(this.timeout);
 		app.timeline.timer.stopGauge();
+		app.tools.recorder.stop();
 	}
 }
