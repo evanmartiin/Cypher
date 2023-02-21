@@ -1,5 +1,3 @@
-import { URLParams } from './UrlParams.js';
-
 async function createDebugModules() {
 	await import('@styles/debug/debug.scss');
 
@@ -11,6 +9,7 @@ async function createDebugModules() {
 	const stats = new Stats();
 	await stats.load();
 
+	const URLParams = (await import('./URLParams.js')).URLParams;
 	const urlParams = new URLParams();
 
 	return {
