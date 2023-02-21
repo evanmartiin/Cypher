@@ -17,6 +17,7 @@
 			"@utils/*": ["./src/scripts/utils/*"],
 			"@vendors/*": ["./src/scripts/vendors/*"],
 			"@Webgl/*": ["./src/scripts/Webgl/*"],
+			"@Timeline/*": ["./src/scripts/Timeline/*"],
 			"@scripts/*": ["./src/scripts/*"]
 		}
 	},

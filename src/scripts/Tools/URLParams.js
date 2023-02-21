@@ -1,4 +1,4 @@
-const PARAMS_LIST = ['step', 'skip-video'];
+const PARAMS_LIST = ['step', 'skip-video', 'orbit'];
 
 class URLParams {
 	params = new Map();
@@ -21,6 +21,10 @@ class URLParams {
 
 	getNumber(name) {
 		return parseFloat(this.params.get(name)) || null;
+	}
+
+	has(name) {
+		return this.params.get(name) !== null;
 	}
 }
 

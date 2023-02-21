@@ -31,8 +31,7 @@ function createPane(pane, instance, name) {
 	};
 	const orbit = { Orbit: false };
 
-	const url = new URLSearchParams(location.search);
-	if (url.has('orbit')) {
+	if (app.tools.urlParams.has('orbit')) {
 		toggleOrbit();
 		orbit.Orbit = true;
 	}

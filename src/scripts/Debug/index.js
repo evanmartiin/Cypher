@@ -9,13 +9,9 @@ async function createDebugModules() {
 	const stats = new Stats();
 	await stats.load();
 
-	const URLParams = (await import('./URLParams.js')).URLParams;
-	const urlParams = new URLParams();
-
 	return {
 		mapping,
 		stats,
-		urlParams,
 	};
 }
 
