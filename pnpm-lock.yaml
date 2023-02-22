@@ -1,6 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@mediapipe/camera_utils': ^0.3.1675466862
+  '@mediapipe/drawing_utils': ^0.3.1675466124
+  '@mediapipe/holistic': ^0.5.1675471629
   '@trivago/prettier-plugin-sort-imports': ^4.0.0
   '@tweakpane/plugin-essentials': ^0.1.8
   eslint: ^8.34.0
@@ -17,7 +20,13 @@ specifiers:
   vite: ^4.1.1
 
 dependencies:
+<<<<<<< HEAD
   socket.io-client: 4.6.1
+=======
+  '@mediapipe/camera_utils': 0.3.1675466862
+  '@mediapipe/drawing_utils': 0.3.1675466124
+  '@mediapipe/holistic': 0.5.1675471629
+>>>>>>> main
   three: 0.149.0
 
 devDependencies:
@@ -552,6 +561,18 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /@mediapipe/camera_utils/0.3.1675466862:
+    resolution: {integrity: sha512-siuXBoUxWo9WL0MeAxIxvxY04bvbtdNl7uCxoJxiAiRtNnCYrurr7Vl5VYQ94P7Sq0gVq6PxIDhWWeZ/pLnSzw==}
+    dev: false
+
+  /@mediapipe/drawing_utils/0.3.1675466124:
+    resolution: {integrity: sha512-/IWIB/iYRMtiUKe3k7yGqvwseWHCOqzVpRDfMgZ6gv9z7EEimg6iZbRluoPbcNKHbYSxN5yOvYTzUYb8KVf22Q==}
+    dev: false
+
+  /@mediapipe/holistic/0.5.1675471629:
+    resolution: {integrity: sha512-qY+cxtDeSOvVtevrLgnodiwXYaAtPi7dHZtNv/bUCGEjFicAOYtMmrZSqMmbPkTB2+4jLnPF1vgshkAqQRSYAw==}
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}

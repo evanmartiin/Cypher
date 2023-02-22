@@ -7,7 +7,7 @@ export default class Recorder {
 
 	async init() {
 		/// #if DEBUG
-		if (app.tools.urlParams.has('skip-video')) return;
+		if (app.tools.urlParams.has('skip-screen-record')) return;
 		/// #endif
 
 		await navigator.mediaDevices
@@ -22,7 +22,7 @@ export default class Recorder {
 
 	start() {
 		/// #if DEBUG
-		if (app.tools.urlParams.has('skip-video')) return;
+		if (app.tools.urlParams.has('skip-screen-record')) return;
 		/// #endif
 
 		this.mediaRecorder.start();
@@ -30,7 +30,7 @@ export default class Recorder {
 
 	stop() {
 		/// #if DEBUG
-		if (app.tools.urlParams.has('skip-video')) return;
+		if (app.tools.urlParams.has('skip-screen-record')) return;
 		/// #endif
 
 		this.mediaRecorder.stop();
