@@ -7,6 +7,7 @@ import { DEBUG } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
 import { state } from './State.js';
 import { Timeline } from './Timeline/Timeline.js';
+import { ServerController } from './Server/ServerController.js';
 
 class App {
 	/** @type App */
@@ -19,6 +20,7 @@ class App {
 		this.core = createCoreModules();
 		this.tools = createToolsModules();
 		this.webgl = new WebglController();
+		this.server = new ServerController();
 		this.timeline = new Timeline();
 		this.dom = createDomModules();
 		if (DEBUG) this.debug = await createDebugModules();

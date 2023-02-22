@@ -1,4 +1,6 @@
 import { app } from '@scripts/App.js';
+import { state } from '@scripts/State.js';
+import { EVENTS } from '@utils/constants.js';
 
 export default class Recorder {
 	constructor() {}
@@ -38,6 +40,8 @@ export default class Recorder {
 
 	handleDataAvailable = (event) => {
 		this.mediaChunks.push(event.data);
+		state.emit(EVENTS.VIDEO_READY, this.mediaChunks)
+
 		// console.log(new Blob(this.mediaChunks, { type: 'video/webm' }));
 		this.mediaRecorder.removeEventListener('dataavailable', this.handleDataAvailable);
 	};
