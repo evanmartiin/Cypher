@@ -1,4 +1,4 @@
-const PARAMS_LIST = ['step', 'skip-video', 'orbit'];
+const PARAMS_LIST = ['step', 'skip-screen-record', 'orbit', 'skip-camera'];
 
 class URLParams {
 	params = new Map();
