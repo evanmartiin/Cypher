@@ -8,6 +8,7 @@ import { EVENTS } from '@utils/constants.js';
 import { state } from './State.js';
 import { TensorflowController } from './Tensorflow/TensorflowController.js';
 import { Timeline } from './Timeline/Timeline.js';
+import { ServerController } from './Server/ServerController.js';
 
 class App {
 	/** @type App */
@@ -21,7 +22,11 @@ class App {
 		this.core = createCoreModules();
 		this.tools = createToolsModules();
 		this.webgl = new WebglController();
+<<<<<<< HEAD
+		this.server = new ServerController();
+=======
 		this.tensorflow = new TensorflowController();
+>>>>>>> main
 		this.timeline = new Timeline();
 		this.dom = createDomModules();
 		if (DEBUG) this.debug = await createDebugModules();

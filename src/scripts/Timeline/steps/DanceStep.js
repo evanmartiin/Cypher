@@ -1,5 +1,9 @@
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
+import { state } from '@scripts/State.js';
+import { EVENTS, SERVER_EVENTS } from '@utils/constants.js';
+import { ServerController } from '@scripts/Server/ServerController.js';
+
 
 export default class DanceStep extends Step {
 	constructor() {
@@ -20,5 +24,12 @@ export default class DanceStep extends Step {
 		clearTimeout(this.timeout);
 		app.timeline.timer.stopGauge();
 		app.tools.recorder.stop();
+		state.on(EVENTS.VIDEO_READY, this.handleVideoReady)
+	}
+
+	handleVideoReady(args) {
+		app.server.emit(SERVER_EVENTS.CREATE_VIDEO, args)
+
+		state.off(EVENTS.VIDEO_READY, this.handleVideoReady)
 	}
 }
