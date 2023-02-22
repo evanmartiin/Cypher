@@ -24,6 +24,7 @@ specifiers:
   vite: ^4.1.1
 
 dependencies:
+  socket.io-client: 4.6.1
   '@mediapipe/camera_utils': 0.3.1675466862
   '@mediapipe/drawing_utils': 0.3.1675466124
   '@mediapipe/hands': 0.4.1675469240
@@ -31,7 +32,6 @@ dependencies:
   '@mediapipe/pose': 0.5.1675469404
   '@pixiv/three-vrm': 1.0.8_three@0.149.0
   kalidokit: 1.1.5
-  socket.io-client: 4.6.1
   three: 0.149.0
 
 devDependencies:
