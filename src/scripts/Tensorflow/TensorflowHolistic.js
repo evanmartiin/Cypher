@@ -1,11 +1,13 @@
-import { Holistic } from '@mediapipe/holistic';
+// import { Holistic } from '@mediapipe/holistic';
+// import { Hands } from '@mediapipe/hands';
+import { Pose } from '@mediapipe/pose';
 import { app } from '@scripts/App.js';
 
 class TensorflowHolistic {
 	constructor() {
-		this.holistic = new Holistic({
+		this.holistic = new Pose({
 			locateFile: (file) => {
-				return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1675471629/${file}`;
+				return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/${file}`;
 			},
 		});
 
@@ -14,7 +16,7 @@ class TensorflowHolistic {
 			smoothLandmarks: true,
 			minDetectionConfidence: 0.7,
 			minTrackingConfidence: 0.7,
-			refineFaceLandmarks: true,
+			// refineFaceLandmarks: true,
 		});
 
 		this.holistic.onResults(this.onResults);
