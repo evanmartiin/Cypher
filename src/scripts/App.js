@@ -5,6 +5,7 @@ import { createToolsModules } from '@Tools/index.js';
 import { createDebugModules } from '@Debug/index.js';
 import { DEBUG } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
+import { ServerController } from './Server/ServerController.js';
 import { state } from './State.js';
 import { TensorflowController } from './Tensorflow/TensorflowController.js';
 import { Timeline } from './Timeline/Timeline.js';
@@ -21,6 +22,7 @@ class App {
 		this.core = createCoreModules();
 		this.tools = createToolsModules();
 		this.webgl = new WebglController();
+		this.server = new ServerController();
 		this.tensorflow = new TensorflowController();
 		this.timeline = new Timeline();
 		this.dom = createDomModules();

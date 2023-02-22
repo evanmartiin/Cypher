@@ -6,14 +6,17 @@ specifiers:
   '@mediapipe/hands': ^0.4.1675469240
   '@mediapipe/holistic': ^0.5.1675471629
   '@mediapipe/pose': ^0.5.1675469404
+  '@pixiv/three-vrm': ^1.0.8
   '@trivago/prettier-plugin-sort-imports': ^4.0.0
   '@tweakpane/plugin-essentials': ^0.1.8
   eslint: ^8.34.0
   eslint-config-prettier: ^8.6.0
   eslint-plugin-html: ^7.1.0
   eslint-plugin-prettier: ^4.2.1
+  kalidokit: ^1.1.5
   prettier: ^2.8.4
   sass: ^1.58.0
+  socket.io-client: ^4.6.1
   stats-js: ^1.0.1
   three: ^0.149.0
   tweakpane: ^3.1.4
@@ -26,6 +29,9 @@ dependencies:
   '@mediapipe/hands': 0.4.1675469240
   '@mediapipe/holistic': 0.5.1675471629
   '@mediapipe/pose': 0.5.1675469404
+  '@pixiv/three-vrm': 1.0.8_three@0.149.0
+  kalidokit: 1.1.5
+  socket.io-client: 4.6.1
   three: 0.149.0
 
 devDependencies:
@@ -602,6 +608,112 @@ packages:
       fastq: 1.13.0
     dev: true
 
+  /@pixiv/three-vrm-core/1.0.8_three@0.149.0:
+    resolution: {integrity: sha512-BCCtXaVIDQjW0kyx1f0jEhInLhiVy0CFYLb0k2yq1YgNi3hOuFJw53Zog5wj3sYeaqp89vAo36I686nZzWpgQg==}
+    peerDependencies:
+      '@types/three': ^0.148.0
+      three: ^0.148.0
+    dependencies:
+      '@pixiv/types-vrm-0.0': 1.0.0
+      '@pixiv/types-vrmc-vrm-1.0': 1.0.0
+      three: 0.149.0
+    dev: false
+
+  /@pixiv/three-vrm-materials-hdr-emissive-multiplier/1.0.7_three@0.149.0:
+    resolution: {integrity: sha512-Tl8SKkX90hhvNxwS/EVi6rrdNubz+ByXATJrkyJ24/Ulpc83NddexGZPNCMgDt0sAEclV48D6Zy9OMk9P/qfHw==}
+    peerDependencies:
+      '@types/three': ^0.148.0
+      three: ^0.148.0
+    dependencies:
+      '@pixiv/types-vrmc-materials-hdr-emissive-multiplier-1.0': 1.0.0
+      three: 0.149.0
+    dev: false
+
+  /@pixiv/three-vrm-materials-mtoon/1.0.7_three@0.149.0:
+    resolution: {integrity: sha512-QBT9vyXS323chGooW546v0ud4AMT4JhwXH1cV2veo9ee1zTmvXZqUj2YAWI0F3dZMjkoG/gTEN/AjXsy12zLhw==}
+    peerDependencies:
+      '@types/three': ^0.148.0
+      three: ^0.148.0
+    dependencies:
+      '@pixiv/types-vrm-0.0': 1.0.0
+      '@pixiv/types-vrmc-materials-mtoon-1.0': 1.0.0
+      three: 0.149.0
+    dev: false
+
+  /@pixiv/three-vrm-materials-v0compat/1.0.7_three@0.149.0:
+    resolution: {integrity: sha512-XP0rgxjlo9pO9XAPBc/1EzamER/c6uhYcGy6RDn9t7C82L2C7RbSLMdkSdPatVZoh5YhJynyK2CpORWyMbEM4g==}
+    peerDependencies:
+      '@types/three': ^0.148.0
+      three: ^0.148.0
+    dependencies:
+      '@pixiv/types-vrm-0.0': 1.0.0
+      '@pixiv/types-vrmc-materials-mtoon-1.0': 1.0.0
+      three: 0.149.0
+    dev: false
+
+  /@pixiv/three-vrm-node-constraint/1.0.7_three@0.149.0:
+    resolution: {integrity: sha512-lIc5z7e5CukFjk8BkCNX6lkeNl4CN81FC+k+yVJSyiz6ErZupNDy8e8yO4bkXpLxsCWxGCIvoaS6OIRe+BVNgQ==}
+    peerDependencies:
+      '@types/three': ^0.148.0
+      three: ^0.148.0
+    dependencies:
+      '@pixiv/types-vrmc-node-constraint-1.0': 1.0.0
+      three: 0.149.0
+    dev: false
+
+  /@pixiv/three-vrm-springbone/1.0.7_three@0.149.0:
+    resolution: {integrity: sha512-5pzLjHMEK2Yxmr9M0Bjd+mUL3e16TIZEvY9ESqm4Rc7KlK0p9iF4PeZaBvsyG4REJBv0p+piWhmAoG4lvfrUww==}
+    peerDependencies:
+      three: ^0.148.0
+    dependencies:
+      '@pixiv/types-vrm-0.0': 1.0.0
+      '@pixiv/types-vrmc-springbone-1.0': 1.0.0
+      three: 0.149.0
+    dev: false
+
+  /@pixiv/three-vrm/1.0.8_three@0.149.0:
+    resolution: {integrity: sha512-4ICzynb8szP3h9FC+vTIa2TkfNFk07T7ErSZ603jvvRcp+IEpCGDMfEXr+MWsiYRNwaEIXudTnwprpDeVVUpuw==}
+    peerDependencies:
+      '@types/three': ^0.148.0
+      three: ^0.148.0
+    dependencies:
+      '@pixiv/three-vrm-core': 1.0.8_three@0.149.0
+      '@pixiv/three-vrm-materials-hdr-emissive-multiplier': 1.0.7_three@0.149.0
+      '@pixiv/three-vrm-materials-mtoon': 1.0.7_three@0.149.0
+      '@pixiv/three-vrm-materials-v0compat': 1.0.7_three@0.149.0
+      '@pixiv/three-vrm-node-constraint': 1.0.7_three@0.149.0
+      '@pixiv/three-vrm-springbone': 1.0.7_three@0.149.0
+      three: 0.149.0
+    dev: false
+
+  /@pixiv/types-vrm-0.0/1.0.0:
+    resolution: {integrity: sha512-3jnj/lpoLuzfsAAkqyTRiazxY88RhKFsDZkPmaFgPduDbIveFpzD153StHULO115w69I9VZ5i3ipJ6j7f0BjfA==}
+    dev: false
+
+  /@pixiv/types-vrmc-materials-hdr-emissive-multiplier-1.0/1.0.0:
+    resolution: {integrity: sha512-ussIML1MNbWIRehgQDoduy1zXTenubwDdGVekOhN0NO5ovVwVr4VVhLAvWr5gDVIwEliPGafJRqmHpWzmRTtEA==}
+    dev: false
+
+  /@pixiv/types-vrmc-materials-mtoon-1.0/1.0.0:
+    resolution: {integrity: sha512-JCqPiJZh7zccZxh28AGebvmBzch1Ql2IhU5n7nertLinPaIeVaYyWjHFJnxNVpn12nhTOYAsWpcUoOKeQWITmg==}
+    dev: false
+
+  /@pixiv/types-vrmc-node-constraint-1.0/1.0.0:
+    resolution: {integrity: sha512-fNKPRMk0j87p5IKiSsxFI3inM0kx1oiIX7GBnai+pPxXNGj8zgEHbHtPbhw2kTrRX+Fqs+HTn5U5oiZPnM4YQQ==}
+    dev: false
+
+  /@pixiv/types-vrmc-springbone-1.0/1.0.0:
+    resolution: {integrity: sha512-0gLtp3WT2WdCeJIQAPB9baU4w+xrIOLqIr/HgyVlJNmIICZoCdqMC+hu4cJwmPbJNBZsokD5A279Gwbr0pUy4g==}
+    dev: false
+
+  /@pixiv/types-vrmc-vrm-1.0/1.0.0:
+    resolution: {integrity: sha512-aYy/LyFU6ijzAXHtg+r2TfMKrsT0/amtK4wYEPZa901FZhyvNCYtmUPUA1a1VroIO9pyKC2fd6DlLwWhYenQFg==}
+    dev: false
+
+  /@socket.io/component-emitter/3.1.0:
+    resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
+    dev: false
+
   /@trivago/prettier-plugin-sort-imports/4.0.0_prettier@2.8.4:
     resolution: {integrity: sha512-Tyuk5ZY4a0e2MNFLdluQO9F6d1awFQYXVVujEPFfvKPPXz8DADNHzz73NMhwCSXGSuGGZcA/rKOyZBrxVNMxaA==}
     peerDependencies:
@@ -805,7 +917,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-    dev: true
 
   /deep-is/0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
@@ -848,6 +959,25 @@ packages:
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
     dev: true
+
+  /engine.io-client/6.4.0:
+    resolution: {integrity: sha512-GyKPDyoEha+XZ7iEqam49vz6auPnNJ9ZBfy89f+rMMas8AuiMWOZ9PVzu8xb9ZC6rafUqiGHSCfu22ih66E+1g==}
+    dependencies:
+      '@socket.io/component-emitter': 3.1.0
+      debug: 4.3.4
+      engine.io-parser: 5.0.6
+      ws: 8.11.0
+      xmlhttprequest-ssl: 2.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /engine.io-parser/5.0.6:
+    resolution: {integrity: sha512-tjuoZDMAdEhVnSFleYPCtdL2GXwVTGtNjoeJd9IhIG3C1xs9uwxqRNEu5WpnDZCaozwVlK/nuQhpodhXSIMaxw==}
+    engines: {node: '>=10.0.0'}
+    dev: false
 
   /entities/4.4.0:
     resolution: {integrity: sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==}
@@ -1295,6 +1425,10 @@ packages:
     hasBin: true
     dev: true
 
+  /kalidokit/1.1.5:
+    resolution: {integrity: sha512-cLaPfCK5UB1QUesFSF12s1/ZsOz4FMcaZDqfFoIYYAzouAjzreishAKIMuoN4zhz2KLuJudGKYWVjI+VVb0W1Q==}
+    dev: false
+
   /levn/0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -1326,7 +1460,6 @@ packages:
 
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
-    dev: true
 
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
@@ -1529,6 +1662,30 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /socket.io-client/4.6.1:
+    resolution: {integrity: sha512-5UswCV6hpaRsNg5kkEHVcbBIXEYoVbMQaHJBXJCyEQ+CiFPV1NIOY0XOFWG4XR4GZcB8Kn6AsRs/9cy9TbqVMQ==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      '@socket.io/component-emitter': 3.1.0
+      debug: 4.3.4
+      engine.io-client: 6.4.0
+      socket.io-parser: 4.2.2
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /socket.io-parser/4.2.2:
+    resolution: {integrity: sha512-DJtziuKypFkMMHCm2uIshOYC7QaylbtzQwiMYDuCKy3OPkjLzu4B2vAhTlqipRHHzrI0NJeBAizTK7X+6m1jVw==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      '@socket.io/component-emitter': 3.1.0
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -1683,6 +1840,24 @@ packages:
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
+
+  /ws/8.11.0:
+    resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
+  /xmlhttprequest-ssl/2.0.0:
+    resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
+    engines: {node: '>=0.4.0'}
+    dev: false
 
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}

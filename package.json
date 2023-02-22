@@ -32,6 +32,9 @@
     "@mediapipe/hands": "^0.4.1675469240",
     "@mediapipe/holistic": "^0.5.1675471629",
     "@mediapipe/pose": "^0.5.1675469404",
+    "@pixiv/three-vrm": "^1.0.8",
+    "kalidokit": "^1.1.5",
+    "socket.io-client": "^4.6.1",
     "three": "^0.149.0"
   }
 }

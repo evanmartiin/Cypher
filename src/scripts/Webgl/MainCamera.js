@@ -9,7 +9,7 @@ class MainCamera extends PerspectiveCamera {
 		super(BASE_FOV, app.tools.viewport.ratio, 1, 1000);
 		state.register(this);
 
-		this.position.z = 20;
+		this.position.z = 3;
 	}
 
 	onAttach() {

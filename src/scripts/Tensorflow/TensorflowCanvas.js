@@ -1,5 +1,5 @@
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
-import { FACEMESH_TESSELATION, HAND_CONNECTIONS, POSE_CONNECTIONS } from '@mediapipe/holistic';
+import { POSE_CONNECTIONS } from '@mediapipe/holistic';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from './TensorflowCamera.js';
