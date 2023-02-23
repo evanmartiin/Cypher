@@ -1,5 +1,7 @@
-import { Clock, Color, DoubleSide, Group, InstancedBufferAttribute, InstancedBufferGeometry, Mesh, OctahedronGeometry, Vector3 } from 'three';
-import { ParticleMaterial } from '@Webgl/Materials/Particles/visual/material.js';
+import { BoxGeometry, Clock, Color, DoubleSide, Group, InstancedBufferAttribute, InstancedBufferGeometry, Mesh, MeshStandardMaterial, OctahedronGeometry, Vector3 } from 'three';
+import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
+import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
+import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -60,11 +62,14 @@ export class Particles extends Group {
 
 		var scale = {
 			x: 2,
-			y: 8,
+			y: 6,
 			z: 2,
 		};
 
-		this.material = new ParticleMaterial({
+		this.material = new CustomShaderMaterial({
+			baseMaterial: MeshStandardMaterial,
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader,
 			uniforms: {
 				...globalUniforms,
 
@@ -74,12 +79,17 @@ export class Particles extends Group {
 
 				timer: { value: 0 },
 				boxScale: { value: new Vector3(scale.x, scale.y, scale.z) },
-				meshScale: { value: 0.3 },
 			},
+			metalness: 0.5,
+			roughness: 0.5,
 		});
 
 		this.mesh = new Mesh(geometry, this.material);
-		// app.webgl.scene.add(this.mesh);
+		this.mesh.position.set(0, 0, -3);
+		this.mesh.scale.set(0.25, 0.25, 0.25);
+
+		this.add(this.mesh);
+		this.mesh.frustumCulled = false;
 	}
 
 	onRender() {

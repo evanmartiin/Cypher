@@ -16,7 +16,7 @@ export class Ground extends Group {
 
 		reflector.rotation.x = -Math.PI * 0.5;
 		reflector.position.y = -1;
-		reflector.scale.set(15, 15, 15);
+		reflector.scale.set(15, 15, 5);
 
 		this.add(reflector);
 	}

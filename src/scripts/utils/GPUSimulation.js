@@ -26,8 +26,8 @@ export class GPUSimulation {
 			let theta = Math.random() * Math.PI;
 			let r = 0.8 + Math.random() * 2;
 
-			defArray[i + 0] = posArray[i + 0] = r * Math.sin(theta) * Math.cos(phi);
-			defArray[i + 1] = posArray[i + 1] = r * Math.sin(theta) * Math.sin(phi);
+			defArray[i + 0] = posArray[i + 0] = r * Math.sin(theta) * Math.cos(phi) * 7;
+			defArray[i + 1] = posArray[i + 1] = Math.abs(r * Math.sin(theta) * Math.sin(phi) * 5) - 2;
 			defArray[i + 2] = posArray[i + 2] = r * Math.cos(theta);
 
 			velArray[i + 3] = Math.random() * 100; // frames life

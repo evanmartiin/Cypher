@@ -16,7 +16,7 @@ void main() {
 	vec4 normalMapTexture = texture2D(normalMap, vUv);
 
 	// vec4 base = texture2DProj(uBaseTexture, vRenderTargetUv + normalMapTexture);
-	vec4 blur = texture2DProj(uBlurTexture, vRenderTargetUv + normalMapTexture * 0.5);
+	vec4 blur = texture2DProj(uBlurTexture, vRenderTargetUv + normalMapTexture * 0.75);
 
 	vec4 render = blur;
 

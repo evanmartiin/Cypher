@@ -24,7 +24,7 @@ class MainScene extends Scene {
 		this.addLight();
 		this.addGround();
 		this.addParticles();
-		this.addObjects();
+		// this.addObjects();
 
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 
@@ -32,8 +32,8 @@ class MainScene extends Scene {
 	}
 
 	addLight() {
-		const light = new PointLight('#ffffff', 1.5);
-		light.position.set(2, 8, 0);
+		const light = new PointLight('#ffffff', 1);
+		light.position.set(5, 5, -3);
 		this.add(light);
 	}
 	addGround() {
@@ -57,8 +57,8 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		// const particles = new Particles(200);
-		// this.add(particles);
+		const particles = new Particles(400);
+		this.add(particles);
 	}
 }
 

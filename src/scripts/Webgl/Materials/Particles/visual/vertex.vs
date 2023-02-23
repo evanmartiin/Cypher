@@ -9,7 +9,6 @@ uniform sampler2D velMap;
 uniform float size;
 
 uniform vec3 boxScale;
-uniform float meshScale;
 
 varying vec3 vPosition;
 varying vec3 vColor;
@@ -38,7 +37,7 @@ void main() {
   vec3 modifiedVertex = (localRotationMat * vec4(position * scale * aRandom * (vec3(1.0)) * boxScale, 1.0)).xyz;
   vec3 modifiedPosition = modifiedVertex + cubePosition.xyz;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(modifiedPosition * meshScale, 1.0);
+  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(modifiedPosition, 1.0);
   vPosition = modifiedPosition;
 
   vColor = aColor;
