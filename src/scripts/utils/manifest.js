@@ -20,7 +20,8 @@ const manifest = {
 		// ...
 	},
 	models: {
-		pokeball: { path: `${import.meta.env.BASE_URL}assets/models/pokeball.glb`, priority: 1, callback: null },
+		avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
+		avatar2: { path: `${import.meta.env.BASE_URL}assets/models/avatar2.vrm`, priority: 1, callback: null },
 		// ...
 	},
 	jsons: {},

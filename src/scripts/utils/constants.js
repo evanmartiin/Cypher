@@ -27,6 +27,7 @@ const EVENTS = {
 	KEY_DOWN: i++,
 
 	VIDEO_READY: i++,
+	RIG_COMPUTED: i++,
 };
 
 const SERVER_EVENTS = {

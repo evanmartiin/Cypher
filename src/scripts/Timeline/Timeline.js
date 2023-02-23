@@ -25,7 +25,6 @@ class Timeline {
 	}
 
 	next() {
-		// console.log(this.steps, this.current);
 		this.current.stop();
 		if (this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length]) {
 			this.current = this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length];
