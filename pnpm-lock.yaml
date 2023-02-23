@@ -20,13 +20,10 @@ specifiers:
   vite: ^4.1.1
 
 dependencies:
-<<<<<<< HEAD
   socket.io-client: 4.6.1
-=======
   '@mediapipe/camera_utils': 0.3.1675466862
   '@mediapipe/drawing_utils': 0.3.1675466124
   '@mediapipe/holistic': 0.5.1675471629
->>>>>>> main
   three: 0.149.0
 
 devDependencies:

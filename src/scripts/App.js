@@ -22,11 +22,8 @@ class App {
 		this.core = createCoreModules();
 		this.tools = createToolsModules();
 		this.webgl = new WebglController();
-<<<<<<< HEAD
 		this.server = new ServerController();
-=======
 		this.tensorflow = new TensorflowController();
->>>>>>> main
 		this.timeline = new Timeline();
 		this.dom = createDomModules();
 		if (DEBUG) this.debug = await createDebugModules();

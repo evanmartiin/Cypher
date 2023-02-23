@@ -6,7 +6,7 @@ class ServerController {
 	}
 
 	emit(name, args) {
-		this.socket.emit('CREATE_VIDEO', args);
+		this.socket.emit(name, args);
 	}
 }
 
