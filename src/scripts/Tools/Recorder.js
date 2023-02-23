@@ -8,14 +8,14 @@ export default class Recorder {
 		if (app.tools.urlParams.has('skip-video')) return;
 		/// #endif
 
-		await navigator.mediaDevices
-			.getDisplayMedia({ video: true })
-			.then((stream) => {
-				this.mediaRecorder = new MediaRecorder(stream);
-			})
-			.catch((error) => {
-				console.error('Error accessing media devices.', error);
-			});
+		// await navigator.mediaDevices
+		// 	.getDisplayMedia({ video: true })
+		// 	.then((stream) => {
+		// 		this.mediaRecorder = new MediaRecorder(stream);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error('Error accessing media devices.', error);
+		// 	});
 	}
 
 	start() {
@@ -23,7 +23,7 @@ export default class Recorder {
 		if (app.tools.urlParams.has('skip-video')) return;
 		/// #endif
 
-		this.mediaRecorder.start();
+		// this.mediaRecorder.start();
 	}
 
 	stop() {
@@ -31,14 +31,14 @@ export default class Recorder {
 		if (app.tools.urlParams.has('skip-video')) return;
 		/// #endif
 
-		this.mediaRecorder.stop();
+		// this.mediaRecorder.stop();
 		this.mediaChunks = [];
-		this.mediaRecorder.addEventListener('dataavailable', this.handleDataAvailable);
+		// this.mediaRecorder.addEventListener('dataavailable', this.handleDataAvailable);
 	}
 
 	handleDataAvailable = (event) => {
 		this.mediaChunks.push(event.data);
 		// console.log(new Blob(this.mediaChunks, { type: 'video/webm' }));
-		this.mediaRecorder.removeEventListener('dataavailable', this.handleDataAvailable);
+		// this.mediaRecorder.removeEventListener('dataavailable', this.handleDataAvailable);
 	};
 }
