@@ -5,7 +5,7 @@ export default class WellDoneStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Bien dansé !';
-		this.duration = 2000;
+		this.duration = 5000;
 	}
 
 	start() {

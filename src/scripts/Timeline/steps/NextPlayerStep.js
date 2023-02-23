@@ -5,7 +5,7 @@ export default class NextPlayerStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Au suivant';
-		this.duration = 2000;
+		this.duration = 5000;
 	}
 
 	start() {

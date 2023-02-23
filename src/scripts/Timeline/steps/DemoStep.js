@@ -5,7 +5,7 @@ export default class DemoStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Retiens-ce mouvement !';
-		this.duration = 5000;
+		this.duration = 10000;
 	}
 
 	start() {
