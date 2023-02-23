@@ -27,6 +27,8 @@
     "vite": "^4.1.1"
   },
   "dependencies": {
+    "postprocessing": "^6.24.1",
+    "three-custom-shader-material": "^5.2.1",
     "socket.io-client": "^4.6.1",
     "@mediapipe/camera_utils": "^0.3.1675466862",
     "@mediapipe/drawing_utils": "^0.3.1675466124",
