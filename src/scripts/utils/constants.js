@@ -27,11 +27,12 @@ const EVENTS = {
 	KEY_DOWN: i++,
 
 	VIDEO_READY: i++,
+	RIG_COMPUTED: i++,
 };
 
 const SERVER_EVENTS = {
 	CREATE_VIDEO: 'CREATE_VIDEO',
-}
+};
 
 const EVENTS_MAP = Object.fromEntries(
 	Object.entries(EVENTS).map(([key, value]) => [
@@ -46,4 +47,8 @@ const EVENTS_MAP = Object.fromEntries(
 
 const STEPS = [WaitingStep, PlayerDetectedStep, TrainingStep, DemoStep, StartPositionStep, PositionValidatedStep, TimerStep, DanceStep, WellDoneStep, NextPlayerStep];
 
-export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS };
+const STORE = {
+	SKELETON: i++,
+};
+
+export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS, STORE };

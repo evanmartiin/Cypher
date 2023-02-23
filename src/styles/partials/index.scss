@@ -21,3 +21,23 @@
     -webkit-transform: scale(.5) translateX(-50%) translateY(50%) rotateY(180deg); /* Safari and Chrome */
     -moz-transform: scale(.5) translateX(-50%) translateY(50%) rotateY(180deg); /* Firefox */
 }
+
+#rec {
+	color: red;
+	font-size: 30px;
+	font-weight: bold;
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	animation: blink .5s ease-in-out infinite alternate;
+	display: none;
+}
+
+@keyframes blink {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}

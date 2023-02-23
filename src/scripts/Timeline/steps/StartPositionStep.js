@@ -9,7 +9,10 @@ export default class StartPositionStep extends Step {
 
 	start() {
 		app.timeline.titleDOM.innerHTML = this.text;
+		app.webgl.scene.skeleton.show();
 	}
 
-	stop() {}
+	stop() {
+		app.webgl.scene.skeleton.hide();
+	}
 }

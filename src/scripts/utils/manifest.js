@@ -13,6 +13,8 @@ const manifest = {
 	images: {},
 	textures: {
 		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg`, priority: 2, callback: null },
+		normal: { path: `${import.meta.env.BASE_URL}assets/textures/normal.png`, priority: 2, callback: null },
+		roughness: { path: `${import.meta.env.BASE_URL}assets/textures/roughness.jpg`, priority: 2, callback: null },
 		// ...
 	},
 	envMaps: {
@@ -20,7 +22,8 @@ const manifest = {
 		// ...
 	},
 	models: {
-		pokeball: { path: `${import.meta.env.BASE_URL}assets/models/pokeball.glb`, priority: 1, callback: null },
+		avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
+		avatar2: { path: `${import.meta.env.BASE_URL}assets/models/avatar2.vrm`, priority: 1, callback: null },
 		// ...
 	},
 	jsons: {},

@@ -12,6 +12,7 @@ export default class PlayerDetectedStep extends Step {
 		app.timeline.titleDOM.innerHTML = this.text;
 		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
 		app.timeline.timer.setGauge(this.duration);
+		app.webgl.scene.avatar.enableControl();
 	}
 
 	stop() {
