@@ -6,7 +6,7 @@ const BASE_FOV = 45;
 
 class MainCamera extends PerspectiveCamera {
 	constructor() {
-		super(BASE_FOV, app.tools.viewport.ratio, 1, 1000);
+		super(BASE_FOV, app.tools.viewport.ratio, 1, 100);
 		state.register(this);
 
 		this.position.z = 3;

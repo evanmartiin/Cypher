@@ -45,7 +45,7 @@ class Reflector extends Mesh {
 		this.blurRenderTarget = new WebGLRenderTarget(textureWidth, textureHeight, { samples: multisample, type: HalfFloatType, minFilter: LinearFilter, magFilter: LinearFilter });
 
 		this.kawaseBlurPass = new POSTPROCESSING.KawaseBlurPass();
-		this.kawaseBlurPass.setSize(textureWidth * 1.25, textureHeight * 1.25);
+		this.kawaseBlurPass.setSize(textureWidth, textureHeight);
 
 		this.material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
@@ -56,12 +56,11 @@ class Reflector extends Mesh {
 				// uBaseTexture: { value: this.baseRenderTarget.texture },
 				uBlurTexture: { value: this.blurRenderTarget.texture },
 				uTextureMatrix: { value: textureMatrix },
-				uColor: { value: new Color('#ffffff') },
+				uColor: { value: new Color('#000000') },
 			},
-			color: '#000000',
 			transparent: true,
-			metalness: 0.65,
-			roughness: 0.5,
+			metalness: 0.5,
+			roughness: 0.75,
 			normalMap: app.core.assetsManager.get('normal'),
 			roughnessMap: app.core.assetsManager.get('roughness'),
 		});

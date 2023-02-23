@@ -4,6 +4,7 @@ import { computeEnvmap } from '@utils/misc.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
+import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 
 class MainScene extends Scene {
@@ -20,6 +21,27 @@ class MainScene extends Scene {
 	}
 
 	onAttach() {
+		this.addLight();
+		this.addGround();
+		this.addParticles();
+		this.addObjects();
+
+		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
+
+		app.debug?.mapping.add(this, 'Scene');
+	}
+
+	addLight() {
+		const light = new PointLight('#ffffff', 1.5);
+		light.position.set(2, 8, 0);
+		this.add(light);
+	}
+	addGround() {
+		const reflector = new Ground();
+		this.add(reflector);
+	}
+
+	addObjects() {
 		const group = new Group();
 		const m = new Mesh(new IcosahedronGeometry(1, 0), new MeshStandardMaterial({ roughness: 0.2, metalness: 0.5 }));
 		for (let index = 0; index < 100; index++) {
@@ -32,20 +54,13 @@ class MainScene extends Scene {
 			group.add(this.sphere);
 		}
 		this.add(group);
+	}
 
-		const light = new PointLight('#ffffff', 1);
-		light.position.set(20, 50, -25);
-		this.add(light);
-		const light2 = new PointLight('#ffffff', 1);
-		light2.position.set(-20, 50, -25);
-		this.add(light2);
+	addParticles() {
+		const particles = new Particles(200);
+		this.add(particles);
 
-		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
-
-		const reflector = new Ground();
-		this.add(reflector);
-
-		app.debug?.mapping.add(this, 'Scene');
+		console.log(particles);
 	}
 }
 

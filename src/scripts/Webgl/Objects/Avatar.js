@@ -19,6 +19,7 @@ class Avatar extends Group {
 
 		this.mesh = this.gltf.scene;
 		this.mesh.position.y = -1;
+		this.mesh.position.z = -2;
 		this.mesh.rotation.y = Math.PI;
 		this.add(this.mesh);
 		store.set(STORE.SKELETON, this.mesh.clone());

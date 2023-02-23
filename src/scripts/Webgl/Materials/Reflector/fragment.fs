@@ -20,6 +20,6 @@ void main() {
 
 	vec4 render = blur;
 
-	csm_DiffuseColor += render;
-	csm_DiffuseColor.xyz *= uColor;
+	csm_DiffuseColor *= render;
+	csm_DiffuseColor.xyz += uColor;
 }
