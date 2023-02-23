@@ -57,10 +57,8 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const particles = new Particles(200);
-		this.add(particles);
-
-		console.log(particles);
+		// const particles = new Particles(200);
+		// this.add(particles);
 	}
 }
 

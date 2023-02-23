@@ -3,7 +3,7 @@ import { ParticleMaterial } from '@Webgl/Materials/Particles/visual/material.js'
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { GPUSimulation } from './GPUSimulation.js';
+import { GPUSimulation } from '../../utils/GPUSimulation.js';
 
 export class Particles extends Group {
 	constructor(size) {
@@ -79,7 +79,7 @@ export class Particles extends Group {
 		});
 
 		this.mesh = new Mesh(geometry, this.material);
-		app.webgl.scene.add(this.mesh);
+		// app.webgl.scene.add(this.mesh);
 	}
 
 	onRender() {

@@ -1,5 +1,5 @@
 import { Group, PlaneGeometry } from 'three';
-import { Reflector } from '@Webgl/Objects/Reflector.js';
+import { Reflector } from '@utils/Reflector.js';
 
 export class Ground extends Group {
 	constructor() {
