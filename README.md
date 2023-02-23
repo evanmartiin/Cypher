@@ -21,4 +21,16 @@ pnpm build # build in production mode
 pnpm preview
 ```
 
+## URLParams
+
+Add params to URL to turn on/off some features.  
+Example: `www.url.com/?param1&param2`  
+
+List of params:  
+`debug`: Enable debug panes, stats, camera.  
+`orbit`: Enable OrbitControls, `debug` must be enabled.  
+`skip-screen-record`: Disable video creation.  
+`skip-camera`: Disable camera & Tensorflow compute.  
+`step`: Go to specific step. Write precise name without 'step' in the end. Example: `step=dance`  
+
 s/o Titou pour le starter

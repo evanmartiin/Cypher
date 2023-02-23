@@ -16,7 +16,6 @@ function createPane(pane, instance, name) {
 			instance.orbitControls.dampingFactor = 0.15;
 			instance.orbitControls.enableZoom = true;
 			instance.orbitControls.update();
-			instance.position.z += 10;
 			_far = instance.far;
 			instance.far = 200;
 			instance.updateProjectionMatrix();
@@ -24,7 +23,6 @@ function createPane(pane, instance, name) {
 			parent.style.pointerEvents = '';
 			instance.orbitControls.dispose();
 			instance.orbitControls = null;
-			instance.position.set(0, 0, 10);
 			instance.far = _far;
 			instance.updateProjectionMatrix();
 		}

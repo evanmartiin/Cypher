@@ -12,7 +12,6 @@ export default class TrainingStep extends Step {
 		app.timeline.titleDOM.innerHTML = this.text;
 		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
 		app.timeline.timer.setGauge(this.duration);
-		app.webgl.scene.setColor(0x00ff00);
 	}
 
 	stop() {

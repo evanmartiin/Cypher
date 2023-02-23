@@ -3,15 +3,20 @@ import { Ground } from '@Webgl/Objects/Ground.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+import { Avatar } from './Objects/Avatar.js';
+import { Skeleton } from './Objects/Skeleton.js';
 
 class MainScene extends Scene {
 	constructor() {
 		super();
 		state.register(this);
 
-		// manifest.envMaps.envmap.callback = this.envMapLoaded;
-
 		this.add(new AmbientLight(0xffffff, 0.5));
+
+		this.avatar = new Avatar();
+		this.add(this.avatar);
+		this.skeleton = new Skeleton();
+		this.add(this.skeleton);
 	}
 
 	onAttach() {
@@ -42,14 +47,6 @@ class MainScene extends Scene {
 
 		app.debug?.mapping.add(this, 'Scene');
 	}
-
-	setColor(color) {
-		this.sphere.material.color.set(color);
-	}
-
-	// envMapLoaded = (texture) => {
-	// 	this.environment = computeEnvmap(app.webgl.renderer, texture, false);
-	// };
 }
 
 export { MainScene };
