@@ -8,7 +8,7 @@ export default class DanceStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Danse !';
-		this.duration = 5000;
+		this.duration = 15000;
 	}
 
 	start() {

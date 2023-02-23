@@ -5,7 +5,7 @@ export default class TrainingStep extends Step {
 	constructor() {
 		super();
 		this.text = "Teste l'environnement !";
-		this.duration = 5000;
+		this.duration = 10000;
 	}
 
 	start() {
