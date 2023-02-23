@@ -2,6 +2,7 @@ import { AmbientLight, Scene } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
+import { Skeleton } from './Objects/Skeleton.js';
 
 class MainScene extends Scene {
 	constructor() {
@@ -12,6 +13,8 @@ class MainScene extends Scene {
 
 		this.avatar = new Avatar();
 		this.add(this.avatar);
+		this.skeleton = new Skeleton();
+		this.add(this.skeleton);
 	}
 
 	onAttach() {

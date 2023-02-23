@@ -3,7 +3,13 @@ import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
 export default class Recorder {
-	constructor() {}
+	constructor() {
+		state.register(this);
+	}
+
+	onAttach() {
+		this.recDOM = document.getElementById('rec');
+	}
 
 	async init() {
 		/// #if DEBUG
@@ -26,6 +32,7 @@ export default class Recorder {
 		/// #endif
 
 		this.mediaRecorder.start();
+		this.recDOM.style.display = 'block';
 	}
 
 	stop() {
@@ -36,6 +43,7 @@ export default class Recorder {
 		this.mediaRecorder.stop();
 		this.mediaChunks = [];
 		this.mediaRecorder.addEventListener('dataavailable', this.handleDataAvailable);
+		this.recDOM.style.display = 'none';
 	}
 
 	handleDataAvailable = (event) => {
