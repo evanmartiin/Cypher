@@ -10,12 +10,8 @@ export default class WellDoneStep extends Step {
 
 	start() {
 		app.timeline.titleDOM.innerHTML = this.text;
-		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
 		app.timeline.timer.setGauge(this.duration);
 	}
 
-	stop() {
-		clearTimeout(this.timeout);
-		app.timeline.timer.stopGauge();
-	}
+	stop() {}
 }

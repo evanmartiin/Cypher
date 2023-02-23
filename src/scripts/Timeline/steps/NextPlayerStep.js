@@ -10,13 +10,9 @@ export default class NextPlayerStep extends Step {
 
 	start() {
 		app.timeline.titleDOM.innerHTML = this.text;
-		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
 		app.timeline.timer.setGauge(this.duration);
 		app.webgl.scene.avatar.disableControl();
 	}
 
-	stop() {
-		clearTimeout(this.timeout);
-		app.timeline.timer.stopGauge();
-	}
+	stop() {}
 }
