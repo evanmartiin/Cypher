@@ -38,6 +38,7 @@ class Timeline {
 	}
 
 	next() {
+		this.timer.resetTimer();
 		this.current.stop();
 		if (this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length]) {
 			this.current = this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length];
