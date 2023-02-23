@@ -8,7 +8,7 @@ export class Ground extends Group {
 	}
 
 	createMesh() {
-		const reflectorGeometry = new PlaneGeometry(100, 100);
+		const reflectorGeometry = new PlaneGeometry(30, 30);
 		const reflector = new Reflector(reflectorGeometry, {
 			textureWidth: 512 * window.devicePixelRatio,
 			textureHeight: 512 * window.devicePixelRatio,
