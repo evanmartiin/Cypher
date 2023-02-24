@@ -1,4 +1,5 @@
 import { AmbientLight, Group, IcosahedronGeometry, Mesh, MeshStandardMaterial, PointLight, Scene } from 'three';
+import { Fog } from 'three';
 import { Ground } from '@Webgl/Objects/Ground.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { app } from '@scripts/App.js';
@@ -24,6 +25,7 @@ class MainScene extends Scene {
 		this.addLight();
 		this.addGround();
 		this.addParticles();
+		this.addFog();
 		// this.addObjects();
 
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
@@ -57,8 +59,12 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const particles = new Particles(400);
+		const particles = new Particles(256);
 		this.add(particles);
+	}
+	addFog() {
+		const fog = new Fog('#000000', 5, 9);
+		this.fog = fog;
 	}
 }
 

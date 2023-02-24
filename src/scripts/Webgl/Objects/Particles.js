@@ -17,7 +17,7 @@ export class Particles extends Group {
 	}
 
 	init() {
-		this.colorPallete = [new Color(0x0d0232), new Color(0xe50061), new Color(0x1cafc0), new Color(0xefcb03)];
+		this.colorPallete = [new Color(0xe50061), new Color(0x46237a), new Color(0x3ddc97), new Color(0xfcfcfc)];
 
 		this.sim = new GPUSimulation(app.webgl.renderer, this.size);
 		this.createObj();

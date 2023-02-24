@@ -1,5 +1,5 @@
 import { VRMUtils } from '@pixiv/three-vrm';
-import { Euler, Group, Quaternion, Vector3 } from 'three';
+import { Euler, Group, MeshPhysicalMaterial, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
 import { EVENTS, STORE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -18,6 +18,17 @@ class Avatar extends Group {
 		this.vrm = this.gltf.userData.vrm;
 
 		this.mesh = this.gltf.scene;
+
+		const material = new MeshPhysicalMaterial({
+			metalness: 0,
+			roughness: 0.2,
+			transmission: 0.7,
+			thickness: 1,
+		});
+		this.mesh.traverse((object) => {
+			if (object.isMesh) object.material = material;
+		});
+
 		this.mesh.position.y = -1;
 		this.mesh.position.z = -2;
 		this.mesh.rotation.y = Math.PI;

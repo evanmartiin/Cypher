@@ -35,6 +35,7 @@ void main() {
   mat4 localRotationMat = mat4(calcLookAtMatrix(cubeVelocity.xyz, 0.0));
 
   vec3 modifiedVertex = (localRotationMat * vec4(position * scale * aRandom * (vec3(1.0)) * boxScale, 1.0)).xyz;
+  // csm_Normal = (localRotationMat * vec4(normal * scale * aRandom * (vec3(1.0)) * boxScale, 1.0)).xyz;
   vec3 modifiedPosition = modifiedVertex + cubePosition.xyz;
 
   csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(modifiedPosition, 1.0);
