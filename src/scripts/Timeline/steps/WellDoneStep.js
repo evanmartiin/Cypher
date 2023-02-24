@@ -5,17 +5,13 @@ export default class WellDoneStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Bien dansé !';
-		this.duration = 2000;
+		this.duration = 5000;
 	}
 
 	start() {
 		app.timeline.titleDOM.innerHTML = this.text;
-		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
 		app.timeline.timer.setGauge(this.duration);
 	}
 
-	stop() {
-		clearTimeout(this.timeout);
-		app.timeline.timer.stopGauge();
-	}
+	stop() {}
 }

@@ -26,6 +26,10 @@ class TensorflowCamera {
 	}
 
 	onAttach() {
+		/// #if DEBUG
+		if (app.tools.urlParams.has('skip-camera')) return;
+		/// #endif
+
 		app.$root.appendChild(this.videoDOM);
 	}
 

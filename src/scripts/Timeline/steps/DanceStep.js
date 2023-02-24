@@ -8,19 +8,16 @@ export default class DanceStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Danse !';
-		this.duration = 5000;
+		this.duration = 15000;
 	}
 
 	start() {
 		app.timeline.titleDOM.innerHTML = this.text;
-		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
 		app.timeline.timer.setGauge(this.duration);
 		app.tools.recorder.start();
 	}
 
 	stop() {
-		clearTimeout(this.timeout);
-		app.timeline.timer.stopGauge();
 		app.tools.recorder.stop();
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
 		store.set(STORE.SKELETON, app.webgl.scene.avatar.mesh.clone());
