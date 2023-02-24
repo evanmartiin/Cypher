@@ -18,11 +18,13 @@
 	bottom: 50px;
 	left: 50px;
 	border-radius: 50px;
-	border: 15px solid #646cff;
 	box-sizing: content-box;
 	transform: scale(.5) translateX(-50%) translateY(50%) rotateY(180deg);
     -webkit-transform: scale(.5) translateX(-50%) translateY(50%) rotateY(180deg); /* Safari and Chrome */
     -moz-transform: scale(.5) translateX(-50%) translateY(50%) rotateY(180deg); /* Firefox */
+}
+#tf-video {
+	border: 15px solid #646cff;
 }
 
 #rec {
