@@ -30,6 +30,7 @@ const EVENTS = {
 	RIG_COMPUTED: i++,
 	PLAYER_ENTERED: i++,
 	PLAYER_LEFT: i++,
+	PLAYER_MOVED: i++,
 };
 
 const SERVER_EVENTS = {

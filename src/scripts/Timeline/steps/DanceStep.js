@@ -1,8 +1,7 @@
-import { EVENTS, SERVER_EVENTS, STORE } from '@utils/constants.js';
+import { EVENTS, SERVER_EVENTS } from '@utils/constants.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { store } from '@scripts/Store.js';
 
 export default class DanceStep extends Step {
 	constructor() {
@@ -20,7 +19,7 @@ export default class DanceStep extends Step {
 	stop() {
 		app.tools.recorder.stop();
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
-		store.set(STORE.SKELETON, app.webgl.scene.avatar.mesh.clone());
+		app.webgl.scene.skeleton.createGeometry();
 	}
 
 	handleVideoReady(args) {
