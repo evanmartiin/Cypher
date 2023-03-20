@@ -1,9 +1,8 @@
 import { VRMUtils } from '@pixiv/three-vrm';
-import { Euler, Group, MeshPhysicalMaterial, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
-import { EVENTS, STORE } from '@utils/constants.js';
+import { Euler, Group, MeshPhysicalMaterial, Quaternion, Vector3 } from 'three';
+import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { store } from '@scripts/Store.js';
 
 class Avatar extends Group {
 	constructor() {
@@ -33,7 +32,6 @@ class Avatar extends Group {
 		this.mesh.position.z = -2;
 		this.mesh.rotation.y = Math.PI;
 		this.add(this.mesh);
-		store.set(STORE.SKELETON, this.mesh.clone());
 	}
 
 	onRender({ dt }) {

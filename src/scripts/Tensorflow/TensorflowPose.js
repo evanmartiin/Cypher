@@ -6,27 +6,26 @@ import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-class TensorflowHolistic {
+class TensorflowPose {
 	constructor() {
-		this.holistic = new Pose({
+		this.pose = new Pose({
 			locateFile: (file) => {
 				return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/${file}`;
 			},
 		});
 
-		this.holistic.setOptions({
+		this.pose.setOptions({
 			modelComplexity: 1,
 			smoothLandmarks: true,
 			minDetectionConfidence: 0.7,
 			minTrackingConfidence: 0.7,
 		});
 
-		this.holistic.onResults(this.onResults);
-
-		state.on
+		this.pose.onResults(this.onResults);
 	}
 
 	onResults = (results) => {
+		state.emit(EVENTS.PLAYER_MOVED, results);
 		app.tensorflow.canvas.drawResults(results);
 		this.computeRig(results);
 	};
@@ -46,8 +45,8 @@ class TensorflowHolistic {
 	}
 
 	async send({ image }) {
-		await this.holistic.send({ image });
+		await this.pose.send({ image });
 	}
 }
 
-export { TensorflowHolistic };
+export { TensorflowPose };

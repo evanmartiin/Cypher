@@ -24,7 +24,7 @@ class MainScene extends Scene {
 	onAttach() {
 		this.addLight();
 		this.addGround();
-		this.addParticles();
+		// this.addParticles();
 		this.addFog();
 		// this.addObjects();
 
