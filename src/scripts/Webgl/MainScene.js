@@ -1,5 +1,6 @@
 import { AmbientLight, Group, IcosahedronGeometry, Mesh, MeshStandardMaterial, PointLight, Scene } from 'three';
 import { Fog } from 'three';
+import { FluidSimulation } from '@Webgl/Objects/FluidSimulation.js';
 import { Ground } from '@Webgl/Objects/Ground.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { app } from '@scripts/App.js';
@@ -22,49 +23,55 @@ class MainScene extends Scene {
 	}
 
 	onAttach() {
-		this.addLight();
-		this.addGround();
-		this.addParticles();
-		this.addFog();
+		// this.addLight();
+		// this.addGround();
+		// this.addParticles();
+		// this.addFog();
 		// this.addObjects();
+		this.addTensorflowPlane();
 
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 
 		app.debug?.mapping.add(this, 'Scene');
 	}
 
-	addLight() {
-		const light = new PointLight('#ffffff', 1);
-		light.position.set(5, 5, -3);
-		this.add(light);
-	}
-	addGround() {
-		const reflector = new Ground();
-		this.add(reflector);
-	}
+	// addLight() {
+	// 	const light = new PointLight('#ffffff', 1);
+	// 	light.position.set(5, 5, -3);
+	// 	this.add(light);
+	// }
+	// addGround() {
+	// 	const reflector = new Ground();
+	// 	this.add(reflector);
+	// }
 
-	addObjects() {
-		const group = new Group();
-		const m = new Mesh(new IcosahedronGeometry(1, 0), new MeshStandardMaterial({ roughness: 0.2, metalness: 0.5 }));
-		for (let index = 0; index < 100; index++) {
-			this.sphere = m.clone();
-			this.sphere.position.x = Math.random() * 15 - 7.5;
-			this.sphere.position.y = Math.abs(Math.random() * 15 - 7.5);
-			this.sphere.position.z = Math.random() * 15 - 7.5;
-			const rand = Math.random() + 0.2;
-			this.sphere.scale.set(rand, rand, rand);
-			group.add(this.sphere);
-		}
-		this.add(group);
-	}
+	// addObjects() {
+	// 	const group = new Group();
+	// 	const m = new Mesh(new IcosahedronGeometry(1, 0), new MeshStandardMaterial({ roughness: 0.2, metalness: 0.5 }));
+	// 	for (let index = 0; index < 100; index++) {
+	// 		this.sphere = m.clone();
+	// 		this.sphere.position.x = Math.random() * 15 - 7.5;
+	// 		this.sphere.position.y = Math.abs(Math.random() * 15 - 7.5);
+	// 		this.sphere.position.z = Math.random() * 15 - 7.5;
+	// 		const rand = Math.random() + 0.2;
+	// 		this.sphere.scale.set(rand, rand, rand);
+	// 		group.add(this.sphere);
+	// 	}
+	// 	this.add(group);
+	// }
 
-	addParticles() {
-		const particles = new Particles(128);
-		this.add(particles);
-	}
-	addFog() {
-		const fog = new Fog('#000000', 5, 9);
-		this.fog = fog;
+	// addParticles() {
+	// 	const particles = new Particles(128);
+	// 	// this.add(particles);
+	// }
+	// addFog() {
+	// 	const fog = new Fog('#000000', 5, 9);
+	// 	this.fog = fog;
+	// }
+
+	addTensorflowPlane() {
+		const plane = new FluidSimulation();
+		this.add(plane);
 	}
 }
 
