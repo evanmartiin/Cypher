@@ -46,10 +46,22 @@ class Timeline {
 		}
 	}
 
+	reset() {
+		this.timer.resetTimer();
+		app.webgl.scene.avatar.disableControl();
+		this.current.stop();
+		this.current = this.steps[0];
+		this.current.start();
+	}
+
 	set(step) {
 		this.current.stop();
 		this.current = step;
 		this.current.start();
+	}
+
+	onPlayerLeft() {
+		this.reset();
 	}
 }
 

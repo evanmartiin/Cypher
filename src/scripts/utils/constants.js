@@ -28,6 +28,9 @@ const EVENTS = {
 
 	VIDEO_READY: i++,
 	RIG_COMPUTED: i++,
+	PLAYER_ENTERED: i++,
+	PLAYER_LEFT: i++,
+	PLAYER_MOVED: i++,
 };
 
 const SERVER_EVENTS = {

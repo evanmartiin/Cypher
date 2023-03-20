@@ -2,14 +2,14 @@ import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { TensorflowCamera } from './TensorflowCamera.js';
 import { TensorflowCanvas } from './TensorflowCanvas.js';
-import { TensorflowHolistic } from './TensorflowHolistic.js';
+import { TensorflowPose } from './TensorflowPose.js';
 
 class TensorflowController {
 	constructor() {
 		state.register(this);
 		this.camera = new TensorflowCamera();
 		this.canvas = new TensorflowCanvas();
-		this.holistic = new TensorflowHolistic();
+		this.pose = new TensorflowPose();
 	}
 
 	onAttach() {
