@@ -22,6 +22,8 @@ class TensorflowHolistic {
 		});
 
 		this.holistic.onResults(this.onResults);
+
+		state.on
 	}
 
 	onResults = (results) => {
@@ -33,7 +35,11 @@ class TensorflowHolistic {
 		const pose3DLandmarks = results.poseWorldLandmarks;
 		const pose2DLandmarks = results.poseLandmarks;
 
-		if (pose2DLandmarks && pose3DLandmarks) {
+		if (pose2DLandmarks && pose3DLandmarks && !this.playerDetected) state.emit(EVENTS.PLAYER_ENTERED);
+		if (!pose2DLandmarks && !pose3DLandmarks && this.playerDetected) state.emit(EVENTS.PLAYER_LEFT);
+		this.playerDetected = pose2DLandmarks && pose3DLandmarks;
+
+		if (this.playerDetected) {
 			const riggedPose = Kalidokit.Pose.solve(pose3DLandmarks, pose2DLandmarks);
 			state.emit(EVENTS.RIG_COMPUTED, riggedPose);
 		}

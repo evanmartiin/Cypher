@@ -24,7 +24,8 @@ class State {
 	 * @param {{once?: boolean}} params
 	 */
 	on(id, fn, params = {}) {
-		if (!this.#listeners.has(id)) this.#listeners.set(id, new Set());
+		if (!params.once && !this.#listeners.has(id)) this.#listeners.set(id, new Set());
+		if (params.once && !this.#onceListeners.has(id)) this.#onceListeners.set(id, new Set());
 
 		(params.once ? this.#onceListeners : this.#listeners).get(id).add(fn);
 	}
