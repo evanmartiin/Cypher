@@ -53,8 +53,10 @@ class Skeleton extends Group {
 	}
 
 	createGeometry() {
-		this.geometry = new BufferGeometry();
 		this.poses = this.realtimePoses;
+		if (!this.poses) return;
+
+		this.geometry = new BufferGeometry();
 		const vertices = [];
 
 		POSE_CONNECTIONS.forEach((connection) => {

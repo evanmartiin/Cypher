@@ -22,6 +22,7 @@ export default class StandbyStep extends Step {
 	}
 
 	onPlayerEntered() {
+		if (!this.isRunning) return;
 		app.timeline.resume();
 	}
 }
