@@ -1,28 +1,29 @@
 import { BufferGeometry, Float32BufferAttribute, Group, LineBasicMaterial, LineSegments } from 'three';
+import { POSE } from '@utils/constants.js';
 import { state } from '@scripts/State.js';
 
 const POSE_CONNECTIONS = [
 	// Chest
-	[11, 12],
-	[12, 24],
-	[24, 23],
-	[23, 11],
-
-	// Left arm
-	[12, 14],
-	[14, 16],
+	[POSE.LEFT_SHOULDER, POSE.RIGHT_SHOULDER],
+	[POSE.RIGHT_SHOULDER, POSE.RIGHT_HIP],
+	[POSE.RIGHT_HIP, POSE.LEFT_HIP],
+	[POSE.LEFT_HIP, POSE.LEFT_SHOULDER],
 
 	// Right arm
-	[11, 13],
-	[13, 15],
+	[POSE.RIGHT_SHOULDER, POSE.RIGHT_ELBOW],
+	[POSE.RIGHT_ELBOW, POSE.RIGHT_WRIST],
 
-	// Left leg
-	[24, 26],
-	[26, 28],
+	// Left arm
+	[POSE.LEFT_SHOULDER, POSE.LEFT_ELBOW],
+	[POSE.LEFT_ELBOW, POSE.LEFT_WRIST],
 
 	// Right leg
-	[23, 25],
-	[25, 27],
+	[POSE.RIGHT_HIP, POSE.RIGHT_KNEE],
+	[POSE.RIGHT_KNEE, POSE.RIGHT_ANKLE],
+
+	// Left leg
+	[POSE.LEFT_HIP, POSE.LEFT_KNEE],
+	[POSE.LEFT_KNEE, POSE.LEFT_ANKLE],
 ];
 
 class Skeleton extends Group {
