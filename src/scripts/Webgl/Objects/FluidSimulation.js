@@ -1,8 +1,32 @@
-import { Group, Mesh, PlaneGeometry, ShaderMaterial, Vector2 } from 'three';
+import { Group, Mesh, PlaneGeometry, Vector2 } from 'three';
 import { FluidSimulationMaterial } from '@Webgl/Materials/FluidSimulation/material.js';
-import { EVENTS, STORE } from '@utils/constants.js';
+import { EVENTS } from '@utils/constants.js';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { state } from '@scripts/State.js';
+
+const POSE_CONNECTIONS = [
+	// Chest
+	[11, 12],
+	[12, 24],
+	[24, 23],
+	[23, 11],
+
+	// Left arm
+	[12, 14],
+	[14, 16],
+
+	// Right arm
+	[11, 13],
+	[13, 15],
+
+	// Left leg
+	[24, 26],
+	[26, 28],
+
+	// Right leg
+	[23, 25],
+	[25, 27],
+];
 
 export class FluidSimulation extends Group {
 	constructor() {
@@ -14,33 +38,39 @@ export class FluidSimulation extends Group {
 	}
 
 	onAttach() {
-		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
+		// state.on(EVENTS.RIG_COMPUTED, this.updateRig);
 	}
 
 	onRender({ dt }) {
 		// console.log(dt);
 	}
 
-	updateRig = (riggedPose) => {
-		this.positions = [];
-
-		// console.log(riggedPose.LeftHand);
-		const positionsArray = Object.values(riggedPose);
-		positionsArray.forEach((vector) => {
-			const v = new Vector2().copy(vector);
-			this.positions.push(v);
-		});
-
-		const leftHand = 1.0 - riggedPose.LeftHand.x;
-
-		// console.log(leftHand);
-
-		this.mesh.material.uniforms.uPos.value = this.vecTest.set(leftHand, riggedPose.LeftHand.y);
-	};
-
-	enableControl() {
-		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
+	onPlayerMoved(rig) {
+		// this.realtimePoses = rig.poseLandmarks[12];
+		console.log(rig.poseLandmarks[14].x);
+		// this.mesh.material.uniforms.uPos.value = this.vecTest.set(this.realtimePoses[12].x, this.realtimePoses[12].y);
 	}
+
+	// updateRig = (riggedPose) => {
+	// 	this.positions = [];
+
+	// 	// console.log(riggedPose.LeftHand);
+	// 	const positionsArray = Object.values(riggedPose);
+	// 	positionsArray.forEach((vector) => {
+	// 		const v = new Vector2().copy(vector);
+	// 		this.positions.push(v);
+	// 	});
+
+	// 	const leftHand = 1.0 - riggedPose.LeftHand.x;
+
+	// 	this.mesh.material.uniforms.uPos.value = this.vecTest.set(leftHand, riggedPose.LeftHand.y);
+	// 	// console.log(leftHand);
+
+	// };
+
+	// enableControl() {
+	// 	state.on(EVENTS.RIG_COMPUTED, this.updateRig);
+	// }
 
 	createMesh() {
 		// this.positions = [];
