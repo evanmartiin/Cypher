@@ -1,15 +1,30 @@
+import { POSE } from '@utils/constants.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-const SELECTED_POINTS = [11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28];
-const TRUST_TRESHOLD = 0.2;
+const TRUST_TRESHOLD = 0.4;
 
 export default class StartPositionStep extends Step {
 	constructor() {
 		super();
 		state.register(this);
 		this.text = 'En position !';
+
+		this.SKELETON_POINTS = [
+			POSE.LEFT_SHOULDER,
+			POSE.RIGHT_SHOULDER,
+			POSE.LEFT_ELBOW,
+			POSE.RIGHT_ELBOW,
+			POSE.LEFT_WRIST,
+			POSE.RIGHT_WRIST,
+			POSE.LEFT_HIP,
+			POSE.RIGHT_HIP,
+			POSE.LEFT_KNEE,
+			POSE.RIGHT_KNEE,
+			POSE.LEFT_ANKLE,
+			POSE.RIGHT_ANKLE,
+		];
 	}
 
 	start() {
@@ -38,7 +53,7 @@ export default class StartPositionStep extends Step {
 			return;
 		}
 
-		const isPoseCorrect = SELECTED_POINTS.every((point) => {
+		const isPoseCorrect = this.SKELETON_POINTS.every((point) => {
 			const x = Math.abs(poseToCheck[point].x - poseToHave[point].x) < TRUST_TRESHOLD;
 			const y = Math.abs(poseToCheck[point].y - poseToHave[point].y) < TRUST_TRESHOLD;
 			const z = Math.abs(poseToCheck[point].z - poseToHave[point].z) < TRUST_TRESHOLD;
