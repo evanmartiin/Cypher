@@ -1,4 +1,5 @@
 import { Vector2 } from 'three';
+import Common from './Common.js';
 
 class Mouse {
 	constructor() {
@@ -18,7 +19,7 @@ class Mouse {
 
 	setCoords(x, y) {
 		if (this.timer) clearTimeout(this.timer);
-		this.coords.set((x / window.innerWidth) * 2 - 1, -(y / window.innerHeight) * 2 + 1);
+		this.coords.set((x / Common.width) * 2 - 1, -(y / Common.height) * 2 + 1);
 		this.mouseMoved = true;
 		this.timer = setTimeout(() => {
 			this.mouseMoved = false;
@@ -26,8 +27,7 @@ class Mouse {
 	}
 	onDocumentMouseMove(event) {
 		this.setCoords(event.clientX, event.clientY);
-
-		console.log(event);
+		// console.log('chip');
 	}
 	onDocumentTouchStart(event) {
 		if (event.touches.length === 1) {
