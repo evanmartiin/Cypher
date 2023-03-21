@@ -1,6 +1,6 @@
 import { AmbientLight, Group, IcosahedronGeometry, Mesh, MeshStandardMaterial, PointLight, Scene } from 'three';
 import { Fog } from 'three';
-import { FluidSimulation } from '@Webgl/Objects/FluidSimulation.js';
+import { FluidSimulation } from '@Webgl/Objects/FluidSimulation/FluidSimulation.js';
 import { Ground } from '@Webgl/Objects/Ground.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { app } from '@scripts/App.js';
