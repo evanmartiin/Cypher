@@ -14,11 +14,12 @@ export default class Timer {
 		if (this.gauge) this.updateGauge();
 	}
 
-	setGauge(duration) {
+	setGauge(duration, callback) {
 		this.gauge = {
 			start: this.elapsed,
 			percent: 0,
 			duration,
+			callback,
 		};
 		this.DOM.classList.remove('hidden');
 	}
@@ -35,8 +36,7 @@ export default class Timer {
 	}
 
 	stopGauge() {
-		this.resetTimer();
-		app.timeline.next();
+		this.gauge.callback();
 	}
 
 	resetTimer() {

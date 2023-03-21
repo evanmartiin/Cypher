@@ -1,5 +1,6 @@
 export default class Step {
 	constructor() {
+		this.isRunning = false;
 		if (this.constructor === Step) {
 			throw new Error('Abstract class "Step" cannot be instantiated directly.');
 		}
