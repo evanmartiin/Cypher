@@ -9,10 +9,14 @@ export default class NextPlayerStep extends Step {
 	}
 
 	start() {
+		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
-		app.timeline.timer.setGauge(this.duration);
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.webgl.scene.avatar.disableControl();
 	}
 
-	stop() {}
+	stop() {
+		this.isRunning = false;
+		app.timeline.timer.resetTimer();
+	}
 }

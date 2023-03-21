@@ -8,8 +8,11 @@ export default class WaitingStep extends Step {
 	}
 
 	start() {
+		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
 	}
 
-	stop() {}
+	stop() {
+		this.isRunning = false;
+	}
 }
