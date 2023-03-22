@@ -25,6 +25,7 @@ class TensorflowPose {
 	}
 
 	onResults = (results) => {
+		// TODO: filter moves to not count really small moves and big moves (teleportations)
 		state.emit(EVENTS.PLAYER_MOVED, results);
 		app.tensorflow.canvas.drawResults(results);
 		this.computeRig(results);

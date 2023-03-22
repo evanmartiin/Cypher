@@ -28,7 +28,7 @@ class Avatar extends Group {
 			if (object.isMesh) object.material = material;
 		});
 
-		this.mesh.position.y = -1;
+		this.mesh.position.y = 0;
 		this.mesh.position.z = -2;
 		this.mesh.rotation.y = Math.PI;
 		this.add(this.mesh);
@@ -38,6 +38,9 @@ class Avatar extends Group {
 		if (this.vrm) {
 			this.vrm.update(dt); // Update physics
 		}
+		// if (this.mesh && app.webgl.scene.skeleton.offset) {
+		// 	this.mesh.position.y = app.webgl.scene.skeleton.offset.y;
+		// }
 	}
 
 	enableControl() {
