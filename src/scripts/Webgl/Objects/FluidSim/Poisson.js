@@ -1,13 +1,13 @@
+import faceVertex from '@Webgl/Materials/FluidSimulation/simulation/face.vert';
+import poissonFragment from '@Webgl/Materials/FluidSimulation/simulation/poisson.frag';
 import ShaderPass from './ShaderPass.js';
-import face_vert from './glsl/sim/face.vert';
-import poisson_frag from './glsl/sim/poisson.frag';
 
 export default class Divergence extends ShaderPass {
 	constructor(simProps) {
 		super({
 			material: {
-				vertexShader: face_vert,
-				fragmentShader: poisson_frag,
+				vertexShader: faceVertex,
+				fragmentShader: poissonFragment,
 				uniforms: {
 					boundarySpace: {
 						value: simProps.boundarySpace,

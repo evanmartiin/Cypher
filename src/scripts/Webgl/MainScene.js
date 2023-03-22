@@ -13,12 +13,10 @@ class MainScene extends Scene {
 		super();
 		state.register(this);
 
-		this.add(new AmbientLight(0xffffff, 0.5));
-
-		this.avatar = new Avatar();
-		this.add(this.avatar);
-		this.skeleton = new Skeleton();
-		this.add(this.skeleton);
+		// this.avatar = new Avatar();
+		// this.add(this.avatar);
+		// this.skeleton = new Skeleton();
+		// this.add(this.skeleton);
 	}
 
 	onAttach() {

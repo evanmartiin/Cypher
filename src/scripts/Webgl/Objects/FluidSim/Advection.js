@@ -1,15 +1,15 @@
 import { BufferAttribute, BufferGeometry, LineSegments, RawShaderMaterial } from 'three';
+import advectionFragment from '@Webgl/Materials/FluidSimulation/simulation/advection.frag';
+import faceVertex from '@Webgl/Materials/FluidSimulation/simulation/face.vert';
+import lineVertex from '@Webgl/Materials/FluidSimulation/simulation/line.vert';
 import ShaderPass from './ShaderPass.js';
-import advection_frag from './glsl/sim/advection.frag';
-import face_vert from './glsl/sim/face.vert';
-import line_vert from './glsl/sim/line.vert';
 
 export default class Advection extends ShaderPass {
 	constructor(simProps) {
 		super({
 			material: {
-				vertexShader: face_vert,
-				fragmentShader: advection_frag,
+				vertexShader: faceVertex,
+				fragmentShader: advectionFragment,
 				uniforms: {
 					boundarySpace: {
 						value: simProps.cellScale,
@@ -60,8 +60,8 @@ export default class Advection extends ShaderPass {
 		boundaryG.setAttribute('position', new BufferAttribute(vertices_boundary, 3));
 
 		const boundaryM = new RawShaderMaterial({
-			vertexShader: line_vert,
-			fragmentShader: advection_frag,
+			vertexShader: lineVertex,
+			fragmentShader: advectionFragment,
 			uniforms: this.uniforms,
 		});
 

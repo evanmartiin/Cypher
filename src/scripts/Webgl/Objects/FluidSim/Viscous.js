@@ -1,14 +1,13 @@
-import * as THREE from 'three';
+import faceVertex from '@Webgl/Materials/FluidSimulation/simulation/face.vert';
+import viscousFragment from '@Webgl/Materials/FluidSimulation/simulation/viscous.frag';
 import ShaderPass from './ShaderPass.js';
-import face_vert from './glsl/sim/face.vert';
-import viscous_frag from './glsl/sim/viscous.frag';
 
 export default class Viscous extends ShaderPass {
 	constructor(simProps) {
 		super({
 			material: {
-				vertexShader: face_vert,
-				fragmentShader: viscous_frag,
+				vertexShader: faceVertex,
+				fragmentShader: viscousFragment,
 				uniforms: {
 					boundarySpace: {
 						value: simProps.boundarySpace,

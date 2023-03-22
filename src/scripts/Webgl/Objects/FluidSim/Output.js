@@ -1,11 +1,10 @@
-import { BoxGeometry, Camera, Group, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, RawShaderMaterial, Scene, Vector2 } from 'three';
+import { Camera, Group, Mesh, MeshBasicMaterial, PlaneGeometry, RawShaderMaterial, Scene, Vector2 } from 'three';
+import colorFragment from '@Webgl/Materials/FluidSimulation/simulation/color.frag';
+import faceVertex from '@Webgl/Materials/FluidSimulation/simulation/face.vert';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import Common from './Common.js';
 import Mouse from './Mouse.js';
 import Simulation from './Simulation.js';
-import color_frag from './glsl/sim/color.frag';
-import face_vert from './glsl/sim/face.vert';
 
 export default class Output extends Group {
 	constructor() {
@@ -15,7 +14,6 @@ export default class Output extends Group {
 	}
 
 	init() {
-		Common.init();
 		Mouse.init();
 		this.simulation = new Simulation();
 
@@ -23,10 +21,10 @@ export default class Output extends Group {
 		this.camera = new Camera();
 
 		this.output = new Mesh(
-			new BoxGeometry(),
+			new PlaneGeometry(2, 2),
 			new RawShaderMaterial({
-				vertexShader: face_vert,
-				fragmentShader: color_frag,
+				vertexShader: faceVertex,
+				fragmentShader: colorFragment,
 				uniforms: {
 					velocity: {
 						value: this.simulation.fbos.vel_0.texture,
@@ -37,7 +35,7 @@ export default class Output extends Group {
 				},
 			}),
 		);
-		// app.webgl.scene.add(this.output);
+		app.webgl.scene.add(this.output);
 
 		const mesh = new Mesh(
 			new PlaneGeometry(8, 4),
@@ -50,12 +48,11 @@ export default class Output extends Group {
 		mesh.position.y = 0.5;
 	}
 
-	resize() {
+	onResize() {
 		this.simulation.resize();
 	}
 
 	onRender() {
-		Common.update();
 		Mouse.update();
 		this.simulation.update();
 		app.webgl.renderer.setRenderTarget(null);

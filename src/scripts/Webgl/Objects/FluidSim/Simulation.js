@@ -1,7 +1,7 @@
 import { FloatType, HalfFloatType, Vector2, WebGLRenderTarget } from 'three';
+import { app } from '@scripts/App.js';
+import { state } from '@scripts/State.js';
 import Advection from './Advection.js';
-import Common from './Common.js';
-// import Controls from './Controls.js';
 import Divergence from './Divergence.js';
 import ExternalForce from './ExternalForce.js';
 import Poisson from './Poisson.js';
@@ -10,6 +10,7 @@ import Viscous from './Viscous.js';
 
 export default class Simulation {
 	constructor(props) {
+		state.register(this);
 		this.props = props;
 
 		this.fbos = {
@@ -36,18 +37,20 @@ export default class Simulation {
 			cursor_size: 100,
 			viscous: 30,
 			isBounce: false,
-			dt: 0.014,
+			dt: app.core.ticker.params.dt,
 			isViscous: false,
 			BFECC: true,
 		};
-
-		// const controls = new Controls(this.options);
 
 		this.fboSize = new Vector2();
 		this.cellScale = new Vector2();
 		this.boundarySpace = new Vector2();
 
 		this.init();
+	}
+
+	onAttach() {
+		app.debug?.mapping.add(this, 'Simulation');
 	}
 
 	init() {
@@ -118,8 +121,8 @@ export default class Simulation {
 	}
 
 	calcSize() {
-		const width = Math.round(this.options.resolution * Common.width);
-		const height = Math.round(this.options.resolution * Common.height);
+		const width = Math.round(this.options.resolution * app.tools.viewport.width);
+		const height = Math.round(this.options.resolution * app.tools.viewport.height);
 
 		const px_x = 1.0 / width;
 		const px_y = 1.0 / height;
@@ -137,6 +140,7 @@ export default class Simulation {
 	}
 
 	update() {
+		this.options.dt = app.core.ticker.params.dt;
 		if (this.options.isBounce) {
 			this.boundarySpace.set(0, 0);
 		} else {
