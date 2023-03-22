@@ -31,6 +31,7 @@ const EVENTS = {
 	PLAYER_ENTERED: i++,
 	PLAYER_LEFT: i++,
 	PLAYER_MOVED: i++,
+	PLAYER_MOVED_ENOUGH: i++,
 };
 
 const SERVER_EVENTS = {

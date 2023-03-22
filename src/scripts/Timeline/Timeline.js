@@ -68,6 +68,7 @@ class Timeline {
 	}
 
 	onPlayerLeft() {
+		if (this.current.constructor.name === 'WaitingStep' || this.current.constructor.name === 'NextPlayerStep') return;
 		this.current.stop();
 		this.standbyStep.start();
 	}
