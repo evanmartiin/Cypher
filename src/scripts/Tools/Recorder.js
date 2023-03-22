@@ -41,14 +41,21 @@ export default class Recorder {
 		/// #endif
 
 		this.mediaRecorder.stop();
-		this.mediaChunks = [];
 		this.mediaRecorder.addEventListener('dataavailable', this.handleDataAvailable);
 		this.recDOM.style.display = 'none';
 	}
 
-	handleDataAvailable = (event) => {
-		this.mediaChunks.push(event.data);
-		state.emit(EVENTS.VIDEO_READY, this.mediaChunks);
+	handleDataAvailable = async (event) => {
+		const buffer = await event.data.arrayBuffer();
+		const id = Date.now();
+		for (let i = 0; i < Math.ceil(buffer.byteLength / 1_000_000); i++) {
+			state.emit(EVENTS.VIDEO_READY, {
+				id,
+				index: i,
+				length: Math.ceil(buffer.byteLength / 1_000_000),
+				buffer: buffer.slice(i * 1_000_000, (i + 1) * 1_000_000),
+			});
+		}
 
 		this.mediaRecorder.removeEventListener('dataavailable', this.handleDataAvailable);
 	};

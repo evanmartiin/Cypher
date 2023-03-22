@@ -18,7 +18,7 @@ class TensorflowCamera {
 
 		this.camera = new Camera(this.videoDOM, {
 			onFrame: async () => {
-				await app.tensorflow.holistic.send({ image: this.videoDOM });
+				await app.tensorflow.pose.send({ image: this.videoDOM });
 			},
 			width: VIDEO_SIZE.width,
 			height: VIDEO_SIZE.height,
@@ -26,6 +26,10 @@ class TensorflowCamera {
 	}
 
 	onAttach() {
+		/// #if DEBUG
+		if (app.tools.urlParams.has('skip-camera')) return;
+		/// #endif
+
 		app.$root.appendChild(this.videoDOM);
 	}
 

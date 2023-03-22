@@ -1,26 +1,25 @@
-export default class Timer {
-	elapsed = 0;
+import { app } from '@scripts/App.js';
+import { state } from '@scripts/State.js';
 
+export default class Timer {
 	constructor() {
-		this.current = Date.now();
+		state.register(this);
 		this.DOM = document.getElementById('timer');
-		this.tick();
 	}
 
-	tick = () => {
-		window.requestAnimationFrame(this.tick);
-
-		this.elapsed += Date.now() - this.current;
-		this.current = Date.now();
+	onTick({ et, dt }) {
+		this.elapsed = et;
+		this.current = dt;
 
 		if (this.gauge) this.updateGauge();
-	};
+	}
 
-	setGauge(duration) {
+	setGauge(duration, callback) {
 		this.gauge = {
 			start: this.elapsed,
 			percent: 0,
 			duration,
+			callback,
 		};
 		this.DOM.classList.remove('hidden');
 	}
@@ -37,6 +36,10 @@ export default class Timer {
 	}
 
 	stopGauge() {
+		this.gauge.callback();
+	}
+
+	resetTimer() {
 		this.gauge = null;
 		this.DOM.classList.add('hidden');
 	}

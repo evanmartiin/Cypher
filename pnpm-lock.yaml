@@ -33,7 +33,7 @@ dependencies:
   '@mediapipe/pose': 0.5.1675469404
   '@pixiv/three-vrm': 1.0.8_three@0.149.0
   kalidokit: 1.1.5
-  postprocessing: 6.30.1_three@0.149.0
+  postprocessing: 6.30.0_three@0.149.0
   socket.io-client: 4.6.1
   three: 0.149.0
   three-custom-shader-material: 5.2.1_three@0.149.0
@@ -1594,11 +1594,11 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.30.1_three@0.149.0:
-    resolution: {integrity: sha512-GkBrQtX6KjNz+Pz3+ABvP1aXKCCW7h/tuE37wlM90WZLbaGfJ7eSIBN2gPgKExuK584IPde0YOoNiuWMr7PNCQ==}
+  /postprocessing/6.30.0_three@0.149.0:
+    resolution: {integrity: sha512-xbfqFQ1KoOSSGTOXDysUmXYxYIbjSMWtnySe0RH25ytvk5/HJ09I0kPs7/KX2n7eGjW6ITWgU37QXQKjJfgHJw==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.138.0 < 0.151.0'
+      three: '>= 0.138.0 < 0.150.0'
     dependencies:
       three: 0.149.0
     dev: false

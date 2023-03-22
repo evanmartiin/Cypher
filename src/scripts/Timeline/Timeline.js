@@ -2,6 +2,7 @@ import { STEPS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import Timer from './Timer.js';
+import StandbyStep from './steps/StandbyStep.js';
 
 class Timeline {
 	steps = [];
@@ -13,6 +14,8 @@ class Timeline {
 		this.timer = new Timer();
 
 		STEPS.forEach((Step) => this.steps.push(new Step()));
+		this.standbyStep = new StandbyStep();
+
 		this.nextDOM.addEventListener('click', () => this.next());
 	}
 
@@ -45,10 +48,28 @@ class Timeline {
 		}
 	}
 
+	reset() {
+		this.timer.resetTimer();
+		app.webgl.scene.avatar.disableControl();
+		if (this.current.isRunning) this.current.stop();
+		this.current = this.steps[0];
+		this.current.start();
+	}
+
 	set(step) {
 		this.current.stop();
 		this.current = step;
 		this.current.start();
+	}
+
+	resume() {
+		if (this.standbyStep.isRunning) this.standbyStep.stop();
+		this.current.start();
+	}
+
+	onPlayerLeft() {
+		this.current.stop();
+		this.standbyStep.start();
 	}
 }
 

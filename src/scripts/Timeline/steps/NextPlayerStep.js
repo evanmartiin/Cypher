@@ -5,18 +5,18 @@ export default class NextPlayerStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Au suivant';
-		this.duration = 2000;
+		this.duration = 5000;
 	}
 
 	start() {
+		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
-		this.timeout = setTimeout(() => app.timeline.next(), this.duration);
-		app.timeline.timer.setGauge(this.duration);
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.webgl.scene.avatar.disableControl();
 	}
 
 	stop() {
-		clearTimeout(this.timeout);
-		app.timeline.timer.stopGauge();
+		this.isRunning = false;
+		app.timeline.timer.resetTimer();
 	}
 }
