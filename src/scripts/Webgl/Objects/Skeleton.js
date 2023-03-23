@@ -2,7 +2,7 @@ import { BufferGeometry, Float32BufferAttribute, Group, LineBasicMaterial, LineS
 import { POSE } from '@utils/constants.js';
 import { state } from '@scripts/State.js';
 
-const POSE_CONNECTIONS = [
+export const POSE_CONNECTIONS = [
 	// Chest
 	[POSE.LEFT_SHOULDER, POSE.RIGHT_SHOULDER],
 	[POSE.RIGHT_SHOULDER, POSE.RIGHT_HIP],

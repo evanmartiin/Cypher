@@ -36,12 +36,29 @@ class Avatar extends Group {
 
 	onRender({ dt }) {
 		if (this.vrm) {
-			this.vrm.update(dt); // Update physics
+			this.vrm.update(dt);
 		}
-		// if (this.mesh && app.webgl.scene.skeleton.offset) {
-		// 	this.mesh.position.y = app.webgl.scene.skeleton.offset.y;
-		// }
 	}
+
+	// onPlayerMoved(rig) {
+	// 	if (!this.vrm) return;
+
+	// 	const poses = rig.poseLandmarks;
+	// 	const vertY = [];
+
+	// 	POSE_CONNECTIONS.forEach((connection) => {
+	// 		const start = connection[0];
+	// 		const end = connection[1];
+	// 		vertY.push(1 - poses[start].y, 1 - poses[end].y);
+	// 	});
+	// 	this.offsetY = Math.min(...vertY);
+	// 	console.log('min', Math.min(...vertY));
+	// 	console.log('max', Math.max(...vertY));
+	// 	console.log('min hip', Math.min(1 - poses[POSE.LEFT_HIP].y, 1 - poses[POSE.RIGHT_HIP].y));
+	// 	console.log('max hip', Math.max(1 - poses[POSE.LEFT_HIP].y, 1 - poses[POSE.RIGHT_HIP].y));
+	// 	console.log('min ankle', Math.min(1 - poses[POSE.LEFT_ANKLE].y, 1 - poses[POSE.RIGHT_ANKLE].y));
+	// 	// this.mesh.position.y = this.offsetY;
+	// }
 
 	enableControl() {
 		this.canControl = true;
@@ -55,16 +72,16 @@ class Avatar extends Group {
 
 	updateRig = (riggedPose) => {
 		this.rigRotation('hips', riggedPose.Hips.rotation, 0.7);
-		this.rigPosition(
-			'hips',
-			{
-				x: riggedPose.Hips.position.x,
-				y: riggedPose.Hips.position.y + 1,
-				z: -riggedPose.Hips.position.z,
-			},
-			1,
-			0.07,
-		);
+		// this.rigPosition(
+		// 	'hips',
+		// 	{
+		// 		x: riggedPose.Hips.position.x,
+		// 		y: riggedPose.Hips.position.y + 1,
+		// 		z: -riggedPose.Hips.position.z,
+		// 	},
+		// 	1,
+		// 	0.07,
+		// );
 
 		this.rigRotation('chest', riggedPose.Spine, 0.25, 0.3);
 		this.rigRotation('spine', riggedPose.Spine, 0.45, 0.3);
@@ -94,7 +111,7 @@ class Avatar extends Group {
 
 		const euler = new Euler(rotation.x * dampener, rotation.y * dampener, rotation.z * dampener, rotation.rotationOrder || 'XYZ');
 		const quaternion = new Quaternion().setFromEuler(euler);
-		Part.quaternion.slerp(quaternion, lerpAmount); // Interpolate
+		Part.quaternion.slerp(quaternion, lerpAmount);
 	};
 
 	rigPosition = (name, position = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.3) => {
@@ -106,7 +123,7 @@ class Avatar extends Group {
 			return;
 		}
 		const vector = new Vector3(position.x * dampener, position.y * dampener, position.z * dampener);
-		Part.position.lerp(vector, lerpAmount); // Interpolate
+		Part.position.lerp(vector, lerpAmount);
 	};
 }
 
