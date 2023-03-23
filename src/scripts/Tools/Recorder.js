@@ -9,6 +9,7 @@ export default class Recorder {
 
 	onAttach() {
 		this.recDOM = document.getElementById('rec');
+		app.debug?.mapping.add(this, 'Recorder');
 	}
 
 	async init() {

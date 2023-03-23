@@ -1,5 +1,3 @@
-// import { Holistic } from '@mediapipe/holistic';
-// import { Hands } from '@mediapipe/hands';
 import { Pose } from '@mediapipe/pose';
 import * as Kalidokit from 'kalidokit';
 import { Vector3 } from 'three';
