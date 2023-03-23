@@ -1,8 +1,7 @@
 import { AdditiveBlending, Mesh, PlaneGeometry, RawShaderMaterial, Vector2 } from 'three';
 import externalForceFragment from '@Webgl/Materials/FluidSimulation/simulation/externalForce.frag';
 import mouseVertex from '@Webgl/Materials/FluidSimulation/simulation/mouse.vert';
-import { app } from '@scripts/App.js';
-import Mouse from './Mouse.js';
+import Mouse from './RigCoords.js';
 import ShaderPass from './ShaderPass.js';
 
 export default class ExternalForce extends ShaderPass {

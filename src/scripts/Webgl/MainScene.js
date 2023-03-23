@@ -1,5 +1,5 @@
 import { AmbientLight, Fog, Group, IcosahedronGeometry, Mesh, MeshStandardMaterial, PointLight, Scene } from 'three';
-import Output from '@Webgl/Objects/FluidSim/Output.js';
+import FluidSimulation from '@Webgl/Objects/FluidSim/FluidSimulation.js';
 import { Ground } from '@Webgl/Objects/Ground.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { app } from '@scripts/App.js';
@@ -13,10 +13,11 @@ class MainScene extends Scene {
 		super();
 		state.register(this);
 
-		// this.avatar = new Avatar();
-		// this.add(this.avatar);
-		// this.skeleton = new Skeleton();
-		// this.add(this.skeleton);
+		this.avatar = new Avatar();
+		this.add(this.avatar);
+		this.avatar.visible = false;
+		this.skeleton = new Skeleton();
+		this.add(this.skeleton);
 	}
 
 	onAttach() {
@@ -51,7 +52,7 @@ class MainScene extends Scene {
 	}
 
 	fluidSimulation() {
-		this.output = new Output();
+		this.mesh = new FluidSimulation();
 	}
 }
 

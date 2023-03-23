@@ -7,7 +7,7 @@ import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-const DISTANCE_THRESHOLD = 0.1;
+const DISTANCE_THRESHOLD = 0.05;
 
 class TensorflowPose {
 	constructor() {
