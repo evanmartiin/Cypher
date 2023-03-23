@@ -28,6 +28,7 @@ class TensorflowCanvas {
 	}
 
 	drawConnectors(results) {
+		// console.log(results.poseLandmarks);
 		drawConnectors(this.ctx, results.poseLandmarks, POSE_CONNECTIONS, {
 			color: '#00cff7',
 			lineWidth: 4,

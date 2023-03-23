@@ -8,8 +8,9 @@ class Renderer extends WebGLRenderer {
 		super({ antialias: true, powerPreference: 'high-performance' });
 		state.register(this);
 
-		this.outputEncoding = sRGBEncoding;
 		this.autoClear = false;
+		this.outputEncoding = sRGBEncoding;
+		this.shadowMap.enabled = true;
 		this.debug.checkShaderErrors = DEBUG;
 	}
 

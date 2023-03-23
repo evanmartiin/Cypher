@@ -10,8 +10,8 @@ export class Ground extends Group {
 	createMesh() {
 		const reflectorGeometry = new PlaneGeometry(1, 1);
 		const reflector = new Reflector(reflectorGeometry, {
-			textureWidth: 512 * window.devicePixelRatio,
-			textureHeight: 512 * window.devicePixelRatio,
+			textureWidth: 256 * window.devicePixelRatio,
+			textureHeight: 256 * window.devicePixelRatio,
 		});
 
 		reflector.rotation.x = -Math.PI * 0.5;
