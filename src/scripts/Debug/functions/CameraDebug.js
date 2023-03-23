@@ -15,6 +15,7 @@ function createPane(pane, instance, name) {
 			instance.orbitControls.enableDamping = true;
 			instance.orbitControls.dampingFactor = 0.15;
 			instance.orbitControls.enableZoom = true;
+			instance.orbitControls.target.copy(app.webgl.camera.target);
 			instance.orbitControls.update();
 			_far = instance.far;
 			instance.far = 200;

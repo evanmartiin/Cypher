@@ -2,9 +2,12 @@
 // import { Hands } from '@mediapipe/hands';
 import { Pose } from '@mediapipe/pose';
 import * as Kalidokit from 'kalidokit';
+import { Vector3 } from 'three';
 import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+
+const DISTANCE_THRESHOLD = 0.1;
 
 class TensorflowPose {
 	constructor() {
@@ -28,7 +31,28 @@ class TensorflowPose {
 		state.emit(EVENTS.PLAYER_MOVED, results);
 		app.tensorflow.canvas.drawResults(results);
 		this.computeRig(results);
+
+		// TODO: filter moves to not count really small moves and big moves (teleportations)
+		if (!this.isMoveEnough(results.poseLandmarks)) return;
+		state.emit(EVENTS.PLAYER_MOVED_ENOUGH, results);
 	};
+
+	isMoveEnough(poses) {
+		if (!this.lastPoses) {
+			this.lastPoses = poses;
+			return false;
+		}
+
+		const isMoveEnough = poses.some((pose, index) => {
+			const lastPose = this.lastPoses[index];
+			if (!lastPose) return false;
+			const distance = new Vector3(pose.x, pose.y, pose.z).distanceTo(new Vector3(lastPose.x, lastPose.y, lastPose.z));
+			return distance > DISTANCE_THRESHOLD;
+		});
+
+		this.lastPoses = poses;
+		return isMoveEnough;
+	}
 
 	computeRig(results) {
 		const pose3DLandmarks = results.poseWorldLandmarks;

@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -9,7 +9,10 @@ class MainCamera extends PerspectiveCamera {
 		super(BASE_FOV, app.tools.viewport.ratio, 1, 100);
 		state.register(this);
 
+		this.target = new Vector3(0, 1, 0);
 		this.position.z = 3;
+		this.position.y = 1;
+		this.lookAt(this.target);
 	}
 
 	onAttach() {

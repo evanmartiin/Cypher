@@ -9,9 +9,13 @@ export default class DemoStep extends Step {
 	}
 
 	start() {
+		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
-		app.timeline.timer.setGauge(this.duration);
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 	}
 
-	stop() {}
+	stop() {
+		this.isRunning = false;
+		app.timeline.timer.resetTimer();
+	}
 }

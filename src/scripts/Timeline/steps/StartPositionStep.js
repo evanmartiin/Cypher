@@ -3,7 +3,7 @@ import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-const TRUST_TRESHOLD = 0.4;
+const TRUST_TRESHOLD = 0.3;
 
 export default class StartPositionStep extends Step {
 	constructor() {
@@ -28,12 +28,14 @@ export default class StartPositionStep extends Step {
 	}
 
 	start() {
+		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.webgl.scene.skeleton.show();
 		this.checkingPose = true;
 	}
 
 	stop() {
+		this.isRunning = false;
 		app.webgl.scene.skeleton.hide();
 		this.checkingPose = false;
 	}
@@ -49,10 +51,10 @@ export default class StartPositionStep extends Step {
 			return;
 		}
 		if (!poseToCheck) {
-			app.timeline.reset();
 			return;
 		}
 
+		// TODO: handle pose height differences (caused by player position from cam)
 		const isPoseCorrect = this.SKELETON_POINTS.every((point) => {
 			const x = Math.abs(poseToCheck[point].x - poseToHave[point].x) < TRUST_TRESHOLD;
 			const y = Math.abs(poseToCheck[point].y - poseToHave[point].y) < TRUST_TRESHOLD;
