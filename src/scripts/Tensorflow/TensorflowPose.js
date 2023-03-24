@@ -40,6 +40,7 @@ class TensorflowPose {
 			this.lastPoses = poses;
 			return false;
 		}
+		if (!poses) return false;
 
 		const isMoveEnough = poses.some((pose, index) => {
 			const lastPose = this.lastPoses[index];

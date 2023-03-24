@@ -13,8 +13,10 @@ const manifest = {
 	images: {},
 	textures: {
 		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg`, priority: 2, callback: null },
-		normal: { path: `${import.meta.env.BASE_URL}assets/textures/normal.png`, priority: 2, callback: null },
-		roughness: { path: `${import.meta.env.BASE_URL}assets/textures/roughness.jpg`, priority: 2, callback: null },
+		base: { path: `${import.meta.env.BASE_URL}assets/textures/ground/base.jpg`, priority: 2, callback: null },
+		ao: { path: `${import.meta.env.BASE_URL}assets/textures/ground/ao.jpg`, priority: 2, callback: null },
+		normal: { path: `${import.meta.env.BASE_URL}assets/textures/ground/normal.png`, priority: 2, callback: null },
+		roughness: { path: `${import.meta.env.BASE_URL}assets/textures/ground/roughness.jpg`, priority: 2, callback: null },
 		// ...
 	},
 	envMaps: {

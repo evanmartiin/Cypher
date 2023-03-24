@@ -1,4 +1,4 @@
-import { AmbientLight, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
+import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
 import FluidSimulation from '@Webgl/Objects/FluidSim/FluidSimulation.js';
 import { Ground } from '@Webgl/Objects/Ground.js';
 import { computeEnvmap } from '@utils/misc.js';
@@ -16,7 +16,6 @@ class MainScene extends Scene {
 
 		this.avatar = new Avatar();
 		this.add(this.avatar);
-		// this.avatar.visible = false;
 		this.skeleton = new Skeleton();
 		this.add(this.skeleton);
 	}
@@ -25,32 +24,26 @@ class MainScene extends Scene {
 		this.addLight();
 		this.addGround();
 		// this.addParticles();
-		// this.addFog();
 		this.fluidSimulation();
-
+		this.addFog();
 		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
-
 		// app.debug?.mapping.add(this, 'Scene');
 	}
 
 	addLight() {
 		const light = new PointLight('#ffffff', 1);
-		light.shadow.mapSize.width = 2048;
-		// light.shadow.camera.near = 0.1;
-		light.shadow.mapSize.height = 2048;
-		// light.shadow.camera.far = 20;
-		light.shadow.radius = 4;
-		light.castShadow = true;
-		light.position.set(0, 5, -5);
-
-		const ambient = new AmbientLight('#ffffff', 1);
-		this.add(light, ambient);
+		// light.shadow.mapSize.width = 2048;
+		// light.shadow.mapSize.height = 2048;
+		// light.shadow.radius = 5;
+		// light.castShadow = true;
+		light.position.set(0, 10, 0);
+		this.add(light);
 	}
 	addGround() {
-		// const reflector = new Ground();
-		// this.add(reflector);
-		const mesh = new BaseGround();
-		this.add(mesh);
+		const groundReflector = new Ground();
+		this.add(groundReflector);
+		const groundShadow = new BaseGround();
+		// this.add(groundShadow);
 	}
 
 	// addParticles() {
@@ -58,8 +51,8 @@ class MainScene extends Scene {
 	// 	// this.add(particles);
 	// }
 	addFog() {
-		const fog = new Fog('#000000', 5, 9);
-		this.fog = fog;
+		const fog = new Fog('#110A18', 5, 12);
+		// this.fog = fog;
 	}
 
 	fluidSimulation() {

@@ -1,25 +1,23 @@
 uniform float uTime;
-uniform vec3 uColor;
+
+varying vec2 vNewUv;
 varying vec4 vRenderTargetUv;
-uniform sampler2D uBaseTexture;
+
 uniform sampler2D uBlurTexture;
 
-float blendOverlay(float base, float blend) {
-	return (base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend)));
-}
-
-vec3 blendOverlay(vec3 base, vec3 blend) {
-	return vec3(blendOverlay(base.r, blend.r), blendOverlay(base.g, blend.g), blendOverlay(base.b, blend.b));
-}
-
 void main() {
-	vec4 normalMapTexture = texture2D(normalMap, vUv);
+	float range = 1.0 - smoothstep(0.75, 1.0, vNewUv.y);
 
-	// vec4 base = texture2DProj(uBaseTexture, vRenderTargetUv + normalMapTexture);
-	vec4 blur = texture2DProj(uBlurTexture, vRenderTargetUv + normalMapTexture * 0.75);
+	vec2 normalMapTexture = texture2D(normalMap, vUv).xy * 2.0 - 1.0;
+
+	vec4 deformedRenderTarget = vRenderTargetUv;
+
+	deformedRenderTarget.xy += normalMapTexture * 0.15;
+
+	vec4 blur = texture2DProj(uBlurTexture, deformedRenderTarget);
 
 	vec4 render = blur;
 
 	csm_DiffuseColor = render;
-	csm_DiffuseColor.xyz += uColor;
+	csm_DiffuseColor.a = range;
 }

@@ -1,5 +1,21 @@
 import * as POSTPROCESSING from 'postprocessing';
-import { Color, HalfFloatType, LinearEncoding, LinearFilter, Matrix4, Mesh, MeshStandardMaterial, NoToneMapping, PerspectiveCamera, Plane, Vector3, Vector4, WebGLRenderTarget } from 'three';
+import {
+	Color,
+	HalfFloatType,
+	LinearEncoding,
+	LinearFilter,
+	Matrix4,
+	Mesh,
+	MeshStandardMaterial,
+	MirroredRepeatWrapping,
+	NoToneMapping,
+	PerspectiveCamera,
+	Plane,
+	RepeatWrapping,
+	Vector3,
+	Vector4,
+	WebGLRenderTarget,
+} from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Reflector/fragment.fs';
 import { ReflectorMaterial } from '@Webgl/Materials/Reflector/material.js';
@@ -47,22 +63,47 @@ class Reflector extends Mesh {
 		this.kawaseBlurPass = new POSTPROCESSING.KawaseBlurPass();
 		this.kawaseBlurPass.setSize(textureWidth * 1.5, textureHeight * 1.5);
 
+		const repeat = 20;
+
+		const normalMap = app.core.assetsManager.get('normal');
+		normalMap.wrapS = RepeatWrapping;
+		normalMap.wrapT = RepeatWrapping;
+		normalMap.repeat.x = repeat;
+		normalMap.repeat.y = repeat;
+
+		const roughnessMap = app.core.assetsManager.get('roughness');
+		roughnessMap.wrapS = RepeatWrapping;
+		roughnessMap.wrapT = RepeatWrapping;
+		roughnessMap.repeat.x = repeat;
+		roughnessMap.repeat.y = repeat;
+
+		const baseMap = app.core.assetsManager.get('base');
+		baseMap.wrapS = RepeatWrapping;
+		baseMap.wrapT = RepeatWrapping;
+		baseMap.repeat.x = repeat;
+		baseMap.repeat.y = repeat;
+
+		const aoMap = app.core.assetsManager.get('ao');
+		aoMap.wrapS = RepeatWrapping;
+		aoMap.wrapT = RepeatWrapping;
+		aoMap.repeat.x = repeat;
+		aoMap.repeat.y = repeat;
+
 		this.material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,
 			fragmentShader: fragmentShader,
 			uniforms: {
 				...globalUniforms,
-				// uBaseTexture: { value: this.baseRenderTarget.texture },
 				uBlurTexture: { value: this.blurRenderTarget.texture },
 				uTextureMatrix: { value: textureMatrix },
-				uColor: { value: new Color('#000000') },
 			},
 			transparent: true,
-			metalness: 0.25,
+			metalness: 0.1,
 			roughness: 0.9,
-			normalMap: app.core.assetsManager.get('normal'),
-			roughnessMap: app.core.assetsManager.get('roughness'),
+			normalMap: normalMap,
+			roughnessMap: roughnessMap,
+			envMap: app.core.assetsManager.get('envmap'),
 		});
 
 		this.onBeforeRender = function (renderer, scene, camera) {

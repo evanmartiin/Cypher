@@ -1,4 +1,4 @@
-import { WebGLRenderer, sRGBEncoding } from 'three';
+import { PCFSoftShadowMap, WebGLRenderer, sRGBEncoding } from 'three';
 import { DEBUG } from '@utils/config.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -11,6 +11,7 @@ class Renderer extends WebGLRenderer {
 		this.autoClear = false;
 		this.outputEncoding = sRGBEncoding;
 		this.shadowMap.enabled = true;
+		this.shadowMap.type = PCFSoftShadowMap;
 		this.debug.checkShaderErrors = DEBUG;
 	}
 
