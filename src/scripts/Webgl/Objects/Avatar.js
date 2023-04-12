@@ -14,7 +14,9 @@ class Avatar extends Group {
 		this.gltf = app.core.assetsManager.get('avatar');
 		VRMUtils.removeUnnecessaryJoints(this.gltf.scene);
 		VRMUtils.removeUnnecessaryVertices(this.gltf.scene);
+
 		this.vrm = this.gltf.userData.vrm;
+		VRMUtils.rotateVRM0(this.vrm);
 
 		this.mesh = this.gltf.scene;
 
@@ -34,7 +36,7 @@ class Avatar extends Group {
 
 		this.mesh.position.y = 0;
 		this.mesh.position.z = -2;
-		this.mesh.rotation.y = Math.PI;
+
 		this.add(this.mesh);
 		this.mesh.castShadow = true;
 	}
