@@ -1,13 +1,10 @@
-import { AmbientLight, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
+import { AmbientLight, Fog, PointLight, Scene } from 'three';
 import FluidSimulation from '@Webgl/Objects/FluidSim/FluidSimulation.js';
-import { Ground } from '@Webgl/Objects/Ground.js';
-import { computeEnvmap } from '@utils/misc.js';
-import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { BaseGround } from './Objects/BaseGround.js';
-import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
+import { Wall } from './Objects/Wall.js';
 
 class MainScene extends Scene {
 	constructor() {
@@ -26,9 +23,10 @@ class MainScene extends Scene {
 		this.addGround();
 		// this.addParticles();
 		// this.addFog();
-		this.fluidSimulation();
+		// this.fluidSimulation();
 
-		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
+		this.wall = new Wall();
+		this.add(this.wall);
 
 		// app.debug?.mapping.add(this, 'Scene');
 	}

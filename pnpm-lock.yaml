@@ -11,6 +11,7 @@ specifiers:
   eslint-config-prettier: ^8.6.0
   eslint-plugin-html: ^7.1.0
   eslint-plugin-prettier: ^4.2.1
+  gsap: ^3.11.5
   kalidokit: ^1.1.5
   postprocessing: ^6.24.1
   prettier: ^2.8.4
@@ -28,6 +29,7 @@ dependencies:
   '@mediapipe/drawing_utils': 0.3.1675466124
   '@mediapipe/pose': 0.5.1675469404
   '@pixiv/three-vrm': 1.0.8_three@0.149.0
+  gsap: 3.11.5
   kalidokit: 1.1.5
   postprocessing: 6.30.0_three@0.149.0
   socket.io-client: 4.6.1
@@ -1305,6 +1307,10 @@ packages:
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
+
+  /gsap/3.11.5:
+    resolution: {integrity: sha512-Q89nKCLgoX5xUjznh9LcaIUkz54k1voNucT1Rpf9SJNFIQznBwFqt5qUUQbeVInFyN/n18OUJkpeI6CNEDt74w==}
+    dev: false
 
   /has-flag/3.0.0:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
