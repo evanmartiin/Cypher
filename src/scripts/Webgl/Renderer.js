@@ -10,8 +10,8 @@ class Renderer extends WebGLRenderer {
 
 		this.autoClear = false;
 		this.outputEncoding = sRGBEncoding;
-		this.shadowMap.enabled = true;
-		this.shadowMap.type = PCFSoftShadowMap;
+		this.shadowMap.enabled = false;
+		// this.shadowMap.type = PCFSoftShadowMap;
 		this.debug.checkShaderErrors = DEBUG;
 	}
 

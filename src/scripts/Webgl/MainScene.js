@@ -25,7 +25,7 @@ class MainScene extends Scene {
 		this.addLight();
 		this.addGround();
 		this.addParticles();
-		// this.fluidSimulation();
+		this.fluidSimulation();
 		this.trailSimulation();
 		this.addFog();
 		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
@@ -33,25 +33,22 @@ class MainScene extends Scene {
 	}
 
 	addLight() {
-		const light = new PointLight('#ffffff', 1);
+		const lightLeft = new PointLight('#0000FF', 1);
+		lightLeft.position.set(-10, 10, 0);
 
-		const ambientLight = new AmbientLight('#ffffff', 1.0);
-		// light.shadow.mapSize.width = 2048;
-		// light.shadow.mapSize.height = 2048;
-		// light.shadow.radius = 5;
-		// light.castShadow = true;
-		light.position.set(0, 10, 0);
-		this.add(light);
+		const lightRight = new PointLight('#FF0000', 1);
+		lightRight.position.set(10, 10, 0);
+
+		const ambientLight = new AmbientLight('#FF0000', 0.35);
+		this.add(lightLeft, lightRight, ambientLight);
 	}
 	addGround() {
 		const groundReflector = new Ground();
 		this.add(groundReflector);
-		const groundShadow = new BaseGround();
-		// this.add(groundShadow);
 	}
 
 	addParticles() {
-		const particles = new Particles(128);
+		const particles = new Particles(30);
 		this.add(particles);
 	}
 	addFog() {

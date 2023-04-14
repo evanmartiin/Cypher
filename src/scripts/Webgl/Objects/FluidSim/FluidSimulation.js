@@ -37,25 +37,30 @@ export default class FluidSimulation extends Group {
 		roughnessMap.repeat.x = repeat;
 		roughnessMap.repeat.y = repeat;
 
-		const material = new CustomShaderMaterial({
-			baseMaterial: MeshStandardMaterial,
-			vertexShader: vertexShader,
-			fragmentShader: fragmentShader,
-			uniforms: {
-				...globalUniforms,
-				velocity: {
-					value: this.simulation.fbos.vel_0.texture,
-				},
-				boundarySpace: {
-					value: new Vector2(),
-				},
-			},
-			transparent: true,
-			metalness: 0.1,
-			roughness: 0.9,
-			normalMap: normalMap,
-			normalScale: new Vector2(0.0, 0.0),
-			roughnessMap: roughnessMap,
+		// const material = new CustomShaderMaterial({
+		// 	baseMaterial: MeshStandardMaterial,
+		// 	vertexShader: vertexShader,
+		// 	fragmentShader: fragmentShader,
+		// 	uniforms: {
+		// 		...globalUniforms,
+		// 		velocity: {
+		// 			value: this.simulation.fbos.vel_0.texture,
+		// 		},
+		// 		boundarySpace: {
+		// 			value: new Vector2(),
+		// 		},
+		// 	},
+		// 	transparent: true,
+		// 	metalness: 0.1,
+		// 	roughness: 0.9,
+		// 	normalMap: normalMap,
+		// 	normalScale: new Vector2(0.0, 0.0),
+		// 	roughnessMap: roughnessMap,
+		// 	envMap: app.core.assetsManager.get('envmap'),
+		// });
+		const material = new MeshStandardMaterial({
+			metalness: 0.5,
+			roughness: 0.5,
 			envMap: app.core.assetsManager.get('envmap'),
 		});
 

@@ -17,7 +17,7 @@ class Avatar extends Group {
 		this.vrm = this.gltf.userData.vrm;
 
 		this.mesh = this.gltf.scene;
-		this.mesh.visible = false;
+		// this.mesh.visible = false;
 
 		const material = new MeshPhysicalMaterial({
 			metalness: 0.5,

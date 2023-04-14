@@ -18,6 +18,7 @@ void main() {
 
 	vec4 render = blur;
 
-	csm_DiffuseColor = render;
-	csm_DiffuseColor.a = range;
+	// csm_DiffuseColor = render;
+	csm_FragColor = render;
+	csm_FragColor.a = range;
 }

@@ -137,7 +137,7 @@ void main() {
 	vec3 toHand;
 	toHand.x += uHandPosition.x * 30. - position.x;
 	toHand.y += uHandPosition.y * 15. - position.y;
-	// toHand.z += uHandPosition.z * 12.;
+	// toHand.z += uHandPosition.z * 5.;
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
 	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3;
 	velocity *= uSpeed;

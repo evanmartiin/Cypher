@@ -99,11 +99,10 @@ class Reflector extends Mesh {
 				uTextureMatrix: { value: textureMatrix },
 			},
 			transparent: true,
-			metalness: 0.1,
-			roughness: 0.9,
 			normalMap: normalMap,
+			// Fix roughness map
 			roughnessMap: roughnessMap,
-			envMap: app.core.assetsManager.get('envmap'),
+			// envMap: app.core.assetsManager.get('envmap'),
 		});
 
 		this.onBeforeRender = function (renderer, scene, camera) {

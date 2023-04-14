@@ -13,14 +13,14 @@ void main() {
 	vec3 velocity = velocityInfo.xyz;
 	float life = positionInfo.w - uDieSpeed * uDelta;
 
-	if(life < 0.0) {
+	if(life >= 0.0) {
+		position += velocity * uDelta;
+	} else {
 		position = texture2D(uTextureDefaultPosition, uv).xyz;
 		position.x += uHandPosition.x * 30.;
 		position.y += uHandPosition.y * 15.;
-		// position.z += uHandPosition.z * 12.;
-		life = 0.5 + fract(positionInfo.w * 21.4131 + uTime);
-	} else {
-		position += velocity * uDelta;
+		// position.z += uHandPosition.z * 5.;
+		life = 0.5 + fract(positionInfo.w + uTime);
 	}
 
 	gl_FragColor = vec4(position, life);

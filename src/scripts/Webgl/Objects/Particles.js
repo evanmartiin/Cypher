@@ -1,4 +1,16 @@
-import { AdditiveBlending, BufferGeometry, Clock, DoubleSide, Group, InstancedMesh, MultiplyBlending, PlaneGeometry, ShaderMaterial } from 'three';
+import {
+	AdditiveBlending,
+	BufferGeometry,
+	Clock,
+	DoubleSide,
+	Group,
+	InstancedBufferAttribute,
+	InstancedMesh,
+	MeshStandardMaterial,
+	MultiplyBlending,
+	PlaneGeometry,
+	ShaderMaterial,
+} from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
@@ -24,9 +36,10 @@ export class Particles extends Group {
 	}
 
 	_createGeometry() {
-		const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
+		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
 		// const baseGeometry = new OctahedronGeometry(1, 0);
-		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
+		const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
+		baseGeometry.scale(4, 4, 4);
 
 		const geometry = new BufferGeometry();
 
@@ -35,11 +48,21 @@ export class Particles extends Group {
 		});
 		geometry.index = baseGeometry.index;
 
+		const particleAmout = this.size * this.size;
+		const randomAttribute = new InstancedBufferAttribute(new Float32Array(particleAmout), 1, 1);
+
+		for (let i = 0; i < particleAmout; i++) {
+			randomAttribute.setX(i, Math.random() + 0.1);
+		}
+
+		geometry.setAttribute('aRandom', randomAttribute);
+
 		return geometry;
 	}
 
 	_createMaterial() {
-		const material = new ShaderMaterial({
+		const material = new CustomShaderMaterial({
+			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,
 			fragmentShader: fragmentShader,
 			uniforms: {
@@ -47,13 +70,16 @@ export class Particles extends Group {
 
 				posMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture },
 				velMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture },
-				uTexture: { value: app.core.assetsManager.get('brush') },
-				uTexture2: { value: app.core.assetsManager.get('outlineBrush') },
+				// uTexture: { value: app.core.assetsManager.get('brush') },
+				// uTexture2: { value: app.core.assetsManager.get('outlineBrush') },
 				uSize: { value: this.size },
 			},
-			transparent: true,
+			// transparent: true,
 			side: DoubleSide,
-			depthWrite: false,
+			metalness: 0.6,
+			roughness: 0.4,
+			// depthWrite: false,
+			envMap: app.core.assetsManager.get('envmap'),
 		});
 
 		return material;
@@ -61,11 +87,12 @@ export class Particles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.position.set(0, 0, -3);
+		mesh.position.set(0, 0, -2);
 		mesh.scale.set(0.1, 0.1, 0.1);
 
 		this.add(mesh);
 		mesh.frustumCulled = false;
+		mesh.renderOrder = 2;
 
 		return mesh;
 	}
