@@ -12,5 +12,6 @@ void main() {
 	vec3 color = vec3(vel.x, vel.y, 1.0);
 	color = mix(vec3(1.0), color, len);
 
-	csm_DiffuseColor = vec4(vec3(color.r, color.g, color.b), color.r);
+	csm_DiffuseColor = vec4(vec3(color.r, color.g, color.b), 1.0);
+	csm_FragColor = vec4(vec3(color.r, color.g, color.b), color.r);
 }

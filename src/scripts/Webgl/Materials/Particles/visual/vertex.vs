@@ -1,17 +1,11 @@
-attribute float aNum;
-attribute float aRandom;
-
-attribute vec3 aColor;
+uniform float uSize;
 
 uniform sampler2D posMap;
 uniform sampler2D velMap;
 
-uniform float size;
-
-uniform vec3 boxScale;
-
-varying vec3 vPosition;
-varying vec3 vColor;
+varying float vlifeOpacity;
+varying vec2 vUv;
+varying vec2 vPosUv;
 
 mat3 calcLookAtMatrix(vec3 vector, float roll) {
   vec3 rr = vec3(sin(roll), cos(roll), 0.0);
@@ -22,24 +16,43 @@ mat3 calcLookAtMatrix(vec3 vector, float roll) {
   return mat3(uu, ww, vv);
 }
 
+mat3 getRotation(vec3 velocity) {
+  velocity = normalize(velocity);
+  velocity.z *= -1.;
+  float xz = length(velocity.xz);
+  float xyz = 1.;
+  float x = sqrt(1. - velocity.y * velocity.y);
+  float cosry = velocity.x / xz;
+  float sinry = velocity.z / xz;
+  float cosrz = x / xyz;
+  float sinrz = velocity.y / xyz;
+  mat3 maty = mat3(cosry, 0, -sinry, 0, 1, 0, sinry, 0, cosry);
+  mat3 matz = mat3(cosrz, sinrz, 0, -sinrz, cosrz, 0, 0, 0, 1);
+  return maty * matz;
+}
+
 void main() {
   vec2 posUv;
-  posUv.x = mod(aNum, (size - 1.0));
-  posUv.y = float(aNum / (size - 1.0));
-  posUv /= vec2(size);
-  vec4 cubePosition = texture2D(posMap, posUv);
-  vec4 cubeVelocity = texture2D(velMap, posUv);
-  float alpha = cubeVelocity.a / 100.0;
-  float scale = 0.025 * 4.0 * (1.0 - alpha) * alpha;
+  posUv.x = mod(float(gl_InstanceID), (uSize - 1.0));
+  posUv.y = float(float(gl_InstanceID) / (uSize - 1.0));
+  posUv /= vec2(uSize);
+  vec4 positionTexture = texture2D(posMap, posUv);
+  vec4 velocityTexture = texture2D(velMap, posUv);
 
-  mat4 localRotationMat = mat4(calcLookAtMatrix(cubeVelocity.xyz, 0.0));
+  mat3 particleRotation = getRotation(velocityTexture.xyz);
+  mat4 particleRotationLookAt = mat4(calcLookAtMatrix(velocityTexture.xyz, .0));
 
-  vec3 modifiedVertex = (localRotationMat * vec4(position * scale * aRandom * (vec3(1.0)) * boxScale, 1.0)).xyz;
-  // csm_Normal = (localRotationMat * vec4(normal * scale * aRandom * (vec3(1.0)) * boxScale, 1.0)).xyz;
-  vec3 modifiedPosition = modifiedVertex + cubePosition.xyz;
+  vec3 particleScale = vec3(min(1.0, 10.0 * length(velocityTexture.xyz)), 1.0, 1.0);
 
-  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(modifiedPosition, 1.0);
-  vPosition = modifiedPosition;
+  vec3 transformedPos = (vec4(position * particleScale, 1.0)).xyz;
+  transformedPos.xy = (particleRotation * transformedPos).xy;
+  transformedPos += positionTexture.xyz;
 
-  vColor = aColor;
+  vec3 debugPos = position;
+  debugPos.y += 10.;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);
+
+  vUv = uv;
+  vPosUv = posUv;
+  vlifeOpacity = positionTexture.w;
 }
