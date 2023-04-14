@@ -1,4 +1,4 @@
-import 'https://greggman.github.io/webgl-lint/webgl-lint.js';
+// import 'https://greggman.github.io/webgl-lint/webgl-lint.js';
 import { createCoreModules } from '@Core/index.js';
 import { WebglController } from '@Webgl/WebglController.js';
 import { createDomModules } from '@Dom/index.js';

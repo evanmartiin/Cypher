@@ -13,7 +13,7 @@ export class Wall extends Group {
 		super();
 
 		this.size = new Vector2(10, 4);
-		this.activeTags = Array(TAGS_COUNT).fill(0);
+		this.activeTags = Array.from({ length: TAGS_COUNT }, () => (Math.random() > 0.5 ? 1 : 0));
 		this.color = new Vector3(0.24, 0.32, 0.45);
 
 		this.createWall();
@@ -49,10 +49,10 @@ export class Wall extends Group {
 		for (let i = 0; i < TAGS_COUNT; i++) {
 			vdata[i * 6] = Math.random() * this.size.x * 0.9 + this.size.x * 0.05;
 			vdata[i * 6 + 1] = Math.random() * this.size.y * 0.9 + this.size.y * 0.05;
-			vdata[i * 6 + 2] = Math.random() * 2 + 1;
+			vdata[i * 6 + 2] = Math.random() * 3 + 2;
 			vdata[i * 6 + 3] = Math.floor(Math.random() * TEX_PER_ROW * TEX_PER_ROW);
 			vdata[i * 6 + 4] = (Math.random() * Math.PI) / 2 - Math.PI / 4;
-			vdata[i * 6 + 5] = 0;
+			vdata[i * 6 + 5] = this.activeTags[i];
 		}
 
 		const vbuffer = new InstancedInterleavedBuffer(vdata, 6, 1);
@@ -67,7 +67,7 @@ export class Wall extends Group {
 				...globalUniforms,
 				tTag: { value: app.core.assetsManager.get('tag') },
 				uTexPerRow: { value: TEX_PER_ROW },
-				uColor: { value: this.color.clone().multiplyScalar(1.4) },
+				uColor: { value: this.color.clone().multiplyScalar(1.6) },
 			},
 			transparent: true,
 		});
@@ -124,7 +124,7 @@ export class Wall extends Group {
 				onComplete: () => {
 					this.vdata[instanceIndex * 6] = Math.random() * this.size.x * 0.9 + this.size.x * 0.05;
 					this.vdata[instanceIndex * 6 + 1] = Math.random() * this.size.y * 0.9 + this.size.y * 0.05;
-					this.vdata[instanceIndex * 6 + 2] = Math.random() * 2 + 1;
+					this.vdata[instanceIndex * 6 + 2] = Math.random() * 3 + 2;
 					this.vdata[instanceIndex * 6 + 3] = Math.floor(Math.random() * TEX_PER_ROW * TEX_PER_ROW);
 					this.vdata[instanceIndex * 6 + 4] = (Math.random() * Math.PI) / 2 - Math.PI / 4;
 					this.tags.geometry.attributes.instancePosition.needsUpdate = true;
