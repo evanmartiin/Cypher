@@ -36,6 +36,7 @@ class TensorflowPose {
 	};
 
 	isMoveEnough(poses) {
+		if (!poses) return false;
 		if (!this.lastPoses) {
 			this.lastPoses = poses;
 			return false;
