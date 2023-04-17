@@ -48,7 +48,7 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const particles = new Particles(30);
+		const particles = new Particles(128);
 		this.add(particles);
 	}
 	addFog() {

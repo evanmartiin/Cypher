@@ -39,7 +39,7 @@ export class Particles extends Group {
 		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
 		// const baseGeometry = new OctahedronGeometry(1, 0);
 		const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(4, 4, 4);
+		baseGeometry.scale(0.6, 0.6, 0.6);
 
 		const geometry = new BufferGeometry();
 
