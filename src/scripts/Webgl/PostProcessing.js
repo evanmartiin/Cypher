@@ -3,6 +3,7 @@ import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { PostProcessingMaterial } from './Materials/PostProcessing/material.js';
+import Simulation from './Objects/FluidSim/Simulation.js';
 
 class PostProcessing {
 	#material;
@@ -11,12 +12,18 @@ class PostProcessing {
 
 		this.renderTarget = this.#createRenderTarget();
 
+		this.simulation = new Simulation();
+
 		this.#material = new PostProcessingMaterial({
 			uniforms: {
 				...globalUniforms,
 
 				// Textures
 				tDiffuse: { value: this.renderTarget.texture },
+
+				uVelocity: {
+					value: this.simulation.fbos.vel_0.texture,
+				},
 
 				// Viewport
 				uResolution: { value: new Vector2() },

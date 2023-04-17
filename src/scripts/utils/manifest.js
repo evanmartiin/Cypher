@@ -13,8 +13,12 @@ const manifest = {
 	images: {},
 	textures: {
 		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg`, priority: 2, callback: null },
-		normal: { path: `${import.meta.env.BASE_URL}assets/textures/normal.png`, priority: 2, callback: null },
-		roughness: { path: `${import.meta.env.BASE_URL}assets/textures/roughness.jpg`, priority: 2, callback: null },
+		base: { path: `${import.meta.env.BASE_URL}assets/textures/ground/base.jpg`, priority: 2, callback: null },
+		ao: { path: `${import.meta.env.BASE_URL}assets/textures/ground/ao.jpg`, priority: 2, callback: null },
+		normal: { path: `${import.meta.env.BASE_URL}assets/textures/ground/normal.png`, priority: 2, callback: null },
+		roughness: { path: `${import.meta.env.BASE_URL}assets/textures/ground/roughness.jpg`, priority: 2, callback: null },
+		brush: { path: `${import.meta.env.BASE_URL}assets/textures/brush.jpg`, priority: 2, callback: null },
+		outlineBrush: { path: `${import.meta.env.BASE_URL}assets/textures/outlineBrush.jpg`, priority: 2, callback: null },
 		// ...
 	},
 	envMaps: {
@@ -24,6 +28,7 @@ const manifest = {
 	models: {
 		avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
 		avatar2: { path: `${import.meta.env.BASE_URL}assets/models/avatar2.vrm`, priority: 1, callback: null },
+		cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
 		// ...
 	},
 	jsons: {},

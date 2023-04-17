@@ -1,7 +1,8 @@
-varying vec3 vColor;
+varying float vlifeOpacity;
+varying vec2 vUv;
 
 void main() {
-	vec3 color = vColor;
+	csm_DiffuseColor = vec4(1.0, 1.0, 1.0, 1.0);
 
-	csm_DiffuseColor.rgb = color;
+	// csm_FragColor.rgb += vec3(0.1);
 }
