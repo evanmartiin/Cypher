@@ -1,6 +1,7 @@
 precision highp float;
 
 uniform sampler2D tDiffuse;
+uniform sampler2D uVelocity;
 
 uniform float uRatio;
 uniform float uResolution;
@@ -14,7 +15,9 @@ varying vec2 vUv;
 #define FAR 100.
 
 void main() {
-	vec3 scene = texture2D(tDiffuse, vUv).rgb;
+	vec2 vel = texture2D(uVelocity, vUv).xy;
+
+	vec3 scene = texture2D(tDiffuse, vUv + vel).rgb;
 
 	gl_FragColor = vec4(scene, 1.);
 

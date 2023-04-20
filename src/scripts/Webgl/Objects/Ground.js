@@ -8,16 +8,16 @@ export class Ground extends Group {
 	}
 
 	createMesh() {
-		const reflectorGeometry = new PlaneGeometry(1, 1);
-		const reflector = new Reflector(reflectorGeometry, {
+		const geometry = new PlaneGeometry(1, 1);
+		const mesh = new Reflector(geometry, {
 			textureWidth: 256 * window.devicePixelRatio,
 			textureHeight: 256 * window.devicePixelRatio,
 		});
 
-		reflector.rotation.x = -Math.PI * 0.5;
-		reflector.position.y = 0;
-		reflector.scale.set(15, 15, 5);
-
-		this.add(reflector);
+		mesh.rotation.x = -Math.PI * 0.5;
+		const scale = 10;
+		// mesh.position.z = -scale;
+		mesh.scale.set(scale, scale, 1);
+		this.add(mesh);
 	}
 }

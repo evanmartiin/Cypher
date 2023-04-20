@@ -1,4 +1,16 @@
-import { BoxGeometry, Clock, Color, DoubleSide, Group, InstancedBufferAttribute, InstancedBufferGeometry, Mesh, MeshStandardMaterial, OctahedronGeometry, Vector3 } from 'three';
+import {
+	AdditiveBlending,
+	BufferGeometry,
+	Clock,
+	DoubleSide,
+	Group,
+	InstancedBufferAttribute,
+	InstancedMesh,
+	MeshStandardMaterial,
+	MultiplyBlending,
+	PlaneGeometry,
+	ShaderMaterial,
+} from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
@@ -17,56 +29,39 @@ export class Particles extends Group {
 	}
 
 	init() {
-		this.colorPallete = [new Color(0xe50061), new Color(0x46237a), new Color(0x3ddc97), new Color(0xfcfcfc)];
-
 		this.sim = new GPUSimulation(app.webgl.renderer, this.size);
-		this.createObj();
-
-		this.time = new Clock();
+		this._geometry = this._createGeometry();
+		this._material = this._createMaterial();
+		this._mesh = this._createMesh();
 	}
 
-	createObj() {
-		var originalG = new OctahedronGeometry(1, 0);
+	_createGeometry() {
+		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
+		// const baseGeometry = new OctahedronGeometry(1, 0);
+		const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
+		baseGeometry.scale(0.6, 0.6, 0.6);
 
-		var geometry = new InstancedBufferGeometry();
+		const geometry = new BufferGeometry();
 
-		// vertex
-		var vertices = originalG.attributes.position.clone();
+		Object.keys(baseGeometry.attributes).forEach((attributeName) => {
+			geometry.attributes[attributeName] = baseGeometry.attributes[attributeName];
+		});
+		geometry.index = baseGeometry.index;
 
-		geometry.setAttribute('position', vertices);
+		const particleAmout = this.size * this.size;
+		const randomAttribute = new InstancedBufferAttribute(new Float32Array(particleAmout), 1, 1);
 
-		var normals = originalG.attributes.normal.clone();
-		geometry.setAttribute('normal', normals);
-
-		// uv
-		var uvs = originalG.attributes.uv.clone();
-		geometry.setAttribute('uv', uvs);
-
-		geometry.instanceCount = this.size * this.size;
-
-		var nums = new InstancedBufferAttribute(new Float32Array(this.size * this.size * 1), 1);
-		var randoms = new InstancedBufferAttribute(new Float32Array(this.size * this.size * 1), 1);
-		var colors = new InstancedBufferAttribute(new Float32Array(this.size * this.size * 3), 3);
-
-		for (var i = 0; i < nums.count; i++) {
-			var _color = this.colorPallete[Math.floor(Math.random() * this.colorPallete.length)];
-
-			nums.setX(i, i);
-			randoms.setX(i, Math.random() * 0.5 + 1);
-			colors.setXYZ(i, _color.r, _color.g, _color.b);
+		for (let i = 0; i < particleAmout; i++) {
+			randomAttribute.setX(i, Math.random() + 0.1);
 		}
 
-		geometry.setAttribute('aNum', nums);
-		geometry.setAttribute('aRandom', randoms);
-		geometry.setAttribute('aColor', colors);
+		geometry.setAttribute('aRandom', randomAttribute);
 
-		var scale = {
-			x: 2,
-			y: 6,
-			z: 2,
-		};
+		return geometry;
+	}
 
-		this.material = new CustomShaderMaterial({
+	_createMaterial() {
+		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,
 			fragmentShader: fragmentShader,
@@ -75,32 +70,36 @@ export class Particles extends Group {
 
 				posMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture },
 				velMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture },
-				size: { value: this.size },
-
-				timer: { value: 0 },
-				boxScale: { value: new Vector3(scale.x, scale.y, scale.z) },
+				// uTexture: { value: app.core.assetsManager.get('brush') },
+				// uTexture2: { value: app.core.assetsManager.get('outlineBrush') },
+				uSize: { value: this.size },
 			},
-			metalness: 0.5,
-			roughness: 0.5,
+			// transparent: true,
+			side: DoubleSide,
+			metalness: 0.6,
+			roughness: 0.4,
+			// depthWrite: false,
+			envMap: app.core.assetsManager.get('envmap'),
 		});
 
-		this.mesh = new Mesh(geometry, this.material);
-		this.mesh.position.set(0, 0, -3);
-		this.mesh.scale.set(0.25, 0.25, 0.25);
+		return material;
+	}
 
-		this.add(this.mesh);
-		this.mesh.frustumCulled = false;
+	_createMesh() {
+		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
+		mesh.position.set(0, 0, -2);
+		mesh.scale.set(0.1, 0.1, 0.1);
+
+		this.add(mesh);
+		mesh.frustumCulled = false;
+		mesh.renderOrder = 2;
+
+		return mesh;
 	}
 
 	onRender() {
-		var delta = this.time.getDelta() * 4;
-		var time = this.time.elapsedTime;
-
-		this.sim.velUniforms.timer.value = time;
-		this.sim.velUniforms.delta.value = delta;
-
-		this.material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
-		this.material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
+		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
+		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
 
 		this.sim.gpuCompute.compute();
 	}

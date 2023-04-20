@@ -5,7 +5,7 @@ import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-const DISTANCE_THRESHOLD = 0.05;
+const DISTANCE_THRESHOLD = 0.035;
 
 class TensorflowPose {
 	constructor() {
@@ -41,6 +41,7 @@ class TensorflowPose {
 			this.lastPoses = poses;
 			return false;
 		}
+		if (!poses) return false;
 
 		const isMoveEnough = poses.some((pose, index) => {
 			const lastPose = this.lastPoses[index];
