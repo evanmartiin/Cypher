@@ -39,7 +39,7 @@ class MainScene extends Scene {
 		const lightRight = new PointLight('#FF0000', 1);
 		lightRight.position.set(10, 10, 0);
 
-		const ambientLight = new AmbientLight('#FF0000', 0.35);
+		const ambientLight = new AmbientLight('#FFFFFF', 0.35);
 		this.add(lightLeft, lightRight, ambientLight);
 	}
 	addGround() {
@@ -48,7 +48,7 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const particles = new Particles(128);
+		const particles = new Particles(256);
 		this.add(particles);
 	}
 	addFog() {
