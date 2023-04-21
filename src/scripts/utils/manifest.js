@@ -27,7 +27,6 @@ const manifest = {
 	},
 	models: {
 		avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
-		avatar2: { path: `${import.meta.env.BASE_URL}assets/models/avatar2.vrm`, priority: 1, callback: null },
 		cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
 		// ...
 	},
