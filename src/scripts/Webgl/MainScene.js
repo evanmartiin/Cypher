@@ -1,7 +1,6 @@
 import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
-import FluidSimulation from '@Webgl/Objects/FluidSim/FluidSimulation.js';
 import { Ground } from '@Webgl/Objects/Ground.js';
-import TrailSimulation from '@Webgl/Objects/TrailSim/TrailSimulation.js';
+import Wall from '@Webgl/Objects/Wall.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -24,10 +23,10 @@ class MainScene extends Scene {
 	onAttach() {
 		this.addLight();
 		this.addGround();
+		this.addWall();
 		this.addParticles();
-		this.fluidSimulation();
-		this.trailSimulation();
-		this.addFog();
+		// this.fluidSimulation();
+		// this.addFog();
 		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 		// app.debug?.mapping.add(this, 'Scene');
 	}
@@ -36,15 +35,19 @@ class MainScene extends Scene {
 		const lightLeft = new PointLight('#0000FF', 1);
 		lightLeft.position.set(-10, 10, 0);
 
-		const lightRight = new PointLight('#FF0000', 1);
+		const lightRight = new PointLight('#FFFFFF', 0.25);
 		lightRight.position.set(10, 10, 0);
 
-		const ambientLight = new AmbientLight('#FFFFFF', 0.35);
-		this.add(lightLeft, lightRight, ambientLight);
+		this.add(lightLeft, lightRight);
 	}
 	addGround() {
 		const groundReflector = new Ground();
 		this.add(groundReflector);
+	}
+
+	addWall() {
+		const wall = new Wall();
+		this.add(wall);
 	}
 
 	addParticles() {
@@ -56,13 +59,9 @@ class MainScene extends Scene {
 		// this.fog = fog;
 	}
 
-	fluidSimulation() {
-		this.mesh = new FluidSimulation();
-	}
-
-	trailSimulation() {
-		this.mesh = new TrailSimulation();
-	}
+	// fluidSimulation() {
+	// 	this.mesh = new FluidSimulation();
+	// }
 }
 
 export { MainScene };

@@ -32,7 +32,7 @@
     "@mediapipe/pose": "^0.5.1675469404",
     "@pixiv/three-vrm": "^1.0.8",
     "kalidokit": "^1.1.5",
-    "postprocessing": "^6.24.1",
+    "postprocessing": "^6.30.2",
     "socket.io-client": "^4.6.1",
     "three": "^0.149.0",
     "three-custom-shader-material": "^5.2.1"

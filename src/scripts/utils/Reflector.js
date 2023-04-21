@@ -7,7 +7,6 @@ import {
 	Matrix4,
 	Mesh,
 	MeshStandardMaterial,
-	MirroredRepeatWrapping,
 	NoToneMapping,
 	PerspectiveCamera,
 	Plane,
@@ -18,7 +17,6 @@ import {
 } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Reflector/fragment.fs';
-import { ReflectorMaterial } from '@Webgl/Materials/Reflector/material.js';
 import vertexShader from '@Webgl/Materials/Reflector/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
@@ -102,7 +100,7 @@ class Reflector extends Mesh {
 			normalMap: normalMap,
 			// Fix roughness map
 			roughnessMap: roughnessMap,
-			// envMap: app.core.assetsManager.get('envmap'),
+			envMap: app.core.assetsManager.get('envmap'),
 		});
 
 		this.onBeforeRender = function (renderer, scene, camera) {

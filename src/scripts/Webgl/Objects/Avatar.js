@@ -34,7 +34,6 @@ class Avatar extends Group {
 		});
 
 		this.mesh.position.y = 0;
-		this.mesh.position.z = -2;
 		this.mesh.rotation.y = Math.PI;
 		this.add(this.mesh);
 		this.mesh.castShadow = true;

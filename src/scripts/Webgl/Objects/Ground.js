@@ -16,8 +16,7 @@ export class Ground extends Group {
 
 		mesh.rotation.x = -Math.PI * 0.5;
 		const scale = 10;
-		// mesh.position.z = -scale;
 		mesh.scale.set(scale, scale, 1);
-		this.add(mesh);
+		// this.add(mesh);
 	}
 }

@@ -48,7 +48,7 @@ export class GPUSimulation {
 			cube.scale.set(this.cubePositions[j].w, this.cubePositions[j].w, this.cubePositions[j].w);
 			cube.quaternion.copy(this.cubeQuaternions[j]);
 			cube.position.set(this.cubePositions[j].x, this.cubePositions[j].y, this.cubePositions[j].z);
-			app.webgl.scene.add(cube.clone());
+			// app.webgl.scene.add(cube.clone());
 		}
 	}
 

@@ -6,7 +6,6 @@ uniform sampler2D posMap;
 uniform sampler2D velMap;
 
 varying float vlifeOpacity;
-varying vec2 vUv;
 varying vec3 vNewNormal;
 
 mat3 calcLookAtMatrix(vec3 vector, float roll) {
@@ -54,6 +53,5 @@ void main() {
 
   csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);
 
-  vUv = uv;
   vlifeOpacity = positionTexture.w;
 }

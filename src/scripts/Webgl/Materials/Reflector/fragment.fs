@@ -12,13 +12,14 @@ void main() {
 
 	vec4 deformedRenderTarget = vRenderTargetUv;
 
-	deformedRenderTarget.xy += normalMapTexture * 0.15;
+	deformedRenderTarget.xy += normalMapTexture * 0.5;
 
 	vec4 blur = texture2DProj(uBlurTexture, deformedRenderTarget);
 
 	vec4 render = blur;
 
 	// csm_DiffuseColor = render;
+	// csm_DiffuseColor.a = range;
 	csm_FragColor = render;
 	csm_FragColor.a = range;
 }

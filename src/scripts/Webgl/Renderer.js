@@ -5,11 +5,14 @@ import { state } from '@scripts/State.js';
 
 class Renderer extends WebGLRenderer {
 	constructor() {
-		super({ antialias: true, powerPreference: 'high-performance' });
+		super({ powerPreference: 'high-performance' });
 		state.register(this);
 
+		this.antialias = false;
+		this.stencil = false;
+		this.depth = false;
 		this.autoClear = false;
-		this.outputEncoding = sRGBEncoding;
+		// this.outputEncoding = sRGBEncoding;
 		this.shadowMap.enabled = false;
 		// this.shadowMap.type = PCFSoftShadowMap;
 		this.debug.checkShaderErrors = DEBUG;

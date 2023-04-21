@@ -10,7 +10,7 @@ class MainCamera extends PerspectiveCamera {
 		state.register(this);
 
 		this.target = new Vector3(0, 1, 0);
-		this.position.z = 7;
+		this.position.z = 5;
 		this.position.y = 1;
 		this.lookAt(this.target);
 	}

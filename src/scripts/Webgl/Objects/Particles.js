@@ -9,6 +9,7 @@ import {
 	MeshStandardMaterial,
 	MultiplyBlending,
 	PlaneGeometry,
+	RepeatWrapping,
 	ShaderMaterial,
 } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
@@ -61,6 +62,22 @@ export class Particles extends Group {
 	}
 
 	_createMaterial() {
+		const normalMap = app.core.assetsManager.get('normalWall');
+		normalMap.wrapS = RepeatWrapping;
+		normalMap.wrapT = RepeatWrapping;
+
+		const roughnessMap = app.core.assetsManager.get('roughnessWall');
+		roughnessMap.wrapS = RepeatWrapping;
+		roughnessMap.wrapT = RepeatWrapping;
+
+		const baseMap = app.core.assetsManager.get('baseWall');
+		baseMap.wrapS = RepeatWrapping;
+		baseMap.wrapT = RepeatWrapping;
+
+		const aoMap = app.core.assetsManager.get('aoWall');
+		baseMap.wrapS = RepeatWrapping;
+		baseMap.wrapT = RepeatWrapping;
+
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,

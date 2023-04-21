@@ -179,7 +179,7 @@ vec3 bounce(vec3 v, vec3 n) {
 	return n * l;
 }
 
-const float RayRange = 1.0;
+const float RayRange = 0.2;
 
 void main() {
 	vec2 uv = gl_FragCoord.xy / resolution.xy;
@@ -210,8 +210,8 @@ void main() {
 		float d = sdBox(rotateVector(collidersQuaternions, collidersPositions), collidersScale);
 		if(d <= RayRange) {
 			vec3 n = -calcBoxNormal(collidersPositions, collidersQuaternions, collidersScale, RayRange);
-			velocity = bounce(velocity, n);
-			velocity -= normalize(collidersPositions);
+			// velocity = bounce(velocity, n);
+			velocity -= normalize(collidersPositions + curl(collidersPositions * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3);
 			continue;
 		}
 	}
@@ -219,7 +219,7 @@ void main() {
 	if(position.y < 0.8) {
 		vec3 diff = vec3(0., 0., 0.) - position;
 		velocity.xz -= normalize(diff).xz;
-		velocity.y = bounce(velocity, abs(diff * 0.1)).y;
+		velocity += abs(curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.3;
 
 	} else {
 		velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3;
