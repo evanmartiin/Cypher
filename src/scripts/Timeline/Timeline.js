@@ -12,6 +12,7 @@ class Timeline {
 		this.titleDOM = document.querySelector('#title');
 		this.nextDOM = document.querySelector('#next');
 		this.timer = new Timer();
+		this.standby = false;
 
 		STEPS.forEach((Step) => this.steps.push(new Step()));
 		this.standbyStep = new StandbyStep();
@@ -63,12 +64,14 @@ class Timeline {
 	}
 
 	resume() {
+		this.standby = false;
 		if (this.standbyStep.isRunning) this.standbyStep.stop();
 		this.current.start();
 	}
 
 	onPlayerLeft() {
 		if (this.current.constructor.name === 'WaitingStep' || this.current.constructor.name === 'NextPlayerStep') return;
+		this.standby = true;
 		this.current.stop();
 		this.standbyStep.start();
 	}

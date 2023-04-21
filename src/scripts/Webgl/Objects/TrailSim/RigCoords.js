@@ -14,16 +14,16 @@ class RigCoords {
 		this.leftTest = new Vector3();
 	}
 
-	onPlayerMovedEnough(rig) {
+	onPlayerMovedEnough(points) {
 		// Left Wrist Movement
-		this.leftWrist.set(1.0 - rig.poseLandmarks[POSE.LEFT_WRIST].x * 2, 1.0 - rig.poseLandmarks[POSE.LEFT_WRIST].y * 2);
+		this.leftWrist.set(1.0 - points[POSE.LEFT_WRIST].x * 2, 1.0 - points[POSE.LEFT_WRIST].y * 2);
 
 		// Right Wrist Movement
-		this.rightWrist.set(1.0 - rig.poseLandmarks[POSE.RIGHT_WRIST].x * 2, 1.0 - rig.poseLandmarks[POSE.RIGHT_WRIST].y * 2);
+		this.rightWrist.set(1.0 - points[POSE.RIGHT_WRIST].x * 2, 1.0 - points[POSE.RIGHT_WRIST].y * 2);
 
 		// Test
-		this.leftTest.set(1.0 - rig.poseLandmarks[POSE.LEFT_WRIST].x * 2, 1.0 - rig.poseLandmarks[POSE.LEFT_WRIST].y * 2, 1.0 - rig.poseLandmarks[POSE.LEFT_WRIST].z * 2);
-		// this.leftTest.set(0, 0, 1.0 - rig.poseLandmarks[POSE.LEFT_WRIST].z * 2);
+		this.leftTest.set(1.0 - points[POSE.LEFT_WRIST].x * 2, 1.0 - points[POSE.LEFT_WRIST].y * 2, 1.0 - points[POSE.LEFT_WRIST].z * 2);
+		// this.leftTest.set(0, 0, 1.0 - points[POSE.LEFT_WRIST].z * 2);
 	}
 
 	update() {
