@@ -1,11 +1,8 @@
 import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
 import { Ground } from '@Webgl/Objects/Ground.js';
 import Wall from '@Webgl/Objects/Wall.js';
-import { computeEnvmap } from '@utils/misc.js';
-import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
-import { BaseGround } from './Objects/BaseGround.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 
