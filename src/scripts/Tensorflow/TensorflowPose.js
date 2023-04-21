@@ -15,7 +15,7 @@ class TensorflowPose {
 	}
 
 	async asyncInit() {
-		this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, { runtime: 'tfjs', modelType: 'full' });
+		this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, { runtime: 'tfjs', modelType: 'lite', enableSmoothing: true });
 
 		if (this.detector !== null) this.ready = true;
 		this.tick();
