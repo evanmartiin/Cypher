@@ -1,8 +1,10 @@
 import { AmbientLight, Fog, PointLight, Scene } from 'three';
 import FluidSimulation from '@Webgl/Objects/FluidSim/FluidSimulation.js';
+import { Ground } from '@Webgl/Objects/Ground.js';
+import TrailSimulation from '@Webgl/Objects/TrailSim/TrailSimulation.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
-import { BaseGround } from './Objects/BaseGround.js';
+import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 import { Wall } from './Objects/Wall.js';
 
@@ -13,7 +15,6 @@ class MainScene extends Scene {
 
 		this.avatar = new Avatar();
 		this.add(this.avatar);
-		// this.avatar.visible = false;
 		this.skeleton = new Skeleton();
 		this.add(this.skeleton);
 	}
@@ -21,47 +22,48 @@ class MainScene extends Scene {
 	onAttach() {
 		this.addLight();
 		this.addGround();
-		// this.addParticles();
-		// this.addFog();
-		// this.fluidSimulation();
 
 		this.wall = new Wall();
 		this.add(this.wall);
 
+		this.addParticles();
+		this.fluidSimulation();
+		this.trailSimulation();
+		this.addFog();
+		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 		// app.debug?.mapping.add(this, 'Scene');
 	}
 
 	addLight() {
-		const light = new PointLight('#ffffff', 1);
-		light.shadow.mapSize.width = 2048;
-		// light.shadow.camera.near = 0.1;
-		light.shadow.mapSize.height = 2048;
-		// light.shadow.camera.far = 20;
-		light.shadow.radius = 4;
-		light.castShadow = true;
-		light.position.set(0, 5, -5);
+		const lightLeft = new PointLight('#0000FF', 1);
+		lightLeft.position.set(-10, 10, 0);
 
-		const ambient = new AmbientLight('#ffffff', 1);
-		this.add(light, ambient);
+		const lightRight = new PointLight('#FF0000', 1);
+		lightRight.position.set(10, 10, 0);
+
+		const ambientLight = new AmbientLight('#FF0000', 0.35);
+		this.add(lightLeft, lightRight, ambientLight);
 	}
 	addGround() {
-		// const reflector = new Ground();
-		// this.add(reflector);
-		const mesh = new BaseGround();
-		this.add(mesh);
+		const groundReflector = new Ground();
+		this.add(groundReflector);
 	}
 
-	// addParticles() {
-	// 	const particles = new Particles(128);
-	// 	// this.add(particles);
-	// }
+	addParticles() {
+		const particles = new Particles(128);
+		this.add(particles);
+	}
 	addFog() {
-		const fog = new Fog('#000000', 5, 9);
-		this.fog = fog;
+		const fog = new Fog('#110A18', 5, 12);
+		// this.fog = fog;
 	}
 
 	fluidSimulation() {
 		this.mesh = new FluidSimulation();
+	}
+
+	trailSimulation() {
+		this.mesh = new TrailSimulation();
 	}
 }
 

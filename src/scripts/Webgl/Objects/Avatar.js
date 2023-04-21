@@ -19,6 +19,7 @@ class Avatar extends Group {
 		VRMUtils.rotateVRM0(this.vrm);
 
 		this.mesh = this.gltf.scene;
+		// this.mesh.visible = false;
 
 		const material = new MeshPhysicalMaterial({
 			metalness: 0.5,

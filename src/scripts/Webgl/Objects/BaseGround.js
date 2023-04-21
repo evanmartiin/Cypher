@@ -1,8 +1,9 @@
-import { Color, Group, Mesh, MeshStandardMaterial, PlaneGeometry } from 'three';
+import { Color, Group, Mesh, MeshStandardMaterial, MeshToonMaterial, PlaneGeometry, Vector2 } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/BaseGround/fragment.fs';
 import vertexShader from '@Webgl/Materials/BaseGround/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
+import { app } from '@scripts/App.js';
 
 export class BaseGround extends Group {
 	constructor() {
@@ -14,7 +15,7 @@ export class BaseGround extends Group {
 		const geometry = new PlaneGeometry();
 
 		const material = new CustomShaderMaterial({
-			baseMaterial: MeshStandardMaterial,
+			baseMaterial: MeshToonMaterial,
 			vertexShader: vertexShader,
 			fragmentShader: fragmentShader,
 			uniforms: {
@@ -24,8 +25,7 @@ export class BaseGround extends Group {
 				uGridColor: { value: new Color('#7FA9BE') },
 			},
 			transparent: true,
-			metalness: 0.7,
-			roughness: 0.7,
+			normalMap: app.core.assetsManager.get('normal'),
 			color: '#ffffff',
 			// color: '#1c334E',
 		});
@@ -33,9 +33,9 @@ export class BaseGround extends Group {
 		const mesh = new Mesh(geometry, material);
 		mesh.receiveShadow = true;
 		mesh.rotation.x = -Math.PI * 0.5;
-		this.add(mesh);
-		const scale = 10;
+		const scale = 20;
 		mesh.position.z = -scale * 0.4;
 		mesh.scale.set(scale, scale, 1);
+		this.add(mesh);
 	}
 }

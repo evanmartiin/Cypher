@@ -27,10 +27,11 @@
     "vite": "^4.1.1"
   },
   "dependencies": {
-    "@mediapipe/camera_utils": "^0.3.1675466862",
-    "@mediapipe/drawing_utils": "^0.3.1675466124",
-    "@mediapipe/pose": "^0.5.1675469404",
     "@pixiv/three-vrm": "^1.0.8",
+    "@tensorflow-models/pose-detection": "^2.1.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.4.0",
+    "@tensorflow/tfjs-converter": "^4.4.0",
+    "@tensorflow/tfjs-core": "^4.4.0",
     "gsap": "^3.11.5",
     "kalidokit": "^1.1.5",
     "postprocessing": "^6.24.1",

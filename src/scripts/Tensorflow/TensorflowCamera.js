@@ -1,4 +1,3 @@
-import { Camera } from '@mediapipe/camera_utils';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -16,13 +15,44 @@ class TensorflowCamera {
 		this.videoDOM.height = VIDEO_SIZE.height;
 		this.videoDOM.id = 'tf-video';
 
-		this.camera = new Camera(this.videoDOM, {
-			onFrame: async () => {
-				await app.tensorflow.pose.send({ image: this.videoDOM });
+		this.asyncInit();
+	}
+
+	async asyncInit() {
+		if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+			throw new Error('Browser API navigator.mediaDevices.getUserMedia not available');
+		}
+
+		const videoConfig = {
+			audio: false,
+			video: {
+				facingMode: 'user',
+				width: VIDEO_SIZE.width,
+				height: VIDEO_SIZE.height,
+				frameRate: {
+					ideal: 120,
+				},
 			},
-			width: VIDEO_SIZE.width,
-			height: VIDEO_SIZE.height,
+		};
+
+		const stream = await navigator.mediaDevices.getUserMedia(videoConfig);
+
+		this.videoDOM.srcObject = stream;
+
+		await new Promise((resolve) => {
+			this.videoDOM.onloadedmetadata = (video) => {
+				resolve(video);
+			};
 		});
+
+		this.videoDOM.play();
+
+		const videoWidth = this.videoDOM.videoWidth;
+		const videoHeight = this.videoDOM.videoHeight;
+		this.videoDOM.width = videoWidth;
+		this.videoDOM.height = videoHeight;
+
+		this.ready = true;
 	}
 
 	onAttach() {
@@ -31,14 +61,6 @@ class TensorflowCamera {
 		/// #endif
 
 		app.$root.appendChild(this.videoDOM);
-	}
-
-	start() {
-		this.camera.start();
-	}
-
-	stop() {
-		this.camera.stop();
 	}
 }
 

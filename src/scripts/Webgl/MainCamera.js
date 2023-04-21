@@ -2,11 +2,11 @@ import { PerspectiveCamera, Vector3 } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-const BASE_FOV = 45;
+const BASE_FOV = 30;
 
 class MainCamera extends PerspectiveCamera {
 	constructor() {
-		super(BASE_FOV, app.tools.viewport.ratio, 1, 100);
+		super(BASE_FOV, app.tools.viewport.ratio, 0.3, 30);
 		state.register(this);
 
 		this.target = new Vector3(0, 1, 0);

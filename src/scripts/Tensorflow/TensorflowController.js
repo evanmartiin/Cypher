@@ -17,7 +17,7 @@ class TensorflowController {
 		if (app.tools.urlParams.has('skip-camera')) return;
 		/// #endif
 
-		this.camera.start();
+		// this.camera.start();
 	}
 }
 
