@@ -1,6 +1,7 @@
 import * as POSTPROCESSING from 'postprocessing';
 import {
 	Color,
+	DoubleSide,
 	HalfFloatType,
 	LinearEncoding,
 	LinearFilter,
@@ -97,6 +98,7 @@ class Reflector extends Mesh {
 				uTextureMatrix: { value: textureMatrix },
 			},
 			transparent: true,
+			side: DoubleSide,
 			normalMap: normalMap,
 			// Fix roughness map
 			roughnessMap: roughnessMap,

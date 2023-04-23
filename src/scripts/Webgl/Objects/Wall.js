@@ -1,4 +1,5 @@
-import { CylinderGeometry, Group, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, RepeatWrapping } from 'three';
+import { CylinderGeometry, DoubleSide, Group, Mesh, MeshNormalMaterial, MeshStandardMaterial, MeshToonMaterial, PlaneGeometry, RepeatWrapping, ShaderMaterial } from 'three';
+import { Reflector } from '@utils/Reflector.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -42,13 +43,13 @@ export default class Wall extends Group {
 		baseMap.repeat.y = repeat;
 
 		const material = new MeshStandardMaterial({
-			metalness: 0.5,
-			roughness: 0.5,
+			// metalness: 0.5,
+			// roughness: 0.5,
 			// envMap: app.core.assetsManager.get('envmap'),
-			// normalMap: normalMap,
-			// roughnessMap: roughnessMap,
-			// map: baseMap,
-			// aoMap: aoMap,
+			normalMap: normalMap,
+			roughnessMap: roughnessMap,
+			map: baseMap,
+			aoMap: aoMap,
 		});
 
 		const gltf = app.core.assetsManager.get('scene');
@@ -56,20 +57,23 @@ export default class Wall extends Group {
 		gltf.traverse((o) => {
 			console.log(o.name);
 			if (o.name === 'BandeDown') {
-				console.log(o.name);
-				o.material = material;
+				o.material = new MeshToonMaterial();
 			}
 			if (o.name === 'BandeUp') {
-				console.log(o.name);
 				o.material = material;
 			}
-			if (o.name === 'sol') {
-				console.log(o.name);
-				o.material = material;
+			if (o.name === 'Ground') {
+				o.visible = false;
+			}
+			if (o.name === 'SceneLeft') {
+				o.material = new ShaderMaterial();
+				o.visible = false;
+			}
+			if (o.name === 'Ceiling') {
+				// o.material = new ShaderMaterial({ side: DoubleSide });
 			}
 		});
 		app.webgl.scene.add(gltf);
-		// gltf.scale.set(0.5, 0.5, 0.5);
 
 		const mesh = new Mesh(geometry, material);
 		const scaleX = 3;

@@ -6,7 +6,8 @@ varying vec4 vRenderTargetUv;
 uniform sampler2D uBlurTexture;
 
 void main() {
-	float range = 1.0 - smoothstep(0.75, 1.0, vNewUv.y);
+	float dist = length(vNewUv - 0.5);
+	float range = 1.0 - step(0.35, dist);
 
 	vec2 normalMapTexture = texture2D(normalMap, vUv).xy * 2.0 - 1.0;
 

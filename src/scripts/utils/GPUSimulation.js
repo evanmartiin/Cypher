@@ -48,7 +48,7 @@ export class GPUSimulation {
 			cube.scale.set(this.cubePositions[j].w, this.cubePositions[j].w, this.cubePositions[j].w);
 			cube.quaternion.copy(this.cubeQuaternions[j]);
 			cube.position.set(this.cubePositions[j].x, this.cubePositions[j].y, this.cubePositions[j].z);
-			// app.webgl.scene.add(cube.clone());
+			app.webgl.scene.add(cube.clone());
 		}
 	}
 
@@ -87,7 +87,7 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.015 };
+		this.posUniforms.uDieSpeed = { value: 0.01 };
 		this.posUniforms.uLeftHandPosition = { value: this.leftHandPosition };
 		this.posUniforms.uRightHandPosition = { value: this.rightHandPosition };
 		this.posUniforms.uTextureDefaultPosition = {
@@ -98,10 +98,10 @@ export class GPUSimulation {
 
 		this.velUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.velUniforms.uDelta = { value: 0.0 };
-		this.velUniforms.uSpeed = { value: 0.5 };
+		this.velUniforms.uSpeed = { value: 0.4 };
 		this.velUniforms.uAttraction = { value: 1 };
 		this.velUniforms.uCurlSize = { value: 0.1 };
-		this.velUniforms.uTimeScale = { value: 1 };
+		this.velUniforms.uTimeScale = { value: 0.75 };
 		this.velUniforms.uLeftHandPosition = { value: this.leftHandPosition };
 		this.velUniforms.uRightHandPosition = { value: this.rightHandPosition };
 		this.velUniforms.uCubePositions = { value: this.cubePositions };

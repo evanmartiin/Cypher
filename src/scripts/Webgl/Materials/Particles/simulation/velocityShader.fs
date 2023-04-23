@@ -179,7 +179,7 @@ vec3 bounce(vec3 v, vec3 n) {
 	return n * l;
 }
 
-const float RayRange = 0.2;
+const float RayRange = 1.0;
 
 void main() {
 	vec2 uv = gl_FragCoord.xy / resolution.xy;
@@ -193,7 +193,6 @@ void main() {
 	toHand.x += uLeftHandPosition.x * 35. - position.x;
 	toHand.y += uLeftHandPosition.y * 15. - position.y;
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
-	velocity *= uSpeed;
 
 	vec4 collidersQuaternions;
 
@@ -224,6 +223,7 @@ void main() {
 	} else {
 		velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3;
 	}
+	velocity *= uSpeed;
 
 	gl_FragColor = vec4(velocity, 0.0);
 }
