@@ -15,7 +15,20 @@ class TensorflowPose {
 	}
 
 	async asyncInit() {
-		this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, { runtime: 'tfjs', modelType: 'lite', enableSmoothing: true });
+		if (app.tools.urlParams.has('tensorflow') && app.tools.urlParams.getString('tensorflow') === 'cpu') {
+			this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
+				runtime: 'mediapipe',
+				modelType: 'lite',
+				enableSmoothing: true,
+				solutionPath: '/node_modules/@mediapipe/pose',
+			});
+		} else {
+			this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
+				runtime: 'tfjs',
+				modelType: 'lite',
+				enableSmoothing: true,
+			});
+		}
 
 		if (this.detector !== null) this.ready = true;
 		this.tick();
