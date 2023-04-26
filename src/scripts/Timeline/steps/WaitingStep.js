@@ -19,6 +19,7 @@ export default class WaitingStep extends Step {
 	}
 
 	onPlayerEntered() {
+		console.log('onPlayerEntered');
 		if (!this.isRunning) return;
 		app.timeline.next();
 	}
