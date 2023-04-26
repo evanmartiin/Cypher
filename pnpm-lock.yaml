@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@mediapipe/pose': ^0.5.1675469404
   '@pixiv/three-vrm': ^1.0.8
   '@tensorflow-models/pose-detection': ^2.1.0
   '@tensorflow/tfjs-backend-webgl': ^4.4.0
@@ -26,8 +27,9 @@ specifiers:
   vite: ^4.1.1
 
 dependencies:
+  '@mediapipe/pose': 0.5.1675469404
   '@pixiv/three-vrm': 1.0.8_three@0.149.0
-  '@tensorflow-models/pose-detection': 2.1.0_aienzfkkrjwl7zocam5nvhpzc4
+  '@tensorflow-models/pose-detection': 2.1.0_yggalde3vr2dfsw67figtylmdi
   '@tensorflow/tfjs-backend-webgl': 4.4.0_qyqwotms6yzzc5jz4dpyeb7wia
   '@tensorflow/tfjs-converter': 4.4.0_qyqwotms6yzzc5jz4dpyeb7wia
   '@tensorflow/tfjs-core': 4.4.0
@@ -571,6 +573,10 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@mediapipe/pose/0.5.1675469404:
+    resolution: {integrity: sha512-DFZsNWTsSphRIZppnUCuunzBiHP2FdJXR9ehc7mMi4KG+oPaOH0Em3d6kr7Py+TSyTXC1doH88KcF28k2sBxsQ==}
+    dev: false
+
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -698,7 +704,7 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: false
 
-  /@tensorflow-models/pose-detection/2.1.0_aienzfkkrjwl7zocam5nvhpzc4:
+  /@tensorflow-models/pose-detection/2.1.0_yggalde3vr2dfsw67figtylmdi:
     resolution: {integrity: sha512-4WOgxiPuA1ymZff9Epez2GsC0FSv7Fj8olu5LzXB/JAYo/zgyu2PFOQFeDXvvqyXwxdB4IrYYsgerUqlZaGdSQ==}
     peerDependencies:
       '@mediapipe/pose': ~0.5.0
@@ -708,6 +714,7 @@ packages:
       '@tensorflow/tfjs-converter': ^4.2.0
       '@tensorflow/tfjs-core': ^4.2.0
     dependencies:
+      '@mediapipe/pose': 0.5.1675469404
       '@tensorflow/tfjs-backend-webgl': 4.4.0_qyqwotms6yzzc5jz4dpyeb7wia
       '@tensorflow/tfjs-converter': 4.4.0_qyqwotms6yzzc5jz4dpyeb7wia
       '@tensorflow/tfjs-core': 4.4.0
