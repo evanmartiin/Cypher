@@ -6,8 +6,9 @@ varying vec4 vRenderTargetUv;
 uniform sampler2D uBlurTexture;
 
 void main() {
-	float dist = length(vNewUv - 0.5);
-	float range = 1.0 - step(0.35, dist);
+	float rangeBack = 1.0 - smoothstep(0.8, 1.0, vNewUv.y);
+	float rangeRight = 1.0 - smoothstep(0.8, 1.0, vNewUv.x);
+	float rangeLeft = 1.0 - smoothstep(0.8, 1.0, 1.0 - vNewUv.x);
 
 	vec2 normalMapTexture = texture2D(normalMap, vUv).xy * 2.0 - 1.0;
 
@@ -19,8 +20,8 @@ void main() {
 
 	vec4 render = blur;
 
-	// csm_DiffuseColor = render;
-	// csm_DiffuseColor.a = range;
+	// csm_DiffuseColor *= render;
+	// csm_DiffuseColor.a *= range;
 	csm_FragColor = render;
-	csm_FragColor.a = range;
+	csm_FragColor.a *= rangeBack * rangeLeft * rangeRight;
 }

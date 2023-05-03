@@ -23,17 +23,17 @@ class MainScene extends Scene {
 		this.addWall();
 		this.addParticles();
 		// this.fluidSimulation();
-		// this.addFog();
+		this.addFog();
 		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 		// app.debug?.mapping.add(this, 'Scene');
 	}
 
 	addLight() {
 		const lightLeft = new PointLight('#0000FF', 1);
-		lightLeft.position.set(-10, 10, 0);
+		lightLeft.position.set(-5, 10, 0);
 
-		const lightRight = new PointLight('#FFFFFF', 0.25);
-		lightRight.position.set(10, 10, 0);
+		const lightRight = new PointLight('#ffffff', 0.5);
+		lightRight.position.set(5, 10, 0);
 
 		this.add(lightLeft, lightRight);
 	}
@@ -52,7 +52,7 @@ class MainScene extends Scene {
 		this.add(particles);
 	}
 	addFog() {
-		const fog = new Fog('#110A18', 5, 12);
+		const fog = new Fog('#ff0000', 0, 50);
 		// this.fog = fog;
 	}
 
