@@ -14,8 +14,10 @@ const manifest = {
 	textures: {
 		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg`, priority: 2, callback: null },
 
-		base: { path: `${import.meta.env.BASE_URL}assets/textures/ground/base.jpg`, priority: 2, callback: null },
-		normal: { path: `${import.meta.env.BASE_URL}assets/textures/ground/normal.png`, priority: 2, callback: null },
+		baseTop: { path: `${import.meta.env.BASE_URL}assets/textures/ground/base.jpg`, priority: 2, callback: null },
+		normalTop: { path: `${import.meta.env.BASE_URL}assets/textures/ground/normal.jpg`, priority: 2, callback: null },
+		roughnessTop: { path: `${import.meta.env.BASE_URL}assets/textures/ground/roughness.jpg`, priority: 2, callback: null },
+		aoTop: { path: `${import.meta.env.BASE_URL}assets/textures/ground/ao.jpg`, priority: 2, callback: null },
 
 		normalGround2: { path: `${import.meta.env.BASE_URL}assets/textures/ground2/normalTest.jpg`, priority: 2, callback: null },
 		roughnessGround2: { path: `${import.meta.env.BASE_URL}assets/textures/ground2/roughness2.jpg`, priority: 2, callback: null },
@@ -29,6 +31,14 @@ const manifest = {
 		normalGround4: { path: `${import.meta.env.BASE_URL}assets/textures/ground4/normal.jpg`, priority: 2, callback: null },
 		roughnessGround4: { path: `${import.meta.env.BASE_URL}assets/textures/ground4/roughness.jpg`, priority: 2, callback: null },
 		baseGround4: { path: `${import.meta.env.BASE_URL}assets/textures/ground4/base.jpg`, priority: 2, callback: null },
+
+		normalGround5: { path: `${import.meta.env.BASE_URL}assets/textures/ground5/normal.jpg`, priority: 2, callback: null },
+		roughnessGround5: { path: `${import.meta.env.BASE_URL}assets/textures/ground5/roughness.jpg`, priority: 2, callback: null },
+		baseGround5: { path: `${import.meta.env.BASE_URL}assets/textures/ground5/base.jpg`, priority: 2, callback: null },
+
+		normalGround6: { path: `${import.meta.env.BASE_URL}assets/textures/ground6/normal.jpg`, priority: 2, callback: null },
+		roughnessGround6: { path: `${import.meta.env.BASE_URL}assets/textures/ground6/roughness.jpg`, priority: 2, callback: null },
+		baseGround6: { path: `${import.meta.env.BASE_URL}assets/textures/ground6/base.jpg`, priority: 2, callback: null },
 
 		test: { path: `${import.meta.env.BASE_URL}assets/textures/wall/test.jpg`, priority: 2, callback: null },
 		test2: { path: `${import.meta.env.BASE_URL}assets/textures/wall/test2.jpg`, priority: 2, callback: null },

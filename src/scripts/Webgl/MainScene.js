@@ -29,13 +29,16 @@ class MainScene extends Scene {
 	}
 
 	addLight() {
-		const lightLeft = new PointLight('#0000FF', 1);
-		lightLeft.position.set(-5, 10, 0);
+		const lightLeft = new PointLight('#0000FF', 0.35);
+		lightLeft.position.set(-5, 3.25, 0);
 
-		const lightRight = new PointLight('#ffffff', 0.5);
-		lightRight.position.set(5, 10, 0);
+		const lightRight = new PointLight('#ff0000', 0.35);
+		lightRight.position.set(5, 3.25, 0);
 
-		this.add(lightLeft, lightRight);
+		const lightTop = new PointLight('#ffffff', 0.15);
+		lightTop.position.set(0, 1, 0);
+
+		this.add(lightLeft, lightRight, lightTop);
 	}
 	addGround() {
 		const groundReflector = new Ground();

@@ -61,44 +61,37 @@ class Reflector extends Mesh {
 		this.blurRenderTarget = new WebGLRenderTarget(textureWidth, textureHeight, { samples: multisample, type: HalfFloatType, minFilter: LinearFilter, magFilter: LinearFilter });
 
 		this.kawaseBlurPass = new POSTPROCESSING.KawaseBlurPass();
-		this.kawaseBlurPass.setSize(textureWidth * 30, textureHeight * 30);
+		this.kawaseBlurPass.setSize(textureWidth * 2, textureHeight * 2);
 
-		const repeat = 7;
+		const repeat = 10;
 
-		const normalMap = app.core.assetsManager.get('normalGround4');
+		const normalMap = app.core.assetsManager.get('normalGround2');
 		normalMap.wrapS = RepeatWrapping;
 		normalMap.wrapT = RepeatWrapping;
-		normalMap.repeat.x = repeat;
+		normalMap.repeat.x = repeat * 0.5;
 		normalMap.repeat.y = repeat;
 		normalMap.rotation = Math.PI * 0.5;
-
-		const normalMap2 = app.core.assetsManager.get('normalGround2');
-		normalMap2.wrapS = RepeatWrapping;
-		normalMap2.wrapT = RepeatWrapping;
-		normalMap2.repeat.x = repeat;
-		normalMap2.repeat.y = repeat;
-		normalMap2.rotation = Math.PI * 0.5;
 
 		const roughnessMap = app.core.assetsManager.get('roughnessGround2');
 		roughnessMap.wrapS = RepeatWrapping;
 		roughnessMap.wrapT = RepeatWrapping;
-		roughnessMap.repeat.x = repeat;
+		roughnessMap.repeat.x = repeat * 0.5;
 		roughnessMap.repeat.y = repeat;
 		roughnessMap.rotation = Math.PI * 0.5;
 
 		const aoMap = app.core.assetsManager.get('aoGround3');
 		aoMap.wrapS = RepeatWrapping;
 		aoMap.wrapT = RepeatWrapping;
-		aoMap.repeat.x = repeat;
+		aoMap.repeat.x = repeat * 0.5;
 		aoMap.repeat.y = repeat;
 		aoMap.rotation = Math.PI * 0.5;
 
-		const baseMap = app.core.assetsManager.get('baseGround4');
-		baseMap.wrapS = RepeatWrapping;
-		baseMap.wrapT = RepeatWrapping;
-		baseMap.repeat.x = repeat * 0.4;
-		baseMap.repeat.y = repeat;
-		baseMap.rotation = Math.PI * 0.5;
+		const baseMap2 = app.core.assetsManager.get('baseGround6');
+		baseMap2.wrapS = RepeatWrapping;
+		baseMap2.wrapT = RepeatWrapping;
+		baseMap2.repeat.x = repeat;
+		baseMap2.repeat.y = repeat;
+		baseMap2.rotation = Math.PI * 0.5;
 
 		this.material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
@@ -107,16 +100,29 @@ class Reflector extends Mesh {
 			uniforms: {
 				...globalUniforms,
 				uBlurTexture: { value: this.blurRenderTarget.texture },
+				uBaseTexture: { value: this.baseRenderTarget.texture },
+				uBaseMap: { value: baseMap2 },
 				uTextureMatrix: { value: textureMatrix },
 			},
 			transparent: true,
 			side: DoubleSide,
-			normalMap: normalMap2,
+			normalMap: normalMap,
 			// Fix roughness map
 			roughnessMap: roughnessMap,
 			aoMap: aoMap,
-			map: baseMap,
 		});
+
+		// this.material = new MeshStandardMaterial({
+		// 	transparent: true,
+		// 	side: DoubleSide,
+		// 	normalMap: normalMap,
+		// 	// Fix roughness map
+		// 	roughnessMap: roughnessMap,
+		// 	aoMap: aoMap,
+		// 	map: baseMap,
+		// 	roughness: 0.5,
+		// 	metalness: 0.5,
+		// });
 
 		this.onBeforeRender = function (renderer, scene, camera) {
 			reflectorWorldPosition.setFromMatrixPosition(scope.matrixWorld);
