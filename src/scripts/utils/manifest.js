@@ -48,6 +48,9 @@ const manifest = {
 		normalWall: { path: `${import.meta.env.BASE_URL}assets/textures/wall/normal.jpg`, priority: 2, callback: null },
 		roughnessWall: { path: `${import.meta.env.BASE_URL}assets/textures/wall/roughness.jpg`, priority: 2, callback: null },
 
+		bakeScene: { path: `${import.meta.env.BASE_URL}assets/textures/bake.png`, priority: 2, callback: null },
+		bakeSceneNormal: { path: `${import.meta.env.BASE_URL}assets/textures/bakeNormal.png`, priority: 2, callback: null },
+
 		brush: { path: `${import.meta.env.BASE_URL}assets/textures/brush.jpg`, priority: 2, callback: null },
 		outlineBrush: { path: `${import.meta.env.BASE_URL}assets/textures/outlineBrush.jpg`, priority: 2, callback: null },
 
@@ -60,7 +63,7 @@ const manifest = {
 	models: {
 		avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
 		cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
-		scene: { path: `${import.meta.env.BASE_URL}assets/models/scene.glb`, priority: 1, callback: null },
+		scene: { path: `${import.meta.env.BASE_URL}assets/models/env.glb`, priority: 1, callback: null },
 		// ...
 	},
 	jsons: {},

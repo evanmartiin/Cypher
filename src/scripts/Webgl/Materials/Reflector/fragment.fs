@@ -31,6 +31,6 @@ void main() {
 	// csm_DiffuseColor *= render;
 	// csm_DiffuseColor.a *= range;
 	csm_FragColor *= render;
-	csm_FragColor.xyz *= 0.4;
+	csm_FragColor.xyz *= 0.6;
 	csm_FragColor.a *= rangeBack;
 }

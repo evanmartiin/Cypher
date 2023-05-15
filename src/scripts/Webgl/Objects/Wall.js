@@ -58,22 +58,28 @@ export default class Wall extends Group {
 		aoMap.repeat.x = repeat;
 		aoMap.repeat.y = repeat;
 
-		const backMaterial = new CustomShaderMaterial({
-			baseMaterial: MeshStandardMaterial,
-			vertexShader: vertexShader,
-			fragmentShader: fragmentShader,
-			uniforms: {
-				...globalUniforms,
-				uMap: { value: baseMap },
-			},
+		// const backMaterial = new CustomShaderMaterial({
+		// 	baseMaterial: MeshStandardMaterial,
+		// 	vertexShader: vertexShader,
+		// 	fragmentShader: fragmentShader,
+		// 	uniforms: {
+		// 		...globalUniforms,
+		// 		uMap: { value: baseMap },
+		// 	},
+		// 	metalness: 0.5,
+		// 	roughness: 0.8,
+		// 	envMap: app.core.assetsManager.get('envmap'),
+		// 	// map: baseMap,
+		// 	normalMap: normalMap,
+		// 	roughnessMap: roughnessMap,
+		// 	aoMap: aoMap,
+		// 	normalScale: new Vector2(0.9, 0.9),
+		// 	side: DoubleSide,
+		// });
+
+		const backMaterial = new MeshStandardMaterial({
 			metalness: 0.5,
-			roughness: 0.8,
-			envMap: app.core.assetsManager.get('envmap'),
-			// map: baseMap,
-			normalMap: normalMap,
-			roughnessMap: roughnessMap,
-			aoMap: aoMap,
-			normalScale: new Vector2(0.9, 0.9),
+			roughness: 0.5,
 			side: DoubleSide,
 		});
 
@@ -116,28 +122,24 @@ export default class Wall extends Group {
 			color: '#ffffff',
 		});
 
-		// const gltf = app.core.assetsManager.get('scene');
+		const bakedSceneTexture = app.core.assetsManager.get('bakeScene');
+		bakedSceneTexture.flipY = false;
+		const bakedSceneNormalTexture = app.core.assetsManager.get('bakeSceneNormal');
+		bakedSceneNormalTexture.flipY = false;
 
-		// gltf.traverse((o) => {
-		// 	console.log(o.name);
-		// 	if (o.name === 'BandeDown') {
-		// 		o.material = new MeshToonMaterial();
-		// 	}
-		// 	if (o.name === 'BandeUp') {
-		// 		o.material = material;
-		// 	}
-		// 	if (o.name === 'Ground') {
-		// 		o.visible = false;
-		// 	}
-		// 	if (o.name === 'SceneLeft') {
-		// 		o.material = new ShaderMaterial();
-		// 		o.visible = false;
-		// 	}
-		// 	if (o.name === 'Ceiling') {
-		// 		// o.material = new ShaderMaterial({ side: DoubleSide });
-		// 	}
-		// });
-		// app.webgl.scene.add(gltf);
+		const sceneMaterial = new MeshStandardMaterial({
+			map: bakedSceneTexture,
+			metalness: 0.5,
+			roughness: 0.5,
+		});
+
+		const gltf = app.core.assetsManager.get('scene');
+
+		gltf.traverse((o) => {
+			o.material = sceneMaterial;
+		});
+		app.webgl.scene.add(gltf);
+		gltf.rotation.y = Math.PI * 0.23;
 
 		const back = new Mesh(geometry, backMaterial);
 		const scaleX = 3;
@@ -160,6 +162,6 @@ export default class Wall extends Group {
 
 		// app.webgl.scene.add(back, left, right);
 		// app.webgl.scene.add(back, top);
-		app.webgl.scene.add(back);
+		// app.webgl.scene.add(back);
 	}
 }
