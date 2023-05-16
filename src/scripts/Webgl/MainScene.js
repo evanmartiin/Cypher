@@ -1,6 +1,6 @@
 import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
+import Environment from '@Webgl/Objects/Environment.js';
 import { Ground } from '@Webgl/Objects/Ground.js';
-import Wall from '@Webgl/Objects/Wall.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { Particles } from './Objects/Particles.js';
@@ -20,7 +20,7 @@ class MainScene extends Scene {
 	onAttach() {
 		this.addLight();
 		this.addGround();
-		this.addWall();
+		this.addEnvironment();
 		this.addParticles();
 		// this.fluidSimulation();
 		this.addFog();
@@ -29,25 +29,26 @@ class MainScene extends Scene {
 	}
 
 	addLight() {
-		const lightLeft = new PointLight('#0000FF', 0.3);
-		lightLeft.position.set(-5, 15, 0);
+		const lightLeft = new PointLight('#ff0000', 0.15);
+		lightLeft.position.set(-5, 5, 0);
 
-		const lightRight = new PointLight('#ff0000', 0.3);
-		lightRight.position.set(5, 15, 0);
+		const lightRight = new PointLight('#f0f0a0', 0.3);
+		lightRight.position.set(5, 5, 0);
 
-		const lightTop = new PointLight('#ffffff', 0.3);
-		lightTop.position.set(0, 15, 0);
+		const lightTop = new PointLight('#0000ff', 0.15);
+		lightTop.position.set(0, 5, 0);
 
 		this.add(lightLeft, lightRight, lightTop);
 	}
 	addGround() {
 		const groundReflector = new Ground();
+		groundReflector.position.y = 0.01;
 		this.add(groundReflector);
 	}
 
-	addWall() {
-		const wall = new Wall();
-		this.add(wall);
+	addEnvironment() {
+		const environment = new Environment();
+		this.add(environment);
 	}
 
 	addParticles() {

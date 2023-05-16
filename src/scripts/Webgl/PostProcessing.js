@@ -1,9 +1,11 @@
 import { MathUtils } from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
+import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -33,7 +35,7 @@ class PostProcessing {
 
 		// Setup distortion effect
 		const horizontalFOV = 140;
-		const strength = 0.4;
+		const strength = 0.35;
 		const cylindricalRatio = 2;
 		const height = Math.tan(MathUtils.degToRad(horizontalFOV) / 2) / camera.aspect;
 
@@ -47,6 +49,9 @@ class PostProcessing {
 
 		const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		this.effectComposer.addPass(gammaCorrectionPass);
+
+		const smaaPass = new SMAAPass();
+		this.effectComposer.addPass(smaaPass);
 	}
 
 	getDistortionShaderDefinition() {

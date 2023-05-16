@@ -8,6 +8,7 @@ import {
 	Matrix4,
 	Mesh,
 	MeshStandardMaterial,
+	MirroredRepeatWrapping,
 	NoToneMapping,
 	PerspectiveCamera,
 	Plane,
@@ -63,35 +64,27 @@ class Reflector extends Mesh {
 		this.kawaseBlurPass = new POSTPROCESSING.KawaseBlurPass();
 		this.kawaseBlurPass.setSize(textureWidth * 2, textureHeight * 2);
 
-		const repeat = 10;
+		const repeat = 2;
 
-		const normalMap = app.core.assetsManager.get('normalGround2');
-		normalMap.wrapS = RepeatWrapping;
-		normalMap.wrapT = RepeatWrapping;
-		normalMap.repeat.x = repeat * 0.5;
+		const normalMap = app.core.assetsManager.get('normalGround3');
+		normalMap.wrapS = MirroredRepeatWrapping;
+		normalMap.wrapT = MirroredRepeatWrapping;
+		normalMap.repeat.x = repeat;
 		normalMap.repeat.y = repeat;
-		normalMap.rotation = Math.PI * 0.5;
 
-		const roughnessMap = app.core.assetsManager.get('roughnessGround2');
-		roughnessMap.wrapS = RepeatWrapping;
-		roughnessMap.wrapT = RepeatWrapping;
-		roughnessMap.repeat.x = repeat * 0.5;
+		const roughnessMap = app.core.assetsManager.get('roughnessGround3');
+		roughnessMap.wrapS = MirroredRepeatWrapping;
+		roughnessMap.wrapT = MirroredRepeatWrapping;
+		roughnessMap.repeat.x = repeat;
 		roughnessMap.repeat.y = repeat;
-		roughnessMap.rotation = Math.PI * 0.5;
 
-		const aoMap = app.core.assetsManager.get('aoGround3');
-		aoMap.wrapS = RepeatWrapping;
-		aoMap.wrapT = RepeatWrapping;
-		aoMap.repeat.x = repeat * 0.5;
-		aoMap.repeat.y = repeat;
-		aoMap.rotation = Math.PI * 0.5;
-
-		const baseMap2 = app.core.assetsManager.get('baseGround6');
-		baseMap2.wrapS = RepeatWrapping;
-		baseMap2.wrapT = RepeatWrapping;
+		const baseMap2 = app.core.assetsManager.get('baseGround3');
+		baseMap2.wrapS = MirroredRepeatWrapping;
+		baseMap2.wrapT = MirroredRepeatWrapping;
 		baseMap2.repeat.x = repeat;
 		baseMap2.repeat.y = repeat;
-		baseMap2.rotation = Math.PI * 0.5;
+
+		const noiseTexture = app.core.assetsManager.get('noise');
 
 		this.material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
@@ -103,13 +96,15 @@ class Reflector extends Mesh {
 				uBaseTexture: { value: this.baseRenderTarget.texture },
 				uBaseMap: { value: baseMap2 },
 				uTextureMatrix: { value: textureMatrix },
+				uNoiseTexture: { value: noiseTexture },
 			},
 			transparent: true,
 			side: DoubleSide,
 			normalMap: normalMap,
 			// Fix roughness map
 			roughnessMap: roughnessMap,
-			aoMap: aoMap,
+			metalness: 0.5,
+			roughness: 0.5,
 		});
 
 		// this.material = new MeshStandardMaterial({

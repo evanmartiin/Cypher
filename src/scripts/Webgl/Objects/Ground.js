@@ -11,8 +11,8 @@ export class Ground extends Group {
 	createMesh() {
 		const geometry = new PlaneGeometry(1, 1);
 		const reflector = new Reflector(geometry, {
-			textureWidth: 256 * window.devicePixelRatio,
-			textureHeight: 256 * window.devicePixelRatio,
+			textureWidth: 512 * window.devicePixelRatio,
+			textureHeight: 512 * window.devicePixelRatio,
 		});
 
 		reflector.rotation.x = -Math.PI * 0.5;
@@ -36,12 +36,12 @@ export class Ground extends Group {
 		roughnessMap.repeat.y = repeat;
 		roughnessMap.rotation = Math.PI * 0.5;
 
-		const aoMap = app.core.assetsManager.get('aoGround3');
-		aoMap.wrapS = RepeatWrapping;
-		aoMap.wrapT = RepeatWrapping;
-		aoMap.repeat.x = repeat;
-		aoMap.repeat.y = repeat;
-		aoMap.rotation = Math.PI * 0.5;
+		// const aoMap = app.core.assetsManager.get('aoGround3');
+		// aoMap.wrapS = RepeatWrapping;
+		// aoMap.wrapT = RepeatWrapping;
+		// aoMap.repeat.x = repeat;
+		// aoMap.repeat.y = repeat;
+		// aoMap.rotation = Math.PI * 0.5;
 
 		const baseMap = app.core.assetsManager.get('baseGround6');
 		baseMap.wrapS = RepeatWrapping;
@@ -54,7 +54,7 @@ export class Ground extends Group {
 			transparent: true,
 			normalMap: normalMap,
 			roughnessMap: roughnessMap,
-			aoMap: aoMap,
+			// aoMap: aoMap,
 			map: baseMap,
 			roughness: 0.9,
 			metalness: 0.5,

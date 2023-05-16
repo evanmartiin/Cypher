@@ -23,10 +23,9 @@ const manifest = {
 		roughnessGround2: { path: `${import.meta.env.BASE_URL}assets/textures/ground2/roughness2.jpg`, priority: 2, callback: null },
 		baseGround2: { path: `${import.meta.env.BASE_URL}assets/textures/ground2/baseTest.jpg`, priority: 2, callback: null },
 
-		normalGround3: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/normal.png`, priority: 2, callback: null },
-		roughnessGround3: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/roughness.png`, priority: 2, callback: null },
-		baseGround3: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/base.png`, priority: 2, callback: null },
-		aoGround3: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/ao.png`, priority: 2, callback: null },
+		normalGround3: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/normal.jpg`, priority: 2, callback: null },
+		roughnessGround3: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/roughness.jpg`, priority: 2, callback: null },
+		baseGround3: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/base.jpg`, priority: 2, callback: null },
 
 		normalGround4: { path: `${import.meta.env.BASE_URL}assets/textures/ground4/normal.jpg`, priority: 2, callback: null },
 		roughnessGround4: { path: `${import.meta.env.BASE_URL}assets/textures/ground4/roughness.jpg`, priority: 2, callback: null },
@@ -48,11 +47,15 @@ const manifest = {
 		normalWall: { path: `${import.meta.env.BASE_URL}assets/textures/wall/normal.jpg`, priority: 2, callback: null },
 		roughnessWall: { path: `${import.meta.env.BASE_URL}assets/textures/wall/roughness.jpg`, priority: 2, callback: null },
 
-		bakeScene: { path: `${import.meta.env.BASE_URL}assets/textures/bake.png`, priority: 2, callback: null },
-		bakeSceneNormal: { path: `${import.meta.env.BASE_URL}assets/textures/bakeNormal.png`, priority: 2, callback: null },
+		sceneBase: { path: `${import.meta.env.BASE_URL}assets/textures/scene/base.jpg`, priority: 2, callback: null },
+		sceneNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/normal.jpg`, priority: 2, callback: null },
+		sceneRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/roughness.jpg`, priority: 2, callback: null },
+		sceneAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ao.jpg`, priority: 2, callback: null },
 
 		brush: { path: `${import.meta.env.BASE_URL}assets/textures/brush.jpg`, priority: 2, callback: null },
 		outlineBrush: { path: `${import.meta.env.BASE_URL}assets/textures/outlineBrush.jpg`, priority: 2, callback: null },
+
+		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg`, priority: 2, callback: null },
 
 		// ...
 	},
