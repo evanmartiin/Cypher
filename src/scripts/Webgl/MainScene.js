@@ -29,13 +29,13 @@ class MainScene extends Scene {
 	}
 
 	addLight() {
-		const lightLeft = new PointLight('#ff0000', 0.15);
+		const lightLeft = new PointLight('#f0f0a0', 0.15);
 		lightLeft.position.set(-5, 5, 0);
 
-		const lightRight = new PointLight('#f0f0a0', 0.3);
+		const lightRight = new PointLight('#f0f0a0', 0.15);
 		lightRight.position.set(5, 5, 0);
 
-		const lightTop = new PointLight('#0000ff', 0.15);
+		const lightTop = new PointLight('#ffffff', 0.15);
 		lightTop.position.set(0, 5, 0);
 
 		this.add(lightLeft, lightRight, lightTop);
