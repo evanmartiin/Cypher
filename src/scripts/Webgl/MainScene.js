@@ -1,8 +1,9 @@
-import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
+import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene, ShaderChunk } from 'three';
 import Environment from '@Webgl/Objects/Environment.js';
 import { GroundReflector } from '@Webgl/Objects/GroundReflector.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
+import { CustomFog } from './Objects/CustomFog.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 import { VolumetricSpots } from './Objects/VolumetricSpots.js';
@@ -13,8 +14,6 @@ class MainScene extends Scene {
 		state.register(this);
 
 		this.avatar = new Avatar();
-
-		console.log(this.avatar);
 		this.add(this.avatar);
 		this.skeleton = new Skeleton();
 		this.add(this.skeleton);
@@ -22,7 +21,7 @@ class MainScene extends Scene {
 
 	onAttach() {
 		this.addLights();
-		this.addSpotLights();
+		// this.addSpotLights();
 		this.addGroundReflector();
 		this.addEnvironment();
 		this.addParticles();
@@ -66,8 +65,18 @@ class MainScene extends Scene {
 		this.add(particles);
 	}
 	addFog() {
-		const fog = new Fog('#ff0000', 0, 50);
-		// this.fog = fog;
+		const customFog = new CustomFog();
+		this.fog = customFog._fog;
+
+		// ShaderChunk.fog_fragment =
+
+		// mesh.material = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xefd1b5) });
+		// mesh.material.onBeforeCompile = (shader) => {
+		// 	shader.vertexShader = shader.vertexShader.replace(`#include <fog_pars_vertex>`, fogParsVert);
+		// 	shader.vertexShader = shader.vertexShader.replace(`#include <fog_vertex>`, fogVert);
+		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_pars_fragment>`, fogParsFrag);
+		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_fragment>`, fogFrag);
+		// };
 	}
 
 	// fluidSimulation() {

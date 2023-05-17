@@ -13,16 +13,18 @@ void main() {
 
 	vec4 deformedRenderTarget = vRenderTargetUv;
 
-	deformedRenderTarget.xy += normalMapTexture * 0.35;
+	deformedRenderTarget.xy += normalMapTexture * 0.2;
 
 	vec4 blur = texture2DProj(uBaseTexture, deformedRenderTarget);
 
-	float n = texture2D(uNoiseTexture, vNewUv + normalMapTexture * 0.025).x;
-	n = smoothstep(0.025, 0.975, n);
+	float n = texture2D(uNoiseTexture, vNewUv + normalMapTexture * 0.05).x;
+	n = smoothstep(0.4, 0.5, n);
 
-	vec4 map = texture2D(uBaseMap, vNewUv + normalMapTexture * 0.35);
+	vec4 map = texture2D(uBaseMap, vNewUv + normalMapTexture * 0.2);
 
-	csm_FragColor = mix(blur, vec4(0.025 * map.xyz, 1.0), n);
+	// csm_FragColor = mix(blur, vec4(map.xyz * 0.2, 1.0), n);
+	csm_FragColor = blur * n * 0.75;
+	// csm_FragColor = blur * n;
 	// csm_DiffuseColor.a *= 0.8;
 	// csm_DiffuseColor.a *= range;
 	// csm_DiffuseColor = baseMap;
