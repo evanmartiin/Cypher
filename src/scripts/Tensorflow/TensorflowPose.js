@@ -106,7 +106,7 @@ class TensorflowPose {
 
 	computeRig(results) {
 		const riggedPose = Kalidokit.Pose.solve(results.keypoints3D, posedetection.calculators.keypointsToNormalizedKeypoints(results.keypoints, VIDEO_SIZE), {
-			runtime: this.runtime,
+			runtime: 'tfjs',
 			imageSize: VIDEO_SIZE,
 		});
 		state.emit(EVENTS.RIG_COMPUTED, riggedPose);

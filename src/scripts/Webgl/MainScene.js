@@ -4,6 +4,7 @@ import { Ground } from '@Webgl/Objects/Ground.js';
 import TrailSimulation from '@Webgl/Objects/TrailSim/TrailSimulation.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
+import { Crowd } from './Objects/Crowd.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 import { Wall } from './Objects/Wall.js';
@@ -17,6 +18,8 @@ class MainScene extends Scene {
 		this.add(this.avatar);
 		this.skeleton = new Skeleton();
 		this.add(this.skeleton);
+		// this.crowd = new Crowd();
+		// this.add(this.crowd);
 	}
 
 	onAttach() {

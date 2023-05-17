@@ -19,6 +19,7 @@ const manifest = {
 		roughness: { path: `${import.meta.env.BASE_URL}assets/textures/ground/roughness.jpg`, priority: 2, callback: null },
 		brush: { path: `${import.meta.env.BASE_URL}assets/textures/brush.jpg`, priority: 2, callback: null },
 		outlineBrush: { path: `${import.meta.env.BASE_URL}assets/textures/outlineBrush.jpg`, priority: 2, callback: null },
+		vat: { path: `${import.meta.env.BASE_URL}assets/textures/vat.png`, priority: 2, callback: null },
 		// ...
 	},
 	envMaps: {

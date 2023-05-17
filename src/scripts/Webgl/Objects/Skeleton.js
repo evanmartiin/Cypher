@@ -1,4 +1,8 @@
 import { BufferGeometry, Float32BufferAttribute, Group, LineBasicMaterial, LineSegments } from 'three';
+import { Color } from 'three';
+import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
+import fragmentShader from '@Webgl/Materials/Skeleton/fragment.fs';
+import vertexShader from '@Webgl/Materials/Skeleton/vertex.vs';
 import { POSE } from '@utils/constants.js';
 import { state } from '@scripts/State.js';
 
@@ -31,8 +35,14 @@ class Skeleton extends Group {
 		super();
 		state.register(this);
 
-		this.material = new LineBasicMaterial({
-			color: 0xff0000,
+		this.material = new CustomShaderMaterial({
+			baseMaterial: LineBasicMaterial,
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader,
+			uniforms: {
+				uColor: { value: new Color(0xff0000) },
+			},
+			transparent: true,
 		});
 	}
 
@@ -47,7 +57,7 @@ class Skeleton extends Group {
 	}
 
 	onPlayerMoved(rig) {
-		this.realtimePoses = rig.poseLandmarks;
+		this.realtimePoses = rig.keypoints;
 		// if (!this.realtimePoses) return;
 
 		// const vertY = [];

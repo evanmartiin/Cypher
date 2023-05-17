@@ -3,7 +3,7 @@ import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-const TRUST_TRESHOLD = 0.3;
+const TRUST_TRESHOLD = 100;
 
 export default class StartPositionStep extends Step {
 	constructor() {
@@ -43,7 +43,7 @@ export default class StartPositionStep extends Step {
 	onPlayerMoved(poses) {
 		if (!this.checkingPose) return;
 
-		const poseToCheck = poses.poseLandmarks;
+		const poseToCheck = poses.keypoints;
 		const poseToHave = app.webgl.scene.skeleton.poses;
 
 		if (!poseToHave) {
