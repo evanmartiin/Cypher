@@ -1,3 +1,9 @@
+import { MathUtils } from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -11,10 +17,12 @@ class WebglController {
 		state.register(this);
 
 		this.renderer = new Renderer();
-		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
 		this.scene = new MainScene();
 		this.camera = new MainCamera();
+		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2, this.renderer, this.scene, this.camera);
 	}
+
+
 
 	onAttach() {
 		app.$wrapper.prepend(this.renderer.domElement);
@@ -27,14 +35,14 @@ class WebglController {
 	}
 
 	onRender() {
-		this.renderer.clear();
-
-		this.renderer.setRenderTarget(this.postProcessing.renderTarget);
-		this.renderer.clear();
-		this.renderer.render(this.scene, this.camera);
-		this.renderer.setRenderTarget(null);
-
-		this.renderer.render(this.postProcessing.quad, this.postProcessing.camera);
+		// this.renderer.clear();
+		// this.renderer.setRenderTarget(this.postProcessing.renderTarget);
+		// this.renderer.clear();
+		// this.renderer.render(this.scene, this.camera);
+		// this.renderer.setRenderTarget(null);
+		// this.composer.render();
+		// this.renderer.render(this.postProcessing.quad, this.postProcessing.camera);
+		// this.effectComposer.render();
 	}
 }
 

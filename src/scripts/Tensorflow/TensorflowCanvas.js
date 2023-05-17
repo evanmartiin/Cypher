@@ -29,7 +29,7 @@ class TensorflowCanvas {
 	}
 
 	drawKeypoints(keypoints) {
-		const keypointInd = posedetection.util.getKeypointIndexBySide(posedetection.SupportedModels.MoveNet);
+		const keypointInd = posedetection.util.getKeypointIndexBySide(posedetection.SupportedModels.BlazePose);
 		this.ctx.fillStyle = 'Red';
 		this.ctx.strokeStyle = 'White';
 		this.ctx.lineWidth = 2;

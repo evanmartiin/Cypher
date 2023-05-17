@@ -59,8 +59,8 @@ export default class FluidSimulation extends Group {
 		// 	envMap: app.core.assetsManager.get('envmap'),
 		// });
 		const material = new MeshStandardMaterial({
-			metalness: 0.5,
-			roughness: 0.5,
+			metalness: 0.4,
+			roughness: 0.6,
 			envMap: app.core.assetsManager.get('envmap'),
 		});
 

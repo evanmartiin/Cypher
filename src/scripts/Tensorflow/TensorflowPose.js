@@ -22,12 +22,14 @@ class TensorflowPose {
 				enableSmoothing: true,
 				solutionPath: '/node_modules/@mediapipe/pose',
 			});
+			this.runtime = 'mediapipe';
 		} else {
 			this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
 				runtime: 'tfjs',
 				modelType: 'lite',
 				enableSmoothing: true,
 			});
+			this.runtime = 'tfjs';
 		}
 
 		if (this.detector !== null) this.ready = true;
@@ -37,19 +39,21 @@ class TensorflowPose {
 	tick = async () => {
 		const results = await this.renderResults();
 
-		if (results && results[0]) {
+		if (results) {
 			if (results[0] && !this.playerDetected) state.emit(EVENTS.PLAYER_ENTERED);
 			if (!results[0] && this.playerDetected) state.emit(EVENTS.PLAYER_LEFT);
 			this.playerDetected = results[0];
 
-			if (this.playerDetected) {
-				state.emit(EVENTS.PLAYER_MOVED, results[0]);
-				app.tensorflow.canvas.drawResults(results[0]);
-				this.computeRig(results[0]);
+			if (results[0]) {
+				if (this.playerDetected) {
+					state.emit(EVENTS.PLAYER_MOVED, results[0]);
+					app.tensorflow.canvas.drawResults(results[0]);
+					this.computeRig(results[0]);
 
-				// TODO: filter moves to not count really small moves and big moves (teleportations)
-				if (this.isMoveEnough(results[0].keypoints3D)) {
-					state.emit(EVENTS.PLAYER_MOVED_ENOUGH, posedetection.calculators.keypointsToNormalizedKeypoints(results[0].keypoints, VIDEO_SIZE));
+					// TODO: filter moves to not count really small moves and big moves (teleportations)
+					if (this.isMoveEnough(results[0].keypoints3D)) {
+						state.emit(EVENTS.PLAYER_MOVED_ENOUGH, posedetection.calculators.keypointsToNormalizedKeypoints(results[0].keypoints, VIDEO_SIZE));
+					}
 				}
 			}
 		}

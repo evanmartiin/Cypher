@@ -7,17 +7,14 @@ import { TensorflowPose } from './TensorflowPose.js';
 class TensorflowController {
 	constructor() {
 		state.register(this);
-		this.camera = new TensorflowCamera();
-		this.canvas = new TensorflowCanvas();
-		this.pose = new TensorflowPose();
-	}
 
-	onAttach() {
 		/// #if DEBUG
 		if (app.tools.urlParams.has('skip-camera')) return;
 		/// #endif
 
-		// this.camera.start();
+		this.camera = new TensorflowCamera();
+		this.canvas = new TensorflowCanvas();
+		this.pose = new TensorflowPose();
 	}
 }
 

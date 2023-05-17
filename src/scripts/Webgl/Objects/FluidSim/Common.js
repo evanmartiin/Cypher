@@ -23,8 +23,8 @@ class Common {
 		this.resize();
 
 		this.renderer = new THREE.WebGLRenderer({
-			antialias: true,
-			alpha: true,
+			antialias: false,
+			alpha: false,
 		});
 
 		this.renderer.autoClear = false;
@@ -37,7 +37,6 @@ class Common {
 
 		this.clock = new THREE.Clock();
 		this.clock.start();
-		console.log('hihi');
 	}
 
 	resize() {
