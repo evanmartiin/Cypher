@@ -6,7 +6,6 @@ uniform sampler2D posMap;
 uniform sampler2D velMap;
 
 varying float vlifeOpacity;
-varying vec2 vUv;
 varying vec3 vNewNormal;
 
 mat3 calcLookAtMatrix(vec3 vector, float roll) {
@@ -42,21 +41,17 @@ void main() {
   vec4 velocityTexture = texture2D(velMap, posUv);
 
   mat3 particleRotation = getRotation(velocityTexture.xyz);
-  mat4 particleRotationLookAt = mat4(calcLookAtMatrix(velocityTexture.xyz, .0));
 
   vec3 particleScale = vec3(min(1.0, 10.0 * length(velocityTexture.xyz)), 1.0, 1.0);
 
-  vec3 transformedPos = (vec4(position * particleScale * aRandom * positionTexture.w, 1.0)).xyz;
+  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
   transformedPos = (particleRotation * transformedPos);
   transformedPos += positionTexture.xyz;
 
   csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
 
-  vec3 debugPos = position;
-  debugPos.y += 10.;
   csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);
 
-  vUv = uv;
   vlifeOpacity = positionTexture.w;
 }

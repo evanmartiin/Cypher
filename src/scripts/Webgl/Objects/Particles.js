@@ -9,6 +9,7 @@ import {
 	MeshStandardMaterial,
 	MultiplyBlending,
 	PlaneGeometry,
+	RepeatWrapping,
 	ShaderMaterial,
 } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
@@ -39,7 +40,7 @@ export class Particles extends Group {
 		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
 		// const baseGeometry = new OctahedronGeometry(1, 0);
 		const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(0.6, 0.6, 0.6);
+		baseGeometry.scale(0.5, 0.5, 0.5);
 
 		const geometry = new BufferGeometry();
 
@@ -61,6 +62,22 @@ export class Particles extends Group {
 	}
 
 	_createMaterial() {
+		const normalMap = app.core.assetsManager.get('normalWall');
+		normalMap.wrapS = RepeatWrapping;
+		normalMap.wrapT = RepeatWrapping;
+
+		const roughnessMap = app.core.assetsManager.get('roughnessWall');
+		roughnessMap.wrapS = RepeatWrapping;
+		roughnessMap.wrapT = RepeatWrapping;
+
+		const baseMap = app.core.assetsManager.get('baseWall');
+		baseMap.wrapS = RepeatWrapping;
+		baseMap.wrapT = RepeatWrapping;
+
+		const aoMap = app.core.assetsManager.get('aoWall');
+		baseMap.wrapS = RepeatWrapping;
+		baseMap.wrapT = RepeatWrapping;
+
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,
@@ -87,7 +104,6 @@ export class Particles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.position.set(0, 0, -2);
 		mesh.scale.set(0.1, 0.1, 0.1);
 
 		this.add(mesh);
