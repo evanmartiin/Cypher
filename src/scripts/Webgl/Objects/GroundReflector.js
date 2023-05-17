@@ -2,7 +2,7 @@ import { DoubleSide, Group, MeshNormalMaterial, MeshStandardMaterial, PlaneGeome
 import { Reflector } from '@utils/Reflector.js';
 import { app } from '@scripts/App.js';
 
-export class Ground extends Group {
+export class GroundReflector extends Group {
 	constructor() {
 		super();
 		this.createMesh();
