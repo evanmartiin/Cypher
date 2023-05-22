@@ -1,12 +1,14 @@
-import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene } from 'three';
+import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene, ShaderChunk } from 'three';
 import Environment from '@Webgl/Objects/Environment.js';
-import { Ground } from '@Webgl/Objects/Ground.js';
+import { GroundReflector } from '@Webgl/Objects/GroundReflector.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
 import { Crowd } from './Objects/Crowd.js';
+import { CustomFog } from './Objects/CustomFog.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
+import { VolumetricSpots } from './Objects/VolumetricSpots.js';
 
 class MainScene extends Scene {
 	constructor() {
@@ -24,8 +26,9 @@ class MainScene extends Scene {
 	}
 
 	onAttach() {
-		this.addLight();
-		this.addGround();
+		this.addLights();
+		// this.addSpotLights();
+		this.addGroundReflector();
 		this.addEnvironment();
 		this.addParticles();
 		// this.fluidSimulation();
@@ -34,20 +37,26 @@ class MainScene extends Scene {
 		// app.debug?.mapping.add(this, 'Scene');
 	}
 
-	addLight() {
-		const lightLeft = new PointLight('#f0f0a0', 0.15);
+	addLights() {
+		const lightLeft = new PointLight('#f0f0a0', 0.1);
 		lightLeft.position.set(-5, 5, 0);
 
-		const lightRight = new PointLight('#f0f0a0', 0.15);
+		const lightRight = new PointLight('#f0f0a0', 0.1);
 		lightRight.position.set(5, 5, 0);
 
-		const lightTop = new PointLight('#ffffff', 0.15);
+		const lightTop = new PointLight('#ffffff', 0.1);
 		lightTop.position.set(0, 5, 0);
 
 		this.add(lightLeft, lightRight, lightTop);
 	}
-	addGround() {
-		const groundReflector = new Ground();
+
+	addSpotLights() {
+		const spotLights = new VolumetricSpots();
+		this.add(spotLights);
+	}
+
+	addGroundReflector() {
+		const groundReflector = new GroundReflector();
 		groundReflector.position.y = 0.01;
 		this.add(groundReflector);
 	}
@@ -62,8 +71,18 @@ class MainScene extends Scene {
 		this.add(particles);
 	}
 	addFog() {
-		const fog = new Fog('#ff0000', 0, 50);
-		// this.fog = fog;
+		const customFog = new CustomFog();
+		this.fog = customFog._fog;
+
+		// ShaderChunk.fog_fragment =
+
+		// mesh.material = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xefd1b5) });
+		// mesh.material.onBeforeCompile = (shader) => {
+		// 	shader.vertexShader = shader.vertexShader.replace(`#include <fog_pars_vertex>`, fogParsVert);
+		// 	shader.vertexShader = shader.vertexShader.replace(`#include <fog_vertex>`, fogVert);
+		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_pars_fragment>`, fogParsFrag);
+		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_fragment>`, fogFrag);
+		// };
 	}
 
 	// fluidSimulation() {
