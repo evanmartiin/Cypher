@@ -1,3 +1,4 @@
+import { gsap } from 'gsap';
 import { PerspectiveCamera, Vector3 } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -23,6 +24,24 @@ class MainCamera extends PerspectiveCamera {
 		this.aspect = ratio;
 		this.fov = BASE_FOV / Math.min(1, ratio * 1.5);
 		this.updateProjectionMatrix();
+	}
+
+	stepBackward() {
+		gsap.to(this.position, {
+			duration: 1,
+			z: 10,
+			x: 3,
+			ease: 'power2.out',
+		});
+	}
+
+	stepFrontward() {
+		gsap.to(this.position, {
+			duration: 1,
+			z: 5,
+			x: 0,
+			ease: 'power2.out',
+		});
 	}
 
 	// onTick({ dt }) {

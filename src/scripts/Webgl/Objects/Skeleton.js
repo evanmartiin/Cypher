@@ -1,4 +1,8 @@
 import { BufferGeometry, Float32BufferAttribute, Group, LineBasicMaterial, LineSegments } from 'three';
+import { Color } from 'three';
+import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
+import fragmentShader from '@Webgl/Materials/Skeleton/fragment.fs';
+import vertexShader from '@Webgl/Materials/Skeleton/vertex.vs';
 import { POSE } from '@utils/constants.js';
 import { state } from '@scripts/State.js';
 
@@ -31,13 +35,21 @@ class Skeleton extends Group {
 		super();
 		state.register(this);
 
-		this.material = new LineBasicMaterial({
-			color: 0xff0000,
+		this.material = new CustomShaderMaterial({
+			baseMaterial: LineBasicMaterial,
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader,
+			uniforms: {
+				uColor: { value: new Color(0xff0000) },
+			},
+			transparent: true,
 		});
 	}
 
 	show() {
 		this.skeleton = new LineSegments(this.geometry, this.material);
+		this.skeleton.position.x = 1.6;
+		this.skeleton.position.z = 1;
 
 		this.add(this.skeleton);
 	}
@@ -47,7 +59,7 @@ class Skeleton extends Group {
 	}
 
 	onPlayerMoved(rig) {
-		this.realtimePoses = rig.poseLandmarks;
+		this.realtimePoses = rig.keypoints;
 		// if (!this.realtimePoses) return;
 
 		// const vertY = [];
@@ -86,8 +98,8 @@ class Skeleton extends Group {
 		POSE_CONNECTIONS.forEach((connection) => {
 			const start = connection[0];
 			const end = connection[1];
-			vertices.push((1 - this.poses[start].x - this.offset.x - this.width / 2) / this.height, (1 - this.poses[start].y - this.offset.y) / this.height, 0);
-			vertices.push((1 - this.poses[end].x - this.offset.x - this.width / 2) / this.height, (1 - this.poses[end].y - this.offset.y) / this.height, 0);
+			vertices.push(((1 - this.poses[start].x - this.offset.x - this.width / 2) / this.height) * 1.6, ((1 - this.poses[start].y - this.offset.y) / this.height) * 1.6, 0);
+			vertices.push(((1 - this.poses[end].x - this.offset.x - this.width / 2) / this.height) * 1.6, ((1 - this.poses[end].y - this.offset.y) / this.height) * 1.6, 0);
 		});
 
 		this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));

@@ -31,6 +31,7 @@ List of params:
 `orbit`: Enable OrbitControls, `debug` must be enabled.  
 `skip-screen-record`: Disable video creation.  
 `skip-camera`: Disable camera & Tensorflow compute.  
-`step`: Go to specific step. Write precise name without 'step' in the end. Example: `step=dance`  
+`step`: Go to specific step. Write precise name without 'step' in the end. Example: `step=dance`.  
+`tensorflow`: Select tensorflow compute mode. `gpu` or `cpu`. `cpu` has memory leaks. `gpu` if nothing is set.  
 
 s/o Titou pour le starter

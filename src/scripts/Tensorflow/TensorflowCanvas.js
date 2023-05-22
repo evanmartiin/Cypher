@@ -29,7 +29,7 @@ class TensorflowCanvas {
 	}
 
 	drawKeypoints(keypoints) {
-		const keypointInd = posedetection.util.getKeypointIndexBySide(posedetection.SupportedModels.MoveNet);
+		const keypointInd = posedetection.util.getKeypointIndexBySide(posedetection.SupportedModels.BlazePose);
 		this.ctx.fillStyle = 'Red';
 		this.ctx.strokeStyle = 'White';
 		this.ctx.lineWidth = 2;
@@ -66,7 +66,7 @@ class TensorflowCanvas {
 		this.ctx.strokeStyle = 'White';
 		this.ctx.lineWidth = 2;
 
-		posedetection.util.getAdjacentPairs(posedetection.SupportedModels.MoveNet).forEach(([i, j]) => {
+		posedetection.util.getAdjacentPairs(posedetection.SupportedModels.BlazePose).forEach(([i, j]) => {
 			const kp1 = keypoints[i];
 			const kp2 = keypoints[j];
 

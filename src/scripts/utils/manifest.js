@@ -54,6 +54,7 @@ const manifest = {
 
 		brush: { path: `${import.meta.env.BASE_URL}assets/textures/brush.jpg`, priority: 2, callback: null },
 		outlineBrush: { path: `${import.meta.env.BASE_URL}assets/textures/outlineBrush.jpg`, priority: 2, callback: null },
+		vat: { path: `${import.meta.env.BASE_URL}assets/textures/vat.png`, priority: 2, callback: null },
 
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg`, priority: 2, callback: null },
 
@@ -65,6 +66,7 @@ const manifest = {
 	},
 	models: {
 		avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
+		avatarDemo: { path: `${import.meta.env.BASE_URL}assets/models/avatar-demo.glb`, priority: 1, callback: null },
 		cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
 		scene: { path: `${import.meta.env.BASE_URL}assets/models/env.glb`, priority: 1, callback: null },
 		// ...

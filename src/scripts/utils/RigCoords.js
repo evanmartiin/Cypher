@@ -8,9 +8,11 @@ class RigCoords {
 		this.rightWrist = new Vector2();
 		this.rightWristOld = new Vector2();
 		this.rightWristDiff = new Vector2();
+		this.rightWristSpeed = 0;
 		this.leftWrist = new Vector2();
 		this.leftWristOld = new Vector2();
 		this.leftWristDiff = new Vector2();
+		this.leftWristSpeed = 0;
 		this.leftTest = new Vector3();
 		this.rightTest = new Vector3();
 	}
@@ -33,12 +35,14 @@ class RigCoords {
 		this.leftWristOld.copy(this.leftWrist);
 
 		if (this.leftWristOld.x === 0 && this.leftWristOld.y === 0) this.leftWristDiff.set(0, 0);
+		this.leftWristSpeed = this.leftWristDiff.length();
 
 		// Right Wrist Acceleration
 		this.rightWristDiff.subVectors(this.rightWrist, this.rightWristOld);
 		this.rightWristOld.copy(this.rightWrist);
 
 		if (this.rightWristOld.x === 0 && this.rightWristOld.y === 0) this.rightWristDiff.set(0, 0);
+		this.rightWristSpeed = this.rightWristDiff.length();
 	}
 }
 
