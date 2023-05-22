@@ -220,7 +220,7 @@ void main() {
 	if(position.y < 1.0) {
 		vec3 diff = vec3(0., 0., 0.) - position;
 		velocity -= normalize(diff);
-		velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.3;
+		velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.1;
 
 	} else {
 	}
