@@ -21,16 +21,18 @@ import { state } from '@scripts/State.js';
 import { GPUSimulation } from '../../utils/GPUSimulation.js';
 
 export class Particles extends Group {
-	constructor(size) {
+	constructor(size, coords, acceleration) {
 		super();
 		state.register(this);
 		this.size = size;
+		this.coords = coords;
+		this.acceleration = acceleration;
 
 		this.init();
 	}
 
 	init() {
-		this.sim = new GPUSimulation(app.webgl.renderer, this.size);
+		this.sim = new GPUSimulation(app.webgl.renderer, this.size, this.coords);
 		this._geometry = this._createGeometry();
 		this._material = this._createMaterial();
 		this._mesh = this._createMesh();
@@ -40,7 +42,7 @@ export class Particles extends Group {
 		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
 		// const baseGeometry = new OctahedronGeometry(1, 0);
 		const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(0.5, 0.5, 0.5);
+		baseGeometry.scale(0.75, 0.75, 0.75);
 
 		const geometry = new BufferGeometry();
 
@@ -62,22 +64,6 @@ export class Particles extends Group {
 	}
 
 	_createMaterial() {
-		const normalMap = app.core.assetsManager.get('normalWall');
-		normalMap.wrapS = RepeatWrapping;
-		normalMap.wrapT = RepeatWrapping;
-
-		const roughnessMap = app.core.assetsManager.get('roughnessWall');
-		roughnessMap.wrapS = RepeatWrapping;
-		roughnessMap.wrapT = RepeatWrapping;
-
-		const baseMap = app.core.assetsManager.get('baseWall');
-		baseMap.wrapS = RepeatWrapping;
-		baseMap.wrapT = RepeatWrapping;
-
-		const aoMap = app.core.assetsManager.get('aoWall');
-		baseMap.wrapS = RepeatWrapping;
-		baseMap.wrapT = RepeatWrapping;
-
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,
@@ -87,15 +73,12 @@ export class Particles extends Group {
 
 				posMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture },
 				velMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture },
-				// uTexture: { value: app.core.assetsManager.get('brush') },
-				// uTexture2: { value: app.core.assetsManager.get('outlineBrush') },
 				uSize: { value: this.size },
+				uAcceleration: { value: this.acceleration.value },
 			},
-			// transparent: true,
 			side: DoubleSide,
 			metalness: 0.6,
 			roughness: 0.4,
-			// depthWrite: false,
 			envMap: app.core.assetsManager.get('envmap'),
 		});
 
@@ -114,6 +97,7 @@ export class Particles extends Group {
 	}
 
 	onRender() {
+		this._material.uniforms.uAcceleration.value = this.acceleration.value;
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
 

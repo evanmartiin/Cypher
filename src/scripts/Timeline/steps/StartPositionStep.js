@@ -2,8 +2,9 @@ import { POSE } from '@utils/constants.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 
-const TRUST_TRESHOLD = 100;
+const TRUST_TRESHOLD = 0.15;
 
 export default class StartPositionStep extends Step {
 	constructor() {
@@ -56,10 +57,9 @@ export default class StartPositionStep extends Step {
 
 		// TODO: handle pose height differences (caused by player position from cam)
 		const isPoseCorrect = this.SKELETON_POINTS.every((point) => {
-			const x = Math.abs(poseToCheck[point].x - poseToHave[point].x) < TRUST_TRESHOLD;
-			const y = Math.abs(poseToCheck[point].y - poseToHave[point].y) < TRUST_TRESHOLD;
-			const z = Math.abs(poseToCheck[point].z - poseToHave[point].z) < TRUST_TRESHOLD;
-			const isPointCorrect = x && y && z;
+			const x = Math.abs(1 - poseToCheck[point].x / VIDEO_SIZE.width - poseToHave[point].x) < TRUST_TRESHOLD;
+			const y = Math.abs(1 - poseToCheck[point].y / VIDEO_SIZE.height - poseToHave[point].y) < TRUST_TRESHOLD;
+			const isPointCorrect = x && y;
 			return isPointCorrect;
 		});
 

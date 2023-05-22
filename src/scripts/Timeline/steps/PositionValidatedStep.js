@@ -5,7 +5,7 @@ export default class PositionValidatedStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Position validée';
-		this.duration = 5000;
+		this.duration = 2000;
 	}
 
 	start() {
