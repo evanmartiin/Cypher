@@ -1,5 +1,5 @@
 import { VRMUtils } from '@pixiv/three-vrm';
-import { Euler, Group, MeshNormalMaterial, MeshPhysicalMaterial, Quaternion, Vector3 } from 'three';
+import { Euler, Group, MeshPhysicalMaterial, Quaternion, Vector3 } from 'three';
 import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -19,19 +19,17 @@ class Avatar extends Group {
 		VRMUtils.rotateVRM0(this.vrm);
 
 		this.mesh = this.gltf.scene;
-		// this.mesh.visible = false;
+		this.mesh.visible = false;
 
-		const material = new MeshPhysicalMaterial({
+		this.material = new MeshPhysicalMaterial({
 			metalness: 0.5,
 			roughness: 0.5,
-			// transmission: 0.8,
-			// thickness: 1,
 		});
-		// const material = new MeshNormalMaterial();
+
 		this.mesh.traverse((object) => {
 			if (object.isMesh) {
 				object.castShadow = true;
-				object.material = material;
+				object.material = this.material;
 			}
 		});
 
@@ -68,11 +66,13 @@ class Avatar extends Group {
 	enableControl() {
 		this.canControl = true;
 		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
+		this.mesh.visible = true;
 	}
 
 	disableControl() {
 		this.canControl = false;
 		state.off(EVENTS.RIG_COMPUTED, this.updateRig);
+		this.mesh.visible = false;
 	}
 
 	updateRig = (riggedPose) => {

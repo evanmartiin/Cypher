@@ -3,6 +3,7 @@ import Environment from '@Webgl/Objects/Environment.js';
 import { Ground } from '@Webgl/Objects/Ground.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
+import { AvatarDemo } from './Objects/AvatarDemo.js';
 import { Crowd } from './Objects/Crowd.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
@@ -14,6 +15,8 @@ class MainScene extends Scene {
 
 		this.avatar = new Avatar();
 		this.add(this.avatar);
+		this.avatarDemo = new AvatarDemo();
+		this.add(this.avatarDemo);
 		this.skeleton = new Skeleton();
 		this.add(this.skeleton);
 		// this.crowd = new Crowd();
