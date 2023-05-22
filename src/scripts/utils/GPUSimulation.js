@@ -1,4 +1,5 @@
-import { Box3, BoxGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, Vector3, Vector4 } from 'three';
+import { makeZerosNestedTypedArray } from '@tensorflow/tfjs-core/dist/util_base.js';
+import { Box3, BoxGeometry, MathUtils, Mesh, MeshNormalMaterial, MeshStandardMaterial, Vector3, Vector4, ZeroStencilOp } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import positionShader from '@Webgl/Materials/Particles/simulation/positionShader.fs';
 import velocityShader from '@Webgl/Materials/Particles/simulation/velocityShader.fs';
@@ -69,13 +70,22 @@ export class GPUSimulation {
 		const velArray = this.dataVel.image.data;
 
 		for (let i = 0, il = posArray.length; i < il; i += 4) {
-			const phi = Math.random() * 2 * Math.PI;
-			const theta = Math.random() * Math.PI;
-			const r = 1.0 + Math.random() * 3;
+			// const phi = Math.random() * 2 * Math.PI;
+			// const theta = Math.random() * Math.PI;
+			const r = 0.5 + Math.random() * 3;
 
-			posArray[i + 0] = r * Math.cos(theta) * Math.cos(phi);
-			posArray[i + 1] = r * Math.sin(phi);
-			posArray[i + 2] = r * Math.cos(theta) * Math.cos(phi);
+			const bruhI = MathUtils.randFloat(0, 360);
+			const bruhJ = MathUtils.randFloat(-90, 90);
+
+			const theta = bruhI * (Math.PI / 180);
+			const phi = bruhJ * (Math.PI / 180);
+			const x = Math.cos(theta) * Math.cos(phi) * r;
+			const y = Math.sin(theta) * Math.cos(phi) * r;
+			const z = Math.sin(phi) * r;
+
+			posArray[i + 0] = x;
+			posArray[i + 1] = y;
+			posArray[i + 2] = z;
 			posArray[i + 3] = Math.random();
 			velArray[i + 0] = 0;
 			velArray[i + 1] = 0;
@@ -94,7 +104,7 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.0075 };
+		this.posUniforms.uDieSpeed = { value: 0.005 };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
 			value: textureDefaultPosition,

@@ -74,6 +74,7 @@ export class Particles extends Group {
 				posMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture },
 				velMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture },
 				uSize: { value: this.size },
+				uAcceleration: { value: this.acceleration.value },
 			},
 			side: DoubleSide,
 			metalness: 0.6,
@@ -89,13 +90,14 @@ export class Particles extends Group {
 		mesh.scale.set(0.1, 0.1, 0.1);
 
 		this.add(mesh);
-		// mesh.frustumCulled = false;
-		// mesh.renderOrder = 2;
+		mesh.frustumCulled = false;
+		mesh.renderOrder = 2;
 
 		return mesh;
 	}
 
 	onRender() {
+		this._material.uniforms.uAcceleration.value = this.acceleration.value;
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
 

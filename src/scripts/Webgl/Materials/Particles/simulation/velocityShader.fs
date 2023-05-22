@@ -1,7 +1,6 @@
 uniform float uTime;
 uniform float uDelta;
 uniform float uSpeed;
-uniform float uAcceleration;
 uniform float uAttraction;
 uniform float uCurlSize;
 uniform float uTimeScale;
@@ -193,7 +192,8 @@ void main() {
 	vec3 toHand;
 	toHand.x += uCoordsPositions.x * 35. - position.x;
 	toHand.y += uCoordsPositions.y * 15. - position.y;
-	// toHand.z += uCoordsPositions.z * 10. - position.z;
+	// toHand.z += uCoordsPositions.z * - position.z;
+
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
 
 	vec4 collidersQuaternions;
@@ -217,10 +217,10 @@ void main() {
 	// 	}
 	// }
 
-	if(position.y < 0.8) {
+	if(position.y < 1.0) {
 		vec3 diff = vec3(0., 0., 0.) - position;
-		velocity.xz -= normalize(diff.xz);
-		velocity += abs(curl(position * uCurlSize * 2., uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.6;
+		velocity -= normalize(diff);
+		velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.3;
 
 	} else {
 	}

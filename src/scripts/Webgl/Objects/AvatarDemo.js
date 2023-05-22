@@ -29,7 +29,7 @@ class AvatarDemo extends Group {
 		this.mesh.castShadow = true;
 		this.mesh.position.x = 3;
 		this.mesh.position.y = 0;
-		this.mesh.position.z = 4;
+		this.mesh.position.z = 3;
 
 		this.mixer = new AnimationMixer(this.mesh);
 		this.action = this.mixer.clipAction(this.gltf.animations[0]);

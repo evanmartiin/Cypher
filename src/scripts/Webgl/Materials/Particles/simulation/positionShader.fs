@@ -19,7 +19,7 @@ void main() {
 		position = texture2D(uTextureDefaultPosition, uv).xyz;
 		position.x += uCoordsPositions.x * 35.;
 		position.y += uCoordsPositions.y * 15.;
-		// position.z += uCoordsPositions.z * 10.;
+		// position.z += uCoordsPositions.z * 35.;
 		life = 0.5 + fract(positionTexture.w + uTime);
 	}
 

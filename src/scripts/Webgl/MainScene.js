@@ -93,7 +93,6 @@ class MainScene extends Scene {
 
 	onRender() {
 		RigCoords.update();
-
 		// console.log(RigCoords.leftWristSpeed);
 	}
 

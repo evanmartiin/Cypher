@@ -8,11 +8,15 @@ class RigCoords {
 		this.rightWrist = new Vector3();
 		this.rightWristOld = new Vector3();
 		this.rightWristDiff = new Vector3();
-		this.rightWristSpeed = 0;
+		this.rightWristSpeed = {
+			value: 0,
+		};
 		this.leftWrist = new Vector3();
 		this.leftWristOld = new Vector3();
 		this.leftWristDiff = new Vector3();
-		this.leftWristSpeed = 0;
+		this.leftWristSpeed = {
+			value: 0,
+		};
 	}
 
 	onPlayerMovedEnough(points) {
@@ -29,14 +33,14 @@ class RigCoords {
 		this.leftWristOld.copy(this.leftWrist);
 
 		if (this.leftWristOld.x === 0 && this.leftWristOld.y === 0) this.leftWristDiff.set(0, 0, 0);
-		this.leftWristSpeed = this.leftWristDiff.length();
+		this.leftWristSpeed.value = this.leftWristDiff.length();
 
 		// Right Wrist Acceleration
 		this.rightWristDiff.subVectors(this.rightWrist, this.rightWristOld);
 		this.rightWristOld.copy(this.rightWrist);
 
 		if (this.rightWristOld.x === 0 && this.rightWristOld.y === 0) this.rightWristDiff.set(0, 0, 0);
-		this.rightWristSpeed = this.rightWristDiff.length();
+		this.rightWristSpeed.value = this.rightWristDiff.length();
 	}
 }
 
