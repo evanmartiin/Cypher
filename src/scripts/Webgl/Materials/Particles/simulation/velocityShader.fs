@@ -4,11 +4,11 @@ uniform float uSpeed;
 uniform float uAttraction;
 uniform float uCurlSize;
 uniform float uTimeScale;
-uniform vec3 uLeftHandPosition;
+uniform vec3 uCoordsPositions;
 
 uniform int uNumCubes;
-uniform vec4 uCubePositions[20];
-uniform vec4 uCubeQuaternions[20];
+uniform vec4 uCubePositions[1];
+uniform vec4 uCubeQuaternions[1];
 
 vec4 mod289(vec4 x) {
 	return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -170,6 +170,8 @@ vec3 calcBoxNormal(vec3 p, vec4 q, vec3 b, float e) {
 		v4 * sdBox(rotateVector(q, p + v4 * e), b));
 }
 
+const float RayRange = 1.0;
+
 vec3 bounce(vec3 v, vec3 n) {
 	vec3 r = reflect(v, n);
 	n = r;
@@ -178,8 +180,6 @@ vec3 bounce(vec3 v, vec3 n) {
 	float l = length(v.xyz) * (1. - 0.7);
 	return n * l;
 }
-
-const float RayRange = 1.0;
 
 void main() {
 	vec2 uv = gl_FragCoord.xy / resolution.xy;
@@ -190,39 +190,41 @@ void main() {
 	float life = positionTexture.a;
 
 	vec3 toHand;
-	toHand.x += uLeftHandPosition.x * 35. - position.x;
-	toHand.y += uLeftHandPosition.y * 15. - position.y;
+	toHand.x += uCoordsPositions.x * 35. - position.x;
+	toHand.y += uCoordsPositions.y * 15. - position.y;
+	// toHand.z += uCoordsPositions.z * - position.z;
+
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
 
 	vec4 collidersQuaternions;
 
 	float scaleFactor = 5.;
 
-	for(int i = 0; i < uNumCubes; i++) {
-		if(i >= uNumCubes)
-			continue;
-		collidersQuaternions = uCubeQuaternions[i];
-		vec3 collidersScale = vec3(uCubePositions[i].w * scaleFactor, uCubePositions[i].w * scaleFactor, uCubePositions[i].w * scaleFactor);
+	// for(int i = 0; i < uNumCubes; i++) {
+	// 	if(i >= uNumCubes)
+	// 		continue;
+	// 	collidersQuaternions = uCubeQuaternions[i];
+	// 	vec3 collidersScale = vec3(uCubePositions[i].w * scaleFactor, uCubePositions[i].w * scaleFactor, uCubePositions[i].w * scaleFactor);
 
-		vec3 collidersPositions = (uCubePositions[i].xyz * 10.) - (position + velocity);
+	// 	vec3 collidersPositions = (uCubePositions[i].xyz * 10.) - (position + velocity);
 
-		float d = sdBox(rotateVector(collidersQuaternions, collidersPositions), collidersScale);
-		if(d <= RayRange) {
-			vec3 n = -calcBoxNormal(collidersPositions, collidersQuaternions, collidersScale, RayRange);
-			// velocity = bounce(velocity, n);
-			velocity -= normalize(collidersPositions + curl(collidersPositions * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3);
-			continue;
-		}
-	}
+	// 	float d = sdBox(rotateVector(collidersQuaternions, collidersPositions), collidersScale);
+	// 	if(d <= RayRange) {
+	// 		vec3 n = -calcBoxNormal(collidersPositions, collidersQuaternions, collidersScale, RayRange);
+	// 		// velocity = bounce(velocity, n);
+	// 		velocity -= normalize(collidersPositions * 3. + curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3);
+	// 		continue;
+	// 	}
+	// }
 
-	if(position.y < 0.8) {
+	if(position.y < 1.0) {
 		vec3 diff = vec3(0., 0., 0.) - position;
-		velocity.xz -= normalize(diff).xz;
-		velocity += abs(curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.3;
+		velocity -= normalize(diff);
+		velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.1;
 
 	} else {
-		velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3;
 	}
+	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3;
 	velocity *= uSpeed;
 
 	gl_FragColor = vec4(velocity, 0.0);

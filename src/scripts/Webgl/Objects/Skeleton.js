@@ -1,10 +1,11 @@
-import { BufferGeometry, Float32BufferAttribute, Group, LineBasicMaterial, LineSegments } from 'three';
+import { BufferGeometry, Float32BufferAttribute, Group, LineSegments, ShaderMaterial, Vector2 } from 'three';
 import { Color } from 'three';
-import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Skeleton/fragment.fs';
 import vertexShader from '@Webgl/Materials/Skeleton/vertex.vs';
 import { POSE } from '@utils/constants.js';
+import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 
 export const POSE_CONNECTIONS = [
 	// Chest
@@ -35,21 +36,29 @@ class Skeleton extends Group {
 		super();
 		state.register(this);
 
-		this.material = new CustomShaderMaterial({
-			baseMaterial: LineBasicMaterial,
+		// this.material = new CustomShaderMaterial({
+		// 	baseMaterial: LineBasicMaterial,
+		// 	vertexShader: vertexShader,
+		// 	fragmentShader: fragmentShader,
+		// 	uniforms: {
+		// 		uColor: { value: new Color(0xff0000) },
+		// 	},
+		// 	transparent: true,
+		// });
+		this.material = new ShaderMaterial({
 			vertexShader: vertexShader,
 			fragmentShader: fragmentShader,
 			uniforms: {
 				uColor: { value: new Color(0xff0000) },
 			},
-			transparent: true,
 		});
 	}
 
 	show() {
 		this.skeleton = new LineSegments(this.geometry, this.material);
-		this.skeleton.position.x = 1.6;
-		this.skeleton.position.z = 1;
+		// this.skeleton.position.x = 1.6;
+		// this.skeleton.position.z = 1;
+		this.skeleton.position.set(0, 0, 0);
 
 		this.add(this.skeleton);
 	}
@@ -73,8 +82,12 @@ class Skeleton extends Group {
 	}
 
 	createGeometry() {
-		this.poses = this.realtimePoses;
-		if (!this.poses) return;
+		if (!this.realtimePoses) return;
+
+		// Normalized poses between 0-1 (0;0 is bottom-left, 1;1 is top-right)
+		this.poses = this.realtimePoses.map((pose) => {
+			return { x: 1 - pose.x / VIDEO_SIZE.width, y: 1 - pose.y / VIDEO_SIZE.height, name: pose.name };
+		});
 
 		this.geometry = new BufferGeometry();
 		const vertices = [];
@@ -84,22 +97,33 @@ class Skeleton extends Group {
 		POSE_CONNECTIONS.forEach((connection) => {
 			const start = connection[0];
 			const end = connection[1];
-			vertX.push(1 - this.poses[start].x, 1 - this.poses[end].x);
-			vertY.push(1 - this.poses[start].y, 1 - this.poses[end].y);
+			vertX.push(this.poses[start].x, this.poses[end].x);
+			vertY.push(this.poses[start].y, this.poses[end].y);
 		});
 
-		this.height = Math.abs(Math.max(...vertY) - Math.min(...vertY));
-		this.width = Math.abs(Math.max(...vertX) - Math.min(...vertX));
+		this.height = Math.max(...vertY) - Math.min(...vertY);
+		this.width = Math.max(...vertX) - Math.min(...vertX);
 		this.offset = {
-			x: Math.abs(Math.min(...vertX)),
+			x: Math.min(...vertX),
 			y: Math.min(...vertY),
+		};
+
+		const project = (pose) => {
+			const centeredPos = [(this.poses[pose].x - this.offset.x) / this.height - this.width / this.height / 2, (this.poses[pose].y - this.offset.y) / this.height - 0.5];
+			// centeredPos[0] *= 0.8;
+			// centeredPos[1] *= 0.8;
+			const viewport = app.webgl.renderer.getSize(new Vector2());
+			const cornerPos = [centeredPos[0] - this.width / this.height / 2 + viewport.x * 0.001, centeredPos[1] + 0.5 - viewport.y * 0.001];
+			return cornerPos;
 		};
 
 		POSE_CONNECTIONS.forEach((connection) => {
 			const start = connection[0];
 			const end = connection[1];
-			vertices.push(((1 - this.poses[start].x - this.offset.x - this.width / 2) / this.height) * 1.6, ((1 - this.poses[start].y - this.offset.y) / this.height) * 1.6, 0);
-			vertices.push(((1 - this.poses[end].x - this.offset.x - this.width / 2) / this.height) * 1.6, ((1 - this.poses[end].y - this.offset.y) / this.height) * 1.6, 0);
+			// vertices.push((1 - this.poses[start].x - this.offset.x - this.width / 2) / this.height + 3, (1 - this.poses[start].y - this.offset.y) / this.height, -5);
+			// vertices.push((1 - this.poses[end].x - this.offset.x - this.width / 2) / this.height + 3, (1 - this.poses[end].y - this.offset.y) / this.height, -5);
+			vertices.push(...project(start), -3);
+			vertices.push(...project(end), -3);
 		});
 
 		this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
