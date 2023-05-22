@@ -48,6 +48,8 @@ class Skeleton extends Group {
 
 	show() {
 		this.skeleton = new LineSegments(this.geometry, this.material);
+		this.skeleton.position.x = 1.6;
+		this.skeleton.position.z = 1;
 
 		this.add(this.skeleton);
 	}
@@ -96,8 +98,8 @@ class Skeleton extends Group {
 		POSE_CONNECTIONS.forEach((connection) => {
 			const start = connection[0];
 			const end = connection[1];
-			vertices.push((1 - this.poses[start].x - this.offset.x - this.width / 2) / this.height, (1 - this.poses[start].y - this.offset.y) / this.height, 0);
-			vertices.push((1 - this.poses[end].x - this.offset.x - this.width / 2) / this.height, (1 - this.poses[end].y - this.offset.y) / this.height, 0);
+			vertices.push(((1 - this.poses[start].x - this.offset.x - this.width / 2) / this.height) * 1.6, ((1 - this.poses[start].y - this.offset.y) / this.height) * 1.6, 0);
+			vertices.push(((1 - this.poses[end].x - this.offset.x - this.width / 2) / this.height) * 1.6, ((1 - this.poses[end].y - this.offset.y) / this.height) * 1.6, 0);
 		});
 
 		this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));

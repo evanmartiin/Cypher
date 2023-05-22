@@ -2,7 +2,7 @@ import { DoubleSide, Group, MeshNormalMaterial, MeshStandardMaterial, PlaneGeome
 import { Reflector } from '@utils/Reflector.js';
 import { app } from '@scripts/App.js';
 
-export class Ground extends Group {
+export class GroundReflector extends Group {
 	constructor() {
 		super();
 		this.createMesh();
@@ -36,13 +36,6 @@ export class Ground extends Group {
 		roughnessMap.repeat.y = repeat;
 		roughnessMap.rotation = Math.PI * 0.5;
 
-		// const aoMap = app.core.assetsManager.get('aoGround3');
-		// aoMap.wrapS = RepeatWrapping;
-		// aoMap.wrapT = RepeatWrapping;
-		// aoMap.repeat.x = repeat;
-		// aoMap.repeat.y = repeat;
-		// aoMap.rotation = Math.PI * 0.5;
-
 		const baseMap = app.core.assetsManager.get('baseGround6');
 		baseMap.wrapS = RepeatWrapping;
 		baseMap.wrapT = RepeatWrapping;
@@ -54,7 +47,6 @@ export class Ground extends Group {
 			transparent: true,
 			normalMap: normalMap,
 			roughnessMap: roughnessMap,
-			// aoMap: aoMap,
 			map: baseMap,
 			roughness: 0.9,
 			metalness: 0.5,

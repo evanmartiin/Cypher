@@ -32,7 +32,7 @@ class AssetsLoader {
 		if (this.loadedAssets.has(key)) return this.loadedAssets.get(key);
 		else {
 			const asset = await this.loader.loadAsync(this.manifest[key].path, (e) => this.assetProgress(e, key));
-			this.loadedAssets.set(key, asset?.scene?.isObject3D && !asset?.userData?.vrm ? asset.scene : asset);
+			this.loadedAssets.set(key, asset?.scene?.isObject3D && !asset?.userData?.vrm && !asset.animations.length ? asset.scene : asset);
 			this.manifest[key].callback?.(this.loadedAssets.get(key));
 			return asset;
 		}

@@ -5,7 +5,7 @@ export default class PlayerDetectedStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Nouveau joueur détecté';
-		this.duration = 20000000000000;
+		this.duration = 2000;
 	}
 
 	start() {
