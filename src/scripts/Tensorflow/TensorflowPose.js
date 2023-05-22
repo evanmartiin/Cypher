@@ -2,6 +2,7 @@ import * as posedetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
 import * as Kalidokit from 'kalidokit';
 import { Vector3 } from 'three';
+import { DEBUG } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -47,7 +48,7 @@ class TensorflowPose {
 			if (results[0]) {
 				if (this.playerDetected) {
 					state.emit(EVENTS.PLAYER_MOVED, results[0]);
-					app.tensorflow.canvas.drawResults(results[0]);
+					if (DEBUG) app.tensorflow.canvas.drawResults(results[0]);
 					this.computeRig(results[0]);
 
 					// TODO: filter moves to not count really small moves and big moves (teleportations)

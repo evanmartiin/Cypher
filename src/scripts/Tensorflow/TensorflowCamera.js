@@ -1,3 +1,4 @@
+import { DEBUG } from '@utils/config.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -56,7 +57,13 @@ class TensorflowCamera {
 	}
 
 	onAttach() {
-		app.$root.appendChild(this.videoDOM);
+		if (DEBUG) app.$root.appendChild(this.videoDOM);
+	}
+
+	onKeyDown(key) {
+		if (key === 'h') {
+			this.videoDOM.style.display = this.videoDOM.style.display === 'none' ? 'block' : 'none';
+		}
 	}
 }
 

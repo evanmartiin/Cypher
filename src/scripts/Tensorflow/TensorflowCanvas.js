@@ -18,6 +18,12 @@ class TensorflowCanvas {
 		app.$root.appendChild(this.canvasDOM);
 	}
 
+	onKeyDown(key) {
+		if (key === 'h') {
+			this.canvasDOM.style.display = this.canvasDOM.style.display === 'none' ? 'block' : 'none';
+		}
+	}
+
 	clearCtx() {
 		this.ctx.clearRect(0, 0, VIDEO_SIZE.width, VIDEO_SIZE.height);
 	}
