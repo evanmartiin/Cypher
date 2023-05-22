@@ -1,3 +1,4 @@
+import { DEBUG } from '@utils/config.js';
 import { STEPS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -10,14 +11,15 @@ class Timeline {
 	constructor() {
 		state.register(this);
 		this.titleDOM = document.querySelector('#title');
-		this.nextDOM = document.querySelector('#next');
+		this.nextDOM = document.getElementById('next');
 		this.timer = new Timer();
 		this.standby = false;
 
 		STEPS.forEach((Step) => this.steps.push(new Step()));
 		this.standbyStep = new StandbyStep();
 
-		this.nextDOM.addEventListener('click', () => this.next());
+		if (DEBUG) this.nextDOM.addEventListener('click', () => this.next());
+		else this.nextDOM.style.display = 'none';
 	}
 
 	onAttach() {
@@ -34,6 +36,12 @@ class Timeline {
 			}
 		}
 		/// #endif
+	}
+
+	onKeyDown(key) {
+		if (key === 'h') {
+			this.nextDOM.style.display = this.nextDOM.style.display === 'none' ? 'block' : 'none';
+		}
 	}
 
 	start() {
