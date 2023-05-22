@@ -11,7 +11,6 @@ export class CustomFog extends Group {
 	}
 
 	_createFog() {
-		console.log(ShaderChunk);
 		ShaderChunk.fog_pars_vertex = fogParsVertex;
 		ShaderChunk.fog_vertex = fogVertex;
 		ShaderChunk.fog_pars_fragment = fogParsFragment;

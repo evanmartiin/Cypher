@@ -25,7 +25,7 @@ class PostProcessing {
 		this.effectComposer.addPass(renderPass);
 
 		const unrealBloomPass = new UnrealBloomPass();
-		unrealBloomPass.strength = 0.45;
+		unrealBloomPass.strength = 1.25;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
 		this.effectComposer.addPass(unrealBloomPass);
@@ -48,7 +48,7 @@ class PostProcessing {
 		fisheyes.uniforms['cylindricalRatio'].value = cylindricalRatio;
 
 		const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
-		this.effectComposer.addPass(gammaCorrectionPass);
+		// this.effectComposer.addPass(gammaCorrectionPass);
 
 		const smaaPass = new SMAAPass();
 		this.effectComposer.addPass(smaaPass);

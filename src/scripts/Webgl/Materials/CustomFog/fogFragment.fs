@@ -2,7 +2,11 @@
 // float fogFactor = smoothstep(fogNear, fogFar, vFogDepth);
 float fogFactor2 = smoothstep(4.5, 5., vFogDepth);
 
-float dist = smoothstep(0., 3., length(vWorldPosition));
+vec3 newWorldPosition = vWorldPosition;
+newWorldPosition.xz *= 1.5;
+newWorldPosition.y *= 0.5;
+
+float dist = smoothstep(0., 2.0, length(newWorldPosition));
 
     // Fresnel
 float fresnelFactor = abs(dot(vViewDirection, vNormal));
@@ -17,6 +21,6 @@ discard;
 
 vec3 gradient = mix(vec3(1., 1., 1.0), vec3(1.0, 0.0, 0.0), fresnelFactor);
 
-gl_FragColor.rgb *= vec3(fresnelFactor);
-gl_FragColor.rgb *= mix((gl_FragColor.rgb + fogColor), gl_FragColor.rgb * 0.25, dist);
+gl_FragColor.rgb *= (vec3(fresnelFactor));
+gl_FragColor.rgb = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.15, dist);
 #endif

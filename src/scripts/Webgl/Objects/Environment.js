@@ -134,7 +134,7 @@ export default class Environment extends Group {
 
 		const sceneMaterial = new MeshStandardMaterial({
 			map: sceneBase,
-			// normalMap: sceneNormal,
+			normalMap: sceneNormal,
 			roughnessMap: sceneRoughness,
 			aoMap: sceneAo,
 			metalness: 0.4,

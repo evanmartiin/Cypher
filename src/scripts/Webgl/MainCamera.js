@@ -28,19 +28,19 @@ class MainCamera extends PerspectiveCamera {
 
 	stepBackward() {
 		gsap.to(this.position, {
-			duration: 1,
-			z: 10,
-			x: 3,
-			ease: 'power2.out',
+			duration: 1.75,
+			z: 9,
+			x: 4,
+			ease: 'power1.out',
 		});
 	}
 
 	stepFrontward() {
 		gsap.to(this.position, {
-			duration: 1,
+			duration: 2.25,
 			z: 5,
 			x: 0,
-			ease: 'power2.out',
+			ease: 'power1.inOut',
 		});
 	}
 

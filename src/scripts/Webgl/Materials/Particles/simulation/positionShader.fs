@@ -1,8 +1,7 @@
 uniform float uTime;
 uniform float uDelta;
 uniform float uDieSpeed;
-uniform vec3 uLeftHandPosition;
-uniform vec3 uRightHandPosition;
+uniform vec3 uCoordsPositions;
 uniform sampler2D uTextureDefaultPosition;
 
 void main() {
@@ -18,9 +17,9 @@ void main() {
 		position += velocity * uDelta;
 	} else {
 		position = texture2D(uTextureDefaultPosition, uv).xyz;
-		position.x += uLeftHandPosition.x * 35.;
-		position.y += uLeftHandPosition.y * 15.;
-		// position.z += uLeftHandPosition.z * 5.;
+		position.x += uCoordsPositions.x * 35.;
+		position.y += uCoordsPositions.y * 15.;
+		// position.z += uCoordsPositions.z * 10.;
 		life = 0.5 + fract(positionTexture.w + uTime);
 	}
 

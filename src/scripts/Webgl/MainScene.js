@@ -1,6 +1,7 @@
 import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene, ShaderChunk } from 'three';
 import Environment from '@Webgl/Objects/Environment.js';
 import { GroundReflector } from '@Webgl/Objects/GroundReflector.js';
+import RigCoords from '@utils/RigCoords.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
@@ -58,6 +59,8 @@ class MainScene extends Scene {
 	addGroundReflector() {
 		const groundReflector = new GroundReflector();
 		groundReflector.position.y = 0.01;
+		// groundReflector.rotation.y = Math.PI * 0.35;
+		// groundReflector.position.z = 15;
 		this.add(groundReflector);
 	}
 
@@ -67,8 +70,11 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const particles = new Particles(256);
-		this.add(particles);
+		const leftHandParticles = new Particles(256, RigCoords.leftWrist, RigCoords.leftWristSpeed);
+		const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+
+		// this.add(leftHandParticles);
+		this.add(leftHandParticles, rightHandParticles);
 	}
 	addFog() {
 		const customFog = new CustomFog();
@@ -83,6 +89,12 @@ class MainScene extends Scene {
 		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_pars_fragment>`, fogParsFrag);
 		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_fragment>`, fogFrag);
 		// };
+	}
+
+	onRender() {
+		RigCoords.update();
+
+		// console.log(RigCoords.leftWristSpeed);
 	}
 
 	// fluidSimulation() {
