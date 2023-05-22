@@ -35,14 +35,14 @@ class RigCoords {
 		this.leftWristOld.copy(this.leftWrist);
 
 		if (this.leftWristOld.x === 0 && this.leftWristOld.y === 0) this.leftWristDiff.set(0, 0);
-		this.leftWristSpeed = this.leftWristDiff.length();
+		this.leftWristSpeed += (this.leftWristDiff.length() * 10 - this.leftWristSpeed) * 0.03;
 
 		// Right Wrist Acceleration
 		this.rightWristDiff.subVectors(this.rightWrist, this.rightWristOld);
 		this.rightWristOld.copy(this.rightWrist);
 
 		if (this.rightWristOld.x === 0 && this.rightWristOld.y === 0) this.rightWristDiff.set(0, 0);
-		this.rightWristSpeed = this.rightWristDiff.length();
+		this.rightWristSpeed += (this.rightWristDiff.length() * 10 - this.rightWristSpeed) * 0.03;
 	}
 }
 

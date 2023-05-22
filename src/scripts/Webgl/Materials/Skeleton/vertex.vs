@@ -1,3 +1,3 @@
 void main() {
-  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * modelMatrix * vec4(position, 1.0);
 }
