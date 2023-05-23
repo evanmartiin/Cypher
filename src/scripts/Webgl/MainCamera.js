@@ -29,7 +29,7 @@ class MainCamera extends PerspectiveCamera {
 	stepBackward() {
 		gsap.to(this.position, {
 			duration: 1.75,
-			z: 9,
+			z: 8,
 			x: 4,
 			ease: 'power1.out',
 		});
@@ -37,7 +37,7 @@ class MainCamera extends PerspectiveCamera {
 
 	stepFrontward() {
 		gsap.to(this.position, {
-			duration: 2.25,
+			duration: 2,
 			z: 5,
 			x: 0,
 			ease: 'power1.inOut',
