@@ -70,10 +70,10 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const leftHandParticles = new Particles(256, RigCoords.leftWrist, RigCoords.leftWristSpeed);
-		const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
-		const leftFootParticles = new Particles(256, RigCoords.leftFoot, RigCoords.leftFootSpeed);
-		const rightFootParticles = new Particles(256, RigCoords.rightFoot, RigCoords.rightFootSpeed);
+		const leftHandParticles = new Particles(200, RigCoords.leftWrist, RigCoords.leftWristSpeed);
+		const rightHandParticles = new Particles(200, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+		const leftFootParticles = new Particles(128, RigCoords.leftFoot, RigCoords.leftFootSpeed);
+		const rightFootParticles = new Particles(128, RigCoords.rightFoot, RigCoords.rightFootSpeed);
 
 		// this.add(leftHandParticles);
 		// this.add(rightHandParticles, leftHandParticles);

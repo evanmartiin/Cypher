@@ -24,5 +24,5 @@ discard;
 vec3 gradient = mix(vec3(1., 1., 1.0), vec3(0.0, 0.0, 0.0), fresnelFactor);
 
 gl_FragColor.rgb *= (vec3(fresnelFactor));
-gl_FragColor.rgb = mix((gl_FragColor.rgb * 1.1), gl_FragColor.rgb * 0.2, avatarDist * avatarDemoDist);
+gl_FragColor.rgb = mix((gl_FragColor.rgb * 1.1), gl_FragColor.rgb * 0.5, avatarDist * avatarDemoDist);
 #endif
