@@ -2,7 +2,7 @@ import { Vector2 } from 'three';
 import { POSE } from '@utils/constants.js';
 import { state } from '@scripts/State.js';
 
-class RigCoords {
+class RigCoordsFluid {
 	constructor() {
 		state.register(this);
 		this.rightWrist = new Vector2();
@@ -36,4 +36,4 @@ class RigCoords {
 	}
 }
 
-export default new RigCoords();
+export default new RigCoordsFluid();

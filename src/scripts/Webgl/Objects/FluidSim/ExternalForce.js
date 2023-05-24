@@ -1,7 +1,7 @@
 import { AdditiveBlending, Mesh, PlaneGeometry, RawShaderMaterial, Vector2 } from 'three';
 import externalForceFragment from '@Webgl/Materials/FluidSimulation/simulation/externalForce.frag';
 import mouseVertex from '@Webgl/Materials/FluidSimulation/simulation/mouse.vert';
-import RigCoords from './RigCoords.js';
+import RigCoords from './RigCoordsFluid.js';
 import ShaderPass from './ShaderPass.js';
 
 export default class ExternalForce extends ShaderPass {
@@ -61,7 +61,7 @@ export default class ExternalForce extends ShaderPass {
 		});
 
 		this.rightWristMesh = new Mesh(geometry, rightWristMaterial);
-		this.scene.add(this.rightWristMesh);
+		// this.scene.add(this.rightWristMesh);
 	}
 
 	update(props) {

@@ -7,6 +7,8 @@ import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
 import { Crowd } from './Objects/Crowd.js';
 import { CustomFog } from './Objects/CustomFog.js';
+import FluidSimulation from './Objects/FluidSim/FluidSimulation.js';
+import RigCoordsFluid from './Objects/FluidSim/RigCoordsFluid.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 import { VolumetricSpots } from './Objects/VolumetricSpots.js';
@@ -29,11 +31,11 @@ class MainScene extends Scene {
 	onAttach() {
 		this.addLights();
 		// this.addSpotLights();
-		this.addGroundReflector();
-		this.addEnvironment();
+		// this.addGroundReflector();
+		// this.addEnvironment();
 		this.addParticles();
 		// this.fluidSimulation();
-		this.addFog();
+		// this.addFog();
 		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 		// app.debug?.mapping.add(this, 'Scene');
 	}
@@ -71,13 +73,13 @@ class MainScene extends Scene {
 
 	addParticles() {
 		const leftHandParticles = new Particles(256, RigCoords.leftWrist, RigCoords.leftWristSpeed);
-		const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
-		const leftFootParticles = new Particles(256, RigCoords.leftFoot, RigCoords.leftFootSpeed);
-		const rightFootParticles = new Particles(256, RigCoords.rightFoot, RigCoords.rightFootSpeed);
+		// const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+		// const leftFootParticles = new Particles(256, RigCoords.leftFoot, RigCoords.leftFootSpeed);
+		// const rightFootParticles = new Particles(256, RigCoords.rightFoot, RigCoords.rightFootSpeed);
 
 		// this.add(leftHandParticles);
 		// this.add(rightHandParticles, leftHandParticles);
-		this.add(rightFootParticles, leftFootParticles, leftHandParticles, rightHandParticles);
+		this.add(leftHandParticles);
 	}
 	addFog() {
 		const customFog = new CustomFog();
@@ -96,7 +98,7 @@ class MainScene extends Scene {
 
 	onRender() {
 		RigCoords.update();
-		// console.log(RigCoords.leftWristSpeed);
+		RigCoordsFluid.update();
 	}
 
 	// fluidSimulation() {
