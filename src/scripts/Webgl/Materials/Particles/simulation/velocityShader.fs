@@ -1,4 +1,5 @@
 uniform float uTime;
+uniform float uAcceleration;
 uniform float uDelta;
 uniform float uSpeed;
 uniform float uAttraction;

@@ -1,17 +1,4 @@
-import {
-	AdditiveBlending,
-	BufferGeometry,
-	Clock,
-	DoubleSide,
-	Group,
-	InstancedBufferAttribute,
-	InstancedMesh,
-	MeshStandardMaterial,
-	MultiplyBlending,
-	PlaneGeometry,
-	RepeatWrapping,
-	ShaderMaterial,
-} from 'three';
+import { AdditiveBlending, BufferGeometry, Clock, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, MultiplyBlending, PlaneGeometry, RepeatWrapping, ShaderMaterial } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
@@ -19,6 +6,7 @@ import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { GPUSimulation } from '../../utils/GPUSimulation.js';
+
 
 export class Particles extends Group {
 	constructor(size, coords, acceleration) {
@@ -32,7 +20,7 @@ export class Particles extends Group {
 	}
 
 	init() {
-		this.sim = new GPUSimulation(app.webgl.renderer, this.size, this.coords);
+		this.sim = new GPUSimulation(app.webgl.renderer, this.size, this.coords, this.acceleration);
 		this._geometry = this._createGeometry();
 		this._material = this._createMaterial();
 		this._mesh = this._createMesh();

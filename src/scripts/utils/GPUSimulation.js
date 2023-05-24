@@ -10,10 +10,11 @@ import { globalUniforms } from './globalUniforms.js';
 const NUM_CUBES = 1;
 
 export class GPUSimulation {
-	constructor(renderer, size, coords) {
+	constructor(renderer, size, coords, acceleration) {
 		this.renderer = renderer;
 		this.size = size;
 		this.coords = coords;
+		this.acceleration = acceleration;
 
 		this.coordsPositions = new Vector3();
 		this.tempCoordsPositions = new Vector3();
@@ -72,7 +73,7 @@ export class GPUSimulation {
 		for (let i = 0, il = posArray.length; i < il; i += 4) {
 			// const phi = Math.random() * 2 * Math.PI;
 			// const theta = Math.random() * Math.PI;
-			const r = 0.5 + Math.random() * 3;
+			const r = 0.5 + Math.random() * 2;
 
 			const bruhI = MathUtils.randFloat(0, 360);
 			const bruhJ = MathUtils.randFloat(-90, 90);
@@ -104,7 +105,8 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.005 };
+		this.posUniforms.uDieSpeed = { value: 0.01 };
+		this.posUniforms.uAcceleration = { value: this.acceleration.value };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
 			value: textureDefaultPosition,
@@ -115,9 +117,10 @@ export class GPUSimulation {
 		this.velUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.velUniforms.uDelta = { value: 0.0 };
 		this.velUniforms.uSpeed = { value: 0.1 };
+		this.velUniforms.uAcceleration = { value: this.acceleration.value };
 		this.velUniforms.uAttraction = { value: 1 };
 		this.velUniforms.uCurlSize = { value: 0.1 };
-		this.velUniforms.uTimeScale = { value: 0.75 };
+		this.velUniforms.uTimeScale = { value: 1 };
 		this.velUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.velUniforms.uCubePositions = { value: this.cubePositions };
 		this.velUniforms.uCubeQuaternions = { value: this.cubeQuaternions };
@@ -134,6 +137,8 @@ export class GPUSimulation {
 		deltaRatio = Math.min(deltaRatio, 0.6);
 
 		this.posUniforms.uDelta.value = deltaRatio;
+		this.velUniforms.uAcceleration.value = this.acceleration.value;
+		this.posUniforms.uAcceleration.value = this.acceleration.value;
 
 		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.08);
 	}

@@ -39,14 +39,14 @@ class MainScene extends Scene {
 	}
 
 	addLights() {
-		const lightLeft = new PointLight('#0000FF', 1);
-		lightLeft.position.set(-5, 5, 0);
+		const lightLeft = new PointLight('#0f0fff', 0.6);
+		lightLeft.position.set(-5, 10, 0);
 
-		const lightRight = new PointLight('#FF0000', 1);
-		lightRight.position.set(5, 5, 0);
+		const lightRight = new PointLight('#c12600', 1);
+		lightRight.position.set(5, 10, 0);
 
-		const lightTop = new PointLight('#ffffff', 1);
-		lightTop.position.set(0, 5, 0);
+		const lightTop = new PointLight('#ffffff', 0.9);
+		lightTop.position.set(5, 10, 0);
 
 		this.add(lightLeft, lightRight, lightTop);
 	}
@@ -70,11 +70,14 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const leftHandParticles = new Particles(256, RigCoords.leftWrist, RigCoords.leftWristSpeed);
-		const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+		const leftHandParticles = new Particles(200, RigCoords.leftWrist, RigCoords.leftWristSpeed);
+		const rightHandParticles = new Particles(200, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+		const leftFootParticles = new Particles(128, RigCoords.leftFoot, RigCoords.leftFootSpeed);
+		const rightFootParticles = new Particles(128, RigCoords.rightFoot, RigCoords.rightFootSpeed);
 
 		// this.add(leftHandParticles);
-		this.add(leftHandParticles, rightHandParticles);
+		// this.add(rightHandParticles, leftHandParticles);
+		this.add(rightFootParticles, leftFootParticles, leftHandParticles, rightHandParticles);
 	}
 	addFog() {
 		const customFog = new CustomFog();

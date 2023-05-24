@@ -1,4 +1,4 @@
-import { AnimationMixer, Group, MeshPhysicalMaterial } from 'three';
+import { AnimationMixer, Group, MeshPhysicalMaterial, MeshStandardMaterial } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -13,9 +13,9 @@ class AvatarDemo extends Group {
 		this.gltf = app.core.assetsManager.get('avatarDemo');
 		this.mesh = this.gltf.scene;
 
-		const material = new MeshPhysicalMaterial({
-			metalness: 0.5,
-			roughness: 0.5,
+		const material = new MeshStandardMaterial({
+			metalness: 0.4,
+			roughness: 0.8,
 		});
 
 		this.mesh.traverse((object) => {

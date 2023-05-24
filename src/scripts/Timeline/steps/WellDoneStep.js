@@ -12,10 +12,16 @@ export default class WellDoneStep extends Step {
 		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
+		app.server.on('SEND_ID', this.handleId);
 	}
 
 	stop() {
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
+		app.server.off('SEND_ID', this.handleId);
 	}
+
+	handleId = (id) => {
+		app.timeline.titleDOM.innerHTML = this.text + ' ID vidéo: ' + id;
+	};
 }

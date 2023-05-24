@@ -1,6 +1,7 @@
 uniform float uTime;
 uniform float uDelta;
 uniform float uDieSpeed;
+uniform float uAcceleration;
 uniform vec3 uCoordsPositions;
 uniform sampler2D uTextureDefaultPosition;
 
@@ -11,7 +12,7 @@ void main() {
 	vec4 velocityTexture = texture2D(velTex, uv);
 	vec3 position = positionTexture.xyz;
 	vec3 velocity = velocityTexture.xyz;
-	float life = positionTexture.w - uDieSpeed * uDelta;
+	float life = positionTexture.w - (uDieSpeed) * uDelta;
 
 	if(life >= 0.0) {
 		position += velocity * uDelta;
@@ -20,7 +21,7 @@ void main() {
 		position.x += uCoordsPositions.x * 35.;
 		position.y += uCoordsPositions.y * 15.;
 		// position.z += uCoordsPositions.z * 35.;
-		life = 0.5 + fract(positionTexture.w + uTime);
+		life = (0.5 + fract(positionTexture.w * uAcceleration + uTime));
 	}
 
 	gl_FragColor = vec4(position, life);

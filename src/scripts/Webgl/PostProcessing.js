@@ -25,7 +25,7 @@ class PostProcessing {
 		this.effectComposer.addPass(renderPass);
 
 		const unrealBloomPass = new UnrealBloomPass();
-		unrealBloomPass.strength = 1.4;
+		unrealBloomPass.strength = 1.5;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
 		this.effectComposer.addPass(unrealBloomPass);
