@@ -107,7 +107,7 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.01 };
+		this.posUniforms.uDieSpeed = { value: 0.005 };
 		this.posUniforms.uAcceleration = { value: this.acceleration.value };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
@@ -139,23 +139,13 @@ export class GPUSimulation {
 	fluidSim() {
 		this.simulation = new Simulation();
 
-		const ang_rad = (app.webgl.camera.fov * Math.PI) / 180;
-		const fov_y = app.webgl.camera.position.z * Math.tan(ang_rad / 2) * 2;
-
-		const geometry = new PlaneGeometry(fov_y * app.webgl.camera.aspect, fov_y, 1, 1);
-
 		const material = new MeshBasicMaterial({
 			map: this.simulation.fbos.vel_0.texture,
 		});
 
-		console.log(this.simulation.fbos.vel_0.texture);
-
-		const mesh = new Mesh(geometry, material);
-		const scaleX = 1;
-		const scaleY = scaleX * 0.81;
-		mesh.position.set(0, scaleY * 0.5, -5);
-		mesh.scale.set(0.5, 0.5, 1);
-		app.webgl.scene.add(mesh);
+		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), material);
+		// app.webgl.scene.add(mesh);
+		mesh.position.x = 2;
 	}
 
 	onResize() {
@@ -178,6 +168,6 @@ export class GPUSimulation {
 		this.velUniforms.uAcceleration.value = this.acceleration.value;
 		this.posUniforms.uAcceleration.value = this.acceleration.value;
 
-		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.08);
+		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);
 	}
 }

@@ -20,7 +20,7 @@ export default class DanceStep extends Step {
 	stop() {
 		this.isRunning = false;
 		app.tools.recorder.stop();
-		app.webgl.scene.skeleton.createGeometry();
+		// app.webgl.scene.skeleton.createGeometry();
 		app.timeline.timer.resetTimer();
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
 	}

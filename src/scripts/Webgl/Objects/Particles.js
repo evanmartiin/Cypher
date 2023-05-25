@@ -1,17 +1,4 @@
-import {
-	AdditiveBlending,
-	BufferGeometry,
-	Clock,
-	DoubleSide,
-	Group,
-	InstancedBufferAttribute,
-	InstancedMesh,
-	MeshStandardMaterial,
-	MultiplyBlending,
-	PlaneGeometry,
-	RepeatWrapping,
-	ShaderMaterial,
-} from 'three';
+import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';

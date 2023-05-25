@@ -69,6 +69,7 @@ class Skeleton extends Group {
 
 	onPlayerMoved(rig) {
 		this.realtimePoses = rig.keypoints;
+		this.createGeometry();
 		// if (!this.realtimePoses) return;
 
 		// const vertY = [];

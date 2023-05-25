@@ -21,13 +21,10 @@ void main() {
 		position += velocity * uDelta;
 	} else {
 		position = texture2D(uTextureDefaultPosition, uv).xyz;
-		position.x += positionFluid.x;
-		position.y += positionFluid.y;
-		position.z += positionFluid.z;
 		// position.x += uCoordsPositions.x * 35.;
 		// position.y += uCoordsPositions.y * 15.;
 		// position.z += uCoordsPositions.z * 35.;
-		// position.y += 10.;
+		position.y += 5.;
 		life = (0.5 + fract(positionTexture.w * uAcceleration + uTime));
 	}
 

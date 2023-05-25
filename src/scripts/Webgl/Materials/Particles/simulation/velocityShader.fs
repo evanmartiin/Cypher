@@ -190,6 +190,9 @@ void main() {
 	vec4 positionTexture = texture2D(posTex, uv);
 	vec3 position = positionTexture.xyz;
 
+	vec4 velocityTexture = texture2D(velTex, uv);
+	vec3 previousVelocity = velocityTexture.xyz;
+
 	float life = positionTexture.a;
 
 	vec4 positionFluidTexture = texture2D(uFluidTexture, uv);
@@ -198,17 +201,22 @@ void main() {
 	vec3 toHand;
 	// toHand.x += uCoordsPositions.x * 35. - position.x;
 	// toHand.y += uCoordsPositions.y * 15. - position.y;
-	toHand.x += positionFluid.x - position.x;
-	toHand.y += positionFluid.y - position.y;
-	toHand.z += positionFluid.z - position.y;
-	// toHand.y += 10. - position.y;
 	// toHand.z += uCoordsPositions.z * - position.z;
 
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
+	velocity.y += 5.;
 
 	vec4 collidersQuaternions;
 
 	float scaleFactor = 5.;
+
+	// vec3 diffToTtransition = toHand;
+
+	// float dist = length(diffToTtransition);
+
+	// vec3 acceleration = diffToTtransition * dist;
+
+	// velocity = mix(previousVelocity, acceleration * uSpeed, 0.99);
 
 	// for(int i = 0; i < uNumCubes; i++) {
 	// 	if(i >= uNumCubes)
@@ -234,8 +242,8 @@ void main() {
 
 	// } else {
 	// }
-	// velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3;
-	velocity += positionFluid * 35.;
+	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
+	velocity += positionFluid * 30. - position;
 	velocity *= uSpeed;
 
 	gl_FragColor = vec4(velocity, 0.0);
