@@ -1,9 +1,23 @@
-import { BufferAttribute, BufferGeometry, CylinderGeometry, Group, Mesh, MeshBasicMaterial, PerspectiveCamera, PlaneGeometry, Scene, ShaderMaterial, Vector2, WebGLRenderTarget } from 'three';
+import {
+	BufferAttribute,
+	BufferGeometry,
+	CircleGeometry,
+	CylinderGeometry,
+	Group,
+	Mesh,
+	MeshBasicMaterial,
+	PerspectiveCamera,
+	PlaneGeometry,
+	Scene,
+	ShaderMaterial,
+	Vector2,
+	WebGLRenderTarget,
+} from 'three';
+import { POSE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 import { POSE_CONNECTIONS } from './Skeleton.js';
-import { POSE } from '@utils/constants.js';
 
 class Avatar extends Group {
 	constructor() {
@@ -26,19 +40,20 @@ class Avatar extends Group {
 		});
 		this.scene.add(this.tubes);
 
-		// const geometry = new BufferGeometry();
-		// this.vertices = new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0]);
-		// const indices = [0, 1, 2, 2, 3, 0];
+		const geometry = new BufferGeometry();
+		this.vertices = new Float32Array(4 * 3);
 
-		// geometry.setIndex(indices);
-		// geometry.setAttribute('position', new BufferAttribute(vertices, 3));
+		geometry.setIndex([0, 1, 2, 1, 2, 3]);
+		geometry.setAttribute('position', new BufferAttribute(this.vertices, 3));
 
-		// const material = new MeshBasicMaterial({ color: 0xff0000 });
-		// const torso = new Mesh(geometry, material);
-		// this.scene.add(torso);
+		this.torso = new Mesh(geometry, this.material);
+		this.scene.add(this.torso);
 
-		// this.tubes2 = this.tubes.clone();
-		// this.add(this.tubes2);
+		this.head = new Mesh(new CircleGeometry(0.15, 10), this.material);
+		this.scene.add(this.head);
+
+		this.neck = new Mesh(new CylinderGeometry(0.05, 0.05, 0.1, 32), this.material);
+		this.scene.add(this.neck);
 
 		this.quad = new Mesh(
 			new PlaneGeometry(VIDEO_SIZE.width * 0.0005, VIDEO_SIZE.height * 0.0005),
@@ -81,13 +96,13 @@ class Avatar extends Group {
 	enableControl() {
 		this.canControl = true;
 		// state.on(EVENTS.RIG_COMPUTED, this.updateRig);
-		this.mesh.visible = true;
+		// this.mesh.visible = true;
 	}
 
 	disableControl() {
 		this.canControl = false;
 		// state.off(EVENTS.RIG_COMPUTED, this.updateRig);
-		this.mesh.visible = false;
+		// this.mesh.visible = false;
 	}
 
 	onPlayerMoved(rig) {
@@ -107,33 +122,44 @@ class Avatar extends Group {
 					mesh.lookAt(dstV2.x, dstV2.y, 0);
 					mesh.rotateX(Math.PI / 2);
 					mesh.visible = true;
-
-					// const mesh2 = this.tubes2.children[i];
-					// mesh2.position.set(armPos.x, armPos.y, 0);
-					// mesh2.scale.y = srcV2.distanceTo(dstV2) * 1.1;
-					// mesh2.lookAt(dstV2.x, dstV2.y, 0);
-					// mesh2.rotateX(Math.PI / 2);
-					// mesh2.visible = true;
 				} else {
 					mesh.visible = false;
-					// this.tubes2.children[i].visible = false;
 				}
 			}
 		});
 
-		// this.vertices = new Float32Array([
-		// 	1 - rig.keypoints[POSE.LEFT_SHOULDER].x / VIDEO_SIZE.width,
-		// 	1 - rig.keypoints[POSE.LEFT_SHOULDER].y / VIDEO_SIZE.height,
-		// 	0.0,
-		// 	1 - rig.keypoints[1].x / VIDEO_SIZE.width,
-		// 	1 - rig.keypoints[1].y / VIDEO_SIZE.height,
-		// 	0.0,
-		// 	1 - rig.keypoints[2].x / VIDEO_SIZE.width,
-		// 	1 - rig.keypoints[2].y / VIDEO_SIZE.height,
-		// 	0.0,
-		// 	1 - rig.keypoints[3].x / VIDEO_SIZE.width,
-		// 	1 - rig.keypoints[3].y / VIDEO_SIZE.height,
-		// ]);
+		this.vertices.set([
+			1 - rig.keypoints[POSE.LEFT_SHOULDER].x / VIDEO_SIZE.width,
+			1 - rig.keypoints[POSE.LEFT_SHOULDER].y / VIDEO_SIZE.height,
+			0.0,
+			1 - rig.keypoints[POSE.RIGHT_SHOULDER].x / VIDEO_SIZE.width,
+			1 - rig.keypoints[POSE.RIGHT_SHOULDER].y / VIDEO_SIZE.height,
+			0.0,
+			1 - rig.keypoints[POSE.LEFT_HIP].x / VIDEO_SIZE.width,
+			1 - rig.keypoints[POSE.LEFT_HIP].y / VIDEO_SIZE.height,
+			0.0,
+			1 - rig.keypoints[POSE.RIGHT_HIP].x / VIDEO_SIZE.width,
+			1 - rig.keypoints[POSE.RIGHT_HIP].y / VIDEO_SIZE.height,
+			0.0,
+		]);
+
+		this.torso.geometry.attributes.position.array = this.vertices;
+		this.torso.geometry.attributes.position.needsUpdate = true;
+
+		this.head.position.set(1 - rig.keypoints[POSE.NOSE].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.NOSE].y / VIDEO_SIZE.height, 0.0);
+
+		const neckBase = new Vector2(
+			(1 - rig.keypoints[POSE.LEFT_SHOULDER].x / VIDEO_SIZE.width + 1 - rig.keypoints[POSE.RIGHT_SHOULDER].x / VIDEO_SIZE.width) / 2,
+			(1 - rig.keypoints[POSE.LEFT_SHOULDER].y / VIDEO_SIZE.height + 1 - rig.keypoints[POSE.RIGHT_SHOULDER].y / VIDEO_SIZE.height) / 2,
+		);
+		const neckTop = new Vector2(1 - rig.keypoints[POSE.NOSE].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.NOSE].y / VIDEO_SIZE.height);
+
+		const neckPos = neckBase.clone().add(neckTop).divideScalar(2);
+
+		this.neck.position.set(neckPos.x, neckPos.y, 0.0);
+		this.neck.scale.y = neckBase.distanceTo(neckTop) * 10;
+		this.neck.lookAt(neckTop.x, neckTop.y, 0);
+		this.neck.rotateX(Math.PI / 2);
 	}
 
 	assertBoneIsInCamera(src, dst) {
