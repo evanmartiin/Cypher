@@ -3,7 +3,6 @@ import { Reflector } from '@utils/Reflector.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-
 export class GroundReflector extends Group {
 	constructor() {
 		super();
