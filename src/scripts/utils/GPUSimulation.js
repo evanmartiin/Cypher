@@ -1,5 +1,5 @@
 import { makeZerosNestedTypedArray } from '@tensorflow/tfjs-core/dist/util_base.js';
-import { Box3, BoxGeometry, MathUtils, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, Vector3, Vector4, ZeroStencilOp } from 'three';
+import { Box3, BoxGeometry, MathUtils, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, Texture, Vector3, Vector4, ZeroStencilOp } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import positionShader from '@Webgl/Materials/Particles/simulation/positionShader.fs';
 import velocityShader from '@Webgl/Materials/Particles/simulation/velocityShader.fs';
@@ -82,9 +82,12 @@ export class GPUSimulation {
 
 			const theta = bruhI * (Math.PI / 180);
 			const phi = bruhJ * (Math.PI / 180);
-			const x = Math.cos(theta) * Math.cos(phi) * r;
-			const y = Math.sin(theta) * Math.cos(phi) * r;
-			const z = Math.sin(phi) * r;
+			const x = Math.random() * 12 - 6;
+			const y = Math.random() * 12 - 6;
+			const z = Math.random() * 12 - 6;
+			// const x = Math.cos(theta) * Math.cos(phi) * r;
+			// const y = Math.sin(theta) * Math.cos(phi) * r;
+			// const z = Math.sin(phi) * r;
 
 			posArray[i + 0] = x;
 			posArray[i + 1] = y;
@@ -114,6 +117,7 @@ export class GPUSimulation {
 			value: textureDefaultPosition,
 		};
 		this.posUniforms.uFluidTexture = { value: this.simulation.fbos.vel_0.texture };
+		this.posUniforms.uRigPositionTexture = { value: new Texture() };
 
 		this.velUniforms = this.vel.material.uniforms;
 
@@ -129,6 +133,7 @@ export class GPUSimulation {
 		this.velUniforms.uCubeQuaternions = { value: this.cubeQuaternions };
 		this.velUniforms.uNumCubes = { value: NUM_CUBES };
 		this.velUniforms.uFluidTexture = { value: this.simulation.fbos.vel_0.texture };
+		this.velUniforms.uRigPositionTexture = { value: new Texture() };
 
 		const error = this.gpuCompute.init();
 		if (error !== null) {
@@ -139,13 +144,15 @@ export class GPUSimulation {
 	fluidSim() {
 		this.simulation = new Simulation();
 
-		const material = new MeshBasicMaterial({
-			map: this.simulation.fbos.vel_0.texture,
+		this.material = new MeshBasicMaterial({
+			// map: this.simulation.fbos.vel_0.texture,
+			map: new Texture(),
 		});
 
-		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), material);
-		// app.webgl.scene.add(mesh);
+		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), this.material);
+		app.webgl.scene.add(mesh);
 		mesh.position.x = 2;
+		mesh.position.y = 1;
 	}
 
 	onResize() {
@@ -167,6 +174,12 @@ export class GPUSimulation {
 		this.posUniforms.uDelta.value = deltaRatio;
 		this.velUniforms.uAcceleration.value = this.acceleration.value;
 		this.posUniforms.uAcceleration.value = this.acceleration.value;
+
+		if (app.webgl.scene.avatar.fbo.texture) {
+			this.posUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
+			this.velUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
+			this.material.map = app.webgl.scene.avatar.fbo.texture;
+		}
 
 		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);
 	}
