@@ -31,13 +31,13 @@ export default class StartPositionStep extends Step {
 	start() {
 		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
-		app.webgl.scene.skeleton.show();
+		// app.webgl.scene.skeleton.show();
 		this.checkingPose = true;
 	}
 
 	stop() {
 		this.isRunning = false;
-		app.webgl.scene.skeleton.hide();
+		// app.webgl.scene.skeleton.hide();
 		this.checkingPose = false;
 	}
 

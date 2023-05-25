@@ -52,6 +52,8 @@ class Skeleton extends Group {
 				uColor: { value: new Color(0xff0000) },
 			},
 		});
+		this.geometry = new BufferGeometry();
+		this.show();
 	}
 
 	show() {
@@ -69,6 +71,7 @@ class Skeleton extends Group {
 
 	onPlayerMoved(rig) {
 		this.realtimePoses = rig.keypoints;
+		this.createGeometry();
 		// if (!this.realtimePoses) return;
 
 		// const vertY = [];
@@ -89,7 +92,6 @@ class Skeleton extends Group {
 			return { x: 1 - pose.x / VIDEO_SIZE.width, y: 1 - pose.y / VIDEO_SIZE.height, name: pose.name };
 		});
 
-		this.geometry = new BufferGeometry();
 		const vertices = [];
 		const vertX = [];
 		const vertY = [];
@@ -127,6 +129,7 @@ class Skeleton extends Group {
 		});
 
 		this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
+		this.geometry.attributes.position.needsUpdate = true;
 	}
 }
 
