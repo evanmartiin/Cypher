@@ -18,8 +18,8 @@ export default class WaitingStep extends Step {
 		this.isRunning = false;
 	}
 
-	onPlayerEntered() {
-		if (!this.isRunning) return;
-		app.timeline.next();
-	}
+	// onPlayerEntered() {
+	// 	if (!this.isRunning) return;
+	// 	app.timeline.next();
+	// }
 }
