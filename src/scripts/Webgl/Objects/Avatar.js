@@ -1,8 +1,9 @@
-import { CylinderGeometry, Group, Mesh, MeshBasicMaterial, OrthographicCamera, Scene, Vector2, WebGLRenderTarget } from 'three';
+import { BufferAttribute, BufferGeometry, CylinderGeometry, Group, Mesh, MeshBasicMaterial, PerspectiveCamera, PlaneGeometry, Scene, ShaderMaterial, Vector2, WebGLRenderTarget } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 import { POSE_CONNECTIONS } from './Skeleton.js';
+import { POSE } from '@utils/constants.js';
 
 class Avatar extends Group {
 	constructor() {
@@ -14,17 +15,58 @@ class Avatar extends Group {
 		this.material = new MeshBasicMaterial({ color: 0xffffff });
 
 		this.scene = new Scene();
-		this.camera = new OrthographicCamera();
-		this.camera.position.set(0, 1, 5);
-		this.camera.lookAt(0, 1, 0);
-		this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width * 10, VIDEO_SIZE.height * 10);
+		this.camera = new PerspectiveCamera();
+		this.camera.position.set(0.5, 0.5, 1);
+		this.camera.lookAt(0.5, 0.5, 0);
+		this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width, VIDEO_SIZE.height);
 
 		this.tubes = new Group();
 		POSE_CONNECTIONS.forEach(() => {
 			this.tubes.add(new Mesh(new CylinderGeometry(0.05, 0.05, 1, 32), this.material));
 		});
-		this.tubes.position.y = 1.5;
 		this.scene.add(this.tubes);
+
+		// const geometry = new BufferGeometry();
+		// this.vertices = new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0]);
+		// const indices = [0, 1, 2, 2, 3, 0];
+
+		// geometry.setIndex(indices);
+		// geometry.setAttribute('position', new BufferAttribute(vertices, 3));
+
+		// const material = new MeshBasicMaterial({ color: 0xff0000 });
+		// const torso = new Mesh(geometry, material);
+		// this.scene.add(torso);
+
+		// this.tubes2 = this.tubes.clone();
+		// this.add(this.tubes2);
+
+		this.quad = new Mesh(
+			new PlaneGeometry(VIDEO_SIZE.width * 0.0005, VIDEO_SIZE.height * 0.0005),
+			new ShaderMaterial({
+				vertexShader: `
+				varying vec2 vUv;
+		void main() {
+			gl_Position = projectionMatrix * modelMatrix * vec4(position, 1.0);
+			vUv = uv;
+		}
+		`,
+				fragmentShader: `
+		uniform sampler2D tTex;
+		varying vec2 vUv;
+
+		void main() {
+			gl_FragColor = texture2D(tTex, vUv);
+		}
+		`,
+				uniforms: {
+					tTex: { value: this.fbo.texture },
+				},
+			}),
+		);
+		this.quad.position.y = -0.2;
+		this.quad.position.x = 0.35;
+		this.quad.position.z = -1;
+		this.add(this.quad);
 	}
 
 	onRender() {
@@ -53,18 +95,51 @@ class Avatar extends Group {
 
 		POSE_CONNECTIONS.forEach((connection, i) => {
 			const src = rig.keypoints[connection[0]];
-			const dist = rig.keypoints[connection[1]];
+			const dst = rig.keypoints[connection[1]];
 			const mesh = this.tubes.children[i];
-			if (src && dist && mesh) {
-				const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
-				const distV2 = new Vector2(1 - dist.x / VIDEO_SIZE.width, 1 - dist.y / VIDEO_SIZE.height);
-				const armPos = srcV2.clone().add(distV2).divideScalar(2);
-				mesh.position.set(armPos.x, armPos.y, 0);
-				mesh.scale.y = srcV2.distanceTo(distV2) * 1.1;
-				mesh.lookAt(distV2.x, distV2.y + this.tubes.position.y, 0);
-				mesh.rotateX(Math.PI / 2);
+			if (src && dst && mesh) {
+				if (this.assertBoneIsInCamera(src, dst)) {
+					const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
+					const dstV2 = new Vector2(1 - dst.x / VIDEO_SIZE.width, 1 - dst.y / VIDEO_SIZE.height);
+					const armPos = srcV2.clone().add(dstV2).divideScalar(2);
+					mesh.position.set(armPos.x, armPos.y, 0);
+					mesh.scale.y = srcV2.distanceTo(dstV2) * 1.1;
+					mesh.lookAt(dstV2.x, dstV2.y, 0);
+					mesh.rotateX(Math.PI / 2);
+					mesh.visible = true;
+
+					// const mesh2 = this.tubes2.children[i];
+					// mesh2.position.set(armPos.x, armPos.y, 0);
+					// mesh2.scale.y = srcV2.distanceTo(dstV2) * 1.1;
+					// mesh2.lookAt(dstV2.x, dstV2.y, 0);
+					// mesh2.rotateX(Math.PI / 2);
+					// mesh2.visible = true;
+				} else {
+					mesh.visible = false;
+					// this.tubes2.children[i].visible = false;
+				}
 			}
 		});
+
+		// this.vertices = new Float32Array([
+		// 	1 - rig.keypoints[POSE.LEFT_SHOULDER].x / VIDEO_SIZE.width,
+		// 	1 - rig.keypoints[POSE.LEFT_SHOULDER].y / VIDEO_SIZE.height,
+		// 	0.0,
+		// 	1 - rig.keypoints[1].x / VIDEO_SIZE.width,
+		// 	1 - rig.keypoints[1].y / VIDEO_SIZE.height,
+		// 	0.0,
+		// 	1 - rig.keypoints[2].x / VIDEO_SIZE.width,
+		// 	1 - rig.keypoints[2].y / VIDEO_SIZE.height,
+		// 	0.0,
+		// 	1 - rig.keypoints[3].x / VIDEO_SIZE.width,
+		// 	1 - rig.keypoints[3].y / VIDEO_SIZE.height,
+		// ]);
+	}
+
+	assertBoneIsInCamera(src, dst) {
+		const srcIsInCamera = src.x > 0 && src.x < VIDEO_SIZE.width && src.y > 0 && src.y < VIDEO_SIZE.height;
+		const dstIsInCamera = dst.x > 0 && dst.x < VIDEO_SIZE.width && dst.y > 0 && dst.y < VIDEO_SIZE.height;
+		return srcIsInCamera || dstIsInCamera;
 	}
 }
 

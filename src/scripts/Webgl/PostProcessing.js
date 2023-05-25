@@ -16,16 +16,16 @@ class PostProcessing {
 
 		this._effectComposer = this._createEffectComposer(renderer);
 		this._renderPass = this._addRenderPass(scene, camera);
-		this._bloomPass = this._addBloomPass();
-		this._fishEyesPass = this._addFishEyesPass(camera);
-		this._SMAAPass = this._addSMAAPass();
+		// this._bloomPass = this._addBloomPass();
+		// this._fishEyesPass = this._addFishEyesPass(camera);
+		// this._SMAAPass = this._addSMAAPass();
 
 		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		// this._effectComposer.addPass(gammaCorrectionPass);
 	}
 
 	onAttach() {
-		app.debug?.mapping.add(this, 'PostProcessing');
+		// app.debug?.mapping.add(this, 'PostProcessing');
 	}
 
 	_createEffectComposer(renderer) {
