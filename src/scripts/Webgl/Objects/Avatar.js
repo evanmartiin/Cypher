@@ -1,8 +1,10 @@
 import { VRMUtils } from '@pixiv/three-vrm';
-import { Euler, Group, MeshPhysicalMaterial, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
-import { EVENTS } from '@utils/constants.js';
+import { CylinderGeometry, Euler, Group, Mesh, MeshBasicMaterial, Quaternion, Scene, Vector2, Vector3, WebGLRenderTarget } from 'three';
+import { EVENTS, POSE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
+import { POSE_CONNECTIONS } from './Skeleton.js';
 
 class Avatar extends Group {
 	constructor() {
@@ -21,10 +23,7 @@ class Avatar extends Group {
 		this.mesh = this.gltf.scene;
 		this.mesh.visible = false;
 
-		this.material = new MeshStandardMaterial({
-			metalness: 0.4,
-			roughness: 0.8,
-		});
+		this.material = new MeshBasicMaterial({ color: 0xffffff });
 
 		this.mesh.traverse((object) => {
 			if (object.isMesh) {
@@ -33,13 +32,29 @@ class Avatar extends Group {
 			}
 		});
 
-		this.add(this.mesh);
+		// this.add(this.mesh);
 		this.mesh.castShadow = true;
+
+		this.scene = new Scene();
+		this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width, VIDEO_SIZE.height);
+
+		this.tubes = new Group();
+		POSE_CONNECTIONS.forEach(() => {
+			this.tubes.add(new Mesh(new CylinderGeometry(0.05, 0.05, 1, 32), this.material));
+		});
+		this.tubes.position.y = 1.5;
+		this.scene.add(this.tubes);
 	}
 
 	onRender({ dt }) {
 		if (this.vrm) {
 			this.vrm.update(dt);
+		}
+		if (this.scene && app.webgl.camera) {
+			app.webgl.renderer.setRenderTarget(this.fbo);
+			app.webgl.renderer.clearColor();
+			app.webgl.renderer.render(this.scene, app.webgl.camera);
+			app.webgl.renderer.setRenderTarget(null);
 		}
 	}
 
@@ -65,14 +80,33 @@ class Avatar extends Group {
 
 	enableControl() {
 		this.canControl = true;
-		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
+		// state.on(EVENTS.RIG_COMPUTED, this.updateRig);
 		this.mesh.visible = true;
 	}
 
 	disableControl() {
 		this.canControl = false;
-		state.off(EVENTS.RIG_COMPUTED, this.updateRig);
+		// state.off(EVENTS.RIG_COMPUTED, this.updateRig);
 		this.mesh.visible = false;
+	}
+
+	onPlayerMoved(rig) {
+		if (!this.tubes) return;
+
+		POSE_CONNECTIONS.forEach((connection, i) => {
+			const src = rig.keypoints[connection[0]];
+			const dist = rig.keypoints[connection[1]];
+			const mesh = this.tubes.children[i];
+			if (src && dist && mesh) {
+				const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
+				const distV2 = new Vector2(1 - dist.x / VIDEO_SIZE.width, 1 - dist.y / VIDEO_SIZE.height);
+				const armPos = srcV2.clone().add(distV2).divideScalar(2);
+				mesh.position.set(armPos.x, armPos.y, 0);
+				mesh.scale.y = srcV2.distanceTo(distV2) * 1.1;
+				mesh.lookAt(distV2.x, distV2.y + this.tubes.position.y, 0);
+				mesh.rotateX(Math.PI / 2);
+			}
+		});
 	}
 
 	updateRig = (riggedPose) => {

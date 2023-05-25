@@ -5,7 +5,7 @@ import vertexShader from '@Webgl/Materials/FluidSimulation/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import RigCoords from './RigCoords.js';
+import RigCoords from './RigCoordsFluid.js';
 import Simulation from './Simulation.js';
 
 export default class FluidSimulation extends Group {

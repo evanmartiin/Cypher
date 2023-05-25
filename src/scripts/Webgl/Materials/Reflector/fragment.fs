@@ -22,11 +22,5 @@ void main() {
 
 	vec4 map = texture2D(uBaseMap, vNewUv + normalMapTexture * 0.2);
 
-	// csm_FragColor = mix(blur, vec4(map.xyz * 0.2, 1.0), n);
-	csm_FragColor = blur * n * 0.8;
-	// csm_FragColor = blur * n;
-	// csm_DiffuseColor.a *= 0.8;
-	// csm_DiffuseColor.a *= range;
-	// csm_DiffuseColor = baseMap;
-	// csm_FragColor.a *= rangeBack;
+	csm_DiffuseColor = blur * n;
 }

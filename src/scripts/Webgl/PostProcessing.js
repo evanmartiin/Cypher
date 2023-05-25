@@ -14,24 +14,48 @@ class PostProcessing {
 	constructor(_isWebGL2 = true, renderer, scene, camera) {
 		state.register(this);
 
-		/**
-		 * Post processing
-		 */
-		this.effectComposer = new EffectComposer(renderer);
-		this.effectComposer.setSize(app.tools.viewport.width, app.tools.viewport.height);
-		this.effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+		this._effectComposer = this._createEffectComposer(renderer);
+		this._renderPass = this._addRenderPass(scene, camera);
+		this._bloomPass = this._addBloomPass();
+		this._fishEyesPass = this._addFishEyesPass(camera);
+		this._SMAAPass = this._addSMAAPass();
 
+		const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
+		// this._effectComposer.addPass(gammaCorrectionPass);
+	}
+
+	onAttach() {
+		app.debug?.mapping.add(this, 'PostProcessing');
+	}
+
+	_createEffectComposer(renderer) {
+		const effectComposer = new EffectComposer(renderer);
+		effectComposer.setSize(app.tools.viewport.width, app.tools.viewport.height);
+		effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+		return effectComposer;
+	}
+
+	_addRenderPass(scene, camera) {
 		const renderPass = new RenderPass(scene, camera);
-		this.effectComposer.addPass(renderPass);
+		this._effectComposer.addPass(renderPass);
 
+		return renderPass;
+	}
+
+	_addBloomPass() {
 		const unrealBloomPass = new UnrealBloomPass();
 		unrealBloomPass.strength = 1.5;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
-		this.effectComposer.addPass(unrealBloomPass);
+		this._effectComposer.addPass(unrealBloomPass);
 
+		return unrealBloomPass;
+	}
+
+	_addFishEyesPass(camera) {
 		const fisheyes = new ShaderPass(this.getDistortionShaderDefinition());
-		this.effectComposer.addPass(fisheyes);
+		this._effectComposer.addPass(fisheyes);
 
 		// Setup distortion effect
 		const horizontalFOV = 140;
@@ -47,11 +71,7 @@ class PostProcessing {
 		fisheyes.uniforms['aspectRatio'].value = camera.aspect;
 		fisheyes.uniforms['cylindricalRatio'].value = cylindricalRatio;
 
-		const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
-		// this.effectComposer.addPass(gammaCorrectionPass);
-
-		const smaaPass = new SMAAPass();
-		this.effectComposer.addPass(smaaPass);
+		return fisheyes;
 	}
 
 	getDistortionShaderDefinition() {
@@ -104,12 +124,17 @@ class PostProcessing {
 		};
 	}
 
-	onAttach() {}
+	_addSMAAPass() {
+		const smaaPass = new SMAAPass();
+		this._effectComposer.addPass(smaaPass);
+
+		return smaaPass;
+	}
 
 	onResize() {}
 
 	onRender() {
-		this.effectComposer.render();
+		this._effectComposer.render();
 	}
 }
 
