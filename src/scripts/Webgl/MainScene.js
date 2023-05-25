@@ -35,7 +35,7 @@ class MainScene extends Scene {
 		this.addGroundReflector();
 		this.addEnvironment();
 		this.addParticles();
-		this.addFog();
+		// this.addFog();
 	}
 
 	addLights() {

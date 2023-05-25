@@ -13,7 +13,7 @@
 	pointer-events: none;
 }
 
-#tf-video, #tf-canvas {
+#tf-video {
 	position: absolute;
 	bottom: 50px;
 	left: 50px;
@@ -25,6 +25,16 @@
 }
 #tf-video {
 	border: 15px solid #646cff;
+}
+
+#tf-canvas {
+	position: absolute;
+	bottom: 56px;
+	right: -293px;
+	box-sizing: content-box;
+	transform: scale(.58) translateX(-50%) translateY(50%) rotateY(180deg);
+    -webkit-transform: scale(.58) translateX(-50%) translateY(50%) rotateY(180deg); /* Safari and Chrome */
+    -moz-transform: scale(.58) translateX(-50%) translateY(50%) rotateY(180deg); /* Firefox */
 }
 
 #rec {
