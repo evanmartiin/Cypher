@@ -155,8 +155,8 @@ export class GPUSimulation {
 	onRender({ dt }) {
 		RigCoords.update();
 		this.simulation.update();
-		app.webgl.renderer.setRenderTarget(null);
-		app.webgl.renderer.render(app.webgl.scene, app.webgl.camera);
+		// app.webgl.renderer.setRenderTarget(null);
+		// app.webgl.renderer.render(app.webgl.scene, app.webgl.camera);
 
 		this.posUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;
 		this.velUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;

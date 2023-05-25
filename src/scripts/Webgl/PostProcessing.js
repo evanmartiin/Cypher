@@ -20,7 +20,7 @@ class PostProcessing {
 		this._fishEyesPass = this._addFishEyesPass(camera);
 		this._SMAAPass = this._addSMAAPass();
 
-		const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
+		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		// this._effectComposer.addPass(gammaCorrectionPass);
 	}
 

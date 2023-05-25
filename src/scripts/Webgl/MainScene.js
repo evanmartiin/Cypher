@@ -19,8 +19,8 @@ class MainScene extends Scene {
 		super();
 		state.register(this);
 
-		// this.avatar = new Avatar();
-		// this.add(this.avatar);
+		this.avatar = new Avatar();
+		this.add(this.avatar);
 		// this.avatarDemo = new AvatarDemo();
 		// this.add(this.avatarDemo);
 		this.skeleton = new Skeleton();
