@@ -62,14 +62,14 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const leftHandParticles = new Particles(256, RigCoordsFluid.coords, RigCoords.leftWristSpeed);
+		this.leftHandParticles = new Particles(256, RigCoordsFluid.coords, RigCoords.leftWristSpeed);
 		// const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
 		// const leftFootParticles = new Particles(256, RigCoords.leftFoot, RigCoords.leftFootSpeed);
 		// const rightFootParticles = new Particles(256, RigCoords.rightFoot, RigCoords.rightFootSpeed);
 
 		// this.add(leftHandParticles);
 		// this.add(rightHandParticles, leftHandParticles);
-		this.add(leftHandParticles);
+		this.add(this.leftHandParticles);
 	}
 	addFog() {
 		const customFog = new CustomFog();
