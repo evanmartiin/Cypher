@@ -6,6 +6,7 @@ import {
 	Group,
 	Mesh,
 	MeshBasicMaterial,
+	NearestFilter,
 	PerspectiveCamera,
 	PlaneGeometry,
 	Scene,
@@ -32,11 +33,26 @@ class Avatar extends Group {
 		this.camera = new PerspectiveCamera();
 		this.camera.position.set(0.5, 0.5, 1);
 		this.camera.lookAt(0.5, 0.5, 0);
-		this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width, VIDEO_SIZE.height);
+		this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width * 0.1, VIDEO_SIZE.height * 0.1, { magFilter: NearestFilter });
 
 		this.tubes = new Group();
+		this.wPosMaterial = new ShaderMaterial({
+			vertexShader: `
+	varying vec4 vPosition;
+	void main() {
+		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+		vPosition = gl_Position;
+	}
+	`,
+			fragmentShader: `
+	varying vec4 vPosition;
+	void main() {
+		gl_FragColor = vPosition;
+	}
+	`,
+		});
 		POSE_CONNECTIONS.forEach(() => {
-			this.tubes.add(new Mesh(new CylinderGeometry(0.05, 0.05, 1, 32), this.material));
+			this.tubes.add(new Mesh(new CylinderGeometry(0.05, 0.05, 1, 32), this.wPosMaterial));
 		});
 		this.scene.add(this.tubes);
 
@@ -46,13 +62,13 @@ class Avatar extends Group {
 		geometry.setIndex([0, 1, 2, 1, 2, 3]);
 		geometry.setAttribute('position', new BufferAttribute(this.vertices, 3));
 
-		this.torso = new Mesh(geometry, this.material);
+		this.torso = new Mesh(geometry, this.wPosMaterial);
 		this.scene.add(this.torso);
 
-		this.head = new Mesh(new CircleGeometry(0.15, 10), this.material);
+		this.head = new Mesh(new CircleGeometry(0.15, 10), this.wPosMaterial);
 		this.scene.add(this.head);
 
-		this.neck = new Mesh(new CylinderGeometry(0.05, 0.05, 0.1, 32), this.material);
+		this.neck = new Mesh(new CylinderGeometry(0.05, 0.05, 0.1, 32), this.wPosMaterial);
 		this.scene.add(this.neck);
 
 		this.quad = new Mesh(
@@ -75,6 +91,7 @@ class Avatar extends Group {
 		`,
 				uniforms: {
 					tTex: { value: this.fbo.texture },
+					// tTex: { value: app.webgl.scene.leftHandParticles.sim.gpuCompute.getCurrentRenderTarget(app.webgl.scene.leftHandParticles.sim.pos).texture },
 				},
 			}),
 		);
