@@ -27,12 +27,12 @@ void main() {
 	if(life >= 0.0) {
 		// position += velocity * uDelta;
 	} else {
-		position.xy = step(0.5, texture2D(uRigPositionTexture, uv).xy) * 5.;
+		position = texture2D(uTextureDefaultPosition, uv).xyz;
 		// position.x += uCoordsPositions.x * 35.;
 		// position.y += uCoordsPositions.y * 15.;
 		// position.z += uCoordsPositions.z * 35.;
-		life = (0.5 + fract(positionTexture.w * uAcceleration + uTime));
+		life = (0.5 + fract(positionTexture.w + uTime));
 	}
 
-	gl_FragColor = vec4(position, life);
+	gl_FragColor = vec4(rigPosition * 5., life);
 }

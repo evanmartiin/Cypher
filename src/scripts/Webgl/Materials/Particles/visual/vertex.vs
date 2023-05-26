@@ -5,6 +5,7 @@ uniform float uAcceleration;
 
 uniform sampler2D posMap;
 uniform sampler2D velMap;
+uniform sampler2D uRigPositionMap;
 
 varying float vlifeOpacity;
 varying vec3 vNewNormal;
@@ -40,17 +41,19 @@ void main() {
   posUv /= vec2(uSize);
   vec4 positionTexture = texture2D(posMap, posUv);
   vec4 velocityTexture = texture2D(velMap, posUv);
+  vec4 rigPositionMap = texture2D(uRigPositionMap, posUv);
 
   mat3 particleRotation = getRotation(velocityTexture.xyz);
 
   vec3 particleScale = vec3(min(1.0, 10.0 * length(velocityTexture.xyz)), 1.0, 1.0);
 
   // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
-  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
-  transformedPos = (particleRotation * transformedPos);
+  // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
+  vec3 transformedPos = position;
+  // transformedPos = (particleRotation * transformedPos);
   transformedPos += positionTexture.xyz;
 
-  csm_Normal *= particleRotation;
+  // csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
 
   csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);

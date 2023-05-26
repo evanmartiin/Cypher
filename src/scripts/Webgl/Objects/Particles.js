@@ -1,4 +1,4 @@
-import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, OctahedronGeometry, PlaneGeometry, SphereGeometry } from 'three';
+import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, OctahedronGeometry, PlaneGeometry, SphereGeometry, Texture } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
@@ -61,6 +61,7 @@ export class Particles extends Group {
 
 				posMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture },
 				velMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture },
+				uRigPositionMap: { value: new Texture() },
 				uSize: { value: this.size },
 				uAcceleration: { value: this.acceleration.value },
 			},
@@ -88,6 +89,7 @@ export class Particles extends Group {
 		this._material.uniforms.uAcceleration.value = this.acceleration.value;
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
+		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.fbo.texture;
 
 		this.sim.gpuCompute.compute();
 	}

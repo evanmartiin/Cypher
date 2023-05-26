@@ -1,9 +1,22 @@
-import { BufferAttribute, BufferGeometry, CylinderGeometry, Group, Mesh, MeshBasicMaterial, PerspectiveCamera, PlaneGeometry, Scene, ShaderMaterial, Vector2, WebGLRenderTarget } from 'three';
+import {
+	BufferAttribute,
+	BufferGeometry,
+	CylinderGeometry,
+	Group,
+	Mesh,
+	MeshBasicMaterial,
+	PerspectiveCamera,
+	PlaneGeometry,
+	Scene,
+	ShaderMaterial,
+	Vector2,
+	WebGLRenderTarget,
+} from 'three';
+import { POSE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 import { POSE_CONNECTIONS } from './Skeleton.js';
-import { POSE } from '@utils/constants.js';
 
 class Avatar extends Group {
 	constructor() {

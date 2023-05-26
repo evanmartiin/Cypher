@@ -145,8 +145,8 @@ export class GPUSimulation {
 		this.simulation = new Simulation();
 
 		this.material = new MeshBasicMaterial({
-			// map: this.simulation.fbos.vel_0.texture,
-			map: new Texture(),
+			map: this.simulation.fbos.vel_0.texture,
+			// map: new Texture(),
 		});
 
 		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), this.material);
@@ -178,7 +178,7 @@ export class GPUSimulation {
 		if (app.webgl.scene.avatar.fbo.texture) {
 			this.posUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
 			this.velUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
-			this.material.map = app.webgl.scene.avatar.fbo.texture;
+			// this.material.map = app.webgl.scene.avatar.fbo.texture;
 		}
 
 		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);
