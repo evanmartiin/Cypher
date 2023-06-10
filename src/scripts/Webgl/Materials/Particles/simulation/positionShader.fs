@@ -25,7 +25,7 @@ void main() {
 	float life = positionTexture.w - (uDieSpeed) * uDelta;
 
 	if(life >= 0.0) {
-		// position += velocity * uDelta;
+		position += velocity * uDelta;
 	} else {
 		position = texture2D(uTextureDefaultPosition, uv).xyz;
 		// position.x += uCoordsPositions.x * 35.;
@@ -34,5 +34,5 @@ void main() {
 		life = (0.5 + fract(positionTexture.w + uTime));
 	}
 
-	gl_FragColor = vec4(rigPosition * 5., life);
+	gl_FragColor = vec4(position, life);
 }

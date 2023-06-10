@@ -21,6 +21,8 @@ const manifest = {
 		sceneAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ao.jpg`, priority: 2, callback: null },
 
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg`, priority: 2, callback: null },
+		pixelSorting: { path: `${import.meta.env.BASE_URL}assets/textures/pixelSorting.jpg`, priority: 2, callback: null },
+		glitch: { path: `${import.meta.env.BASE_URL}assets/textures/glitch.jpg`, priority: 2, callback: null },
 
 		// ...
 	},
