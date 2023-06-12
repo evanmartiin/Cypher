@@ -45,8 +45,8 @@ void main() {
 
   vec3 particleScale = vec3(min(1.0, 10.0 * length(velocityTexture.xyz)), 1.0, 1.0);
 
-  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
-  // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
+  // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
+  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
   transformedPos = (particleRotation * transformedPos);
   transformedPos += positionTexture.xyz;
 

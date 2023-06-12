@@ -11,6 +11,8 @@ uniform int uNumCubes;
 uniform vec4 uCubePositions[1];
 uniform vec4 uCubeQuaternions[1];
 
+uniform sampler2D uFluidTexture;
+
 vec4 mod289(vec4 x) {
 	return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
@@ -188,18 +190,33 @@ void main() {
 	vec4 positionTexture = texture2D(posTex, uv);
 	vec3 position = positionTexture.xyz;
 
+	vec4 velocityTexture = texture2D(velTex, uv);
+	vec3 previousVelocity = velocityTexture.xyz;
+
 	float life = positionTexture.a;
 
+	vec4 positionFluidTexture = texture2D(uFluidTexture, uv);
+	vec3 positionFluid = positionFluidTexture.xyz;
+
 	vec3 toHand;
-	toHand.x += uCoordsPositions.x * 35. - position.x;
-	toHand.y += uCoordsPositions.y * 15. - position.y;
+	// toHand.x += uCoordsPositions.x * 35. - position.x;
+	// toHand.y += uCoordsPositions.y * 15. - position.y;
 	// toHand.z += uCoordsPositions.z * - position.z;
 
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
+	velocity.y += 5.;
 
 	vec4 collidersQuaternions;
 
 	float scaleFactor = 5.;
+
+	// vec3 diffToTtransition = toHand;
+
+	// float dist = length(diffToTtransition);
+
+	// vec3 acceleration = diffToTtransition * dist;
+
+	// velocity = mix(previousVelocity, acceleration * uSpeed, 0.99);
 
 	// for(int i = 0; i < uNumCubes; i++) {
 	// 	if(i >= uNumCubes)
@@ -218,14 +235,15 @@ void main() {
 	// 	}
 	// }
 
-	if(position.y < 1.0) {
-		vec3 diff = vec3(0., 0., 0.) - position;
-		velocity -= normalize(diff);
-		velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.1;
+	// if(position.y < 1.0) {
+	// 	vec3 diff = vec3(0., 0., 0.) - position;
+	// 	velocity -= normalize(diff);
+	// 	velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.1;
 
-	} else {
-	}
-	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3;
+	// } else {
+	// }
+	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
+	velocity += positionFluid * 30. - position;
 	velocity *= uSpeed;
 
 	gl_FragColor = vec4(velocity, 0.0);

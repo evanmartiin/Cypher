@@ -7,6 +7,9 @@ import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
 import { Crowd } from './Objects/Crowd.js';
 import { CustomFog } from './Objects/CustomFog.js';
+import FluidSimulation from './Objects/FluidSim/FluidSimulation.js';
+import RigCoordsFluid from './Objects/FluidSim/RigCoordsFluid.js';
+import { Lights } from './Objects/Lights.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 import { VolumetricSpots } from './Objects/VolumetricSpots.js';
@@ -18,10 +21,10 @@ class MainScene extends Scene {
 
 		this.avatar = new Avatar();
 		this.add(this.avatar);
-		this.avatarDemo = new AvatarDemo();
-		this.add(this.avatarDemo);
+		// this.avatarDemo = new AvatarDemo();
+		// this.add(this.avatarDemo);
 		this.skeleton = new Skeleton();
-		this.add(this.skeleton);
+		// this.add(this.skeleton);
 		// this.crowd = new Crowd();
 		// this.add(this.crowd);
 	}
@@ -32,23 +35,12 @@ class MainScene extends Scene {
 		this.addGroundReflector();
 		this.addEnvironment();
 		this.addParticles();
-		// this.fluidSimulation();
-		this.addFog();
-		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
-		// app.debug?.mapping.add(this, 'Scene');
+		// this.addFog();
 	}
 
 	addLights() {
-		const lightLeft = new PointLight('#0f0fff', 0.6);
-		lightLeft.position.set(-5, 10, 0);
-
-		const lightRight = new PointLight('#c12600', 1);
-		lightRight.position.set(5, 10, 0);
-
-		const lightTop = new PointLight('#ffffff', 0.9);
-		lightTop.position.set(5, 10, 0);
-
-		this.add(lightLeft, lightRight, lightTop);
+		const lights = new Lights();
+		this.add(lights);
 	}
 
 	addSpotLights() {
@@ -70,33 +62,23 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const leftHandParticles = new Particles(200, RigCoords.leftWrist, RigCoords.leftWristSpeed);
-		const rightHandParticles = new Particles(200, RigCoords.rightWrist, RigCoords.rightWristSpeed);
-		const leftFootParticles = new Particles(128, RigCoords.leftFoot, RigCoords.leftFootSpeed);
-		const rightFootParticles = new Particles(128, RigCoords.rightFoot, RigCoords.rightFootSpeed);
+		this.leftHandParticles = new Particles(256, RigCoordsFluid.coords, RigCoords.leftWristSpeed);
+		// const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+		// const leftFootParticles = new Particles(256, RigCoords.leftFoot, RigCoords.leftFootSpeed);
+		// const rightFootParticles = new Particles(256, RigCoords.rightFoot, RigCoords.rightFootSpeed);
 
 		// this.add(leftHandParticles);
 		// this.add(rightHandParticles, leftHandParticles);
-		this.add(rightFootParticles, leftFootParticles, leftHandParticles, rightHandParticles);
+		this.add(this.leftHandParticles);
 	}
 	addFog() {
 		const customFog = new CustomFog();
 		this.fog = customFog._fog;
-
-		// ShaderChunk.fog_fragment =
-
-		// mesh.material = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xefd1b5) });
-		// mesh.material.onBeforeCompile = (shader) => {
-		// 	shader.vertexShader = shader.vertexShader.replace(`#include <fog_pars_vertex>`, fogParsVert);
-		// 	shader.vertexShader = shader.vertexShader.replace(`#include <fog_vertex>`, fogVert);
-		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_pars_fragment>`, fogParsFrag);
-		// 	shader.fragmentShader = shader.fragmentShader.replace(`#include <fog_fragment>`, fogFrag);
-		// };
 	}
 
 	onRender() {
 		RigCoords.update();
-		// console.log(RigCoords.leftWristSpeed);
+		RigCoordsFluid.update();
 	}
 
 	// fluidSimulation() {

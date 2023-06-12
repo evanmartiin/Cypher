@@ -69,7 +69,7 @@ class TensorflowCanvas {
 
 	drawSkeleton(keypoints) {
 		this.ctx.fillStyle = 'White';
-		this.ctx.strokeStyle = 'White';
+		this.ctx.strokeStyle = 'Red';
 		this.ctx.lineWidth = 2;
 
 		posedetection.util.getAdjacentPairs(posedetection.SupportedModels.BlazePose).forEach(([i, j]) => {

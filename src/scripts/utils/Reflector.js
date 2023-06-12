@@ -62,27 +62,21 @@ class Reflector extends Mesh {
 		this.blurRenderTarget = new WebGLRenderTarget(textureWidth, textureHeight, { samples: multisample, type: HalfFloatType, minFilter: LinearFilter, magFilter: LinearFilter });
 
 		this.kawaseBlurPass = new POSTPROCESSING.KawaseBlurPass();
-		this.kawaseBlurPass.setSize(textureWidth * 2, textureHeight * 2);
+		this.kawaseBlurPass.setSize(textureWidth, textureHeight);
 
 		const repeat = 2;
 
-		const normalMap = app.core.assetsManager.get('normalGround3');
+		const normalMap = app.core.assetsManager.get('groundNormal');
 		normalMap.wrapS = MirroredRepeatWrapping;
 		normalMap.wrapT = MirroredRepeatWrapping;
 		normalMap.repeat.x = repeat;
 		normalMap.repeat.y = repeat;
 
-		const roughnessMap = app.core.assetsManager.get('roughnessGround3');
-		roughnessMap.wrapS = MirroredRepeatWrapping;
-		roughnessMap.wrapT = MirroredRepeatWrapping;
-		roughnessMap.repeat.x = repeat;
-		roughnessMap.repeat.y = repeat;
-
-		const baseMap2 = app.core.assetsManager.get('baseGround3');
-		baseMap2.wrapS = MirroredRepeatWrapping;
-		baseMap2.wrapT = MirroredRepeatWrapping;
-		baseMap2.repeat.x = repeat;
-		baseMap2.repeat.y = repeat;
+		const baseMap = app.core.assetsManager.get('groundBase');
+		baseMap.wrapS = MirroredRepeatWrapping;
+		baseMap.wrapT = MirroredRepeatWrapping;
+		baseMap.repeat.x = repeat;
+		baseMap.repeat.y = repeat;
 
 		const noiseTexture = app.core.assetsManager.get('noise');
 
@@ -94,30 +88,13 @@ class Reflector extends Mesh {
 				...globalUniforms,
 				uBlurTexture: { value: this.blurRenderTarget.texture },
 				uBaseTexture: { value: this.baseRenderTarget.texture },
-				uBaseMap: { value: baseMap2 },
+				uBaseMap: { value: baseMap },
 				uTextureMatrix: { value: textureMatrix },
 				uNoiseTexture: { value: noiseTexture },
 			},
 			transparent: true,
-			side: DoubleSide,
 			normalMap: normalMap,
-			// Fix roughness map
-			roughnessMap: roughnessMap,
-			metalness: 0.5,
-			roughness: 0.5,
 		});
-
-		// this.material = new MeshStandardMaterial({
-		// 	transparent: true,
-		// 	side: DoubleSide,
-		// 	normalMap: normalMap,
-		// 	// Fix roughness map
-		// 	roughnessMap: roughnessMap,
-		// 	aoMap: aoMap,
-		// 	map: baseMap,
-		// 	roughness: 0.5,
-		// 	metalness: 0.5,
-		// });
 
 		this.onBeforeRender = function (renderer, scene, camera) {
 			reflectorWorldPosition.setFromMatrixPosition(scope.matrixWorld);

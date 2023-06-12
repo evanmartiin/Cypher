@@ -1,10 +1,12 @@
 import { makeZerosNestedTypedArray } from '@tensorflow/tfjs-core/dist/util_base.js';
-import { Box3, BoxGeometry, MathUtils, Mesh, MeshNormalMaterial, MeshStandardMaterial, Vector3, Vector4, ZeroStencilOp } from 'three';
+import { Box3, BoxGeometry, MathUtils, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, Vector3, Vector4, ZeroStencilOp } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import positionShader from '@Webgl/Materials/Particles/simulation/positionShader.fs';
 import velocityShader from '@Webgl/Materials/Particles/simulation/velocityShader.fs';
+import Simulation from '@Webgl/Objects/FluidSim/Simulation.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+import RigCoords from './RigCoords.js';
 import { globalUniforms } from './globalUniforms.js';
 
 const NUM_CUBES = 1;
@@ -20,6 +22,8 @@ export class GPUSimulation {
 		this.tempCoordsPositions = new Vector3();
 
 		this.cubes = this.createCube();
+
+		this.fluidSim();
 
 		this.init();
 		state.register(this);
@@ -71,8 +75,6 @@ export class GPUSimulation {
 		const velArray = this.dataVel.image.data;
 
 		for (let i = 0, il = posArray.length; i < il; i += 4) {
-			// const phi = Math.random() * 2 * Math.PI;
-			// const theta = Math.random() * Math.PI;
 			const r = 0.5 + Math.random() * 2;
 
 			const bruhI = MathUtils.randFloat(0, 360);
@@ -105,12 +107,13 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.01 };
+		this.posUniforms.uDieSpeed = { value: 0.005 };
 		this.posUniforms.uAcceleration = { value: this.acceleration.value };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
 			value: textureDefaultPosition,
 		};
+		this.posUniforms.uFluidTexture = { value: this.simulation.fbos.vel_0.texture };
 
 		this.velUniforms = this.vel.material.uniforms;
 
@@ -125,6 +128,7 @@ export class GPUSimulation {
 		this.velUniforms.uCubePositions = { value: this.cubePositions };
 		this.velUniforms.uCubeQuaternions = { value: this.cubeQuaternions };
 		this.velUniforms.uNumCubes = { value: NUM_CUBES };
+		this.velUniforms.uFluidTexture = { value: this.simulation.fbos.vel_0.texture };
 
 		const error = this.gpuCompute.init();
 		if (error !== null) {
@@ -132,7 +136,31 @@ export class GPUSimulation {
 		}
 	}
 
+	fluidSim() {
+		this.simulation = new Simulation();
+
+		const material = new MeshBasicMaterial({
+			map: this.simulation.fbos.vel_0.texture,
+		});
+
+		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), material);
+		// app.webgl.scene.add(mesh);
+		mesh.position.x = 2;
+	}
+
+	onResize() {
+		this.simulation.resize();
+	}
+
 	onRender({ dt }) {
+		RigCoords.update();
+		this.simulation.update();
+		// app.webgl.renderer.setRenderTarget(null);
+		// app.webgl.renderer.render(app.webgl.scene, app.webgl.camera);
+
+		this.posUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;
+		this.velUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;
+
 		let deltaRatio = 60 * dt;
 		deltaRatio = Math.min(deltaRatio, 0.6);
 
@@ -140,6 +168,6 @@ export class GPUSimulation {
 		this.velUniforms.uAcceleration.value = this.acceleration.value;
 		this.posUniforms.uAcceleration.value = this.acceleration.value;
 
-		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.08);
+		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);
 	}
 }

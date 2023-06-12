@@ -17,18 +17,22 @@ export const POSE_CONNECTIONS = [
 	// Right arm
 	[POSE.RIGHT_SHOULDER, POSE.RIGHT_ELBOW],
 	[POSE.RIGHT_ELBOW, POSE.RIGHT_WRIST],
+	[POSE.RIGHT_WRIST, POSE.RIGHT_INDEX],
 
 	// Left arm
 	[POSE.LEFT_SHOULDER, POSE.LEFT_ELBOW],
 	[POSE.LEFT_ELBOW, POSE.LEFT_WRIST],
+	[POSE.LEFT_WRIST, POSE.LEFT_INDEX],
 
 	// Right leg
 	[POSE.RIGHT_HIP, POSE.RIGHT_KNEE],
 	[POSE.RIGHT_KNEE, POSE.RIGHT_ANKLE],
+	[POSE.RIGHT_ANKLE, POSE.RIGHT_FOOT_INDEX],
 
 	// Left leg
 	[POSE.LEFT_HIP, POSE.LEFT_KNEE],
 	[POSE.LEFT_KNEE, POSE.LEFT_ANKLE],
+	[POSE.LEFT_ANKLE, POSE.LEFT_FOOT_INDEX],
 ];
 
 class Skeleton extends Group {
@@ -52,6 +56,8 @@ class Skeleton extends Group {
 				uColor: { value: new Color(0xff0000) },
 			},
 		});
+		this.geometry = new BufferGeometry();
+		this.show();
 	}
 
 	show() {
@@ -69,6 +75,7 @@ class Skeleton extends Group {
 
 	onPlayerMoved(rig) {
 		this.realtimePoses = rig.keypoints;
+		this.createGeometry();
 		// if (!this.realtimePoses) return;
 
 		// const vertY = [];
@@ -89,7 +96,6 @@ class Skeleton extends Group {
 			return { x: 1 - pose.x / VIDEO_SIZE.width, y: 1 - pose.y / VIDEO_SIZE.height, name: pose.name };
 		});
 
-		this.geometry = new BufferGeometry();
 		const vertices = [];
 		const vertX = [];
 		const vertY = [];
@@ -127,6 +133,7 @@ class Skeleton extends Group {
 		});
 
 		this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
+		this.geometry.attributes.position.needsUpdate = true;
 	}
 }
 

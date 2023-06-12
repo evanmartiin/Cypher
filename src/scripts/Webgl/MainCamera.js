@@ -27,21 +27,21 @@ class MainCamera extends PerspectiveCamera {
 	}
 
 	stepBackward() {
-		gsap.to(this.position, {
-			duration: 1.75,
-			z: 8,
-			x: 4,
-			ease: 'power1.out',
-		});
+		// gsap.to(this.position, {
+		// 	duration: 1.75,
+		// 	z: 8,
+		// 	x: 4,
+		// 	ease: 'power1.out',
+		// });
 	}
 
 	stepFrontward() {
-		gsap.to(this.position, {
-			duration: 2,
-			z: 5,
-			x: 0,
-			ease: 'power1.inOut',
-		});
+		// gsap.to(this.position, {
+		// 	duration: 2,
+		// 	z: 5,
+		// 	x: 0,
+		// 	ease: 'power1.inOut',
+		// });
 	}
 
 	// onTick({ dt }) {
