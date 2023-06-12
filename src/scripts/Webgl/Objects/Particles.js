@@ -1,4 +1,16 @@
-import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, OctahedronGeometry, PlaneGeometry, SphereGeometry, Texture } from 'three';
+import {
+	BufferGeometry,
+	DoubleSide,
+	Group,
+	InstancedBufferAttribute,
+	InstancedMesh,
+	MeshStandardMaterial,
+	MirroredRepeatWrapping,
+	OctahedronGeometry,
+	PlaneGeometry,
+	SphereGeometry,
+	Texture,
+} from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
@@ -52,6 +64,14 @@ export class Particles extends Group {
 	}
 
 	_createMaterial() {
+		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
+		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
+		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
+
+		const glitchTexture = app.core.assetsManager.get('glitch');
+		glitchTexture.wrapS = MirroredRepeatWrapping;
+		glitchTexture.wrapT = MirroredRepeatWrapping;
+
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,
@@ -64,11 +84,13 @@ export class Particles extends Group {
 				uRigPositionMap: { value: new Texture() },
 				uSize: { value: this.size },
 				uAcceleration: { value: this.acceleration.value },
+				uPixelSortingTexture: { value: pixelSortingTexture },
+				uGlitchTexture: { value: glitchTexture },
 			},
 			side: DoubleSide,
-			metalness: 0.6,
-			roughness: 0.4,
-			envMap: app.core.assetsManager.get('envmap'),
+			metalness: 0.5,
+			roughness: 0.5,
+			// envMap: app.core.assetsManager.get('envmap'),
 		});
 
 		return material;

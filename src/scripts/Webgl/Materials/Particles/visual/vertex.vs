@@ -48,12 +48,12 @@ void main() {
   vec3 particleScale = vec3(min(1.0, 10.0 * length(velocityTexture.xyz)), 1.0, 1.0);
 
   // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
-  // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
-  vec3 transformedPos = position;
-  // transformedPos = (particleRotation * transformedPos);
+  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
+  // vec3 transformedPos = position;
+  transformedPos = (particleRotation * transformedPos);
   transformedPos += positionTexture.xyz;
 
-  // csm_Normal *= particleRotation;
+  csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
 
   csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);

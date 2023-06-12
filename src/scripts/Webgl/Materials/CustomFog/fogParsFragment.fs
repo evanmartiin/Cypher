@@ -6,4 +6,7 @@ varying vec3 vViewDirection;
 varying vec3 vNormal2;
 uniform float fogNear;
 uniform float fogFar;
+uniform sampler2D uPixelSortingTexture;
+uniform sampler2D uGlitchTexture;
+varying vec2 vTransitionUvs;
 #endif

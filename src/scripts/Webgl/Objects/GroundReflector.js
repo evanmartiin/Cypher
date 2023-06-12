@@ -28,8 +28,6 @@ export class GroundReflector extends Group {
 		reflector.scale.set(scale, scale, 1);
 		this.add(reflector);
 
-		console.log(reflector);
-
 		return reflector;
 	}
 }
