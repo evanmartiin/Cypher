@@ -5,6 +5,7 @@ import { state } from '@scripts/State.js';
 export default class Recorder {
 	constructor() {
 		state.register(this);
+		this.id = 1
 	}
 
 	onAttach() {
@@ -48,15 +49,19 @@ export default class Recorder {
 
 	handleDataAvailable = async (event) => {
 		const buffer = await event.data.arrayBuffer();
-		const id = Date.now();
 		for (let i = 0; i < Math.ceil(buffer.byteLength / 1_000_000); i++) {
 			state.emit(EVENTS.VIDEO_READY, {
-				id,
+				id: this.id,
 				index: i,
 				length: Math.ceil(buffer.byteLength / 1_000_000),
 				buffer: buffer.slice(i * 1_000_000, (i + 1) * 1_000_000),
 			});
 		}
+
+		console.log(this.id)
+
+		this.id++;
+
 
 		this.mediaRecorder.removeEventListener('dataavailable', this.handleDataAvailable);
 	};
