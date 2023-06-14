@@ -1,5 +1,11 @@
+import { Cursor } from './Cursor.js';
+
 function createDomModules() {
-	return {};
+	const cursor = new Cursor();
+
+	return {
+		cursor,
+	};
 }
 
 export { createDomModules };

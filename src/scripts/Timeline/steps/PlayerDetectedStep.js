@@ -5,18 +5,17 @@ export default class PlayerDetectedStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Nouveau joueur détecté';
-		this.duration = 2000;
 	}
 
 	start() {
 		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
-		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.webgl.scene.avatar.enableControl();
+		app.dom.cursor.enable();
 	}
 
 	stop() {
 		this.isRunning = false;
-		app.timeline.timer.resetTimer();
+		app.dom.cursor.disable();
 	}
 }

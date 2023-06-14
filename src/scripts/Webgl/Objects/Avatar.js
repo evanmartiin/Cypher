@@ -225,12 +225,14 @@ class Avatar extends Group {
 		this.canControl = true;
 		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
 		this.mesh.visible = true;
+		this.particles.visible = true;
 	}
 
 	disableControl() {
 		this.canControl = false;
 		state.off(EVENTS.RIG_COMPUTED, this.updateRig);
 		this.mesh.visible = false;
+		this.particles.visible = false;
 	}
 
 	updateRig = (riggedPose) => {
