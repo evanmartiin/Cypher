@@ -246,7 +246,7 @@ void main() {
 
 	// } else {
 	// }
-	velocity = positionFluid * 30. - position;
+	// velocity = positionFluid * 50. - position;
 	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
 	velocity *= uSpeed;
 
