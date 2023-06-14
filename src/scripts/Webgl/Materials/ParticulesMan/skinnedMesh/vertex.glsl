@@ -1,11 +1,9 @@
 uniform int uMapWidth;
 uniform int uMapHeight;
-uniform sampler2D uColorMap;
 
 in float aFragIndex;
 
 out vec4 vWorldPosition;
-out vec4 vVertexColor;
 
 #include <common>
 #include <skinning_pars_vertex>
@@ -29,5 +27,4 @@ void main() {
   gl_PointSize = 1.0;
   
   vWorldPosition = modelMatrix * vec4(transformed, 1.0);
-  vVertexColor = texture2D(uColorMap, uv);
 }

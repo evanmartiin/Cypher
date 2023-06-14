@@ -1,20 +1,21 @@
 import { VRMUtils } from '@pixiv/three-vrm';
 import {
-	AnimationMixer,
+	BoxGeometry,
 	BufferAttribute,
 	BufferGeometry,
 	CircleGeometry,
 	ClampToEdgeWrapping,
 	CylinderGeometry,
+	DynamicDrawUsage,
 	Euler,
 	Float32BufferAttribute,
 	FloatType,
-	GLSL3,
 	Group,
 	HalfFloatType,
 	InstancedBufferAttribute,
 	InstancedMesh,
 	MathUtils,
+	Matrix4,
 	Mesh,
 	MeshBasicMaterial,
 	MeshDepthMaterial,
@@ -30,13 +31,11 @@ import {
 	Scene,
 	ShaderMaterial,
 	SkinnedMesh,
-	Texture,
 	Triangle,
 	Uint16BufferAttribute,
 	Vector2,
 	Vector3,
 	Vector4,
-	WebGLMultipleRenderTargets,
 	WebGLRenderTarget,
 } from 'three';
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js';
@@ -48,9 +47,11 @@ import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 import particlesPositionShader from '../Materials/ParticulesMan/particles/position.glsl';
 import particlesVelocityShader from '../Materials/ParticulesMan/particles/velocity.glsl';
-import skinnedMeshFragmentShader from '../Materials/ParticulesMan/skinnedMesh/fragment.glsl';
-import skinnedMeshVertexShader from '../Materials/ParticulesMan/skinnedMesh/vertex.glsl';
+import meshFragmentShader from '../Materials/ParticulesMan/skinnedMesh/fragment.glsl';
+import meshVertexShader from '../Materials/ParticulesMan/skinnedMesh/vertex.glsl';
 import { POSE_CONNECTIONS } from './Skeleton.js';
+
+const DUMMY = new Object3D();
 
 class Avatar extends Group {
 	constructor() {
@@ -58,166 +59,9 @@ class Avatar extends Group {
 		state.register(this);
 	}
 
-	// onAttach() {
-	// 	this.material = new MeshBasicMaterial({ color: 0xffffff });
-
-	// 	this.scene = new Scene();
-	// 	this.camera = new PerspectiveCamera();
-	// 	this.camera.position.set(0.5, 0.5, 1);
-	// 	this.camera.lookAt(0.5, 0.5, 0);
-	// 	this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width * 0.1, VIDEO_SIZE.height * 0.1, { magFilter: NearestFilter });
-
-	// 	this.tubes = new Group();
-	// 	this.wPosMaterial = new ShaderMaterial({
-	// 		vertexShader: `
-	// varying vec4 vPosition;
-	// void main() {
-	// 	gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-	// 	vPosition = gl_Position;
-	// }
-	// `,
-	// 		fragmentShader: `
-	// varying vec4 vPosition;
-	// void main() {
-	// 	gl_FragColor = vPosition;
-	// }
-	// `,
-	// 	});
-	// 	POSE_CONNECTIONS.forEach(() => {
-	// 		this.tubes.add(new Mesh(new CylinderGeometry(0.05, 0.05, 1, 32), this.wPosMaterial));
-	// 	});
-	// 	this.scene.add(this.tubes);
-
-	// 	const geometry = new BufferGeometry();
-	// 	this.vertices = new Float32Array(4 * 3);
-
-	// 	geometry.setIndex([0, 1, 2, 1, 2, 3]);
-	// 	geometry.setAttribute('position', new BufferAttribute(this.vertices, 3));
-
-	// 	this.torso = new Mesh(geometry, this.wPosMaterial);
-	// 	this.scene.add(this.torso);
-
-	// 	this.head = new Mesh(new CircleGeometry(0.15, 10), this.wPosMaterial);
-	// 	this.scene.add(this.head);
-
-	// 	this.neck = new Mesh(new CylinderGeometry(0.05, 0.05, 0.1, 32), this.wPosMaterial);
-	// 	this.scene.add(this.neck);
-
-	// 	this.quad = new Mesh(
-	// 		new PlaneGeometry(VIDEO_SIZE.width * 0.0005, VIDEO_SIZE.height * 0.0005),
-	// 		new ShaderMaterial({
-	// 			vertexShader: `
-	// 			varying vec2 vUv;
-	// 	void main() {
-	// 		gl_Position = projectionMatrix * modelMatrix * vec4(position, 1.0);
-	// 		vUv = uv;
-	// 	}
-	// 	`,
-	// 			fragmentShader: `
-	// 	uniform sampler2D tTex;
-	// 	varying vec2 vUv;
-
-	// 	void main() {
-	// 		gl_FragColor = texture2D(tTex, vUv);
-	// 	}
-	// 	`,
-	// 			uniforms: {
-	// 				tTex: { value: this.fbo.texture },
-	// 				// tTex: { value: app.webgl.scene.leftHandParticles.sim.gpuCompute.getCurrentRenderTarget(app.webgl.scene.leftHandParticles.sim.pos).texture },
-	// 			},
-	// 		}),
-	// 	);
-	// 	this.quad.position.y = -0.2;
-	// 	this.quad.position.x = 0.35;
-	// 	this.quad.position.z = -1;
-	// 	this.add(this.quad);
-	// }
-
-	// onRender() {
-	// 	if (this.scene && app.webgl.camera) {
-	// 		app.webgl.renderer.setRenderTarget(this.fbo);
-	// 		app.webgl.renderer.clear(true, true, false);
-	// 		app.webgl.renderer.render(this.scene, this.camera);
-	// 		app.webgl.renderer.setRenderTarget(null);
-	// 	}
-	// }
-
-	// enableControl() {
-	// 	this.canControl = true;
-	// 	// state.on(EVENTS.RIG_COMPUTED, this.updateRig);
-	// 	// this.mesh.visible = true;
-	// }
-
-	// disableControl() {
-	// 	this.canControl = false;
-	// 	// state.off(EVENTS.RIG_COMPUTED, this.updateRig);
-	// 	// this.mesh.visible = false;
-	// }
-
-	// onPlayerMoved(rig) {
-	// 	if (!this.tubes) return;
-
-	// 	POSE_CONNECTIONS.forEach((connection, i) => {
-	// 		const src = rig.keypoints[connection[0]];
-	// 		const dst = rig.keypoints[connection[1]];
-	// 		const mesh = this.tubes.children[i];
-	// 		if (src && dst && mesh) {
-	// 			if (this.assertBoneIsInCamera(src, dst)) {
-	// 				const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
-	// 				const dstV2 = new Vector2(1 - dst.x / VIDEO_SIZE.width, 1 - dst.y / VIDEO_SIZE.height);
-	// 				const armPos = srcV2.clone().add(dstV2).divideScalar(2);
-	// 				mesh.position.set(armPos.x, armPos.y, 0);
-	// 				mesh.scale.y = srcV2.distanceTo(dstV2) * 1.1;
-	// 				mesh.lookAt(dstV2.x, dstV2.y, 0);
-	// 				mesh.rotateX(Math.PI / 2);
-	// 				mesh.visible = true;
-	// 			} else {
-	// 				mesh.visible = false;
-	// 			}
-	// 		}
-	// 	});
-
-	// 	this.vertices.set([
-	// 		1 - rig.keypoints[POSE.LEFT_SHOULDER].x / VIDEO_SIZE.width,
-	// 		1 - rig.keypoints[POSE.LEFT_SHOULDER].y / VIDEO_SIZE.height,
-	// 		0.0,
-	// 		1 - rig.keypoints[POSE.RIGHT_SHOULDER].x / VIDEO_SIZE.width,
-	// 		1 - rig.keypoints[POSE.RIGHT_SHOULDER].y / VIDEO_SIZE.height,
-	// 		0.0,
-	// 		1 - rig.keypoints[POSE.LEFT_HIP].x / VIDEO_SIZE.width,
-	// 		1 - rig.keypoints[POSE.LEFT_HIP].y / VIDEO_SIZE.height,
-	// 		0.0,
-	// 		1 - rig.keypoints[POSE.RIGHT_HIP].x / VIDEO_SIZE.width,
-	// 		1 - rig.keypoints[POSE.RIGHT_HIP].y / VIDEO_SIZE.height,
-	// 		0.0,
-	// 	]);
-
-	// 	this.torso.geometry.attributes.position.array = this.vertices;
-	// 	this.torso.geometry.attributes.position.needsUpdate = true;
-
-	// 	this.head.position.set(1 - rig.keypoints[POSE.NOSE].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.NOSE].y / VIDEO_SIZE.height, 0.0);
-
-	// 	const neckBase = new Vector2(
-	// 		(1 - rig.keypoints[POSE.LEFT_SHOULDER].x / VIDEO_SIZE.width + 1 - rig.keypoints[POSE.RIGHT_SHOULDER].x / VIDEO_SIZE.width) / 2,
-	// 		(1 - rig.keypoints[POSE.LEFT_SHOULDER].y / VIDEO_SIZE.height + 1 - rig.keypoints[POSE.RIGHT_SHOULDER].y / VIDEO_SIZE.height) / 2,
-	// 	);
-	// 	const neckTop = new Vector2(1 - rig.keypoints[POSE.NOSE].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.NOSE].y / VIDEO_SIZE.height);
-
-	// 	const neckPos = neckBase.clone().add(neckTop).divideScalar(2);
-
-	// 	this.neck.position.set(neckPos.x, neckPos.y, 0.0);
-	// 	this.neck.scale.y = neckBase.distanceTo(neckTop) * 10;
-	// 	this.neck.lookAt(neckTop.x, neckTop.y, 0);
-	// 	this.neck.rotateX(Math.PI / 2);
-	// }
-
-	// assertBoneIsInCamera(src, dst) {
-	// 	const srcIsInCamera = src.x > 0 && src.x < VIDEO_SIZE.width && src.y > 0 && src.y < VIDEO_SIZE.height;
-	// 	const dstIsInCamera = dst.x > 0 && dst.x < VIDEO_SIZE.width && dst.y > 0 && dst.y < VIDEO_SIZE.height;
-	// 	return srcIsInCamera || dstIsInCamera;
-	// }
-
 	onAttach() {
+		app.debug.mapping.add(this, 'Particles');
+
 		this.gltf = app.core.assetsManager.get('avatar');
 		VRMUtils.removeUnnecessaryJoints(this.gltf.scene);
 		VRMUtils.removeUnnecessaryVertices(this.gltf.scene);
@@ -240,10 +84,37 @@ class Avatar extends Group {
 			}
 		});
 
-		this.add(this.mesh);
 		this.mesh.castShadow = true;
+		this.add(this.mesh);
 
 		this.addParticles();
+
+		// this.scene = new Scene();
+		// this.add(this.scene);
+		// this.camera = new PerspectiveCamera();
+		// this.camera.position.set(0.5, 0.5, 1);
+		// this.camera.lookAt(0.5, 0.5, 0);
+		// this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width * 0.1, VIDEO_SIZE.height * 0.1, { magFilter: NearestFilter });
+
+		// this.wPosMaterial = new ShaderMaterial({
+		// 	vertexShader: `
+		// 		varying vec4 vPosition;
+		// 		void main() {
+		// 			gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+		// 			vPosition = gl_Position;
+		// 		}
+		// 		`,
+		// 	fragmentShader: `
+		// 		varying vec4 vPosition;
+		// 		void main() {
+		// 			gl_FragColor = vPosition;
+		// 		}
+		// 		`,
+		// });
+
+		// this.tubes = new InstancedMesh(new CylinderGeometry(0.05, 0.05, 1, 32), new MeshBasicMaterial(), POSE_CONNECTIONS.length);
+		// this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
+		// this.scene.add(this.tubes);
 
 		this.quad = new Mesh(
 			new PlaneGeometry(VIDEO_SIZE.width * 0.0005, VIDEO_SIZE.height * 0.0005),
@@ -264,8 +135,8 @@ class Avatar extends Group {
 		}
 		`,
 				uniforms: {
-					tTex: { value: this.vertexStore.positionMap },
-					// tTex: { value: app.webgl.scene.leftHandParticles.sim.gpuCompute.getCurrentRenderTarget(app.webgl.scene.leftHandParticles.sim.pos).texture },
+					// tTex: { value: this.fbo.texture },
+					tTex: { value: this.gpuCompute.getCurrentRenderTarget(this.positionVariable).texture },
 				},
 			}),
 		);
@@ -275,12 +146,43 @@ class Avatar extends Group {
 		this.add(this.quad);
 	}
 
+	// onPlayerMoved(rig) {
+	// 	if (!this.tubes) return;
+
+	// 	POSE_CONNECTIONS.forEach((connection, i) => {
+	// 		const src = rig.keypoints[connection[0]];
+	// 		const dst = rig.keypoints[connection[1]];
+	// 		if (src && dst) {
+	// 			if (this.assertBoneIsInCamera(src, dst)) {
+	// 				const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
+	// 				const dstV2 = new Vector2(1 - dst.x / VIDEO_SIZE.width, 1 - dst.y / VIDEO_SIZE.height);
+	// 				const armPos = srcV2.clone().add(dstV2).divideScalar(2);
+	// 				DUMMY.position.set(armPos.x, armPos.y, 0);
+	// 				DUMMY.scale.y = srcV2.distanceTo(dstV2) * 1.1;
+	// 				DUMMY.lookAt(dstV2.x, dstV2.y, 0);
+	// 				DUMMY.rotateX(Math.PI / 2);
+	// 				DUMMY.updateMatrix();
+	// 			} else {
+	// 				DUMMY.scale.y = 0;
+	// 			}
+	// 			this.tubes.setMatrixAt(i, DUMMY.matrix);
+	// 		}
+	// 	});
+
+	// 	this.tubes.instanceMatrix.needsUpdate = true;
+	// }
+
+	assertBoneIsInCamera(src, dst) {
+		const srcIsInCamera = src.x > 0 && src.x < VIDEO_SIZE.width && src.y > 0 && src.y < VIDEO_SIZE.height;
+		const dstIsInCamera = dst.x > 0 && dst.x < VIDEO_SIZE.width && dst.y > 0 && dst.y < VIDEO_SIZE.height;
+		return srcIsInCamera || dstIsInCamera;
+	}
+
 	onRender({ dt }) {
 		if (this.vrm) {
 			this.vrm.update(dt);
 		}
 		if (this.ready) {
-			// this.mixer.update(dt);
 			this.vertexStore.update();
 
 			this.commonUniforms.uDelta.value = dt * 60;
@@ -290,6 +192,13 @@ class Avatar extends Group {
 			this.particlesUniforms.uVelocityMap.value = this.gpuCompute.getCurrentRenderTarget(this.velocityVariable).texture;
 			this.particlesUniforms.uPositionMap.value = this.gpuCompute.getCurrentRenderTarget(this.positionVariable).texture;
 		}
+
+		// if (this.scene && app.webgl.camera) {
+		// 	app.webgl.renderer.setRenderTarget(this.fbo);
+		// 	app.webgl.renderer.clear(true, true, false);
+		// 	app.webgl.renderer.render(this.scene, this.camera);
+		// 	app.webgl.renderer.setRenderTarget(null);
+		// }
 	}
 
 	// onPlayerMoved(rig) {
@@ -382,43 +291,18 @@ class Avatar extends Group {
 
 	/**
 	 * This demo is implemented in 3 steps.
-	 * 1. Write SkinnedMesh vertex positions to texture.
+	 * 1. Write Mesh vertex positions to texture.
 	 * 2. Advance particle simulation and write position and velocity to texture.
 	 * 3. Replace particles with InstancedMesh and finally render with MeshStandardMaterial.
 	 */
 	addParticles() {
-		const glbRoot = this.gltf;
-
 		/**
-		 * Create an object that bakes the transformed vertex positions and colors of the SinnedMesh into textures
+		 * Create an object that bakes the transformed vertex positions and colors of the mesh into textures
 		 */
-		this.vertexStore = this.prepareSkinnedMeshSampler(glbRoot.scene, 20000);
-		const numParticles = this.vertexStore.numVertices;
+		this.vertexStore = this.prepareMeshSampler(this.gltf.scene, 20000);
+		this.numParticles = this.vertexStore.numVertices;
 
-		/**
-		 * AnimationMixer
-		 */
-		// this.mixer = new AnimationMixer(glbRoot.scene);
-		// this.mixer.timeScale = 0.25;
-		// this.mixer.clipAction(glbRoot.animations[0]).play();
-		// this.mixer.update(0);
 		this.vertexStore.update();
-
-		// if (webgl.gui) {
-		//   const folder = webgl.gui.addFolder('Animation')
-		//   const options = {
-		// 	FastRun: 0,
-		// 	Dancing: 1,
-		// 	NorthernSoulSpinCombo: 2,
-		//   }
-		//   folder
-		// 	.add({ animation: 0 }, 'animation', options)
-		// 	.onChange((index: number) => {
-		// 	  mixer.stopAllAction()
-		// 	  mixer.clipAction(glbRoot.animations[index]).play()
-		// 	})
-		//   folder.add(mixer, 'timeScale').min(0).max(2).step(0.01)
-		// }
 
 		/**
 		 * Create GPUComputationRenderer for particle simulation
@@ -430,22 +314,20 @@ class Avatar extends Group {
 
 		const initialVelocityMap = this.gpuCompute.createTexture();
 		const initialPositionMap = this.gpuCompute.createTexture();
-		(function fillTextures() {
-			const positionArray = initialVelocityMap.image.data;
-			const velocityArray = initialPositionMap.image.data;
-			for (let i = 0; i < numParticles; i++) {
-				const i4 = i * 4;
-				const life = 1.0 + 2.0 * Math.random();
-				positionArray[i4 + 0] = 0;
-				positionArray[i4 + 1] = 0;
-				positionArray[i4 + 2] = 0;
-				positionArray[i4 + 3] = life;
-				velocityArray[i4 + 0] = 0;
-				velocityArray[i4 + 1] = 0;
-				velocityArray[i4 + 2] = 0;
-				velocityArray[i4 + 3] = life;
-			}
-		})();
+		const positionArray = initialVelocityMap.image.data;
+		const velocityArray = initialPositionMap.image.data;
+		for (let i = 0; i < this.numParticles; i++) {
+			const i4 = i * 4;
+			const life = 1.0 + 2.0 * Math.random();
+			positionArray[i4 + 0] = 0;
+			positionArray[i4 + 1] = 0;
+			positionArray[i4 + 2] = 0;
+			positionArray[i4 + 3] = life;
+			velocityArray[i4 + 0] = 0;
+			velocityArray[i4 + 1] = 0;
+			velocityArray[i4 + 2] = 0;
+			velocityArray[i4 + 3] = life;
+		}
 
 		this.velocityVariable = this.gpuCompute.addVariable('uVelocityMap', particlesVelocityShader, initialVelocityMap);
 		this.positionVariable = this.gpuCompute.addVariable('uPositionMap', particlesPositionShader, initialPositionMap);
@@ -466,7 +348,7 @@ class Avatar extends Group {
 				value: this.vertexStore.prevPositionMap,
 			},
 		};
-		const velocityUniforms = {
+		this.velocityUniforms = {
 			...this.commonUniforms,
 			uDieSpeed: {
 				value: 0.03,
@@ -484,36 +366,8 @@ class Avatar extends Group {
 		const positionUniforms = {
 			...this.commonUniforms,
 		};
-		Object.assign(this.velocityVariable.material.uniforms, velocityUniforms);
+		Object.assign(this.velocityVariable.material.uniforms, this.velocityUniforms);
 		Object.assign(this.positionVariable.material.uniforms, positionUniforms);
-
-		// if (webgl.gui) {
-		//   const folder = webgl.gui.addFolder('Particles')
-		//   folder
-		// 	.add(velocityUniforms.uCurlSize, 'value')
-		// 	.min(0.05)
-		// 	.max(0.5)
-		// 	.step(0.01)
-		// 	.name('curlSize')
-		//   folder
-		// 	.add(velocityUniforms.uCurlStrength, 'value')
-		// 	.min(0.003)
-		// 	.max(0.03)
-		// 	.step(0.001)
-		// 	.name('curlStrength')
-		//   folder
-		// 	.add(velocityUniforms.uCurlChangeSpeed, 'value')
-		// 	.min(0)
-		// 	.max(1.0)
-		// 	.step(0.01)
-		// 	.name('curlChangeSpeed')
-		//   folder
-		// 	.add(velocityUniforms.uDieSpeed, 'value')
-		// 	.min(0.01)
-		// 	.max(0.1)
-		// 	.step(0.01)
-		// 	.name('dieSpeed')
-		// }
 
 		const error = this.gpuCompute.init();
 		if (error !== null) {
@@ -523,20 +377,8 @@ class Avatar extends Group {
 		/**
 		 * Create InstancedMesh and shaders to render particles
 		 */
-		const geometry = (() => {
-			const geom = new OctahedronGeometry().scale(0.004, 0.005, 0.012);
-			// const geom = new THREE.BoxGeometry().scale(0.005, 0.004, 0.012)
-
-			geom.computeVertexNormals();
-
-			const refs = new Float32Array(numParticles);
-			for (let i = 0; i < numParticles; i++) {
-				refs[i] = i;
-			}
-			geom.setAttribute('aReference', new InstancedBufferAttribute(refs, 1));
-
-			return geom;
-		})();
+		const geometry = this.createParticleGeometry(new OctahedronGeometry().scale(0.004, 0.005, 0.004));
+		// const geom = new BoxGeometry().scale(0.005, 0.004, 0.012);
 
 		this.particlesUniforms = {
 			uVelocityMap: {
@@ -544,9 +386,6 @@ class Avatar extends Group {
 			},
 			uPositionMap: {
 				value: null,
-			},
-			uColorMap: {
-				value: this.vertexStore.colorMap,
 			},
 			uMapSize: {
 				value: new Vector2(this.vertexStore.mapWidth, this.vertexStore.mapHeight),
@@ -559,19 +398,11 @@ class Avatar extends Group {
 				metalness: 0.4,
 				roughness: 0.9,
 				envMapIntensity: 4,
-				defines: {
-					USE_COLOR: '',
-				},
 			}),
 			this.particlesUniforms,
 			this.customizeShader,
 		);
-		// if (isDebug && webgl.gui) {
-		//   const folder = webgl.gui.addFolder('Material')
-		//   folder.add(material, 'metalness').min(0).max(1).step(0.01)
-		//   folder.add(material, 'roughness').min(0).max(1).step(0.01)
-		//   folder.add(material, 'envMapIntensity').min(0).max(10).step(0.01)
-		// }
+
 		const { material: depthMaterial } = customizeMaterial(
 			new MeshDepthMaterial({
 				depthPacking: RGBADepthPacking,
@@ -580,32 +411,31 @@ class Avatar extends Group {
 			this.customizeShader,
 		);
 
-		const particles = new InstancedMesh(geometry, material, numParticles);
-		particles.castShadow = true;
-		particles.receiveShadow = true;
-		particles.customDepthMaterial = depthMaterial;
+		this.particles = new InstancedMesh(geometry, material, this.numParticles);
+		this.particles.castShadow = true;
+		this.particles.receiveShadow = true;
+		this.particles.customDepthMaterial = depthMaterial;
 
 		const dummy = new Object3D();
-		for (let i = 0; i < numParticles; i++) {
-			particles.setMatrixAt(i, dummy.matrix);
+		for (let i = 0; i < this.numParticles; i++) {
+			this.particles.setMatrixAt(i, dummy.matrix);
 		}
 
-		app.webgl.scene.add(particles);
+		app.webgl.scene.add(this.particles);
 
 		this.ready = true;
-		// webgl.events.tick.on((deltaTime) => {
-		//   mixer.update(deltaTime)
-		//   vertexStore.update()
+	}
 
-		//   commonUniforms.uDelta.value = deltaTime * 60
-		//   commonUniforms.uTime.value += deltaTime
-		//   gpuCompute.compute()
+	createParticleGeometry(geom) {
+		geom.computeVertexNormals();
 
-		//   particlesUniforms.uVelocityMap.value =
-		// 	gpuCompute.getCurrentRenderTarget(velocityVariable).texture
-		//   particlesUniforms.uPositionMap.value =
-		// 	gpuCompute.getCurrentRenderTarget(positionVariable).texture
-		// })
+		const refs = new Float32Array(this.numParticles);
+		for (let i = 0; i < this.numParticles; i++) {
+			refs[i] = i;
+		}
+		geom.setAttribute('aReference', new InstancedBufferAttribute(refs, 1));
+
+		return geom;
 	}
 
 	customizeShader(shader) {
@@ -616,7 +446,6 @@ class Avatar extends Group {
 	
 			uniform sampler2D uVelocityMap;
 			uniform sampler2D uPositionMap;
-			uniform sampler2D uColorMap;
 			uniform ivec2 uMapSize;
 	
 			attribute float aReference;
@@ -642,13 +471,12 @@ class Avatar extends Group {
 			  return maty * matz;
 			}
 	
-			void displace(out vec3 displacedPosition, out vec3 displacedNormal, out vec3 displacedColor) {
+			void displace(out vec3 displacedPosition, out vec3 displacedNormal) {
 			  vec2 ref = getReference(aReference);
 			  vec4 positionData = texture2D(uPositionMap, ref);
 			  vec3 worldPosition = positionData.xyz;
 			  vec3 velocity = texture2D(uVelocityMap, ref).xyz;
 			  float life = positionData.w;
-			  vec3 vertexColor = texture2D(uColorMap, ref).xyz;
 	
 			  mat3 particleRotation = getRotation(normalize(velocity));
 			  vec3 particleScale = vec3(
@@ -660,7 +488,6 @@ class Avatar extends Group {
 			  displacedPosition *= clamp(smoothstep(0.0, 0.5, life), 0.0, 1.0) * particleScale;
 			  displacedPosition = particleRotation * displacedPosition + worldPosition;
 			  displacedNormal = normalize(particleRotation * normal / particleScale);
-			  displacedColor = vertexColor;
 			}
 		  `,
 		);
@@ -669,20 +496,9 @@ class Avatar extends Group {
 			/* glsl */ `
 			vec3 displacedPosition = vec3(0.0);
 			vec3 displacedNormal = vec3(0.0);
-			vec3 displacedColor = vec3(0.0);
-			displace(displacedPosition, displacedNormal, displacedColor);
+			displace(displacedPosition, displacedNormal);
 	
 			#include <uv_vertex>
-		  `,
-		);
-		shader.vertexShader = shader.vertexShader.replace(
-			'#include <color_vertex>',
-			/* glsl */ `
-			#include <color_vertex>
-	
-			#ifdef USE_COLOR
-			  vColor.xyz = displacedColor;
-			#endif
 		  `,
 		);
 		shader.vertexShader = shader.vertexShader.replace(
@@ -701,38 +517,23 @@ class Avatar extends Group {
 		);
 	}
 
-	prepareSkinnedMeshSampler(model, numSamples) {
-		/**
-		 * Find the SkinnedMesh
-		 */
+	prepareMeshSampler(mesh, numSamples) {
 		let skinnedMesh = new SkinnedMesh();
-		model.traverse((child) => {
-			if (child instanceof SkinnedMesh) {
-				skinnedMesh = child;
-			}
+		mesh.traverse((c) => {
+			if (c instanceof SkinnedMesh) skinnedMesh = c;
 		});
-
-		if (!skinnedMesh) throw new Error('SkinnedMesh not found');
-
-		if (Array.isArray(skinnedMesh.material)) {
-			throw new Error('Array material is not supported');
-		}
-
-		// const colorMap: THREE.Texture = (skinnedMesh.material as any).map
-		// if (!colorMap) throw new Error('diffuseMap not found')
-		const colorMap = new Texture();
 
 		const newGeometry = this.createPointsGeometryForSkin(skinnedMesh, numSamples);
 
 		/**
-		 * We want to store the animated vertex positions of the SkinnedMesh
+		 * We want to store the animated vertex positions of the Mesh
 		 * as the render target textures and use them in the next pass (particle simulation).
 		 */
-		const vertexStore = this.createVertexStore(newGeometry, colorMap);
+		const vertexStore = this.createVertexStore(newGeometry);
 
 		const container = new Group();
 		container.scale.multiplyScalar(1);
-		container.add(model);
+		container.add(skinnedMesh);
 		vertexStore.scene.add(container);
 
 		skinnedMesh.geometry.dispose();
@@ -753,7 +554,7 @@ class Avatar extends Group {
 	 * Emulate the Transform Feedback of SkinnedMesh using the render target texture.
 	 * https://stackoverflow.com/questions/29053870/retrieve-vertices-data-in-three-js
 	 */
-	createVertexStore(geometry, colorMap) {
+	createVertexStore(geometry) {
 		const numVertices = geometry.attributes.position.count;
 
 		/**
@@ -780,9 +581,7 @@ class Avatar extends Group {
 			wrapS: ClampToEdgeWrapping,
 			wrapT: ClampToEdgeWrapping,
 		};
-		const renderTarget = new WebGLMultipleRenderTargets(mapWidth, mapHeight, 2, renderTargetOptions);
-		renderTarget.texture[0].name = 'position';
-		renderTarget.texture[1].name = 'color';
+		const renderTarget = new WebGLRenderTarget(mapWidth, mapHeight, renderTargetOptions);
 
 		/**
 		 * An object to copy the texture where the vertex positions are stored.
@@ -801,13 +600,10 @@ class Avatar extends Group {
 				uMapHeight: {
 					value: mapHeight,
 				},
-				uColorMap: {
-					value: colorMap,
-				},
 			},
-			glslVersion: GLSL3,
-			vertexShader: skinnedMeshVertexShader,
-			fragmentShader: skinnedMeshFragmentShader,
+			// glslVersion: GLSL3,
+			vertexShader: meshVertexShader,
+			fragmentShader: meshFragmentShader,
 		});
 
 		const scene = new Scene();
@@ -819,8 +615,7 @@ class Avatar extends Group {
 			geometry,
 			material,
 			scene,
-			positionMap: renderTarget.texture[0],
-			colorMap: renderTarget.texture[1],
+			positionMap: renderTarget.texture,
 			prevPositionMap: positionMapSaver.texture,
 			update,
 		};
@@ -840,8 +635,8 @@ class Avatar extends Group {
 	/**
 	 * Create point cloud geometry capable of skin animation
 	 */
-	createPointsGeometryForSkin(skinnedMesh, numSamples) {
-		const sampler = this.createSkinnedMeshSurfaceSampler(skinnedMesh);
+	createPointsGeometryForSkin(mesh, numSamples) {
+		const sampler = this.createMeshSurfaceSampler(mesh);
 
 		const sample = {
 			position: new Vector3(),
@@ -891,10 +686,9 @@ class Avatar extends Group {
 	}
 
 	/**
-	 * Resample vertices uniformly from the SkinnedMesh surface.
-	 * Skin weights are copied from the nearest vertex.
+	 * Resample vertices uniformly from the Mesh surface.
 	 */
-	createSkinnedMeshSurfaceSampler(mesh) {
+	createMeshSurfaceSampler(mesh) {
 		const sampler = new MeshSurfaceSampler(mesh).build();
 		const positionAttribute = getAttribute('position');
 		const uvAttribute = getAttribute('uv');
