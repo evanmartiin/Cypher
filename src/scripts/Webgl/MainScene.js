@@ -69,7 +69,7 @@ class MainScene extends Scene {
 
 		// this.add(leftHandParticles);
 		// this.add(rightHandParticles, leftHandParticles);
-		this.add(this.leftHandParticles);
+		// this.add(this.leftHandParticles);
 	}
 	addFog() {
 		const customFog = new CustomFog();
