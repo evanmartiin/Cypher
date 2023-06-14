@@ -143,7 +143,7 @@ class Avatar extends Group {
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		this.add(this.quad);
+		// this.add(this.quad);
 	}
 
 	// onPlayerMoved(rig) {
@@ -225,12 +225,14 @@ class Avatar extends Group {
 		this.canControl = true;
 		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
 		this.mesh.visible = true;
+		this.particles.visible = true;
 	}
 
 	disableControl() {
 		this.canControl = false;
 		state.off(EVENTS.RIG_COMPUTED, this.updateRig);
 		this.mesh.visible = false;
+		this.particles.visible = false;
 	}
 
 	updateRig = (riggedPose) => {
