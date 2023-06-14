@@ -72,3 +72,27 @@
 		opacity: 0;
 	}
 }
+
+.start {
+	width: 75px;
+	height: 75px;
+	background-color: blue;
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	transform: translateX(-50%) translateY(-50%);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity .5s ease-in-out;
+	opacity: 0;
+
+	&.show {
+		opacity: 1;
+	}
+
+	&.hovered {
+		background-color: green;
+	}
+}
