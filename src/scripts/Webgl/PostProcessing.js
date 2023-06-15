@@ -1,14 +1,13 @@
-import { MathUtils } from 'three';
+import { MathUtils, Scene } from 'three';
 import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+import { ClearPass } from 'three/examples/jsm/postprocessing/ClearPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
-import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
-import { globalUniforms } from '@utils/globalUniforms.js';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -16,13 +15,27 @@ class PostProcessing {
 	constructor(_isWebGL2 = true, renderer, scene, camera) {
 		state.register(this);
 
-		this._effectComposer = this._createEffectComposer(renderer);
-		this._renderPass = this._addRenderPass(scene, camera);
+		this.sceneWithoutPP = new Scene();
+
+		this._effectComposer = new EffectComposer(renderer);
+		this._effectComposer.setSize(app.tools.viewport.width, app.tools.viewport.height);
+
+		const clearPass = new ClearPass();
+
+		const outputPass = new ShaderPass(CopyShader);
+		outputPass.renderToScreen = true;
+
+		this._effectComposer.addPass(clearPass);
+		this._addRenderPass(scene, camera);
+
 		this._bloomPass = this._addBloomPass();
+
+		this._addRenderPass(this.sceneWithoutPP, camera);
+
+		this._fishEyesPass = this._addFishEyesPass(camera);
 		this._afterImagePass = this._addAfterImagePass();
-		// this._fishEyesPass = this._addFishEyesPass(camera);
-		// this.bokehPass = this._addBokehPass(scene, camera);
 		this._SMAAPass = this._addSMAAPass();
+		this._effectComposer.addPass(outputPass);
 
 		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		// this._effectComposer.addPass(gammaCorrectionPass);
@@ -42,6 +55,7 @@ class PostProcessing {
 
 	_addRenderPass(scene, camera) {
 		const renderPass = new RenderPass(scene, camera);
+		renderPass.clear = false;
 		this._effectComposer.addPass(renderPass);
 
 		return renderPass;

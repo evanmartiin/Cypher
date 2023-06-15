@@ -48,7 +48,7 @@ export default class CounterAnimation extends Group {
 		mesh.position.y = 1;
 		mesh.position.z = 1;
 
-		app.webgl.scene.add(mesh);
+		app.webgl.postProcessing.sceneWithoutPP.add(mesh);
 
 		return mesh;
 	}
