@@ -79,6 +79,16 @@ class Reflector extends Mesh {
 		baseMap.repeat.y = repeat;
 
 		const noiseTexture = app.core.assetsManager.get('noise');
+		noiseTexture.wrapS = MirroredRepeatWrapping;
+		noiseTexture.wrapT = MirroredRepeatWrapping;
+
+		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
+		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
+		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
+
+		const glitchTexture = app.core.assetsManager.get('glitch');
+		glitchTexture.wrapS = MirroredRepeatWrapping;
+		glitchTexture.wrapT = MirroredRepeatWrapping;
 
 		this.material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
@@ -90,6 +100,8 @@ class Reflector extends Mesh {
 				uBaseTexture: { value: this.baseRenderTarget.texture },
 				uBaseMap: { value: baseMap },
 				uTextureMatrix: { value: textureMatrix },
+				uGlitchTexture: { value: glitchTexture },
+				uPixelSortingTexture: { value: pixelSortingTexture },
 				uNoiseTexture: { value: noiseTexture },
 			},
 			transparent: true,

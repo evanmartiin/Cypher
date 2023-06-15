@@ -1,4 +1,6 @@
 import { MathUtils } from 'three';
+import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
@@ -16,16 +18,18 @@ class PostProcessing {
 
 		this._effectComposer = this._createEffectComposer(renderer);
 		this._renderPass = this._addRenderPass(scene, camera);
-		// this._bloomPass = this._addBloomPass();
+		this._bloomPass = this._addBloomPass();
+		this._afterImagePass = this._addAfterImagePass();
 		// this._fishEyesPass = this._addFishEyesPass(camera);
-		// this._SMAAPass = this._addSMAAPass();
+		// this.bokehPass = this._addBokehPass(scene, camera);
+		this._SMAAPass = this._addSMAAPass();
 
 		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		// this._effectComposer.addPass(gammaCorrectionPass);
 	}
 
 	onAttach() {
-		// app.debug?.mapping.add(this, 'PostProcessing');
+		app.debug?.mapping.add(this, 'PostProcessing');
 	}
 
 	_createEffectComposer(renderer) {
@@ -45,7 +49,7 @@ class PostProcessing {
 
 	_addBloomPass() {
 		const unrealBloomPass = new UnrealBloomPass();
-		unrealBloomPass.strength = 1.5;
+		unrealBloomPass.strength = 0.65;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
 		this._effectComposer.addPass(unrealBloomPass);
@@ -122,6 +126,28 @@ class PostProcessing {
 				'}',
 			].join('\n'),
 		};
+	}
+
+	_addAfterImagePass() {
+		const afterImagePass = new AfterimagePass();
+		afterImagePass.uniforms['damp'].value = 0.8;
+		this._effectComposer.addPass(afterImagePass);
+
+		return afterImagePass;
+	}
+
+	_addBokehPass(scene, camera) {
+		const bokehPass = new BokehPass(scene, camera, {
+			focus: 3,
+			aperture: 0.25,
+			maxblur: 3,
+		});
+
+		// bokehPass.uniforms['focus'].value = 10;
+		// bokehPass.uniforms['aperture'].value = 1;
+		// bokehPass.uniforms['maxblur'].value = 2;
+
+		return bokehPass;
 	}
 
 	_addSMAAPass() {

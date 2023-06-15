@@ -3,7 +3,6 @@ import { Reflector } from '@utils/Reflector.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-
 export class GroundReflector extends Group {
 	constructor() {
 		super();
@@ -28,8 +27,6 @@ export class GroundReflector extends Group {
 		const scale = 28;
 		reflector.scale.set(scale, scale, 1);
 		this.add(reflector);
-
-		console.log(reflector);
 
 		return reflector;
 	}
