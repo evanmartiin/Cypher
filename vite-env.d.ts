@@ -31,6 +31,11 @@ declare module "*.vs?hotShader" {
     export default content;
 }
 
+declare module "*.json" {
+    const value: any;
+    export default value;
+}
+
 declare module "virtual-scroll";
 declare module "stats-js";
 

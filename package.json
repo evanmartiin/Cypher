@@ -10,7 +10,8 @@
     "dev": "vite -m development -c config/vite.config.js",
     "build": "vite build -m production -c config/vite.config.js",
     "staging": "vite build -m staging -c config/vite.config.js",
-    "preview": "vite preview -c config/vite.config.js"
+    "preview": "vite preview -c config/vite.config.js",
+    "build-assets": "sh ./assets/audio/create-spritesheet.sh"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
@@ -34,6 +35,7 @@
     "@tensorflow/tfjs-converter": "^4.4.0",
     "@tensorflow/tfjs-core": "^4.4.0",
     "gsap": "^3.11.5",
+    "howler": "^2.2.3",
     "kalidokit": "^1.1.5",
     "postprocessing": "^6.30.2",
     "socket.io-client": "^4.6.1",
