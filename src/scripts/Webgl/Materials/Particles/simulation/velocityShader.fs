@@ -247,8 +247,9 @@ void main() {
 	// } else {
 	// }
 	// velocity = positionFluid * 50. - position;
+	velocity = rigPosition * 100. - position;
 	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
 	velocity *= uSpeed;
 
-	gl_FragColor = vec4(velocity, 0.0);
+	gl_FragColor = vec4(velocity, life);	
 }

@@ -24,6 +24,10 @@ const manifest = {
 		pixelSorting: { path: `${import.meta.env.BASE_URL}assets/textures/pixelSorting.jpg`, priority: 2, callback: null },
 		glitch: { path: `${import.meta.env.BASE_URL}assets/textures/glitch.jpg`, priority: 2, callback: null },
 
+		3: { path: `${import.meta.env.BASE_URL}assets/textures/3.png`, priority: 2, callback: null },
+		2: { path: `${import.meta.env.BASE_URL}assets/textures/2.png`, priority: 2, callback: null },
+		1: { path: `${import.meta.env.BASE_URL}assets/textures/1.png`, priority: 2, callback: null },
+
 		// ...
 	},
 	envMaps: {

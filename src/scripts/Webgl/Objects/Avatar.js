@@ -4,6 +4,7 @@ import {
 	CircleGeometry,
 	CylinderGeometry,
 	Group,
+	HalfFloatType,
 	Mesh,
 	MeshBasicMaterial,
 	NearestFilter,
@@ -15,6 +16,7 @@ import {
 	WebGLRenderTarget,
 } from 'three';
 import { POSE } from '@utils/constants.js';
+import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
@@ -33,7 +35,7 @@ class Avatar extends Group {
 		this.camera = new PerspectiveCamera();
 		this.camera.position.set(0.5, 0.5, 1);
 		this.camera.lookAt(0.5, 0.5, 0);
-		this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width * 0.1, VIDEO_SIZE.height * 0.1, { magFilter: NearestFilter });
+		this.fbo = new WebGLRenderTarget(512, 512, { magFilter: NearestFilter, type: HalfFloatType });
 
 		this.tubes = new Group();
 		this.wPosMaterial = new ShaderMaterial({
@@ -56,6 +58,41 @@ class Avatar extends Group {
 		});
 		this.scene.add(this.tubes);
 
+		const randomColorMaterial = new ShaderMaterial({
+			vertexShader: `
+	varying vec2 vUv;
+	void main() {
+		vUv = uv;
+		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+	}
+	`,
+			fragmentShader: `
+			uniform float uTime;
+	varying vec2 vUv;
+
+	float random(vec2 st) {
+	return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) *
+		43758.5453123);
+	}
+
+	void main() {
+		float rx = random(vUv );
+		float ry = random(vUv + 1.);
+		float rz = random(vUv + 2.);
+		
+		gl_FragColor = vec4(rx  -0.5, ry  -0.5, rz  -0.5, 1.0);
+		gl_FragColor = vec4(vec3(0., -1., 0.), 1.0);
+	}
+	`,
+			uniforms: {
+				...globalUniforms,
+			},
+		});
+
+		const randomPlane = new Mesh(new PlaneGeometry(6, 6, 1, 1), randomColorMaterial);
+		this.scene.add(randomPlane);
+		randomPlane.position.set(0.5, 0.5, -5);
+
 		const geometry = new BufferGeometry();
 		this.vertices = new Float32Array(4 * 3);
 
@@ -65,8 +102,9 @@ class Avatar extends Group {
 		this.torso = new Mesh(geometry, this.wPosMaterial);
 		this.scene.add(this.torso);
 
-		this.head = new Mesh(new CircleGeometry(0.15, 10), this.wPosMaterial);
+		this.head = new Mesh(new CircleGeometry(0.15, 32), this.wPosMaterial);
 		this.scene.add(this.head);
+		this.head.scale.y = 1.25;
 
 		this.neck = new Mesh(new CylinderGeometry(0.05, 0.05, 0.1, 32), this.wPosMaterial);
 		this.scene.add(this.neck);
@@ -98,7 +136,7 @@ class Avatar extends Group {
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		// this.add(this.quad);
+		this.add(this.quad);
 	}
 
 	onRender() {

@@ -82,9 +82,9 @@ export class GPUSimulation {
 
 			const theta = bruhI * (Math.PI / 180);
 			const phi = bruhJ * (Math.PI / 180);
-			const x = Math.random() * 12 - 6;
-			const y = Math.random() * 12 - 6;
-			const z = Math.random() * 12 - 6;
+			const x = (Math.random() * 2 - 1) * 100;
+			const y = (Math.random() * 2 - 1) * 100;
+			const z = (Math.random() * 2 - 1) * 20;
 			// const x = Math.cos(theta) * Math.cos(phi) * r;
 			// const y = Math.sin(theta) * Math.cos(phi) * r;
 			// const z = Math.sin(phi) * r;
@@ -110,7 +110,7 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.005 };
+		this.posUniforms.uDieSpeed = { value: 0.001 };
 		this.posUniforms.uAcceleration = { value: this.acceleration.value };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
@@ -162,8 +162,6 @@ export class GPUSimulation {
 	onRender({ dt }) {
 		RigCoords.update();
 		this.simulation.update();
-		// app.webgl.renderer.setRenderTarget(null);
-		// app.webgl.renderer.render(app.webgl.scene, app.webgl.camera);
 
 		this.posUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;
 		this.velUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;
@@ -178,7 +176,6 @@ export class GPUSimulation {
 		if (app.webgl.scene.avatar.fbo.texture) {
 			this.posUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
 			this.velUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
-			// this.material.map = app.webgl.scene.avatar.fbo.texture;
 		}
 
 		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);

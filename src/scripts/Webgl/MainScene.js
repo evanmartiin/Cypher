@@ -7,6 +7,7 @@ import { globalUniforms } from '@utils/globalUniforms.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
+import CounterAnimation from './Objects/CounterAnimation.js';
 import { Crowd } from './Objects/Crowd.js';
 import { CustomFog } from './Objects/CustomFog.js';
 import FluidSimulation from './Objects/FluidSim/FluidSimulation.js';
@@ -38,10 +39,11 @@ class MainScene extends Scene {
 		this._environment = this.addEnvironment();
 		this._particles = this.addParticles();
 		this._fog = this.addFog();
+		this._counterAnimation = this.addCounterAnimation();
 		this._transitionTimeline = this.setTransitionTimeline();
 
 		document.addEventListener('click', () => {
-			// this._transitionTimeline.restart();
+			this._transitionTimeline.restart();
 		});
 	}
 
@@ -85,6 +87,12 @@ class MainScene extends Scene {
 		this.fog = customFog._fog;
 
 		return customFog;
+	}
+
+	addCounterAnimation() {
+		const counterAnimation = new CounterAnimation();
+
+		return counterAnimation;
 	}
 
 	setTransitionTimeline() {

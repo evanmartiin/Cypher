@@ -28,6 +28,7 @@ void main() {
 		position += velocity * uDelta;
 	} else {
 		position = texture2D(uTextureDefaultPosition, uv).xyz;
+		position = rigPosition * 100.;
 		// position.x += uCoordsPositions.x * 35.;
 		// position.y += uCoordsPositions.y * 15.;
 		// position.z += uCoordsPositions.z * 35.;
@@ -35,4 +36,5 @@ void main() {
 	}
 
 	gl_FragColor = vec4(position, life);
+	gl_FragColor = vec4(position, 1.0);
 }
