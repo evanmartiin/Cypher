@@ -35,3 +35,17 @@ List of params:
 `tensorflow`: Select tensorflow compute mode. `gpu` or `cpu`. `cpu` has memory leaks. `gpu` if nothing is set.  
 
 s/o Titou pour le starter
+
+
+## AudioManager
+
+To merge all UI sound in a sprite :
+1. Install audiosprite : `npm install -g audiosprite`
+2. Put all UI sounds in `assets/audio` at the project's root
+3. Type `pnpm build-assets` or `npm run build-assets`
+4. Update `UI_IDS` in `AudioManager.js` with corresponding names
+
+To add musics :
+1. Put them in `src/assets/audio/musics`
+2. Update `musics.json` in `src/scripts/Core/audio` by giving musics' name and source file
+3. Update `MUSIC_IDS` in `AudioManager.js` with corresponding names
