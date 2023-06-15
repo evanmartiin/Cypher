@@ -1,10 +1,25 @@
-import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial } from 'three';
+import {
+	BoxGeometry,
+	BufferGeometry,
+	DoubleSide,
+	Group,
+	InstancedBufferAttribute,
+	InstancedMesh,
+	MeshStandardMaterial,
+	MirroredRepeatWrapping,
+	OctahedronGeometry,
+	PlaneGeometry,
+	SphereGeometry,
+	Texture,
+	Vector2,
+} from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 import { GPUSimulation } from '../../utils/GPUSimulation.js';
 
 export class Particles extends Group {
@@ -15,6 +30,7 @@ export class Particles extends Group {
 		this.coords = coords;
 		this.acceleration = acceleration;
 
+		console.log(this);
 		this.init();
 	}
 
@@ -27,9 +43,11 @@ export class Particles extends Group {
 
 	_createGeometry() {
 		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
+		const baseGeometry = new BoxGeometry(1, 1, 1, 1);
 		// const baseGeometry = new OctahedronGeometry(1, 0);
-		const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(0.75, 0.75, 0.75);
+		// const baseGeometry = new SphereGeometry();
+		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
+		baseGeometry.scale(6, 6, 6);
 
 		const geometry = new BufferGeometry();
 
@@ -51,6 +69,14 @@ export class Particles extends Group {
 	}
 
 	_createMaterial() {
+		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
+		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
+		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
+
+		const glitchTexture = app.core.assetsManager.get('glitch');
+		glitchTexture.wrapS = MirroredRepeatWrapping;
+		glitchTexture.wrapT = MirroredRepeatWrapping;
+
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			vertexShader: vertexShader,
@@ -60,13 +86,17 @@ export class Particles extends Group {
 
 				posMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture },
 				velMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture },
+				uRigPositionMap: { value: new Texture() },
 				uSize: { value: this.size },
 				uAcceleration: { value: this.acceleration.value },
+				uPixelSortingTexture: { value: pixelSortingTexture },
+				uGlitchTexture: { value: glitchTexture },
+				uVideoBounds: { value: new Vector2(VIDEO_SIZE.width, VIDEO_SIZE.height) },
 			},
 			side: DoubleSide,
-			metalness: 0.6,
-			roughness: 0.4,
-			envMap: app.core.assetsManager.get('envmap'),
+			metalness: 0.5,
+			roughness: 0.5,
+			// envMap: app.core.assetsManager.get('envmap'),
 		});
 
 		return material;
@@ -74,9 +104,10 @@ export class Particles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.scale.set(0.05, 0.05, 0.05);
+		mesh.scale.set(0.0075, 0.0075, 0.0075);
 
 		this.add(mesh);
+		mesh.position.y = 1;
 		mesh.frustumCulled = false;
 		mesh.renderOrder = 2;
 
@@ -87,6 +118,9 @@ export class Particles extends Group {
 		this._material.uniforms.uAcceleration.value = this.acceleration.value;
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
+		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.fbo.texture;
+
+		// console.log(this._material.uniforms.uRigPositionMap.value);
 
 		this.sim.gpuCompute.compute();
 	}

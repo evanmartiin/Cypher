@@ -7,11 +7,28 @@ vec3 avatarWorldPos = vWorldPosition;
 avatarWorldPos.xz *= 1.5;
 avatarWorldPos.y *= 0.5;
 
-float avatarDist = smoothstep(0.5, 2.0, length(avatarWorldPos));
+// transitionsUvs += fract(time * 0.01);
+
+vec4 glitchTex = texture2D(uGlitchTexture, vTransitionUvs * 5.);
+vec4 pixelSortingTex = texture2D(uPixelSortingTexture, vTransitionUvs * 5.);
+
+float tempIn = uTransitionProgress * 25.;
+tempIn -= (pixelSortingTex.r + glitchTex.r) * 15.;
+
+float distIn = 1.0 - length(avatarWorldPos);
+tempIn = smoothstep(tempIn, tempIn, distIn);
+
+float tempOut = uTransitionProgress * 25.;
+tempOut += (pixelSortingTex.r + glitchTex.r) * 15.;
+
+float distOut = length(avatarWorldPos);
+tempOut = smoothstep(tempOut, tempOut, distOut);
+
+// float dist = length(vTransitionUvs - 0.5);
+
+float avatarDist = smoothstep(2., 3., length(avatarWorldPos));
 
 float avatarDemoDist = smoothstep(0., 2.0, length(avatarWorldPos - vec3(3.0, 0.0, 3.0) * 1.5));
-
-float dist = smoothstep(abs(sin(time) * 19.), abs(sin(time) * 20.), length(avatarWorldPos));
 
     // Fresnel
 float fresnelFactor = abs(dot(vViewDirection, vNormal));
@@ -24,13 +41,22 @@ if(fresnelFactor <= 0.0) {
 discard;
 }
 
-vec3 gradient = mix(vec3(1., 1., 1.0), vec3(0.0, 0.0, 0.0), fresnelFactor);
+vec3 render = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.35, avatarDist);
 
-vec3 render = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.3, avatarDist);
-vec3 transitionRender = mix(gl_FragColor.rgb * 0., gl_FragColor.rgb, dist);
+vec3 tempRender = render;
+
+if(uSwitchTransition) {
+tempRender = mix(uTransitionColor, render, tempIn);
+} else {
+tempRender = mix(uTransitionColor, render, tempOut);
+}
 
 gl_FragColor.rgb *= (vec3(fresnelFactor));
-// gl_FragColor.rgb = mix((gl_FragColor.rgb * 1.1), gl_FragColor.rgb, avatarDist * avatarDemoDist);
-// gl_FragColor.rgb = transitionRender;
+gl_FragColor.rgb = vec3(avatarDist);
 gl_FragColor.rgb = render;
+gl_FragColor.rgb = vec3(pixelSortingTex);
+gl_FragColor.rgb = vec3(glitchTex);
+// gl_FragColor.rgb = rOut;
+// gl_FragColor.rgb = rIn;
+gl_FragColor.rgb = tempRender;
 #endif

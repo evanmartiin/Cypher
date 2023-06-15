@@ -1,4 +1,4 @@
-import { Color, ConeGeometry, DoubleSide, Group, Mesh, ShaderMaterial, Vector3 } from 'three';
+import { AdditiveBlending, Color, ConeGeometry, DoubleSide, Group, Mesh, ShaderMaterial, Vector3 } from 'three';
 import fragmentShader from '@Webgl/Materials/VolumetricSpots/fragment.fs';
 import vertexShader from '@Webgl/Materials/VolumetricSpots/vertex.vs';
 import { state } from '@scripts/State.js';
@@ -19,10 +19,11 @@ export class VolumetricSpots extends Group {
 			uniforms: {
 				uAnglePower: { value: 0.1 },
 				uLightColor: { value: new Color('#ffffff') },
-			},	
+			},
 			transparent: true,
 			side: DoubleSide,
 			depthWrite: false,
+			blending: AdditiveBlending,
 		});
 
 		const left = new Mesh(geometry, material);

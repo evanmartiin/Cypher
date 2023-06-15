@@ -1,10 +1,13 @@
+import gsap from 'gsap';
 import { AmbientLight, Color, Fog, Group, IcosahedronGeometry, Mesh, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, PointLight, Scene, ShaderChunk } from 'three';
 import Environment from '@Webgl/Objects/Environment.js';
 import { GroundReflector } from '@Webgl/Objects/GroundReflector.js';
 import RigCoords from '@utils/RigCoords.js';
+import { globalUniforms } from '@utils/globalUniforms.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
+import CounterAnimation from './Objects/CounterAnimation.js';
 import { Crowd } from './Objects/Crowd.js';
 import { CustomFog } from './Objects/CustomFog.js';
 import FluidSimulation from './Objects/FluidSim/FluidSimulation.js';
@@ -30,50 +33,103 @@ class MainScene extends Scene {
 	}
 
 	onAttach() {
-		this.addLights();
+		this._lights = this.addLights();
 		// this.addSpotLights();
-		this.addGroundReflector();
-		this.addEnvironment();
-		this.addParticles();
-		// this.addFog();
+		this._groundReeflector = this.addGroundReflector();
+		this._environment = this.addEnvironment();
+		this._particles = this.addParticles();
+		this._fog = this.addFog();
+		this._counterAnimation = this.addCounterAnimation();
+		this._transitionTimeline = this.setTransitionTimeline();
+
+		// document.addEventListener('click', () => {
+		// 	this._transitionTimeline.restart();
+		// });
 	}
 
 	addLights() {
 		const lights = new Lights();
 		this.add(lights);
+
+		return lights;
 	}
 
 	addSpotLights() {
 		const spotLights = new VolumetricSpots();
 		this.add(spotLights);
+
+		return spotLights;
 	}
 
 	addGroundReflector() {
 		const groundReflector = new GroundReflector();
 		groundReflector.position.y = 0.01;
-		// groundReflector.rotation.y = Math.PI * 0.35;
-		// groundReflector.position.z = 15;
 		this.add(groundReflector);
+
+		return groundReflector;
 	}
 
 	addEnvironment() {
 		const environment = new Environment();
-		this.add(environment);
+
+		return environment;
 	}
 
 	addParticles() {
-		this.leftHandParticles = new Particles(256, RigCoordsFluid.coords, RigCoords.leftWristSpeed);
-		// const rightHandParticles = new Particles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
-		// const leftFootParticles = new Particles(256, RigCoords.leftFoot, RigCoords.leftFootSpeed);
-		// const rightFootParticles = new Particles(256, RigCoords.rightFoot, RigCoords.rightFootSpeed);
+		const particle = new Particles(128, RigCoordsFluid.coords, RigCoords.leftWristSpeed);
+		this.add(particle);
 
-		// this.add(leftHandParticles);
-		// this.add(rightHandParticles, leftHandParticles);
-		// this.add(this.leftHandParticles);
+		return particle;
 	}
+
 	addFog() {
 		const customFog = new CustomFog();
 		this.fog = customFog._fog;
+
+		return customFog;
+	}
+
+	addCounterAnimation() {
+		const counterAnimation = new CounterAnimation();
+
+		return counterAnimation;
+	}
+
+	setTransitionTimeline() {
+		const timeline = gsap.timeline({ paused: true });
+
+		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.5, value: 0.75 }, 0);
+		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: false }, 2);
+		timeline.to(
+			globalUniforms.uTransitionColor.value,
+			{ r: globalUniforms.uTransitionColor.value.r, g: globalUniforms.uTransitionColor.value.g, b: globalUniforms.uTransitionColor.value.b, duration: 0 },
+			0,
+		);
+
+		timeline.to(
+			this._lights._lights.light1.color,
+			{ r: this._lights._lights.light1.color.r, g: this._lights._lights.light1.color.g, b: this._lights._lights.light1.color.b, duration: 0 },
+			0,
+		);
+		timeline.to(
+			this._lights._lights.light2.color,
+			{ r: this._lights._lights.light2.color.r, g: this._lights._lights.light2.color.g, b: this._lights._lights.light2.color.b, duration: 0 },
+			0,
+		);
+		timeline.to(
+			this._lights._lights.light3.color,
+			{ r: this._lights._lights.light3.color.r, g: this._lights._lights.light3.color.g, b: this._lights._lights.light3.color.b, duration: 0 },
+			0,
+		);
+
+		timeline.to(this._lights._lights.light1, { intensity: this._lights._lights.light1.intensity, duration: 0 }, 0);
+		timeline.to(this._lights._lights.light2, { intensity: this._lights._lights.light2.intensity, duration: 0 }, 0);
+		timeline.to(this._lights._lights.light3, { intensity: this._lights._lights.light3.intensity, duration: 0 }, 0);
+
+		// timeline.to(this._environment._material, { metalness: 1.0, roughness: 0.5, duration: 2.75 }, 0);
+		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.75, value: -1.35 }, 2);
+
+		return timeline;
 	}
 
 	onRender() {

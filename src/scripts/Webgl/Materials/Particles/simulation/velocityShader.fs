@@ -12,6 +12,7 @@ uniform vec4 uCubePositions[1];
 uniform vec4 uCubeQuaternions[1];
 
 uniform sampler2D uFluidTexture;
+uniform sampler2D uRigPositionTexture;
 
 vec4 mod289(vec4 x) {
 	return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -198,13 +199,16 @@ void main() {
 	vec4 positionFluidTexture = texture2D(uFluidTexture, uv);
 	vec3 positionFluid = positionFluidTexture.xyz;
 
+	vec4 rigPositionTexture = texture2D(uRigPositionTexture, uv);
+	vec3 rigPosition = rigPositionTexture.xyz;
+
 	vec3 toHand;
 	// toHand.x += uCoordsPositions.x * 35. - position.x;
 	// toHand.y += uCoordsPositions.y * 15. - position.y;
 	// toHand.z += uCoordsPositions.z * - position.z;
 
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
-	velocity.y += 5.;
+	// velocity.y += 5.;
 
 	vec4 collidersQuaternions;
 
@@ -242,9 +246,10 @@ void main() {
 
 	// } else {
 	// }
+	// velocity = positionFluid * 50. - position;
+	velocity = rigPosition * 100. - position;
 	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
-	velocity += positionFluid * 30. - position;
 	velocity *= uSpeed;
 
-	gl_FragColor = vec4(velocity, 0.0);
+	gl_FragColor = vec4(velocity, life);	
 }
