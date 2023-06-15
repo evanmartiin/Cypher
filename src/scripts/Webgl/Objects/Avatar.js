@@ -63,35 +63,35 @@ class Avatar extends Group {
 	onAttach() {
 		app.debug.mapping.add(this, 'Particles');
 
-		this.gltf = app.core.assetsManager.get('avatar');
-		VRMUtils.removeUnnecessaryJoints(this.gltf.scene);
-		VRMUtils.removeUnnecessaryVertices(this.gltf.scene);
+		// this.gltf = app.core.assetsManager.get('avatar');
+		// VRMUtils.removeUnnecessaryJoints(this.gltf.scene);
+		// VRMUtils.removeUnnecessaryVertices(this.gltf.scene);
 		this.scene = new Scene();
 		this.camera = new PerspectiveCamera();
 		this.camera.position.set(0.5, 0.5, 1);
 		this.camera.lookAt(0.5, 0.5, 0);
 		this.fbo = new WebGLRenderTarget(512, 512, { magFilter: NearestFilter, type: HalfFloatType });
 
-		this.vrm = this.gltf.userData.vrm;
-		VRMUtils.rotateVRM0(this.vrm);
+		// this.vrm = this.gltf.userData.vrm;
+		// VRMUtils.rotateVRM0(this.vrm);
 
-		this.mesh = this.gltf.scene;
-		this.mesh.visible = false;
+		// this.mesh = this.gltf.scene;
+		// this.mesh.visible = false;
 
-		this.material = new MeshStandardMaterial({
-			metalness: 0.4,
-			roughness: 0.8,
-		});
+		// this.material = new MeshStandardMaterial({
+		// 	metalness: 0.4,
+		// 	roughness: 0.8,
+		// });
 
-		this.mesh.traverse((object) => {
-			if (object.isMesh) {
-				// object.castShadow = true;
-				object.material = this.material;
-			}
-		});
+		// this.mesh.traverse((object) => {
+		// 	if (object.isMesh) {
+		// 		// object.castShadow = true;
+		// 		object.material = this.material;
+		// 	}
+		// });
 
-		this.mesh.castShadow = true;
-		this.add(this.mesh);
+		// this.mesh.castShadow = true;
+		// this.add(this.mesh);
 
 		// this.addParticles();
 
@@ -160,7 +160,7 @@ class Avatar extends Group {
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		this.add(this.quad);
+		app.webgl.postProcessing.sceneWithoutPP.add(this.quad);
 	}
 
 	onPlayerMoved(rig) {
@@ -198,9 +198,9 @@ class Avatar extends Group {
 	}
 
 	onRender({ dt }) {
-		if (this.vrm) {
-			this.vrm.update(dt);
-		}
+		// if (this.vrm) {
+		// 	this.vrm.update(dt);
+		// }
 		if (this.ready) {
 			this.vertexStore.update();
 
@@ -243,15 +243,15 @@ class Avatar extends Group {
 	enableControl() {
 		this.canControl = true;
 		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
-		this.mesh.visible = true;
-		this.particles.visible = true;
+		// this.mesh.visible = true;
+		if (this.particles) this.particles.visible = true;
 	}
 
 	disableControl() {
 		this.canControl = false;
 		state.off(EVENTS.RIG_COMPUTED, this.updateRig);
-		this.mesh.visible = false;
-		this.particles.visible = false;
+		// this.mesh.visible = false;
+		if (this.particles) this.particles.visible = false;
 	}
 
 	updateRig = (riggedPose) => {

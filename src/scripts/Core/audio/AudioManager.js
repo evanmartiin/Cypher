@@ -33,6 +33,7 @@ class AudioManager {
 			this._musics.set(music.name, new Howl({ src: `src/assets/audio/musics/${music.src}`, loop: true, volume: MUSIC_VOLUME }));
 		});
 
+		// @ts-ignore
 		this._UI = new Howl(SOUNDS_UI);
 
 		Howler.volume(0);
@@ -40,12 +41,11 @@ class AudioManager {
 		window.addEventListener('click', this.setCanPlay);
 	}
 
-	setCanPlay() {
+	setCanPlay = () => {
 		window.removeEventListener('click', this.setCanPlay);
-
 		this.canPlay = true;
 		Howler.volume(1);
-	}
+	};
 
 	setMute(flag) {
 		Howler.volume(flag ? 0 : 1);
