@@ -147,6 +147,7 @@ export class GPUSimulation {
 		this.material = new MeshBasicMaterial({
 			map: this.simulation.fbos.vel_0.texture,
 			// map: new Texture(),
+			fog: false,
 		});
 
 		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), this.material);
