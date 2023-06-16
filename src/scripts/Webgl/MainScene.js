@@ -24,8 +24,8 @@ class MainScene extends Scene {
 
 		this.avatar = new Avatar();
 		this.add(this.avatar);
-		// this.avatarDemo = new AvatarDemo();
-		// this.add(this.avatarDemo);
+		this.avatarDemo = new AvatarDemo();
+		this.add(this.avatarDemo);
 		this.skeleton = new Skeleton();
 		// this.add(this.skeleton);
 		// this.crowd = new Crowd();

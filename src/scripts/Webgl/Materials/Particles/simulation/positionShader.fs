@@ -35,6 +35,6 @@ void main() {
 		life = (0.5 + fract(positionTexture.w + uTime));
 	}
 
+	// gl_FragColor = vec4(position, life);
 	gl_FragColor = vec4(position, life);
-	gl_FragColor = vec4(position, 1.0);
 }

@@ -1,4 +1,3 @@
-import { DEBUG } from '@utils/config.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { TensorflowCamera } from './TensorflowCamera.js';
@@ -15,7 +14,17 @@ class TensorflowController {
 
 		this.camera = new TensorflowCamera();
 		this.pose = new TensorflowPose();
-		if (DEBUG) this.canvas = new TensorflowCanvas();
+		this.canvas = new TensorflowCanvas();
+	}
+
+	show() {
+		this.canvas.show();
+		this.camera.show();
+	}
+
+	hide() {
+		this.canvas.hide();
+		this.camera.hide();
 	}
 }
 
