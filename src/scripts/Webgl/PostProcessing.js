@@ -49,7 +49,8 @@ class PostProcessing {
 
 	_addBloomPass() {
 		const unrealBloomPass = new UnrealBloomPass();
-		unrealBloomPass.strength = 0.65;
+		// unrealBloomPass.strength = 0.65;
+		unrealBloomPass.strength = 0.0;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
 		this._effectComposer.addPass(unrealBloomPass);
@@ -130,7 +131,8 @@ class PostProcessing {
 
 	_addAfterImagePass() {
 		const afterImagePass = new AfterimagePass();
-		afterImagePass.uniforms['damp'].value = 0.8;
+		// afterImagePass.uniforms['damp'].value = 0.8;
+		afterImagePass.uniforms['damp'].value = 0.0;
 		this._effectComposer.addPass(afterImagePass);
 
 		return afterImagePass;
