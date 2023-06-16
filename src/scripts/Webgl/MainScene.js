@@ -42,9 +42,9 @@ class MainScene extends Scene {
 		this._counterAnimation = this.addCounterAnimation();
 		this._transitionTimeline = this.setTransitionTimeline();
 
-		// document.addEventListener('click', () => {
-		// 	this._transitionTimeline.restart();
-		// });
+		document.addEventListener('click', () => {
+			this._transitionTimeline.restart();
+		});
 	}
 
 	addLights() {
@@ -126,7 +126,7 @@ class MainScene extends Scene {
 		timeline.to(this._lights._lights.light2, { intensity: this._lights._lights.light2.intensity, duration: 0 }, 0);
 		timeline.to(this._lights._lights.light3, { intensity: this._lights._lights.light3.intensity, duration: 0 }, 0);
 
-		// timeline.to(this._environment._material, { metalness: 1.0, roughness: 0.5, duration: 2.75 }, 0);
+		timeline.to(this._environment._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
 		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.75, value: -1.35 }, 2);
 
 		return timeline;

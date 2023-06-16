@@ -23,6 +23,7 @@ const manifest = {
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg`, priority: 2, callback: null },
 		pixelSorting: { path: `${import.meta.env.BASE_URL}assets/textures/pixelSorting.jpg`, priority: 2, callback: null },
 		glitch: { path: `${import.meta.env.BASE_URL}assets/textures/glitch.jpg`, priority: 2, callback: null },
+		liquid: { path: `${import.meta.env.BASE_URL}assets/textures/liquid.jpg`, priority: 2, callback: null },
 
 		3: { path: `${import.meta.env.BASE_URL}assets/textures/3.png`, priority: 2, callback: null },
 		2: { path: `${import.meta.env.BASE_URL}assets/textures/2.png`, priority: 2, callback: null },
