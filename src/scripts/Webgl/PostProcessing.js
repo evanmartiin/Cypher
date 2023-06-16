@@ -8,6 +8,7 @@ import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
+import { BlurPass } from '@utils/BlurPass.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -29,6 +30,8 @@ class PostProcessing {
 		this._addRenderPass(scene, camera);
 
 		this._bloomPass = this._addBloomPass();
+		this.blurPass = new BlurPass();
+		this._effectComposer.addPass(this.blurPass);
 
 		this._addRenderPass(this.sceneWithoutPP, camera);
 
@@ -64,6 +67,7 @@ class PostProcessing {
 	_addBloomPass() {
 		const unrealBloomPass = new UnrealBloomPass();
 		unrealBloomPass.strength = 0.65;
+		// unrealBloomPass.strength = 0.0;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
 		this._effectComposer.addPass(unrealBloomPass);
@@ -145,6 +149,7 @@ class PostProcessing {
 	_addAfterImagePass() {
 		const afterImagePass = new AfterimagePass();
 		afterImagePass.uniforms['damp'].value = 0.8;
+		// afterImagePass.uniforms['damp'].value = 0.0;
 		this._effectComposer.addPass(afterImagePass);
 
 		return afterImagePass;

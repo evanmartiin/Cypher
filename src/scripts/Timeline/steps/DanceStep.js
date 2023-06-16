@@ -15,11 +15,13 @@ export default class DanceStep extends Step {
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tools.recorder.start();
+		app.webgl.scene.avatarDemo.enable();
 	}
 
 	stop() {
 		this.isRunning = false;
 		app.tools.recorder.stop();
+		app.webgl.scene.avatarDemo.disable();
 		// app.webgl.scene.skeleton.createGeometry();
 		app.timeline.timer.resetTimer();
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);

@@ -61,7 +61,7 @@ class Avatar extends Group {
 	}
 
 	onAttach() {
-		app.debug.mapping.add(this, 'Particles');
+		app.debug?.mapping.add(this, 'Particles');
 
 		// this.gltf = app.core.assetsManager.get('avatar');
 		// VRMUtils.removeUnnecessaryJoints(this.gltf.scene);
@@ -160,7 +160,7 @@ class Avatar extends Group {
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		app.webgl.postProcessing.sceneWithoutPP.add(this.quad);
+		// app.webgl.postProcessing.sceneWithoutPP.add(this.quad);
 	}
 
 	onPlayerMoved(rig) {

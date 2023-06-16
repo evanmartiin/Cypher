@@ -151,7 +151,7 @@ export class GPUSimulation {
 		});
 
 		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), this.material);
-		app.webgl.scene.add(mesh);
+		// app.webgl.scene.add(mesh);
 		mesh.position.x = 2;
 		mesh.position.y = 1;
 	}

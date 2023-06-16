@@ -16,6 +16,7 @@ class AvatarDemo extends Group {
 		const material = new MeshStandardMaterial({
 			metalness: 0.4,
 			roughness: 0.8,
+			fog: false,
 		});
 
 		this.mesh.traverse((object) => {
@@ -27,9 +28,10 @@ class AvatarDemo extends Group {
 
 		this.add(this.mesh);
 		this.mesh.castShadow = true;
-		this.mesh.position.x = 3;
+		this.mesh.position.x = -2;
 		this.mesh.position.y = 0;
-		this.mesh.position.z = 3;
+		this.mesh.position.z = -3;
+		this.mesh.visible = false;
 
 		this.mixer = new AnimationMixer(this.mesh);
 		this.action = this.mixer.clipAction(this.gltf.animations[0]);
@@ -38,10 +40,12 @@ class AvatarDemo extends Group {
 
 	enable() {
 		this.active = true;
+		this.mesh.visible = true;
 	}
 
 	disable() {
 		this.active = false;
+		this.mesh.visible = false;
 	}
 
 	onRender({ dt }) {
