@@ -8,12 +8,9 @@ export default class PlayerDetectedStep extends Step {
 		this.text = 'Nouveau joueur détecté';
 	}
 
-	
-
 	start() {
 		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
-		// app.webgl.scene.avatar.enableControl();
 		app.dom.cursor.enable();
 		app.dom.cursor.enterHover.on(() => {
 			app.timeline.timer.setGauge(2000, () => {

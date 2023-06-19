@@ -130,7 +130,7 @@ class Avatar extends Group {
 		this.head.scale.y = 1.25;
 		// this.scene.add(this.head);
 
-		this.tubes = new InstancedMesh(new CylinderGeometry(0.05, 0.05, 1, 10, 10), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
+		this.tubes = new InstancedMesh(new CylinderGeometry(0.02, 0.02, 1, 10, 10), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
 		this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
 		// this.scene.add(this.tubes);
 
@@ -163,7 +163,7 @@ class Avatar extends Group {
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		app.webgl.scene.add(this.quad);
+		// app.webgl.scene.add(this.quad);
 	}
 
 	onPlayerMoved(rig) {
@@ -407,7 +407,6 @@ class Avatar extends Group {
 		 * Create InstancedMesh and shaders to render particles
 		 */
 		const geometry = this.createParticleGeometry(new BoxGeometry(0.01, 0.01, 0.01));
-		// const geom = new BoxGeometry().scale(0.005, 0.004, 0.012);
 
 		this.particlesUniforms = {
 			uVelocityMap: {
@@ -445,6 +444,7 @@ class Avatar extends Group {
 		this.particles.castShadow = true;
 		this.particles.receiveShadow = true;
 		this.particles.customDepthMaterial = depthMaterial;
+		this.particles.visible = false;
 
 		const dummy = new Object3D();
 		for (let i = 0; i < this.numParticles; i++) {

@@ -72,6 +72,28 @@ function createPane(pane, instance, name) {
 	params.color3 = '#' + instance._lights.light3.color.getHexString();
 	light3.addInput(params, 'color3', { view: 'color' }).on('change', ({ value }) => instance._lights.light3.color.set(value));
 
+	folder.addButton({ title: 'Copy params', index: 0 }).on('click', () => {
+		navigator.clipboard.writeText(
+			JSON.stringify({
+				light1: {
+					position: instance._lights.light1.position,
+					intensity: instance._lights.light1.intensity,
+					color: '#' + instance._lights.light1.color.getHexString(),
+				},
+				light2: {
+					position: instance._lights.light2.position,
+					intensity: instance._lights.light2.intensity,
+					color: '#' + instance._lights.light2.color.getHexString(),
+				},
+				light3: {
+					position: instance._lights.light3.position,
+					intensity: instance._lights.light3.intensity,
+					color: '#' + instance._lights.light3.color.getHexString(),
+				},
+			}),
+		);
+	});
+
 	return folder;
 }
 
