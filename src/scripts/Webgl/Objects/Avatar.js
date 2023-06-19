@@ -163,7 +163,7 @@ class Avatar extends Group {
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		app.webgl.scene.add(this.quad);
+		// app.webgl.scene.add(this.quad);
 	}
 
 	onPlayerMoved(rig) {
@@ -380,7 +380,7 @@ class Avatar extends Group {
 		this.velocityUniforms = {
 			...this.commonUniforms,
 			uDieSpeed: {
-				value: 0.03,
+				value: 0.06,
 			},
 			uCurlSize: {
 				value: 0.1,
@@ -406,7 +406,7 @@ class Avatar extends Group {
 		/**
 		 * Create InstancedMesh and shaders to render particles
 		 */
-		const geometry = this.createParticleGeometry(new BoxGeometry(0.01, 0.01, 0.01));
+		const geometry = this.createParticleGeometry(new BoxGeometry(0.02, 0.02, 0.02));
 		// const geom = new BoxGeometry().scale(0.005, 0.004, 0.012);
 
 		this.particlesUniforms = {
@@ -451,7 +451,7 @@ class Avatar extends Group {
 			this.particles.setMatrixAt(i, dummy.matrix);
 		}
 
-		app.webgl.scene.add(this.particles);
+		// app.webgl.scene.add(this.particles);
 
 		this.ready = true;
 	}

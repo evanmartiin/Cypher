@@ -72,8 +72,6 @@ class AudioManager {
 
 	playMusic(name) {
 		if (name !== this.currentAmbientName) {
-			console.log('play music');
-
 			if (this.currentAmbient) {
 				this.fadeOut(this.currentAmbientName, 1000, this.currentAmbientId);
 			}
@@ -84,10 +82,8 @@ class AudioManager {
 		}
 	}
 
-
 	beat(id) {
 		const howl = this._musics.get(id);
-		console.log(howl);
 	}
 
 	initFrequencies(id) {
@@ -117,8 +113,6 @@ class AudioManager {
 			const frequency = this.frequencyData.slice(frequencyStep * i, frequencyStep * (i + 1));
 			this.frequencies[i] = this.calculateAverageVolume(frequency);
 		}
-
-		console.log(this.frequencies)
 	}
 
 	calculateAverageVolume(frequencyData) {

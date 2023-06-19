@@ -56,12 +56,13 @@ void main() {
       // vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
   // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
-  vec3 transformedPos = position * particleScale * aRandom ;
+  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
   // vec3 transformedPos = position;
   transformedPos = (particleRotation * transformedPos);
   // transformedPos.z += positionTexture.z;
-  transformedPos.x += (rigPositionMap.x * 100.);
-  transformedPos.y += (rigPositionMap.y * 100.);
+  // transformedPos.x += (rigPositionMap.x * 60.);
+  // transformedPos.y += (rigPositionMap.y * 60.);
+  // transformedPos.z += (rigPositionMap.z * 60.);
   transformedPos.x += positionTexture.x;
   transformedPos.y += positionTexture.y;
   transformedPos.z += positionTexture.z;
@@ -70,7 +71,7 @@ void main() {
   csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
 
-  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);
+  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos * 2., 1.0);
 
   vlifeOpacity = positionTexture.w;
 }

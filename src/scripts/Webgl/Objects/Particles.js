@@ -30,7 +30,6 @@ export class Particles extends Group {
 		this.coords = coords;
 		this.acceleration = acceleration;
 
-		console.log(this);
 		this.init();
 	}
 
@@ -43,11 +42,11 @@ export class Particles extends Group {
 
 	_createGeometry() {
 		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
-		const baseGeometry = new BoxGeometry(1, 1, 1, 1);
-		// const baseGeometry = new OctahedronGeometry(1, 0);
+		// const baseGeometry = new BoxGeometry(1, 1, 1, 1);
+		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = new SphereGeometry();
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(6, 6, 6);
+		baseGeometry.scale(4, 4, 4);
 
 		const geometry = new BufferGeometry();
 
@@ -118,7 +117,7 @@ export class Particles extends Group {
 		this._material.uniforms.uAcceleration.value = this.acceleration.value;
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
-		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.fbo.texture;
+		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.vertexStore.positionMap;
 
 		// console.log(this._material.uniforms.uRigPositionMap.value);
 

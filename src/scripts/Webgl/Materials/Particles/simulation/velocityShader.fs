@@ -247,9 +247,21 @@ void main() {
 	// } else {
 	// }
 	// velocity = positionFluid * 50. - position;
-	velocity = rigPosition * 100. - position;
-	velocity += curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
-	velocity *= uSpeed;
 
-	gl_FragColor = vec4(velocity, life);	
+	// if(position.z > 0.) {
+	// 	position.xz += rigPosition.xz * 100.;
+
+	// } else {
+
+	// 	position.xz -= rigPosition.xz * 100.;
+	// }
+	velocity += rigPosition * 75. - position;
+	velocity *= uSpeed;
+	velocity = curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.25;
+
+	if(life < 0.1) {
+		velocity = curl(position * uCurlSize * 0.25, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
+	}
+
+	gl_FragColor = vec4(velocity, life);
 }
