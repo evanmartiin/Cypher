@@ -42,9 +42,9 @@ class MainScene extends Scene {
 		this._counterAnimation = this.addCounterAnimation();
 		this._transitionTimeline = this.setTransitionTimeline();
 
-		document.addEventListener('click', () => {
-			this._transitionTimeline.restart();
-		});
+		// document.addEventListener('click', () => {
+		// 	this._transitionTimeline.restart();
+		// });
 	}
 
 	addLights() {

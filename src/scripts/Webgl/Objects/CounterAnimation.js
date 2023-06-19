@@ -21,9 +21,9 @@ export default class CounterAnimation extends Group {
 		this._meshGo = this._createMeshGo(geometry);
 
 		this._timeline = this.setTransitionTimeline();
-		document.addEventListener('click', () => {
-			this._timeline.restart();
-		});
+		// document.addEventListener('click', () => {
+		// 	this._timeline.restart();
+		// });
 	}
 
 	onAttach() {
