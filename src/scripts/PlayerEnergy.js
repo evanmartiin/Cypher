@@ -35,7 +35,6 @@ class PlayerEnergy {
 			this.reachedMaxEnergy.emit();
 			this.reset();
 		}
-		console.log(this.current);
 	}
 
 	remove(count) {
