@@ -87,7 +87,6 @@ class AudioManager {
 
 	beat(id) {
 		const howl = this._musics.get(id);
-		console.log(howl);
 	}
 
 	initFrequencies(id) {
@@ -117,8 +116,6 @@ class AudioManager {
 			const frequency = this.frequencyData.slice(frequencyStep * i, frequencyStep * (i + 1));
 			this.frequencies[i] = this.calculateAverageVolume(frequency);
 		}
-
-		console.log(this.frequencies)
 	}
 
 	calculateAverageVolume(frequencyData) {

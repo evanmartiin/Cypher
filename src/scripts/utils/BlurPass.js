@@ -7,7 +7,7 @@ class BlurPass extends Pass {
 	constructor() {
 		super();
 
-		this.radius = 0;
+		this.radius = 2;
 
 		this.shader = BlurShader;
 

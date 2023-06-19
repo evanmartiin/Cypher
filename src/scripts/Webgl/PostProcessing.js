@@ -35,7 +35,7 @@ class PostProcessing {
 
 		this._addRenderPass(this.sceneWithoutPP, camera);
 
-		// this._fishEyesPass = this._addFishEyesPass(camera);
+		this._fishEyesPass = this._addFishEyesPass(camera);
 		this._afterImagePass = this._addAfterImagePass();
 		this._SMAAPass = this._addSMAAPass();
 		this._effectComposer.addPass(outputPass);
