@@ -30,7 +30,6 @@ export class Particles extends Group {
 		this.coords = coords;
 		this.acceleration = acceleration;
 
-		console.log(this);
 		this.init();
 	}
 
@@ -43,10 +42,10 @@ export class Particles extends Group {
 
 	_createGeometry() {
 		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
-		const baseGeometry = new BoxGeometry(1, 1, 1, 1);
+		// const baseGeometry = new BoxGeometry(1, 1, 1, 1);
 		// const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = new SphereGeometry();
-		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
+		const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
 		baseGeometry.scale(6, 6, 6);
 
 		const geometry = new BufferGeometry();

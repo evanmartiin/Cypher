@@ -10,6 +10,8 @@ uniform sampler2D uRigPositionMap;
 
 varying float vlifeOpacity;
 varying vec3 vNewNormal;
+varying vec3 vNewViewPosition;
+varying vec3 vWorldPos;
 
 mat3 calcLookAtMatrix(vec3 vector, float roll) {
   vec3 rr = vec3(sin(roll), cos(roll), 0.0);
@@ -56,19 +58,25 @@ void main() {
       // vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
   // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
-  vec3 transformedPos = position * particleScale * aRandom ;
+  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
+  // vec3 transformedPos = position * particleScale * aRandom;
   // vec3 transformedPos = position;
   transformedPos = (particleRotation * transformedPos);
   // transformedPos.z += positionTexture.z;
   transformedPos.x += (rigPositionMap.x * 100.);
   transformedPos.y += (rigPositionMap.y * 100.);
-  transformedPos.x += positionTexture.x;
-  transformedPos.y += positionTexture.y;
-  transformedPos.z += positionTexture.z;
+  // transformedPos.x += positionTexture.x;
+  // transformedPos.y += positionTexture.y;
+  // transformedPos.z += positionTexture.z * 2.;
   // transformedPos += positionTexture.xyz;
 
   csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
+
+  vec4 viewPosition = modelViewMatrix * vec4(transformedPos, 1.0);
+  vNewViewPosition = viewPosition.xyz;
+
+  vWorldPos = transformedPos.xyz;
 
   csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);
 
