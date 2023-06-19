@@ -2,11 +2,15 @@
     "sources": [
         {
             "name": "music-1",
-            "src": "ambient-1.mp3"
+            "src": "music-1.mp3"
         },
         {
             "name": "music-2",
-            "src": "ambient-2.mp3"
+            "src": "music-2.mp3"
+        },
+        {
+            "name": "music-3",
+            "src": "music-3.mp3"
         }
     ]
 }

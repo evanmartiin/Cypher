@@ -1,4 +1,5 @@
 import { Howl, Howler } from 'howler';
+import { state } from '@scripts/State.js';
 import SOUNDS_MUSIC from './musics.json';
 import SOUNDS_UI from './ui.json';
 
@@ -7,6 +8,7 @@ const MUSIC_VOLUME = 1;
 export const MUSIC_IDS = {
 	MUSIC_1: 'music-1',
 	MUSIC_2: 'music-2',
+	MUSIC_3: 'music-3',
 };
 
 export const UI_IDS = {
@@ -24,6 +26,7 @@ class AudioManager {
 	currentAmbient;
 
 	constructor() {
+		state.register(this);
 		Howler.autoSuspend = false;
 		Howler.html5PoolSize = 0;
 		Howler.usingWebAudio = true;
@@ -37,6 +40,12 @@ class AudioManager {
 		this._UI = new Howl(SOUNDS_UI);
 
 		Howler.volume(0);
+
+		//AudioContext
+		this.audioContext = new window.AudioContext();
+		this.frequencies = [];
+		this.analyser;
+		this.frequencyData;
 
 		window.addEventListener('click', this.setCanPlay);
 	}
@@ -63,6 +72,8 @@ class AudioManager {
 
 	playMusic(name) {
 		if (name !== this.currentAmbientName) {
+			console.log('play music');
+
 			if (this.currentAmbient) {
 				this.fadeOut(this.currentAmbientName, 1000, this.currentAmbientId);
 			}
@@ -71,6 +82,52 @@ class AudioManager {
 			this.currentAmbientName = name;
 			this.currentAmbientId = this.fadeIn(this.currentAmbientName, MUSIC_VOLUME, 1000);
 		}
+	}
+
+
+	beat(id) {
+		const howl = this._musics.get(id);
+		console.log(howl);
+	}
+
+	initFrequencies(id) {
+		const howl = this._musics.get(id);
+		const audioContext = howl._sounds[0]._node.context;
+
+		// Créer un nœud d'analyseur audio
+		this.analyser = audioContext.createAnalyser();
+		this.analyser.fftSize = 2048; // Taille de la fenêtre FFT (doit être une puissance de 2)
+		this.analyser.minDecibels = -90; // Niveau minimal en décibels
+		this.analyser.maxDecibels = -10; // Niveau maximal en décibels
+		this.analyser.smoothingTimeConstant = 0.85; // Constante de lissage (entre 0 et 1)
+
+		const howlNode = Howler.masterGain;
+		// console.log(Howler.masterGain);
+		howlNode.connect(this.analyser);
+
+		this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
+	}
+
+	onRender() {
+		if (!this.analyser) return;
+		this.analyser.getByteFrequencyData(this.frequencyData);
+		const frequencyStep = Math.floor(this.frequencyData.length / 7);
+
+		for (let i = 0; i < 6; i++) {
+			const frequency = this.frequencyData.slice(frequencyStep * i, frequencyStep * (i + 1));
+			this.frequencies[i] = this.calculateAverageVolume(frequency);
+		}
+
+		console.log(this.frequencies)
+	}
+
+	calculateAverageVolume(frequencyData) {
+		let sum = 0;
+		for (let i = 0; i < frequencyData.length; i++) {
+			sum += frequencyData[i];
+		}
+		const average = sum / frequencyData.length;
+		return average;
 	}
 
 	pause(id) {
