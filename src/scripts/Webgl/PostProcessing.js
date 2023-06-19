@@ -1,12 +1,14 @@
-import { MathUtils } from 'three';
+import { MathUtils, Scene } from 'three';
+import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+import { ClearPass } from 'three/examples/jsm/postprocessing/ClearPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
-import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
-import { globalUniforms } from '@utils/globalUniforms.js';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
+import { BlurPass } from '@utils/BlurPass.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -14,18 +16,36 @@ class PostProcessing {
 	constructor(_isWebGL2 = true, renderer, scene, camera) {
 		state.register(this);
 
-		this._effectComposer = this._createEffectComposer(renderer);
-		this._renderPass = this._addRenderPass(scene, camera);
-		// this._bloomPass = this._addBloomPass();
-		// this._fishEyesPass = this._addFishEyesPass(camera);
-		// this._SMAAPass = this._addSMAAPass();
+		this.sceneWithoutPP = new Scene();
+
+		this._effectComposer = new EffectComposer(renderer);
+		this._effectComposer.setSize(app.tools.viewport.width, app.tools.viewport.height);
+
+		const clearPass = new ClearPass();
+
+		const outputPass = new ShaderPass(CopyShader);
+		outputPass.renderToScreen = true;
+
+		this._effectComposer.addPass(clearPass);
+		this._addRenderPass(scene, camera);
+
+		this._bloomPass = this._addBloomPass();
+		this.blurPass = new BlurPass();
+		this._effectComposer.addPass(this.blurPass);
+
+		this._addRenderPass(this.sceneWithoutPP, camera);
+
+		this._fishEyesPass = this._addFishEyesPass(camera);
+		this._afterImagePass = this._addAfterImagePass();
+		this._SMAAPass = this._addSMAAPass();
+		this._effectComposer.addPass(outputPass);
 
 		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		// this._effectComposer.addPass(gammaCorrectionPass);
 	}
 
 	onAttach() {
-		// app.debug?.mapping.add(this, 'PostProcessing');
+		app.debug?.mapping.add(this, 'PostProcessing');
 	}
 
 	_createEffectComposer(renderer) {
@@ -38,6 +58,7 @@ class PostProcessing {
 
 	_addRenderPass(scene, camera) {
 		const renderPass = new RenderPass(scene, camera);
+		renderPass.clear = false;
 		this._effectComposer.addPass(renderPass);
 
 		return renderPass;
@@ -45,7 +66,8 @@ class PostProcessing {
 
 	_addBloomPass() {
 		const unrealBloomPass = new UnrealBloomPass();
-		unrealBloomPass.strength = 1.5;
+		unrealBloomPass.strength = 0.65;
+		// unrealBloomPass.strength = 0.0;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
 		this._effectComposer.addPass(unrealBloomPass);
@@ -122,6 +144,29 @@ class PostProcessing {
 				'}',
 			].join('\n'),
 		};
+	}
+
+	_addAfterImagePass() {
+		const afterImagePass = new AfterimagePass();
+		afterImagePass.uniforms['damp'].value = 0.8;
+		// afterImagePass.uniforms['damp'].value = 0.0;
+		this._effectComposer.addPass(afterImagePass);
+
+		return afterImagePass;
+	}
+
+	_addBokehPass(scene, camera) {
+		const bokehPass = new BokehPass(scene, camera, {
+			focus: 3,
+			aperture: 0.25,
+			maxblur: 3,
+		});
+
+		// bokehPass.uniforms['focus'].value = 10;
+		// bokehPass.uniforms['aperture'].value = 1;
+		// bokehPass.uniforms['maxblur'].value = 2;
+
+		return bokehPass;
 	}
 
 	_addSMAAPass() {

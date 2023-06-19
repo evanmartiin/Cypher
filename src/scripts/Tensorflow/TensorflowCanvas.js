@@ -14,14 +14,24 @@ class TensorflowCanvas {
 		this.ctx = this.canvasDOM.getContext('2d');
 	}
 
+	show() {
+		this.active = true;
+		this.canvasDOM.classList.remove('hide');
+	}
+
+	hide() {
+		this.active = false;
+		this.canvasDOM.classList.add('hide');
+	}
+
 	onAttach() {
 		app.$root.appendChild(this.canvasDOM);
 	}
 
 	onKeyDown(key) {
-		if (key === 'h') {
-			this.canvasDOM.style.display = this.canvasDOM.style.display === 'none' ? 'block' : 'none';
-		}
+		// if (key === 'h') {
+		// 	this.canvasDOM.style.display = this.canvasDOM.style.display === 'none' ? 'block' : 'none';
+		// }
 	}
 
 	clearCtx() {
@@ -29,6 +39,8 @@ class TensorflowCanvas {
 	}
 
 	drawResults(results) {
+		if (!this.active) return;
+
 		this.clearCtx();
 		this.drawKeypoints(results.keypoints);
 		this.drawSkeleton(results.keypoints);

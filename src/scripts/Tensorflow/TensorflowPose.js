@@ -112,6 +112,11 @@ class TensorflowPose {
 		});
 		state.emit(EVENTS.RIG_COMPUTED, riggedPose);
 	}
+
+	async playerAlreadyHere() {
+		const results = await this.renderResults();
+		return results && results[0];
+	}
 }
 
 export { TensorflowPose };

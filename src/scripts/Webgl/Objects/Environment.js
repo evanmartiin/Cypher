@@ -1,4 +1,4 @@
-import { Group, MeshStandardMaterial } from 'three';
+import { Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Environment/fragment.fs';
 import { globalUniforms } from '@utils/globalUniforms.js';
@@ -29,18 +29,28 @@ export default class Environment extends Group {
 		const sceneAo = app.core.assetsManager.get('sceneAo');
 		sceneAo.flipY = false;
 
+		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
+		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
+		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
+
+		const glitchTexture = app.core.assetsManager.get('glitch');
+		glitchTexture.wrapS = MirroredRepeatWrapping;
+		glitchTexture.wrapT = MirroredRepeatWrapping;
+
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			fragmentShader: fragmentShader,
 			uniforms: {
 				...globalUniforms,
+				uPixelSortingTexture: { value: pixelSortingTexture },
+				uGlitchTexture: { value: glitchTexture },
 			},
 			map: sceneBase,
 			normalMap: sceneNormal,
 			roughnessMap: sceneRoughness,
 			aoMap: sceneAo,
-			metalness: 0.4,
-			roughness: 0.8,
+			metalness: 0.01,
+			roughness: 0.99,
 		});
 
 		return material;

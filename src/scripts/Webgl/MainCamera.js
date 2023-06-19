@@ -7,7 +7,7 @@ const BASE_FOV = 37;
 
 class MainCamera extends PerspectiveCamera {
 	constructor() {
-		super(BASE_FOV, app.tools.viewport.ratio, 0.3, 30);
+		super(BASE_FOV + 10, app.tools.viewport.ratio, 0.3, 30);
 		state.register(this);
 
 		this.target = new Vector3(0, 1, 0);
@@ -24,6 +24,26 @@ class MainCamera extends PerspectiveCamera {
 		this.aspect = ratio;
 		this.fov = BASE_FOV / Math.min(1, ratio * 1.5);
 		this.updateProjectionMatrix();
+	}
+
+	enter() {
+		gsap.to(this, {
+			fov: BASE_FOV / Math.min(1, this.aspect * 1.5),
+			duration: 1,
+			onUpdate: () => {
+				this.updateProjectionMatrix();
+			},
+		});
+	}
+
+	exit() {
+		gsap.to(this, {
+			fov: (BASE_FOV + 10) / Math.min(1, this.aspect * 1.5),
+			duration: 1,
+			onUpdate: () => {
+				this.updateProjectionMatrix();
+			},
+		});
 	}
 
 	stepBackward() {

@@ -42,6 +42,7 @@ import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.j
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import { EVENTS, POSE } from '@utils/constants.js';
 import customizeMaterial from '@utils/customizeMaterial.js';
+import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
@@ -60,61 +61,77 @@ class Avatar extends Group {
 	}
 
 	onAttach() {
-		app.debug.mapping.add(this, 'Particles');
+		app.debug?.mapping.add(this, 'Particles');
 
-		this.gltf = app.core.assetsManager.get('avatar');
-		VRMUtils.removeUnnecessaryJoints(this.gltf.scene);
-		VRMUtils.removeUnnecessaryVertices(this.gltf.scene);
+		// this.gltf = app.core.assetsManager.get('avatar');
+		// VRMUtils.removeUnnecessaryJoints(this.gltf.scene);
+		// VRMUtils.removeUnnecessaryVertices(this.gltf.scene);
+		this.scene = new Scene();
+		this.camera = new PerspectiveCamera();
+		this.camera.position.set(0.5, 0.5, 1);
+		this.camera.lookAt(0.5, 0.5, 0);
+		this.fbo = new WebGLRenderTarget(512, 512, { magFilter: NearestFilter, type: HalfFloatType });
 
-		this.vrm = this.gltf.userData.vrm;
-		VRMUtils.rotateVRM0(this.vrm);
+		// this.vrm = this.gltf.userData.vrm;
+		// VRMUtils.rotateVRM0(this.vrm);
 
-		this.mesh = this.gltf.scene;
-		this.mesh.visible = false;
+		// this.mesh = this.gltf.scene;
+		// this.mesh.visible = false;
 
-		this.material = new MeshStandardMaterial({
-			metalness: 0.4,
-			roughness: 0.8,
-		});
-
-		this.mesh.traverse((object) => {
-			if (object.isMesh) {
-				// object.castShadow = true;
-				object.material = this.material;
-			}
-		});
-
-		this.mesh.castShadow = true;
-		this.add(this.mesh);
-
-		this.addParticles();
-
-		// this.scene = new Scene();
-		// this.add(this.scene);
-		// this.camera = new PerspectiveCamera();
-		// this.camera.position.set(0.5, 0.5, 1);
-		// this.camera.lookAt(0.5, 0.5, 0);
-		// this.fbo = new WebGLRenderTarget(VIDEO_SIZE.width * 0.1, VIDEO_SIZE.height * 0.1, { magFilter: NearestFilter });
-
-		// this.wPosMaterial = new ShaderMaterial({
-		// 	vertexShader: `
-		// 		varying vec4 vPosition;
-		// 		void main() {
-		// 			gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-		// 			vPosition = gl_Position;
-		// 		}
-		// 		`,
-		// 	fragmentShader: `
-		// 		varying vec4 vPosition;
-		// 		void main() {
-		// 			gl_FragColor = vPosition;
-		// 		}
-		// 		`,
+		// this.material = new MeshStandardMaterial({
+		// 	metalness: 0.4,
+		// 	roughness: 0.8,
 		// });
 
-		// this.tubes = new InstancedMesh(new CylinderGeometry(0.05, 0.05, 1, 32), new MeshBasicMaterial(), POSE_CONNECTIONS.length);
-		// this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
-		// this.scene.add(this.tubes);
+		// this.mesh.traverse((object) => {
+		// 	if (object.isMesh) {
+		// 		// object.castShadow = true;
+		// 		object.material = this.material;
+		// 	}
+		// });
+
+		// this.mesh.castShadow = true;
+		// this.add(this.mesh);
+
+		// this.addParticles();
+
+		this.wPosMaterial = new ShaderMaterial({
+			vertexShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+					vPosition = gl_Position;
+				}
+				`,
+			fragmentShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_FragColor = vPosition;
+				}
+				`,
+		});
+		this.wPosMaterialInstanced = new ShaderMaterial({
+			vertexShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_Position = projectionMatrix * viewMatrix * modelMatrix * instanceMatrix * vec4(position, 1.0);
+					vPosition = gl_Position;
+				}
+				`,
+			fragmentShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_FragColor = vPosition;
+				}
+				`,
+		});
+		this.head = new Mesh(new CircleGeometry(0.15, 32), this.wPosMaterial);
+		this.scene.add(this.head);
+		this.head.scale.y = 1.25;
+
+		this.tubes = new InstancedMesh(new CylinderGeometry(0.05, 0.05, 1, 32), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
+		this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
+		this.scene.add(this.tubes);
 
 		this.quad = new Mesh(
 			new PlaneGeometry(VIDEO_SIZE.width * 0.0005, VIDEO_SIZE.height * 0.0005),
@@ -135,42 +152,44 @@ class Avatar extends Group {
 		}
 		`,
 				uniforms: {
-					// tTex: { value: this.fbo.texture },
-					tTex: { value: this.gpuCompute.getCurrentRenderTarget(this.positionVariable).texture },
+					tTex: { value: this.fbo.texture },
+					// tTex: { value: this.gpuCompute.getCurrentRenderTarget(this.positionVariable).texture },
 				},
 			}),
 		);
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		// this.add(this.quad);
+		// app.webgl.postProcessing.sceneWithoutPP.add(this.quad);
 	}
 
-	// onPlayerMoved(rig) {
-	// 	if (!this.tubes) return;
+	onPlayerMoved(rig) {
+		if (!this.tubes) return;
 
-	// 	POSE_CONNECTIONS.forEach((connection, i) => {
-	// 		const src = rig.keypoints[connection[0]];
-	// 		const dst = rig.keypoints[connection[1]];
-	// 		if (src && dst) {
-	// 			if (this.assertBoneIsInCamera(src, dst)) {
-	// 				const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
-	// 				const dstV2 = new Vector2(1 - dst.x / VIDEO_SIZE.width, 1 - dst.y / VIDEO_SIZE.height);
-	// 				const armPos = srcV2.clone().add(dstV2).divideScalar(2);
-	// 				DUMMY.position.set(armPos.x, armPos.y, 0);
-	// 				DUMMY.scale.y = srcV2.distanceTo(dstV2) * 1.1;
-	// 				DUMMY.lookAt(dstV2.x, dstV2.y, 0);
-	// 				DUMMY.rotateX(Math.PI / 2);
-	// 				DUMMY.updateMatrix();
-	// 			} else {
-	// 				DUMMY.scale.y = 0;
-	// 			}
-	// 			this.tubes.setMatrixAt(i, DUMMY.matrix);
-	// 		}
-	// 	});
+		POSE_CONNECTIONS.forEach((connection, i) => {
+			const src = rig.keypoints[connection[0]];
+			const dst = rig.keypoints[connection[1]];
+			if (src && dst) {
+				if (this.assertBoneIsInCamera(src, dst)) {
+					const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
+					const dstV2 = new Vector2(1 - dst.x / VIDEO_SIZE.width, 1 - dst.y / VIDEO_SIZE.height);
+					const armPos = srcV2.clone().add(dstV2).divideScalar(2);
+					DUMMY.position.set(armPos.x, armPos.y, 0);
+					DUMMY.scale.y = srcV2.distanceTo(dstV2) * 1.1;
+					DUMMY.lookAt(dstV2.x, dstV2.y, 0);
+					DUMMY.rotateX(Math.PI / 2);
+					DUMMY.updateMatrix();
+				} else {
+					DUMMY.scale.y = 0;
+				}
+				this.tubes.setMatrixAt(i, DUMMY.matrix);
+			}
+		});
 
-	// 	this.tubes.instanceMatrix.needsUpdate = true;
-	// }
+		this.tubes.instanceMatrix.needsUpdate = true;
+
+		this.head.position.set(1 - rig.keypoints[POSE.NOSE].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.NOSE].y / VIDEO_SIZE.height, 0.0);
+	}
 
 	assertBoneIsInCamera(src, dst) {
 		const srcIsInCamera = src.x > 0 && src.x < VIDEO_SIZE.width && src.y > 0 && src.y < VIDEO_SIZE.height;
@@ -179,9 +198,9 @@ class Avatar extends Group {
 	}
 
 	onRender({ dt }) {
-		if (this.vrm) {
-			this.vrm.update(dt);
-		}
+		// if (this.vrm) {
+		// 	this.vrm.update(dt);
+		// }
 		if (this.ready) {
 			this.vertexStore.update();
 
@@ -193,12 +212,12 @@ class Avatar extends Group {
 			this.particlesUniforms.uPositionMap.value = this.gpuCompute.getCurrentRenderTarget(this.positionVariable).texture;
 		}
 
-		// if (this.scene && app.webgl.camera) {
-		// 	app.webgl.renderer.setRenderTarget(this.fbo);
-		// 	app.webgl.renderer.clear(true, true, false);
-		// 	app.webgl.renderer.render(this.scene, this.camera);
-		// 	app.webgl.renderer.setRenderTarget(null);
-		// }
+		if (this.scene && app.webgl.camera) {
+			app.webgl.renderer.setRenderTarget(this.fbo);
+			app.webgl.renderer.clear(true, true, false);
+			app.webgl.renderer.render(this.scene, this.camera);
+			app.webgl.renderer.setRenderTarget(null);
+		}
 	}
 
 	// onPlayerMoved(rig) {
@@ -224,15 +243,15 @@ class Avatar extends Group {
 	enableControl() {
 		this.canControl = true;
 		state.on(EVENTS.RIG_COMPUTED, this.updateRig);
-		this.mesh.visible = true;
-		this.particles.visible = true;
+		// this.mesh.visible = true;
+		if (this.particles) this.particles.visible = true;
 	}
 
 	disableControl() {
 		this.canControl = false;
 		state.off(EVENTS.RIG_COMPUTED, this.updateRig);
-		this.mesh.visible = false;
-		this.particles.visible = false;
+		// this.mesh.visible = false;
+		if (this.particles) this.particles.visible = false;
 	}
 
 	updateRig = (riggedPose) => {
@@ -400,6 +419,7 @@ class Avatar extends Group {
 				metalness: 0.4,
 				roughness: 0.9,
 				envMapIntensity: 4,
+				fog: false,
 			}),
 			this.particlesUniforms,
 			this.customizeShader,

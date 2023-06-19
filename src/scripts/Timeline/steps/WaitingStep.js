@@ -12,14 +12,16 @@ export default class WaitingStep extends Step {
 	start() {
 		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
+		app.tensorflow.show();
+		app.tensorflow.pose.playerAlreadyHere().then((v) => v && app.timeline.next());
 	}
 
 	stop() {
 		this.isRunning = false;
 	}
 
-	// onPlayerEntered() {
-	// 	if (!this.isRunning) return;
-	// 	app.timeline.next();
-	// }
+	onPlayerEntered() {
+		if (!this.isRunning) return;
+		app.timeline.next();
+	}
 }
