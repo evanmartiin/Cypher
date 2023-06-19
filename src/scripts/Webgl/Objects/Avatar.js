@@ -31,6 +31,7 @@ import {
 	Scene,
 	ShaderMaterial,
 	SkinnedMesh,
+	SphereGeometry,
 	Triangle,
 	Uint16BufferAttribute,
 	Vector2,
@@ -125,13 +126,15 @@ class Avatar extends Group {
 				}
 				`,
 		});
-		this.head = new Mesh(new CircleGeometry(0.15, 32), this.wPosMaterial);
-		this.scene.add(this.head);
+		this.head = new Mesh(new SphereGeometry(0.15, 16, 16), this.wPosMaterial);
 		this.head.scale.y = 1.25;
+		// this.scene.add(this.head);
 
-		this.tubes = new InstancedMesh(new CylinderGeometry(0.05, 0.05, 1, 32), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
+		this.tubes = new InstancedMesh(new CylinderGeometry(0.05, 0.05, 1, 10, 10), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
 		this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
-		this.scene.add(this.tubes);
+		// this.scene.add(this.tubes);
+
+		this.addParticles();
 
 		this.quad = new Mesh(
 			new PlaneGeometry(VIDEO_SIZE.width * 0.0005, VIDEO_SIZE.height * 0.0005),
@@ -152,15 +155,15 @@ class Avatar extends Group {
 		}
 		`,
 				uniforms: {
-					tTex: { value: this.fbo.texture },
-					// tTex: { value: this.gpuCompute.getCurrentRenderTarget(this.positionVariable).texture },
+					// tTex: { value: this.fbo.texture },
+					tTex: { value: this.vertexStore.positionMap },
 				},
 			}),
 		);
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		// app.webgl.postProcessing.sceneWithoutPP.add(this.quad);
+		app.webgl.scene.add(this.quad);
 	}
 
 	onPlayerMoved(rig) {
@@ -179,10 +182,13 @@ class Avatar extends Group {
 					DUMMY.lookAt(dstV2.x, dstV2.y, 0);
 					DUMMY.rotateX(Math.PI / 2);
 					DUMMY.updateMatrix();
+					this.tubes.geometry.getAttribute('aBoneVisible').setX(i, 1);
 				} else {
 					DUMMY.scale.y = 0;
+					this.tubes.geometry.getAttribute('aBoneVisible').setX(i, 0);
 				}
 				this.tubes.setMatrixAt(i, DUMMY.matrix);
+				this.tubes.geometry.getAttribute('aBoneVisible').needsUpdate = true;
 			}
 		});
 
@@ -218,6 +224,8 @@ class Avatar extends Group {
 			app.webgl.renderer.render(this.scene, this.camera);
 			app.webgl.renderer.setRenderTarget(null);
 		}
+
+		if (this.vertexStore) this.vertexStore.update();
 	}
 
 	// onPlayerMoved(rig) {
@@ -320,7 +328,7 @@ class Avatar extends Group {
 		/**
 		 * Create an object that bakes the transformed vertex positions and colors of the mesh into textures
 		 */
-		this.vertexStore = this.prepareMeshSampler(this.gltf.scene, 20000);
+		this.vertexStore = this.createVertexStore([this.head, this.tubes]);
 		this.numParticles = this.vertexStore.numVertices;
 
 		this.vertexStore.update();
@@ -398,7 +406,7 @@ class Avatar extends Group {
 		/**
 		 * Create InstancedMesh and shaders to render particles
 		 */
-		const geometry = this.createParticleGeometry(new OctahedronGeometry().scale(0.004, 0.005, 0.004));
+		const geometry = this.createParticleGeometry(new BoxGeometry(0.01, 0.01, 0.01));
 		// const geom = new BoxGeometry().scale(0.005, 0.004, 0.012);
 
 		this.particlesUniforms = {
@@ -507,9 +515,9 @@ class Avatar extends Group {
 				1.0
 			  );
 			  displacedPosition = position;
-			  displacedPosition *= clamp(smoothstep(0.0, 0.5, life), 0.0, 1.0) * particleScale;
-			  displacedPosition = particleRotation * displacedPosition + worldPosition;
-			  displacedNormal = normalize(particleRotation * normal / particleScale);
+			//   displacedPosition *= clamp(smoothstep(0.0, 0.5, life), 0.0, 1.0) * particleScale;
+			  displacedPosition = displacedPosition + worldPosition;
+			//   displacedNormal = normalize(particleRotation * normal / particleScale);
 			}
 		  `,
 		);
@@ -539,59 +547,34 @@ class Avatar extends Group {
 		);
 	}
 
-	prepareMeshSampler(mesh, numSamples) {
-		let skinnedMesh = new SkinnedMesh();
-		mesh.traverse((c) => {
-			if (c instanceof SkinnedMesh) skinnedMesh = c;
+	createVertexStore(meshes) {
+		let totalNumVertices = 0;
+
+		meshes.forEach((mesh) => {
+			const numVertices = mesh.geometry.attributes.position.count;
+			const fragIndices = new Float32Array(numVertices);
+			for (let i = 0; i < numVertices; i++) {
+				fragIndices[i] = i + totalNumVertices * (mesh.isInstancedMesh ? 0 : 1);
+			}
+			mesh.geometry.setAttribute('aFragIndex', new Float32BufferAttribute(fragIndices, 1));
+
+			if (mesh.isInstancedMesh) {
+				const indicesOffset = new Float32Array(mesh.count);
+				const visibleBones = new Float32Array(mesh.count);
+				for (let i = 0; i < mesh.count; i++) {
+					indicesOffset[i] = i * numVertices + totalNumVertices;
+					visibleBones[i] = 1;
+				}
+				mesh.geometry.setAttribute('aFragOffset', new InstancedBufferAttribute(indicesOffset, 1));
+				mesh.geometry.setAttribute('aBoneVisible', new InstancedBufferAttribute(visibleBones, 1));
+				totalNumVertices += numVertices * mesh.count;
+			} else {
+				totalNumVertices += numVertices;
+			}
 		});
 
-		const newGeometry = this.createPointsGeometryForSkin(skinnedMesh, numSamples);
-
-		/**
-		 * We want to store the animated vertex positions of the Mesh
-		 * as the render target textures and use them in the next pass (particle simulation).
-		 */
-		const vertexStore = this.createVertexStore(newGeometry);
-
-		const container = new Group();
-		container.scale.multiplyScalar(1);
-		container.add(skinnedMesh);
-		vertexStore.scene.add(container);
-
-		skinnedMesh.geometry.dispose();
-		skinnedMesh.geometry = vertexStore.geometry;
-
-		skinnedMesh.material.dispose();
-		skinnedMesh.material = vertexStore.material;
-
-		// @ts-ignore
-		skinnedMesh.isMesh = false;
-		// @ts-ignore
-		skinnedMesh.isPoints = true;
-
-		return vertexStore;
-	}
-
-	/**
-	 * Emulate the Transform Feedback of SkinnedMesh using the render target texture.
-	 * https://stackoverflow.com/questions/29053870/retrieve-vertices-data-in-three-js
-	 */
-	createVertexStore(geometry) {
-		const numVertices = geometry.attributes.position.count;
-
-		/**
-		 * Add a vertex attribute to find the 2D coordinates of the fragment
-		 * that will store the vertex position and color.
-		 * One vertex corresponds to one fragment.
-		 */
-		const fragIndices = new Float32Array(numVertices);
-		for (let i = 0; i < numVertices; i++) {
-			fragIndices[i] = i;
-		}
-		geometry.setAttribute('aFragIndex', new Float32BufferAttribute(fragIndices, 1));
-
 		const mapWidth = 512;
-		const mapHeight = MathUtils.ceilPowerOfTwo(Math.ceil(numVertices / mapWidth));
+		const mapHeight = MathUtils.ceilPowerOfTwo(Math.ceil(totalNumVertices / mapWidth));
 
 		const renderTargetOptions = {
 			depthBuffer: false,
@@ -630,11 +613,25 @@ class Avatar extends Group {
 
 		const scene = new Scene();
 
+		const container = new Group();
+		container.scale.multiplyScalar(1);
+		scene.add(container);
+		meshes.forEach((mesh) => {
+			container.add(mesh);
+
+			mesh.material.dispose();
+			mesh.material = material;
+
+			// @ts-ignore
+			mesh.isMesh = false;
+			// @ts-ignore
+			mesh.isPoints = true;
+		});
+
 		return {
-			numVertices,
+			numVertices: totalNumVertices,
 			mapWidth,
 			mapHeight,
-			geometry,
 			material,
 			scene,
 			positionMap: renderTarget.texture,

@@ -31,5 +31,6 @@ void main() {
     position += velocity * uDelta;
   }
   
-  gl_FragColor = vec4(position, life);
+  // gl_FragColor = vec4(position, life);
+  gl_FragColor = vec4(texture2D(uTargetPositionMap, ref).xyz, 1.);
 }
