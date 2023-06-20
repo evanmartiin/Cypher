@@ -63,6 +63,11 @@ html {
 		gap: 20px;
 		width: 400px;
 	}
+
+	#panel.hidden {
+		opacity: 0;
+		width: 0;
+	}
 }
 
 #next {

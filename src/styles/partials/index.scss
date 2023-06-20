@@ -63,6 +63,35 @@
 	}
 }
 
+.black-filter {
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: .29;
+}
+
+.logo-wrapper {
+	position: absolute;
+    top: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#logo {
+	width: 50%;
+	height: 50%;
+	z-index: 1;
+}
+
+.logo-container {
+	[aria-hidden="true"] {
+		background-color: red;
+	}
+}
+
 .custom-cursor {
 	width: 50px;
 	height: 50px;
