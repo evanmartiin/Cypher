@@ -20,6 +20,7 @@ import {
 	Vector2,
 	WebGLRenderTarget,
 } from 'three';
+import { assertIsInCamera } from '@utils/assertions.js';
 import { POSE, POSE_CONNECTIONS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -28,6 +29,7 @@ import meshFragmentShader from '../Materials/ParticulesMan/skinnedMesh/fragment.
 import meshVertexShader from '../Materials/ParticulesMan/skinnedMesh/vertex.glsl';
 
 const DUMMY = new Object3D();
+const TORSO_CYLINDER_NB = 5;
 
 class Avatar extends Group {
 	constructor() {
@@ -43,6 +45,9 @@ class Avatar extends Group {
 
 		this.tubes = new InstancedMesh(new CylinderGeometry(0.02, 0.02, 1, 10, 10), new MeshBasicMaterial(), POSE_CONNECTIONS.length);
 		this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
+
+		this.torso = new InstancedMesh(new CylinderGeometry(0.02, 0.02, 1, 10, 10), new MeshBasicMaterial(), TORSO_CYLINDER_NB);
+		this.torso.instanceMatrix.setUsage(DynamicDrawUsage);
 
 		this.addParticles();
 
@@ -76,13 +81,13 @@ class Avatar extends Group {
 	}
 
 	onPlayerMoved(rig) {
-		if (!this.tubes) return;
+		if (!this.tubes || !this.head || !this.torso) return;
 
 		POSE_CONNECTIONS.forEach((connection, i) => {
 			const src = rig.keypoints[connection[0]];
 			const dst = rig.keypoints[connection[1]];
 			if (src && dst) {
-				if (this.assertBoneIsInCamera(src, dst)) {
+				if (assertIsInCamera(src) || assertIsInCamera(dst)) {
 					const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
 					const dstV2 = new Vector2(1 - dst.x / VIDEO_SIZE.width, 1 - dst.y / VIDEO_SIZE.height);
 					const armPos = srcV2.clone().add(dstV2).divideScalar(2);
@@ -104,12 +109,32 @@ class Avatar extends Group {
 		this.tubes.instanceMatrix.needsUpdate = true;
 
 		this.head.position.set(1 - rig.keypoints[POSE.NOSE].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.NOSE].y / VIDEO_SIZE.height, 0.0);
-	}
 
-	assertBoneIsInCamera(src, dst) {
-		const srcIsInCamera = src.x > 0 && src.x < VIDEO_SIZE.width && src.y > 0 && src.y < VIDEO_SIZE.height;
-		const dstIsInCamera = dst.x > 0 && dst.x < VIDEO_SIZE.width && dst.y > 0 && dst.y < VIDEO_SIZE.height;
-		return srcIsInCamera || dstIsInCamera;
+		const topLeftTorso = new Vector2(1 - rig.keypoints[POSE.LEFT_SHOULDER].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.LEFT_SHOULDER].y / VIDEO_SIZE.height);
+		const topRightTorso = new Vector2(1 - rig.keypoints[POSE.RIGHT_SHOULDER].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.RIGHT_SHOULDER].y / VIDEO_SIZE.height);
+		const bottomLeftTorso = new Vector2(1 - rig.keypoints[POSE.LEFT_HIP].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.LEFT_HIP].y / VIDEO_SIZE.height);
+		const bottomRightTorso = new Vector2(1 - rig.keypoints[POSE.RIGHT_HIP].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.RIGHT_HIP].y / VIDEO_SIZE.height);
+
+		for (let i = 0; i < TORSO_CYLINDER_NB; i++) {
+			const src = new Vector2().lerpVectors(topLeftTorso, topRightTorso, (1 / (TORSO_CYLINDER_NB + 1)) * (i + 1));
+			const dst = new Vector2().lerpVectors(bottomLeftTorso, bottomRightTorso, (1 / (TORSO_CYLINDER_NB + 1)) * (i + 1));
+			if (assertIsInCamera(src) || assertIsInCamera(dst)) {
+				const armPos = src.clone().add(dst).divideScalar(2);
+				DUMMY.position.set(armPos.x, armPos.y, 0);
+				DUMMY.scale.y = src.distanceTo(dst) * 1.1;
+				DUMMY.lookAt(dst.x, dst.y, 0);
+				DUMMY.rotateX(Math.PI / 2);
+				DUMMY.updateMatrix();
+				this.torso.geometry.getAttribute('aBoneVisible').setX(i, 1);
+			} else {
+				DUMMY.scale.y = 0;
+				this.torso.geometry.getAttribute('aBoneVisible').setX(i, 0);
+			}
+			this.torso.setMatrixAt(i, DUMMY.matrix);
+			this.torso.geometry.getAttribute('aBoneVisible').needsUpdate = true;
+		}
+
+		this.torso.instanceMatrix.needsUpdate = true;
 	}
 
 	onRender() {
@@ -125,7 +150,7 @@ class Avatar extends Group {
 	}
 
 	addParticles() {
-		this.vertexStore = this.createVertexStore([this.head, this.tubes]);
+		this.vertexStore = this.createVertexStore([this.head, this.tubes, this.torso]);
 		this.numParticles = this.vertexStore.numVertices;
 
 		this.vertexStore.update();

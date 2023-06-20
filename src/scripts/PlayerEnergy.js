@@ -6,7 +6,7 @@ class PlayerEnergy {
 		state.register(this);
 
 		this.current = 0;
-		this.max = 1000;
+		this.max = 2000;
 
 		this.reachedZeroEnergy = new Signal();
 		this.reachedMaxEnergy = new Signal();
@@ -46,6 +46,10 @@ class PlayerEnergy {
 			this.current = 0;
 			this.reachedZeroEnergy.emit();
 		}
+	}
+
+	onRender({ dt }) {
+		this.remove(dt * 500);
 	}
 }
 
