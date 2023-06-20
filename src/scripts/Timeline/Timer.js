@@ -1,4 +1,3 @@
-import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
 export default class Timer {

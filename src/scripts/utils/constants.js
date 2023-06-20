@@ -1,3 +1,4 @@
+import TrainingStep from '@Timeline/steps/TrainingStep.js';
 import DanceStep from '@scripts/Timeline/steps/DanceStep.js';
 import NextPlayerStep from '@scripts/Timeline/steps/NextPlayerStep.js';
 import PlayerDetectedStep from '@scripts/Timeline/steps/PlayerDetectedStep.js';
@@ -44,7 +45,7 @@ const EVENTS_MAP = Object.fromEntries(
 	]),
 );
 
-const STEPS = [WaitingStep, PlayerDetectedStep, TimerStep, DanceStep, WellDoneStep, NextPlayerStep];
+const STEPS = [WaitingStep, PlayerDetectedStep, TrainingStep, TimerStep, DanceStep, WellDoneStep, NextPlayerStep];
 
 const STORE = {
 	SKELETON: i++,

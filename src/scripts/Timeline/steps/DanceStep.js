@@ -24,7 +24,6 @@ export default class DanceStep extends Step {
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tools.recorder.start();
 		app.webgl.scene.avatarDemo.enable();
-		app.webgl.scene.carpet.show();
 		app.energy.start();
 		app.energy.reachedMaxEnergy.on(() => {
 			app.energy.stop();

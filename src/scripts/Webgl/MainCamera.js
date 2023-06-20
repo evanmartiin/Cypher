@@ -12,8 +12,8 @@ class MainCamera extends PerspectiveCamera {
 
 		this.baseFov = BASE_FOV + 10;
 		this.target = new Vector3(0, 1, 0);
-		this.position.z = 5;
-		this.position.y = 1;
+		this.position.z = 7;
+		this.position.y = 1.5;
 		this.lookAt(this.target);
 	}
 
