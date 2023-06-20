@@ -13,6 +13,25 @@
 	pointer-events: none;
 }
 
+#energy {
+	width: 200px;
+	height: 30px;
+	border: 1px solid white;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 0%);
+	opacity: 1;
+	pointer-events: all;
+	transition: 0.1s;
+	position: absolute;
+	top: 50vh;
+	left: 0vw;
+	transform: rotateZ(-90deg);
+	opacity: 1;
+
+	&.hidden {
+		opacity: 0;
+	}
+}
+
 #tf-video, #tf-canvas {
 	position: absolute;
 	bottom: 50px;

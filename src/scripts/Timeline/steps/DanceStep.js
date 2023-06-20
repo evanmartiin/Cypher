@@ -13,9 +13,11 @@ export default class DanceStep extends Step {
 		state.register(this);
 
 		this.text = 'Danse !';
-		this.duration = 600000;
+		this.duration = 30000;
 
 		this.rightWristPos = new Vector2();
+
+		this.energyDOM = document.getElementById('energy');
 	}
 
 	start() {
@@ -23,24 +25,14 @@ export default class DanceStep extends Step {
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tools.recorder.start();
-		app.webgl.scene.avatarDemo.enable();
-		app.energy.start();
-		app.energy.reachedMaxEnergy.on(() => {
-			app.energy.stop();
-			app.webgl.scene.carpet.hide();
-			app.webgl.scene.changeEnv().then(() => {
-				if (!this.isRunning) return;
-				app.energy.start();
-				app.webgl.scene.carpet.show();
-			});
-		});
+		app.game.start();
 	}
 
 	stop() {
-		app.energy.stop();
 		this.isRunning = false;
 		app.tools.recorder.stop();
 		app.timeline.timer.resetTimer();
+		app.game.stop();
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
 	}
 
@@ -60,5 +52,19 @@ export default class DanceStep extends Step {
 		app.energy.add(V2.distanceTo(this.rightWristPos));
 
 		this.rightWristPos.copy(V2);
+	}
+
+	onEnergyStarted() {
+		this.energyDOM.classList.remove('hidden');
+	}
+
+	onEnergyStopped() {
+		this.energyDOM.classList.add('hidden');
+	}
+
+	onRender() {
+		if (app.energy.active) {
+			this.energyDOM.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${app.energy.normalizedCurrent * 100}%, rgba(255,255,255,0) ${app.energy.normalizedCurrent * 100}%)`;
+		}
 	}
 }
