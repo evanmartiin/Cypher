@@ -1,4 +1,4 @@
-import { Group, PointLight, PointLightHelper } from 'three';
+import { AmbientLight, Group, PointLight, PointLightHelper } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -33,8 +33,10 @@ export class Lights extends Group {
 		const helper3 = new PointLightHelper(light3, 1);
 		helper3.visible = false;
 
-		this.add(light1, light2, light3, helper1, helper2, helper3);
+		const light4 = new AmbientLight('#ffffff', 0);
 
-		return { light1, light2, light3, helper1, helper2, helper3 };
+		this.add(light1, light2, light3, light4, helper1, helper2, helper3);
+
+		return { light1, light2, light3, light4, helper1, helper2, helper3 };
 	}
 }

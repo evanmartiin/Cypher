@@ -48,7 +48,7 @@ export default class Environment extends Group {
 			map: sceneBase,
 			normalMap: sceneNormal,
 			roughnessMap: sceneRoughness,
-			aoMap: sceneAo,
+			// aoMap: sceneAo,
 			metalness: 0.01,
 			roughness: 0.99,
 		});
