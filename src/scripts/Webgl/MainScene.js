@@ -130,11 +130,11 @@ class MainScene extends Scene {
 			1.25,
 		);
 
-		timeline.to(this._lights._lights.light1, { intensity: this.environments[this.currentEnv].light1.intensity, duration: 0 }, 0);
-		timeline.to(this._lights._lights.light2, { intensity: this.environments[this.currentEnv].light2.intensity, duration: 0 }, 0);
-		timeline.to(this._lights._lights.light3, { intensity: this.environments[this.currentEnv].light3.intensity, duration: 0 }, 0);
+		// timeline.to(this._lights._lights.light1, { intensity: this.environments[this.currentEnv].light1.intensity, duration: 0 }, 0);
+		// timeline.to(this._lights._lights.light2, { intensity: this.environments[this.currentEnv].light2.intensity, duration: 0 }, 0);
+		// timeline.to(this._lights._lights.light3, { intensity: this.environments[this.currentEnv].light3.intensity, duration: 0 }, 0);
 
-		timeline.to(this._environment._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
+		// timeline.to(this._environment._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
 		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.75, value: -1.35 }, 2);
 		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 2.75, value: 0 }, 2);
 

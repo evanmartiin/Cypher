@@ -1,7 +1,7 @@
 #ifdef USE_FOG
 float time = uTime * 0.001;
 // float fogFactor = smoothstep(fogNear, fogFar, vFogDepth);
-float fogFactor2 = smoothstep(4.5, 5., vFogDepth);
+float fogFactor2 = smoothstep(0., 10., vFogDepth);
 
 vec3 avatarWorldPos = vWorldPosition;
 avatarWorldPos.xz *= 1.5;
@@ -27,6 +27,7 @@ tempOut = smoothstep(tempOut, tempOut, distOut);
 // float dist = length(vTransitionUvs - 0.5);
 
 float avatarDist = smoothstep(2., 3., length(avatarWorldPos));
+float dist = smoothstep(0., 25., length(avatarWorldPos));
 
 float avatarDemoDist = smoothstep(0., 2.0, length(avatarWorldPos - vec3(3.0, 0.0, 3.0) * 1.5));
 
@@ -45,10 +46,12 @@ vec3 render = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.5, avatarDist);
 
 vec3 tempRender = render;
 
+vec3 switchColorTransition = mix(render, uTransitionColor, 1.0 - dist);
+
 if(uSwitchTransition) {
-tempRender = mix(uTransitionColor, render, tempIn);
+tempRender = mix(switchColorTransition, render, tempIn);
 } else {
-tempRender = mix(uTransitionColor, render, tempOut);
+tempRender = mix(switchColorTransition, render, tempOut);
 }
 
 gl_FragColor.rgb *= (vec3(fresnelFactor));
