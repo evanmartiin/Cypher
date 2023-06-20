@@ -28,6 +28,10 @@ const EVENTS = {
 	PLAYER_LEFT: i++,
 	PLAYER_MOVED: i++,
 	PLAYER_MOVED_ENOUGH: i++,
+
+	MAX_ENERGY_REACHED: i++,
+	ENERGY_STARTED: i++,
+	ENERGY_STOPPED: i++,
 };
 
 const SERVER_EVENTS = {
