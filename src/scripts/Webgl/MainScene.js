@@ -8,6 +8,7 @@ import { globalUniforms } from '@utils/globalUniforms.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
+import { Carpet } from './Objects/Carpet.js';
 import CounterAnimation from './Objects/CounterAnimation.js';
 import { CustomFog } from './Objects/CustomFog.js';
 import RigCoordsFluid from './Objects/FluidSim/RigCoordsFluid.js';
@@ -22,8 +23,12 @@ class MainScene extends Scene {
 		state.register(this);
 
 		this.avatar = new Avatar();
+
 		this.avatarDemo = new AvatarDemo();
 		this.add(this.avatarDemo);
+
+		this.carpet = new Carpet();
+		this.add(this.carpet);
 	}
 
 	onAttach() {
