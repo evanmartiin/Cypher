@@ -33,11 +33,12 @@ class PostProcessing {
 		this.blurPass = new BlurPass();
 		this._effectComposer.addPass(this.blurPass);
 
-		this._addRenderPass(this.sceneWithoutPP, camera);
-
 		this._fishEyesPass = this._addFishEyesPass(camera);
 		this._afterImagePass = this._addAfterImagePass();
 		this._SMAAPass = this._addSMAAPass();
+
+		// this._addRenderPass(this.sceneWithoutPP, camera);
+
 		this._effectComposer.addPass(outputPass);
 
 		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
@@ -45,7 +46,7 @@ class PostProcessing {
 	}
 
 	onAttach() {
-		app.debug?.mapping.add(this, 'PostProcessing');
+		// app.debug?.mapping.add(this, 'PostProcessing');
 	}
 
 	_createEffectComposer(renderer) {
@@ -148,7 +149,7 @@ class PostProcessing {
 
 	_addAfterImagePass() {
 		const afterImagePass = new AfterimagePass();
-		afterImagePass.uniforms['damp'].value = 0.85;
+		afterImagePass.uniforms['damp'].value = 0.92;
 		// afterImagePass.uniforms['damp'].value = 0.0;
 		this._effectComposer.addPass(afterImagePass);
 

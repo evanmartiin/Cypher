@@ -98,7 +98,6 @@ class AudioManager {
 		this.analyser.smoothingTimeConstant = 0.85; // Constante de lissage (entre 0 et 1)
 
 		const howlNode = Howler.masterGain;
-		// console.log(Howler.masterGain);
 		howlNode.connect(this.analyser);
 
 		this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);

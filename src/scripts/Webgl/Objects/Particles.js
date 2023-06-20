@@ -46,7 +46,7 @@ export class Particles extends Group {
 		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = new SphereGeometry();
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(4, 4, 4);
+		baseGeometry.scale(3, 3, 3);
 
 		const geometry = new BufferGeometry();
 
@@ -95,7 +95,7 @@ export class Particles extends Group {
 			side: DoubleSide,
 			metalness: 0.5,
 			roughness: 0.5,
-			// envMap: app.core.assetsManager.get('envmap'),
+			envMap: app.core.assetsManager.get('envmap'),
 		});
 
 		return material;
@@ -103,10 +103,10 @@ export class Particles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.scale.set(0.0075, 0.0075, 0.0075);
+		mesh.scale.set(0.015, 0.015, 0.015);
 
 		this.add(mesh);
-		mesh.position.y = 1;
+		// mesh.position.y = 1;
 		mesh.frustumCulled = false;
 		mesh.renderOrder = 2;
 

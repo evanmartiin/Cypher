@@ -50,7 +50,6 @@ class Common {
 	update() {
 		this.delta = this.clock.getDelta(); // Math.min(0.01, this.clock.getDelta());
 		this.time += this.delta;
-		console.log('up');
 	}
 }
 

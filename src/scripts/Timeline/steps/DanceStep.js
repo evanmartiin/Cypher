@@ -25,7 +25,8 @@ export default class DanceStep extends Step {
 		app.webgl.scene.avatarDemo.enable();
 		app.energy.start();
 		app.energy.reachedMaxEnergy.on(() => {
-			app.webgl.scene._transitionTimeline.restart().then(() => {
+			app.webgl.scene.changeEnv().then(() => {
+				if (!this.isRunning) return;
 				app.energy.start();
 			});
 			app.energy.stop();
@@ -37,7 +38,6 @@ export default class DanceStep extends Step {
 		this.isRunning = false;
 		app.tools.recorder.stop();
 		app.webgl.scene.avatarDemo.disable();
-		// app.webgl.scene.skeleton.createGeometry();
 		app.timeline.timer.resetTimer();
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
 	}
