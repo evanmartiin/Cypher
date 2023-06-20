@@ -30,7 +30,6 @@ export class Particles extends Group {
 		this.coords = coords;
 		this.acceleration = acceleration;
 
-		console.log(this);
 		this.init();
 	}
 

@@ -72,8 +72,6 @@ class AudioManager {
 
 	playMusic(name) {
 		if (name !== this.currentAmbientName) {
-			console.log('play music');
-
 			if (this.currentAmbient) {
 				this.fadeOut(this.currentAmbientName, 1000, this.currentAmbientId);
 			}
@@ -83,7 +81,6 @@ class AudioManager {
 			this.currentAmbientId = this.fadeIn(this.currentAmbientName, MUSIC_VOLUME, 1000);
 		}
 	}
-
 
 	beat(id) {
 		const howl = this._musics.get(id);
