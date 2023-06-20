@@ -15,10 +15,10 @@ out vec4 vWorldPosition;
 
 void main() {
   #include <skinbase_vertex>
-  
+
   #include <begin_vertex>
   #include <skinning_vertex>
-  
+
   // Position this vertex so that it occupies a unique pixel.
   // Might not work in some environments...?
   // https://stackoverflow.com/questions/29053870/retrieve-vertices-data-in-three-js
@@ -29,14 +29,11 @@ void main() {
   float index = aFragIndex;
   #endif
 
-  vec2 destCoords = vec2(
-    (0.5 + float(int(index) % uMapWidth)) / float(uMapWidth),
-    (0.5 + floor(float(index) / float(uMapWidth))) / float(uMapHeight)
-  ) * vec2(2.0) - vec2(1.0);
-  
+  vec2 destCoords = vec2((0.5 + float(int(index) % uMapWidth)) / float(uMapWidth), (0.5 + floor(float(index) / float(uMapWidth))) / float(uMapHeight)) * vec2(2.0) - vec2(1.0);
+
   gl_Position = vec4(destCoords, 0.0, 1.0);
   gl_PointSize = 1.0;
-  
+
   vWorldPosition = modelMatrix * vec4(transformed, 1.0);
   #ifdef USE_INSTANCING
   vWorldPosition = modelMatrix * instanceMatrix * vec4(transformed, 1.0);

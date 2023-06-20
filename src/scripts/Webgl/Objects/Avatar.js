@@ -380,7 +380,7 @@ class Avatar extends Group {
 		this.velocityUniforms = {
 			...this.commonUniforms,
 			uDieSpeed: {
-				value: 0.03,
+				value: 0.06,
 			},
 			uCurlSize: {
 				value: 0.1,
@@ -451,7 +451,7 @@ class Avatar extends Group {
 			this.particles.setMatrixAt(i, dummy.matrix);
 		}
 
-		app.webgl.scene.add(this.particles);
+		// app.webgl.scene.add(this.particles);
 
 		this.ready = true;
 	}

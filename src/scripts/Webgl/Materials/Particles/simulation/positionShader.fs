@@ -27,8 +27,9 @@ void main() {
 	if(life >= 0.0) {
 		position += velocity * uDelta;
 	} else {
-		position = texture2D(uTextureDefaultPosition, uv).xyz;
-		position = rigPosition * 100.;
+		// position = texture2D(uTextureDefaultPosition, uv).xyz;
+		position = rigPosition * 75.;
+
 		// position.x += uCoordsPositions.x * 35.;
 		// position.y += uCoordsPositions.y * 15.;
 		// position.z += uCoordsPositions.z * 35.;

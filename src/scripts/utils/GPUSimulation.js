@@ -110,7 +110,7 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.001 };
+		this.posUniforms.uDieSpeed = { value: 0.0125 };
 		this.posUniforms.uAcceleration = { value: this.acceleration.value };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
@@ -123,11 +123,11 @@ export class GPUSimulation {
 
 		this.velUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.velUniforms.uDelta = { value: 0.0 };
-		this.velUniforms.uSpeed = { value: 0.1 };
+		this.velUniforms.uSpeed = { value: 0.05 };
 		this.velUniforms.uAcceleration = { value: this.acceleration.value };
 		this.velUniforms.uAttraction = { value: 1 };
-		this.velUniforms.uCurlSize = { value: 0.1 };
-		this.velUniforms.uTimeScale = { value: 1 };
+		this.velUniforms.uCurlSize = { value: 0.02 };
+		this.velUniforms.uTimeScale = { value: 0.5 };
 		this.velUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.velUniforms.uCubePositions = { value: this.cubePositions };
 		this.velUniforms.uCubeQuaternions = { value: this.cubeQuaternions };
@@ -174,9 +174,9 @@ export class GPUSimulation {
 		this.velUniforms.uAcceleration.value = this.acceleration.value;
 		this.posUniforms.uAcceleration.value = this.acceleration.value;
 
-		if (app.webgl.scene.avatar.fbo.texture) {
-			this.posUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
-			this.velUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.fbo.texture;
+		if (app.webgl.scene.avatar.vertexStore.positionMap) {
+			this.posUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.vertexStore.positionMap;
+			this.velUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.vertexStore.positionMap;
 		}
 
 		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);

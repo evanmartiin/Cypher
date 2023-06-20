@@ -18,11 +18,11 @@ float mod289(float x) {
 }
 
 vec4 permute(vec4 x) {
-    return mod289(((x*34.0)+1.0)*x);
+    return mod289(((x * 34.0) + 1.0) * x);
 }
 
 float permute(float x) {
-    return mod289(((x*34.0)+1.0)*x);
+    return mod289(((x * 34.0) + 1.0) * x);
 }
 
 vec4 taylorInvSqrt(vec4 r) {
@@ -35,27 +35,27 @@ float taylorInvSqrt(float r) {
 
 vec4 grad4(float j, vec4 ip) {
     const vec4 ones = vec4(1.0, 1.0, 1.0, -1.0);
-    vec4 p,s;
+    vec4 p, s;
 
-    p.xyz = floor( fract (vec3(j) * ip.xyz) * 7.0) * ip.z - 1.0;
+    p.xyz = floor(fract(vec3(j) * ip.xyz) * 7.0) * ip.z - 1.0;
     p.w = 1.5 - dot(abs(p.xyz), ones.xyz);
     s = vec4(lessThan(p, vec4(0.0)));
-    p.xyz = p.xyz + (s.xyz*2.0 - 1.0) * s.www;
+    p.xyz = p.xyz + (s.xyz * 2.0 - 1.0) * s.www;
 
     return p;
 }
 
 #define F4 0.309016994374947451
 
-vec4 simplexNoiseDerivatives (vec4 v) {
-    const vec4  C = vec4( 0.138196601125011,0.276393202250021,0.414589803375032,-0.447213595499958);
+vec4 simplexNoiseDerivatives(vec4 v) {
+    const vec4 C = vec4(0.138196601125011, 0.276393202250021, 0.414589803375032, -0.447213595499958);
 
-    vec4 i  = floor(v + dot(v, vec4(F4)) );
-    vec4 x0 = v -   i + dot(i, C.xxxx);
+    vec4 i = floor(v + dot(v, vec4(F4)));
+    vec4 x0 = v - i + dot(i, C.xxxx);
 
     vec4 i0;
-    vec3 isX = step( x0.yzw, x0.xxx );
-    vec3 isYZ = step( x0.zww, x0.yyz );
+    vec3 isX = step(x0.yzw, x0.xxx);
+    vec3 isYZ = step(x0.zww, x0.yyz);
     i0.x = isX.x + isX.y + isX.z;
     i0.yzw = 1.0 - isX;
     i0.y += isYZ.x + isYZ.y;
@@ -63,9 +63,9 @@ vec4 simplexNoiseDerivatives (vec4 v) {
     i0.z += isYZ.z;
     i0.w += 1.0 - isYZ.z;
 
-    vec4 i3 = clamp( i0, 0.0, 1.0 );
-    vec4 i2 = clamp( i0-1.0, 0.0, 1.0 );
-    vec4 i1 = clamp( i0-2.0, 0.0, 1.0 );
+    vec4 i3 = clamp(i0, 0.0, 1.0);
+    vec4 i2 = clamp(i0 - 1.0, 0.0, 1.0);
+    vec4 i1 = clamp(i0 - 2.0, 0.0, 1.0);
 
     vec4 x1 = x0 - i1 + C.xxxx;
     vec4 x2 = x0 - i2 + C.yyyy;
@@ -73,34 +73,29 @@ vec4 simplexNoiseDerivatives (vec4 v) {
     vec4 x4 = x0 + C.wwww;
 
     i = mod289(i);
-    float j0 = permute( permute( permute( permute(i.w) + i.z) + i.y) + i.x);
-    vec4 j1 = permute( permute( permute( permute (
-             i.w + vec4(i1.w, i2.w, i3.w, 1.0 ))
-           + i.z + vec4(i1.z, i2.z, i3.z, 1.0 ))
-           + i.y + vec4(i1.y, i2.y, i3.y, 1.0 ))
-           + i.x + vec4(i1.x, i2.x, i3.x, 1.0 ));
+    float j0 = permute(permute(permute(permute(i.w) + i.z) + i.y) + i.x);
+    vec4 j1 = permute(permute(permute(permute(i.w + vec4(i1.w, i2.w, i3.w, 1.0)) + i.z + vec4(i1.z, i2.z, i3.z, 1.0)) + i.y + vec4(i1.y, i2.y, i3.y, 1.0)) + i.x + vec4(i1.x, i2.x, i3.x, 1.0));
 
+    vec4 ip = vec4(1.0 / 294.0, 1.0 / 49.0, 1.0 / 7.0, 0.0);
 
-    vec4 ip = vec4(1.0/294.0, 1.0/49.0, 1.0/7.0, 0.0) ;
-
-    vec4 p0 = grad4(j0,   ip);
+    vec4 p0 = grad4(j0, ip);
     vec4 p1 = grad4(j1.x, ip);
     vec4 p2 = grad4(j1.y, ip);
     vec4 p3 = grad4(j1.z, ip);
     vec4 p4 = grad4(j1.w, ip);
 
-    vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+    vec4 norm = taylorInvSqrt(vec4(dot(p0, p0), dot(p1, p1), dot(p2, p2), dot(p3, p3)));
     p0 *= norm.x;
     p1 *= norm.y;
     p2 *= norm.z;
     p3 *= norm.w;
-    p4 *= taylorInvSqrt(dot(p4,p4));
+    p4 *= taylorInvSqrt(dot(p4, p4));
 
     vec3 values0 = vec3(dot(p0, x0), dot(p1, x1), dot(p2, x2)); //value of contributions from each corner at point
     vec2 values1 = vec2(dot(p3, x3), dot(p4, x4));
 
-    vec3 m0 = max(0.5 - vec3(dot(x0,x0), dot(x1,x1), dot(x2,x2)), 0.0); //(0.5 - x^2) where x is the distance
-    vec2 m1 = max(0.5 - vec2(dot(x3,x3), dot(x4,x4)), 0.0);
+    vec3 m0 = max(0.5 - vec3(dot(x0, x0), dot(x1, x1), dot(x2, x2)), 0.0); //(0.5 - x^2) where x is the distance
+    vec2 m1 = max(0.5 - vec2(dot(x3, x3), dot(x4, x4)), 0.0);
 
     vec3 temp0 = -6.0 * m0 * m0 * values0;
     vec2 temp1 = -6.0 * m1 * m1 * values1;
@@ -116,13 +111,13 @@ vec4 simplexNoiseDerivatives (vec4 v) {
     return vec4(dx, dy, dz, dw) * 49.0;
 }
 
-vec3 curl( in vec3 p, in float noiseTime, in float persistence ) {
+vec3 curl(in vec3 p, in float noiseTime, in float persistence) {
 
     vec4 xNoisePotentialDerivatives = vec4(0.0);
     vec4 yNoisePotentialDerivatives = vec4(0.0);
     vec4 zNoisePotentialDerivatives = vec4(0.0);
 
-    for (int i = 0; i < 3; ++i) {
+    for(int i = 0; i < 3; ++i) {
 
         float twoPowI = pow(2.0, float(i));
         float scale = 0.5 * twoPowI * pow(persistence, float(i));
@@ -132,38 +127,30 @@ vec3 curl( in vec3 p, in float noiseTime, in float persistence ) {
         zNoisePotentialDerivatives += simplexNoiseDerivatives(vec4((p + vec3(-9519.0, 9051.0, -123.0)) * twoPowI, noiseTime)) * scale;
     }
 
-    return vec3(
-        zNoisePotentialDerivatives[1] - yNoisePotentialDerivatives[2],
-        xNoisePotentialDerivatives[2] - zNoisePotentialDerivatives[0],
-        yNoisePotentialDerivatives[0] - xNoisePotentialDerivatives[1]
-    );
+    return vec3(zNoisePotentialDerivatives[1] - yNoisePotentialDerivatives[2], xNoisePotentialDerivatives[2] - zNoisePotentialDerivatives[0], yNoisePotentialDerivatives[0] - xNoisePotentialDerivatives[1]);
 
 }
 
 void main() {
-  vec2 ref = gl_FragCoord.xy * cellSize;
-  vec4 positionData = texture2D(uPositionMap, ref);
-  vec3 position = positionData.xyz;
-  vec4 velocityData = texture2D(uVelocityMap, ref);
-  vec3 velocity = velocityData.xyz;
-  float life = positionData.w;
-  
-  life -= uDieSpeed * uDelta;
-  
-  if (life < 1.0) {
-    velocity = uCurlStrength * curl(
-      position * uCurlSize,
-      uTime * uCurlChangeSpeed,
-      pow(life, 0.25)
-    );
-    velocity.y *= mix(0.0, 1.0, clamp(position.y, 0.0, 1.0));
-  } else {
-    vec3 targetPos = texture2D(uTargetPositionMap, ref).xyz;
-    vec3 prevTargetPos = texture2D(uPrevTargetPositionMap, ref).xyz;
-    vec3 newVelocity = targetPos - prevTargetPos;
-    float tooFast = step(0.2, length(newVelocity));
-    velocity = mix(newVelocity, velocity, tooFast);
-  }
-  
-  gl_FragColor = vec4(velocity, life);
+    vec2 ref = gl_FragCoord.xy * cellSize;
+    vec4 positionData = texture2D(uPositionMap, ref);
+    vec3 position = positionData.xyz;
+    vec4 velocityData = texture2D(uVelocityMap, ref);
+    vec3 velocity = velocityData.xyz;
+    float life = positionData.w;
+
+    life -= uDieSpeed * uDelta;
+
+    if(life < 1.0) {
+        velocity = uCurlStrength * curl(position * uCurlSize, uTime * uCurlChangeSpeed, pow(life, 0.25));
+        velocity.y *= mix(0.0, 1.0, clamp(position.y, 0.0, 1.0));
+    } else {
+        vec3 targetPos = texture2D(uTargetPositionMap, ref).xyz;
+        vec3 prevTargetPos = texture2D(uPrevTargetPositionMap, ref).xyz;
+        vec3 newVelocity = targetPos - prevTargetPos;
+        float tooFast = step(0.2, length(newVelocity));
+        velocity = mix(newVelocity, velocity, tooFast);
+    }
+
+    gl_FragColor = vec4(velocity, life);
 }
