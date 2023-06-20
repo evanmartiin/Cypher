@@ -10,6 +10,8 @@ uniform sampler2D uRigPositionMap;
 
 varying float vlifeOpacity;
 varying vec3 vNewNormal;
+varying vec3 vNewViewPosition;
+varying vec3 vWorldPos;
 
 mat3 calcLookAtMatrix(vec3 vector, float roll) {
   vec3 rr = vec3(sin(roll), cos(roll), 0.0);

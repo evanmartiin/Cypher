@@ -12,6 +12,7 @@ import CounterAnimation from './Objects/CounterAnimation.js';
 import { CustomFog } from './Objects/CustomFog.js';
 import RigCoordsFluid from './Objects/FluidSim/RigCoordsFluid.js';
 import { Lights } from './Objects/Lights.js';
+import MaskOverlay from './Objects/MaskOverlay.js';
 import { Particles } from './Objects/Particles.js';
 import { Skeleton } from './Objects/Skeleton.js';
 import { VolumetricSpots } from './Objects/VolumetricSpots.js';
@@ -26,7 +27,7 @@ class MainScene extends Scene {
 		this.avatarDemo = new AvatarDemo();
 		this.add(this.avatarDemo);
 		this.skeleton = new Skeleton();
-		// this.add(this.skeleton);
+		this.add(this.skeleton);
 		// this.crowd = new Crowd();
 		// this.add(this.crowd);
 	}
@@ -34,7 +35,7 @@ class MainScene extends Scene {
 	onAttach() {
 		this._lights = this.addLights();
 		// this.addSpotLights();
-		this._groundReeflector = this.addGroundReflector();
+		this._groundReflector = this.addGroundReflector();
 		this._environment = this.addEnvironment();
 		this._particles = this.addParticles();
 		this._fog = this.addFog();
@@ -43,6 +44,9 @@ class MainScene extends Scene {
 		//@ts-ignore
 		this.environments = ENVIRONMENTS.list;
 		this.currentEnv = 0;
+
+		this._maskOverlay = this.addMaskOverlay();
+		// this._counterAnimation = this.addCounterAnimation();
 
 		// document.addEventListener('click', () => {
 		// 	this._transitionTimeline.restart();
@@ -97,6 +101,12 @@ class MainScene extends Scene {
 		return counterAnimation;
 	}
 
+	addMaskOverlay() {
+		const maskOverlay = new MaskOverlay();
+
+		return maskOverlay;
+	}
+
 	changeEnv() {
 		this.currentEnv++;
 		this.currentEnv = this.currentEnv % this.environments.length;
@@ -106,7 +116,8 @@ class MainScene extends Scene {
 			timeline.kill();
 		});
 
-		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.5, value: 0.75 }, 0);
+		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.5, value: 1 }, 0);
+		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 1.25, value: 0.75 }, 0);
 		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: false }, 2);
 		timeline.to(
 			globalUniforms.uTransitionColor.value,
@@ -136,6 +147,7 @@ class MainScene extends Scene {
 
 		timeline.to(this._environment._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
 		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.75, value: -1.35 }, 2);
+		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 2.75, value: 0 }, 2);
 
 		return timeline;
 	}

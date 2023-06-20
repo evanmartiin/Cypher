@@ -1,4 +1,4 @@
-import { MathUtils, Scene } from 'three';
+import { DepthFormat, DepthStencilFormat, DepthTexture, MathUtils, NearestFilter, Scene, UnsignedShortType, WebGLRenderTarget } from 'three';
 import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { ClearPass } from 'three/examples/jsm/postprocessing/ClearPass.js';
@@ -16,17 +16,12 @@ class PostProcessing {
 	constructor(_isWebGL2 = true, renderer, scene, camera) {
 		state.register(this);
 
-		this.sceneWithoutPP = new Scene();
+		this._rt = this._setupRenderTarget;
 
 		this._effectComposer = new EffectComposer(renderer);
 		this._effectComposer.setSize(app.tools.viewport.width, app.tools.viewport.height);
 
-		const clearPass = new ClearPass();
-
-		const outputPass = new ShaderPass(CopyShader);
-		outputPass.renderToScreen = true;
-
-		this._effectComposer.addPass(clearPass);
+		this._clearPass = this._addClearPass();
 		this._addRenderPass(scene, camera);
 
 		this._bloomPass = this._addBloomPass();
@@ -39,7 +34,8 @@ class PostProcessing {
 
 		// this._addRenderPass(this.sceneWithoutPP, camera);
 
-		this._effectComposer.addPass(outputPass);
+		this._outputPass = this._addOutputPass();
+		this._customPass = this._addCustomPass();
 
 		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		// this._effectComposer.addPass(gammaCorrectionPass);
@@ -47,6 +43,21 @@ class PostProcessing {
 
 	onAttach() {
 		// app.debug?.mapping.add(this, 'PostProcessing');
+	}
+
+	_setupRenderTarget() {
+		const format = parseFloat(DepthFormat);
+		const type = parseFloat(UnsignedShortType);
+
+		const rt = new WebGLRenderTarget(window.innerWidth, window.innerHeight);
+		rt.texture.minFilter = NearestFilter;
+		rt.texture.magFilter = NearestFilter;
+		rt.stencilBuffer = format === DepthStencilFormat ? true : false;
+		rt.depthTexture = new DepthTexture();
+		rt.depthTexture.format = format;
+		rt.depthTexture.type = type;
+
+		return rt;
 	}
 
 	_createEffectComposer(renderer) {
@@ -63,6 +74,14 @@ class PostProcessing {
 		this._effectComposer.addPass(renderPass);
 
 		return renderPass;
+	}
+
+	_addClearPass() {
+		const clearPass = new ClearPass();
+
+		this._effectComposer.addPass(clearPass);
+
+		return clearPass;
 	}
 
 	_addBloomPass() {
@@ -170,11 +189,54 @@ class PostProcessing {
 		return bokehPass;
 	}
 
+	_addCustomPass() {
+		const customShader = {
+			uniforms: {
+				tDiffuse: { value: null },
+			},
+			vertexShader: `
+        varying vec2 vUv;
+
+        void main()
+        {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+
+            vUv = uv;
+        }
+    `,
+			fragmentShader: `
+        uniform sampler2D tDiffuse;
+
+        varying vec2 vUv;
+
+        void main()
+        {
+            vec4 color = texture2D(tDiffuse, vUv);
+
+            gl_FragColor = vec4(0.2);
+            gl_FragColor = color;
+        }
+    `,
+		};
+
+		const customPass = new ShaderPass(customShader);
+		this._effectComposer.addPass(customPass);
+	}
+
 	_addSMAAPass() {
 		const smaaPass = new SMAAPass();
 		this._effectComposer.addPass(smaaPass);
 
 		return smaaPass;
+	}
+
+	_addOutputPass() {
+		const outputPass = new ShaderPass(CopyShader);
+		outputPass.renderToScreen = true;
+
+		this._effectComposer.addPass(outputPass);
+
+		return outputPass;
 	}
 
 	onResize() {}

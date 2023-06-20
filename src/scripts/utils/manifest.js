@@ -28,7 +28,8 @@ const manifest = {
 		3: { path: `${import.meta.env.BASE_URL}assets/textures/3.png`, priority: 2, callback: null },
 		2: { path: `${import.meta.env.BASE_URL}assets/textures/2.png`, priority: 2, callback: null },
 		1: { path: `${import.meta.env.BASE_URL}assets/textures/1.png`, priority: 2, callback: null },
-
+		
+		logo: { path: `${import.meta.env.BASE_URL}assets/textures/logo.png`, priority: 2, callback: null },
 		// ...
 	},
 	envMaps: {
@@ -40,6 +41,7 @@ const manifest = {
 		avatarDemo: { path: `${import.meta.env.BASE_URL}assets/models/avatar-demo.glb`, priority: 1, callback: null },
 		cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
 		scene: { path: `${import.meta.env.BASE_URL}assets/models/env.glb`, priority: 1, callback: null },
+		sceneTex: { path: `${import.meta.env.BASE_URL}assets/models/envTex.glb`, priority: 1, callback: null },
 		collider: { path: `${import.meta.env.BASE_URL}assets/models/collider.glb`, priority: 1, callback: null },
 		// ...
 	},
