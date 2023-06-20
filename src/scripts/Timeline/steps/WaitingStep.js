@@ -7,6 +7,7 @@ export default class WaitingStep extends Step {
 		super();
 		state.register(this);
 		this.text = 'Viens jouer !';
+		this.logo = document.getElementsByClassName('logo-container')
 	}
 
 	start() {
@@ -22,6 +23,7 @@ export default class WaitingStep extends Step {
 
 	onPlayerEntered() {
 		if (!this.isRunning) return;
+		app.dom.ui.hide(this.logo)
 		app.timeline.next();
 	}
 }

@@ -10,13 +10,23 @@
 		<div id="app">
 			<div id="canvas-wrapper"></div>
 			<div id="root">
-				<div id="panel">
+				{#
+				<div class="logo-container">
+					<div class="black-filter"></div>
+					<div class="logo-wrapper">
+						<img id="logo" src="./src/assets/images/logo.png" alt="logo" />
+					</div>
+				</div>
+				#}
+
+				<div id="panel" class="hidden">
+					<div id="rec">REC</div>
 					<h1 id="title">En attente...</h1>
 					<div id="timer" class="hidden"></div>
+					<div id="music">Pete Rock and lnl</div>
 				</div>
 				<button id="next" type="button">Suivant</button>
-				<div id="rec">REC</div>
-				<div class="start">Start</div>
+				<div class="start" style="opacity: 0">Start</div>
 			</div>
 		</div>
 		<script type="module" src="/main.js"></script>
