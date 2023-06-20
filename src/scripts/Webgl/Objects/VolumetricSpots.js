@@ -41,6 +41,5 @@ export class VolumetricSpots extends Group {
 	onRender() {
 		this._meshes.left.lookAt(0, 1, 0);
 		this._meshes.right.lookAt(0, 1, 0);
-		console.log('coucou');
 	}
 }

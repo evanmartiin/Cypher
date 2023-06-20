@@ -72,23 +72,52 @@ function createPane(pane, instance, name) {
 	params.color3 = '#' + instance._lights.light3.color.getHexString();
 	light3.addInput(params, 'color3', { view: 'color' }).on('change', ({ value }) => instance._lights.light3.color.set(value));
 
+	const light4 = folder.addFolder({ title: 'Ambient light' });
+	light4.addInput(instance._lights.light4, 'intensity', {
+		min: 0,
+		max: 5,
+	});
+
+	params.color3 = '#' + instance._lights.light4.color.getHexString();
+	light4.addInput(params, 'color3', { view: 'color' }).on('change', ({ value }) => instance._lights.light4.color.set(value));
+
 	folder.addButton({ title: 'Copy params', index: 0 }).on('click', () => {
 		navigator.clipboard.writeText(
 			JSON.stringify({
 				light1: {
 					position: instance._lights.light1.position,
 					intensity: instance._lights.light1.intensity,
-					color: '#' + instance._lights.light1.color.getHexString(),
+					color: {
+						r: instance._lights.light1.color.r,
+						g: instance._lights.light1.color.g,
+						b: instance._lights.light1.color.b,
+					},
 				},
 				light2: {
 					position: instance._lights.light2.position,
 					intensity: instance._lights.light2.intensity,
-					color: '#' + instance._lights.light2.color.getHexString(),
+					color: {
+						r: instance._lights.light2.color.r,
+						g: instance._lights.light2.color.g,
+						b: instance._lights.light2.color.b,
+					},
 				},
 				light3: {
 					position: instance._lights.light3.position,
 					intensity: instance._lights.light3.intensity,
-					color: '#' + instance._lights.light3.color.getHexString(),
+					color: {
+						r: instance._lights.light3.color.r,
+						g: instance._lights.light3.color.g,
+						b: instance._lights.light3.color.b,
+					},
+				},
+				light4: {
+					intensity: instance._lights.light4.intensity,
+					color: {
+						r: instance._lights.light4.color.r,
+						g: instance._lights.light4.color.g,
+						b: instance._lights.light4.color.b,
+					},
 				},
 			}),
 		);
