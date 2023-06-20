@@ -34,8 +34,8 @@ class PostProcessing {
 
 		// this._addRenderPass(this.sceneWithoutPP, camera);
 
-		this._outputPass = this._addOutputPass();
 		this._customPass = this._addCustomPass();
+		this._outputPass = this._addOutputPass();
 
 		// const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 		// this._effectComposer.addPass(gammaCorrectionPass);
