@@ -20,6 +20,7 @@ import {
 	Vector2,
 	WebGLRenderTarget,
 } from 'three';
+import { assertIsInCamera } from '@utils/assertions.js';
 import { POSE, POSE_CONNECTIONS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -82,7 +83,7 @@ class Avatar extends Group {
 			const src = rig.keypoints[connection[0]];
 			const dst = rig.keypoints[connection[1]];
 			if (src && dst) {
-				if (this.assertBoneIsInCamera(src, dst)) {
+				if (assertIsInCamera(src) || assertIsInCamera(dst)) {
 					const srcV2 = new Vector2(1 - src.x / VIDEO_SIZE.width, 1 - src.y / VIDEO_SIZE.height);
 					const dstV2 = new Vector2(1 - dst.x / VIDEO_SIZE.width, 1 - dst.y / VIDEO_SIZE.height);
 					const armPos = srcV2.clone().add(dstV2).divideScalar(2);
@@ -104,12 +105,6 @@ class Avatar extends Group {
 		this.tubes.instanceMatrix.needsUpdate = true;
 
 		this.head.position.set(1 - rig.keypoints[POSE.NOSE].x / VIDEO_SIZE.width, 1 - rig.keypoints[POSE.NOSE].y / VIDEO_SIZE.height, 0.0);
-	}
-
-	assertBoneIsInCamera(src, dst) {
-		const srcIsInCamera = src.x > 0 && src.x < VIDEO_SIZE.width && src.y > 0 && src.y < VIDEO_SIZE.height;
-		const dstIsInCamera = dst.x > 0 && dst.x < VIDEO_SIZE.width && dst.y > 0 && dst.y < VIDEO_SIZE.height;
-		return srcIsInCamera || dstIsInCamera;
 	}
 
 	onRender() {

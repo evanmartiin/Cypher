@@ -115,7 +115,7 @@ export class Particles extends Group {
 		mesh.scale.set(0.015, 0.015, 0.015);
 
 		this.add(mesh);
-		// mesh.position.y = 1;
+		mesh.position.set(-0.5, 0.3, 2);
 		mesh.frustumCulled = false;
 		mesh.renderOrder = 2;
 

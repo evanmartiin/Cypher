@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { ClampToEdgeWrapping, DoubleSide, Group, Mesh, PlaneGeometry, ShaderMaterial } from 'three';
+import { ClampToEdgeWrapping, FrontSide, Group, Mesh, PlaneGeometry, ShaderMaterial } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -10,17 +10,16 @@ class Carpet extends Group {
 
 		this.rotationZ = { value: 0 };
 		this.rotateMultiplier = 5;
-		this.opacity = { value: 0 };
 	}
 
 	show() {
 		gsap.to(this, { rotateMultiplier: 0.3, duration: 1, ease: 'power2.out' });
-		gsap.to(this.opacity, { value: 1, duration: 1, ease: 'power2.out' });
+		gsap.to(this.mesh.position, { y: 0.2, duration: 1, ease: 'power2.out' });
 	}
 
 	hide() {
 		gsap.to(this, { rotateMultiplier: 5, duration: 0.5, ease: 'power2.in' });
-		gsap.to(this.opacity, { value: 0, duration: 0.5, ease: 'power2.in' });
+		gsap.to(this.mesh.position, { y: -0.4, duration: 0.5, ease: 'power2.in' });
 	}
 
 	onAttach() {
@@ -45,28 +44,25 @@ class Carpet extends Group {
 		    `,
 			fragmentShader: `
 		    uniform sampler2D tTex;
-            uniform float uOpacity;
 		    varying vec2 vUv;
 		    void main() {
+				if (vUv.x < 0. || vUv.x > 1. || vUv.y < 0. || vUv.y > 1.) discard;
                 vec4 tex = texture2D(tTex, vUv);
-		        gl_FragColor = vec4(tex.xyz, tex.a * uOpacity);
+				if (tex.a < 0.7) discard;
+		        gl_FragColor = tex;
 		    }
 		    `,
 			uniforms: {
 				uRotation: this.rotationZ,
-				uOpacity: this.opacity,
 				tTex: { value: tex },
 			},
-			transparent: true,
-			depthTest: false,
-			side: DoubleSide,
-			fog: false,
+			side: FrontSide,
 		});
 
 		this.mesh = new Mesh(new PlaneGeometry(1, 1), material);
-		this.mesh.position.set(0, 0.05, 2);
+		this.mesh.position.set(0, -0.4, 2);
 		this.mesh.scale.set(2, 2, 2);
-		this.mesh.rotateX(-Math.PI / 2 + Math.PI / 16);
+		this.mesh.rotateX(-Math.PI / 2 + Math.PI / 8);
 		this.add(this.mesh);
 	}
 

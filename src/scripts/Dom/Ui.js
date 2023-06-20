@@ -4,11 +4,11 @@ class Ui {
     }
 
     show(node) {
-        console.log('show')
+        // console.log('show')
     }
 
     hide(node) {
-        console.log('hide')
+        // console.log('hide')
         node.ariaHidden = true
     }
 }

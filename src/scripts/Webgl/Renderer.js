@@ -16,6 +16,7 @@ class Renderer extends WebGLRenderer {
 		this.shadowMap.enabled = false;
 		// this.shadowMap.type = PCFSoftShadowMap;
 		this.debug.checkShaderErrors = DEBUG;
+		// this.sortObjects = false;
 	}
 
 	onAttach() {

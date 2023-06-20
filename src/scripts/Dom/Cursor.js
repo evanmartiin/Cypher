@@ -1,5 +1,6 @@
 import { Vector2 } from 'three';
 import Signal from '@utils/Signal.js';
+import { assertIsInCamera } from '@utils/assertions.js';
 import { POSE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -55,7 +56,7 @@ class Cursor {
 
 		const rawPos = rig.keypoints[POSE.RIGHT_WRIST];
 
-		if (!this.assertHandIsInCamera(rawPos)) {
+		if (!assertIsInCamera(rawPos)) {
 			if (!this.cursorDOM.classList.contains('hide')) this.cursorDOM.classList.add('hide');
 			return;
 		} else {
@@ -90,10 +91,6 @@ class Cursor {
 
 		this.pos.lerp(this.targetPos, 0.05);
 		this.cursorDOM.style.transform = `translateX(calc(${this.pos.x}px - 50%)) translateY(calc(${this.pos.y}px - 50%))`;
-	}
-
-	assertHandIsInCamera(pos) {
-		return pos.x > 0 && pos.x < VIDEO_SIZE.width && pos.y > 0 && pos.y < VIDEO_SIZE.height;
 	}
 
 	getPositionAtCenter(element) {
