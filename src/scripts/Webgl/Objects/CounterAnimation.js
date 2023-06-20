@@ -65,6 +65,7 @@ export default class CounterAnimation extends Group {
 			},
 			transparent: true,
 			depthWrite: false,
+			depthTest: false,
 		});
 
 		const mesh = new Mesh(geometry, material);
@@ -91,6 +92,7 @@ export default class CounterAnimation extends Group {
 			},
 			transparent: true,
 			depthWrite: false,
+			depthTest: false,
 		});
 
 		const mesh = new Mesh(geometry, material);
@@ -117,6 +119,7 @@ export default class CounterAnimation extends Group {
 			},
 			transparent: true,
 			depthWrite: false,
+			depthTest: false,
 		});
 
 		const mesh = new Mesh(geometry, material);
@@ -143,6 +146,7 @@ export default class CounterAnimation extends Group {
 			},
 			transparent: true,
 			depthWrite: false,
+			depthTest: false,
 		});
 
 		const mesh = new Mesh(geometry, material);

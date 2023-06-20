@@ -29,6 +29,7 @@ export class Particles extends Group {
 		this.size = size;
 		this.coords = coords;
 		this.acceleration = acceleration;
+		this.visible = false;
 
 		this.init();
 	}
@@ -38,6 +39,14 @@ export class Particles extends Group {
 		this._geometry = this._createGeometry();
 		this._material = this._createMaterial();
 		this._mesh = this._createMesh();
+	}
+
+	show() {
+		this.visible = true;
+	}
+
+	hide() {
+		this.visible = false;
 	}
 
 	_createGeometry() {
@@ -106,7 +115,7 @@ export class Particles extends Group {
 		mesh.scale.set(0.015, 0.015, 0.015);
 
 		this.add(mesh);
-		// mesh.position.y = 1;
+		mesh.position.set(-0.5, 0.3, 2);
 		mesh.frustumCulled = false;
 		mesh.renderOrder = 2;
 
