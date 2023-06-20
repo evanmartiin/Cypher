@@ -22,7 +22,17 @@ export default class DanceStep extends Step {
 
 	start() {
 		this.isRunning = true;
+
+		//UI
 		app.timeline.titleDOM.innerHTML = this.text;
+		app.dom.ui.rec.show();
+		app.dom.ui.timer.show();
+
+		app.dom.ui.move.node.innerHTML = 'Nom du move';
+		app.dom.ui.move.spawn(3000);
+
+		//TODO : Faire spawn des mots random avec des encouragements
+
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tools.recorder.start();
 		app.game.start();

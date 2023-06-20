@@ -4,19 +4,27 @@ import { app } from '@scripts/App.js';
 export default class TimerStep extends Step {
 	constructor() {
 		super();
-		this.text = 'Prêt ?';
-		this.duration = 3000;
+		this.text = 'Prépare toi !';
+		this.duration = 5000;
 	}
 
 	start() {
 		this.isRunning = true;
+
+		//UI 
+		app.dom.ui.music.show();
+		app.dom.ui.title.show();
+
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tensorflow.hide();
 		app.webgl.scene._counterAnimation._timeline.restart();
+		
 	}
 
 	stop() {
+		app.tensorflow.hide();
+
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
 	}

@@ -6,12 +6,15 @@
 	opacity: 1;
 	pointer-events: all;
 	transition: 0.1s;
+
+	&.hide {
+		opacity: 0;
+		transition: .5s;
+		width: 0;
+		pointer-events: none;
+	}
 }
 
-#timer.hidden {
-	opacity: 0;
-	pointer-events: none;
-}
 
 #energy {
 	width: 200px;
@@ -71,6 +74,25 @@
 	right: 30px;
 	animation: blink .5s ease-in-out infinite alternate;
 	display: none;
+
+	&.hide {
+		opacity: 0;
+		transition: .5s;
+		width: 0;
+	}
+}
+
+
+#title.hide {
+	opacity: 0;
+	transition: .5s;
+	width: 0;
+}
+
+#rec.hide {
+	opacity: 0;
+	transition: .5s;
+	width: 0;
 }
 
 @keyframes blink {
@@ -105,10 +127,9 @@
 	z-index: 1;
 }
 
-.logo-container {
-	[aria-hidden="true"] {
-		background-color: red;
-	}
+#logo-container.hide {
+	opacity: 0;
+	transition: .5s;
 }
 
 .custom-cursor {
@@ -148,5 +169,31 @@
 
 	&.hovered {
 		background-color: green;
+	}
+}
+
+#music-container {
+	position: absolute;
+	right: 6vw;
+	bottom: 4vh;
+
+	&.hide {
+		opacity: 0;
+		transition: .5s;
+		width: 0;
+	}
+}
+
+#move {
+	position: absolute;
+	left: 50%;
+	right: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+
+	&.hide {
+		opacity: 0;
+		transition: .5s;
+		width: 0;
 	}
 }
