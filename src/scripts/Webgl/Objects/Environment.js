@@ -42,7 +42,6 @@ export default class Environment extends Group {
 		logoTexture.flipY = false;
 
 		const uvs = app.core.assetsManager.get('sceneTex').children[0].geometry.getAttribute('uv').array;
-		console.log(uvs);
 
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,

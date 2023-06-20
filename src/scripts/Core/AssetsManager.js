@@ -1,4 +1,3 @@
-import { VRMLoaderPlugin } from '@pixiv/three-vrm';
 import { Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
@@ -22,11 +21,6 @@ class AssetsManager {
 		this.loadedAssets = new Map();
 
 		this.progress = 0;
-
-		const gltfLoader = new GLTFLoader();
-		gltfLoader.register((parser) => {
-			return new VRMLoaderPlugin(parser);
-		});
 
 		this.loaders = {
 			images: new AssetsLoader({
@@ -55,7 +49,7 @@ class AssetsManager {
 
 			models: new AssetsLoader({
 				manifest: manifest.models,
-				loader: gltfLoader,
+				loader: new GLTFLoader(),
 				assetsInfos: this.assetsInfos,
 				loadedAssets: this.loadedAssets,
 				progressCallback: this.loadingProgress,

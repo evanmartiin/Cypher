@@ -14,7 +14,6 @@ import RigCoordsFluid from './Objects/FluidSim/RigCoordsFluid.js';
 import { Lights } from './Objects/Lights.js';
 import MaskOverlay from './Objects/MaskOverlay.js';
 import { Particles } from './Objects/Particles.js';
-import { Skeleton } from './Objects/Skeleton.js';
 import { VolumetricSpots } from './Objects/VolumetricSpots.js';
 
 class MainScene extends Scene {
@@ -23,13 +22,8 @@ class MainScene extends Scene {
 		state.register(this);
 
 		this.avatar = new Avatar();
-		this.add(this.avatar);
 		this.avatarDemo = new AvatarDemo();
 		this.add(this.avatarDemo);
-		this.skeleton = new Skeleton();
-		this.add(this.skeleton);
-		// this.crowd = new Crowd();
-		// this.add(this.crowd);
 	}
 
 	onAttach() {
@@ -46,11 +40,6 @@ class MainScene extends Scene {
 		this.currentEnv = 0;
 
 		this._maskOverlay = this.addMaskOverlay();
-		// this._counterAnimation = this.addCounterAnimation();
-
-		// document.addEventListener('click', () => {
-		// 	this._transitionTimeline.restart();
-		// });
 	}
 
 	addLights() {

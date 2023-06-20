@@ -1,11 +1,7 @@
 import DanceStep from '@scripts/Timeline/steps/DanceStep.js';
-import DemoStep from '@scripts/Timeline/steps/DemoStep.js';
 import NextPlayerStep from '@scripts/Timeline/steps/NextPlayerStep.js';
 import PlayerDetectedStep from '@scripts/Timeline/steps/PlayerDetectedStep.js';
-import PositionValidatedStep from '@scripts/Timeline/steps/PositionValidatedStep.js';
-import StartPositionStep from '@scripts/Timeline/steps/StartPositionStep.js';
 import TimerStep from '@scripts/Timeline/steps/TimerStep.js';
-import TrainingStep from '@scripts/Timeline/steps/TrainingStep.js';
 import WaitingStep from '@scripts/Timeline/steps/WaitingStep.js';
 import WellDoneStep from '@scripts/Timeline/steps/WellDoneStep.js';
 
@@ -27,7 +23,6 @@ const EVENTS = {
 	KEY_DOWN: i++,
 
 	VIDEO_READY: i++,
-	RIG_COMPUTED: i++,
 	PLAYER_ENTERED: i++,
 	PLAYER_LEFT: i++,
 	PLAYER_MOVED: i++,
@@ -49,7 +44,6 @@ const EVENTS_MAP = Object.fromEntries(
 	]),
 );
 
-// const STEPS = [WaitingStep, PlayerDetectedStep, TrainingStep, DemoStep, StartPositionStep, PositionValidatedStep, TimerStep, DanceStep, WellDoneStep, NextPlayerStep];
 const STEPS = [WaitingStep, PlayerDetectedStep, TimerStep, DanceStep, WellDoneStep, NextPlayerStep];
 
 const STORE = {
@@ -92,4 +86,32 @@ const POSE = {
 	RIGHT_FOOT_INDEX: 32,
 };
 
-export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS, STORE, POSE };
+const POSE_CONNECTIONS = [
+	// Chest
+	[POSE.LEFT_SHOULDER, POSE.RIGHT_SHOULDER],
+	[POSE.RIGHT_SHOULDER, POSE.RIGHT_HIP],
+	[POSE.RIGHT_HIP, POSE.LEFT_HIP],
+	[POSE.LEFT_HIP, POSE.LEFT_SHOULDER],
+
+	// Right arm
+	[POSE.RIGHT_SHOULDER, POSE.RIGHT_ELBOW],
+	[POSE.RIGHT_ELBOW, POSE.RIGHT_WRIST],
+	[POSE.RIGHT_WRIST, POSE.RIGHT_INDEX],
+
+	// Left arm
+	[POSE.LEFT_SHOULDER, POSE.LEFT_ELBOW],
+	[POSE.LEFT_ELBOW, POSE.LEFT_WRIST],
+	[POSE.LEFT_WRIST, POSE.LEFT_INDEX],
+
+	// Right leg
+	[POSE.RIGHT_HIP, POSE.RIGHT_KNEE],
+	[POSE.RIGHT_KNEE, POSE.RIGHT_ANKLE],
+	[POSE.RIGHT_ANKLE, POSE.RIGHT_FOOT_INDEX],
+
+	// Left leg
+	[POSE.LEFT_HIP, POSE.LEFT_KNEE],
+	[POSE.LEFT_KNEE, POSE.LEFT_ANKLE],
+	[POSE.LEFT_ANKLE, POSE.LEFT_FOOT_INDEX],
+];
+
+export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS, STORE, POSE, POSE_CONNECTIONS };

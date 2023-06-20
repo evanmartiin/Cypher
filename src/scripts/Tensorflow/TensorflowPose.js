@@ -1,6 +1,5 @@
 import * as posedetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
-import * as Kalidokit from 'kalidokit';
 import { Vector3 } from 'three';
 import { DEBUG } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
@@ -49,7 +48,6 @@ class TensorflowPose {
 				if (this.playerDetected) {
 					state.emit(EVENTS.PLAYER_MOVED, results[0]);
 					if (DEBUG) app.tensorflow.canvas.drawResults(results[0]);
-					this.computeRig(results[0]);
 
 					// TODO: filter moves to not count really small moves and big moves (teleportations)
 					if (this.isMoveEnough(results[0].keypoints3D)) {
@@ -103,14 +101,6 @@ class TensorflowPose {
 
 		this.lastPoses = poses;
 		return isMoveEnough;
-	}
-
-	computeRig(results) {
-		const riggedPose = Kalidokit.Pose.solve(results.keypoints3D, posedetection.calculators.keypointsToNormalizedKeypoints(results.keypoints, VIDEO_SIZE), {
-			runtime: 'tfjs',
-			imageSize: VIDEO_SIZE,
-		});
-		state.emit(EVENTS.RIG_COMPUTED, riggedPose);
 	}
 
 	async playerAlreadyHere() {

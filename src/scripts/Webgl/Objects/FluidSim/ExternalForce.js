@@ -18,9 +18,6 @@ export default class ExternalForce extends ShaderPass {
 		super.init();
 		const geometry = new PlaneGeometry(1, 1);
 
-		const mesh = new Mesh(app.webgl.scene.skeleton.geometry, new MeshNormalMaterial());
-		app.webgl.scene.add(mesh);
-
 		const LeftWristMaterial = new RawShaderMaterial({
 			vertexShader: mouseVertex,
 			fragmentShader: externalForceFragment,
