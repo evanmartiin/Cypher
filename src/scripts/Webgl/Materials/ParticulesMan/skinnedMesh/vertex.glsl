@@ -37,6 +37,6 @@ void main() {
   vWorldPosition = modelMatrix * vec4(transformed, 1.0);
   #ifdef USE_INSTANCING
   vWorldPosition = modelMatrix * instanceMatrix * vec4(transformed, 1.0);
-  vWorldPosition *= aBoneVisible;
+  // vWorldPosition *= aBoneVisible;
   #endif
 }

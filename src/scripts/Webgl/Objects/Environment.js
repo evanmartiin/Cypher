@@ -1,6 +1,7 @@
 import { Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Environment/fragment.fs';
+import vertexShader from '@Webgl/Materials/Environment/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -37,13 +38,21 @@ export default class Environment extends Group {
 		glitchTexture.wrapS = MirroredRepeatWrapping;
 		glitchTexture.wrapT = MirroredRepeatWrapping;
 
+		const logoTexture = app.core.assetsManager.get('logo');
+		logoTexture.flipY = false;
+
+		const uvs = app.core.assetsManager.get('sceneTex').children[0].geometry.getAttribute('uv').array;
+
 		const material = new CustomShaderMaterial({
 			baseMaterial: MeshStandardMaterial,
 			fragmentShader: fragmentShader,
+			vertexShader: vertexShader,
 			uniforms: {
 				...globalUniforms,
 				uPixelSortingTexture: { value: pixelSortingTexture },
 				uGlitchTexture: { value: glitchTexture },
+				aNewUvs: { value: uvs },
+				uLogoTexture: { value: logoTexture },
 			},
 			map: sceneBase,
 			normalMap: sceneNormal,

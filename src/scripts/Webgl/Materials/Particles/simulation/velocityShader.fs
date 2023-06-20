@@ -244,8 +244,7 @@ void main() {
 	// 	velocity -= normalize(diff);
 	// 	velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.1;
 
-	// } else {
-	// }
+	// } 
 	// velocity = positionFluid * 50. - position;
 
 	// if(position.z > 0.) {
@@ -260,8 +259,11 @@ void main() {
 	velocity = curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.25;
 
 	if(life < 0.1) {
-		velocity = curl(position * uCurlSize * 0.25, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
+		velocity = curl(position * uCurlSize * 0.5, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
 	}
+	// if(rigPosition.x === 0.) {
+	// 	velocity = curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
+	// }
 
 	gl_FragColor = vec4(velocity, life);
 }

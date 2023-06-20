@@ -5,7 +5,7 @@ import { state } from '@scripts/State.js';
 export default class Recorder {
 	constructor() {
 		state.register(this);
-		this.id = 1
+		this.id = 1;
 	}
 
 	onAttach() {
@@ -58,10 +58,7 @@ export default class Recorder {
 			});
 		}
 
-		console.log(this.id)
-
 		this.id++;
-
 
 		this.mediaRecorder.removeEventListener('dataavailable', this.handleDataAvailable);
 	};

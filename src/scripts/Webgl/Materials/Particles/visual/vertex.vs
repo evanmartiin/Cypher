@@ -10,6 +10,8 @@ uniform sampler2D uRigPositionMap;
 
 varying float vlifeOpacity;
 varying vec3 vNewNormal;
+varying vec3 vNewViewPosition;
+varying vec3 vWorldPos;
 
 mat3 calcLookAtMatrix(vec3 vector, float roll) {
   vec3 rr = vec3(sin(roll), cos(roll), 0.0);
@@ -59,19 +61,18 @@ void main() {
   vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
   // vec3 transformedPos = position;
   transformedPos = (particleRotation * transformedPos);
-  // transformedPos.z += positionTexture.z;
-  // transformedPos.x += (rigPositionMap.x * 60.);
-  // transformedPos.y += (rigPositionMap.y * 60.);
-  // transformedPos.z += (rigPositionMap.z * 60.);
   transformedPos.x += positionTexture.x;
   transformedPos.y += positionTexture.y;
   transformedPos.z += positionTexture.z;
-  // transformedPos += positionTexture.xyz;
+
+  // if(positionTexture.x == 0.0) {
+  //   transformedPos *= 0.;
+  // }
 
   csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
 
-  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos * 2., 1.0);
+  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos , 1.0);
 
   vlifeOpacity = positionTexture.w;
 }
