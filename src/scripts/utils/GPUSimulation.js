@@ -110,7 +110,7 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.025 };
+		this.posUniforms.uDieSpeed = { value: 0.03 };
 		this.posUniforms.uAcceleration = { value: this.acceleration.value };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
