@@ -64,7 +64,8 @@ html {
 		width: 400px;
 	}
 
-	#panel.hidden {
+	#panel.hide {
+		transition: .5s;
 		opacity: 0;
 		width: 0;
 	}

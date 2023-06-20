@@ -10,6 +10,8 @@ export default class PlayerDetectedStep extends Step {
 
 	start() {
 		this.isRunning = true;
+		app.dom.ui.logo.hide();
+		// app.dom.ui.panel.show();
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.dom.cursor.enable();
 		app.dom.cursor.enterHover.on(() => {
