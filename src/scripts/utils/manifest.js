@@ -37,9 +37,9 @@ const manifest = {
 		// ...
 	},
 	models: {
-		avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
+		// avatar: { path: `${import.meta.env.BASE_URL}assets/models/avatar.vrm`, priority: 1, callback: null },
 		avatarDemo: { path: `${import.meta.env.BASE_URL}assets/models/avatar-demo.glb`, priority: 1, callback: null },
-		cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
+		// cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
 		scene: { path: `${import.meta.env.BASE_URL}assets/models/env.glb`, priority: 1, callback: null },
 		sceneTex: { path: `${import.meta.env.BASE_URL}assets/models/envTex.glb`, priority: 1, callback: null },
 		collider: { path: `${import.meta.env.BASE_URL}assets/models/collider.glb`, priority: 1, callback: null },
