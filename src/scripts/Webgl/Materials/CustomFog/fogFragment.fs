@@ -16,13 +16,13 @@ float tempIn = uTransitionProgress * 25.;
 tempIn -= (pixelSortingTex.r + glitchTex.r) * 15.;
 
 float distIn = 1.0 - length(avatarWorldPos);
-tempIn = smoothstep(tempIn, tempIn, distIn);
+tempIn = smoothstep(tempIn - 0.5, tempIn, distIn);
 
 float tempOut = uTransitionProgress * 25.;
 tempOut += (pixelSortingTex.r + glitchTex.r) * 15.;
 
 float distOut = length(avatarWorldPos);
-tempOut = smoothstep(tempOut, tempOut, distOut);
+tempOut = smoothstep(tempOut - 0.5, tempOut, distOut);
 
 // float dist = length(vTransitionUvs - 0.5);
 

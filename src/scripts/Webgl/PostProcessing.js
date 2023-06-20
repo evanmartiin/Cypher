@@ -168,7 +168,7 @@ class PostProcessing {
 
 	_addAfterImagePass() {
 		const afterImagePass = new AfterimagePass();
-		afterImagePass.uniforms['damp'].value = 0.92;
+		afterImagePass.uniforms['damp'].value = 0.85;
 		// afterImagePass.uniforms['damp'].value = 0.0;
 		this._effectComposer.addPass(afterImagePass);
 

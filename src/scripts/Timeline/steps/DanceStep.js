@@ -1,4 +1,5 @@
 import { Vector2 } from 'three';
+import { assertIsInCamera } from '@utils/assertions.js';
 import { EVENTS, POSE, SERVER_EVENTS } from '@utils/constants.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
@@ -12,7 +13,7 @@ export default class DanceStep extends Step {
 		state.register(this);
 
 		this.text = 'Danse !';
-		this.duration = 60000;
+		this.duration = 600000;
 
 		this.rightWristPos = new Vector2();
 	}
@@ -35,11 +36,13 @@ export default class DanceStep extends Step {
 		app.webgl.scene.avatarDemo.enable();
 		app.energy.start();
 		app.energy.reachedMaxEnergy.on(() => {
+			app.energy.stop();
+			app.webgl.scene.carpet.hide();
 			app.webgl.scene.changeEnv().then(() => {
 				if (!this.isRunning) return;
 				app.energy.start();
+				app.webgl.scene.carpet.show();
 			});
-			app.energy.stop();
 		});
 	}
 
@@ -47,7 +50,6 @@ export default class DanceStep extends Step {
 		app.energy.stop();
 		this.isRunning = false;
 		app.tools.recorder.stop();
-		app.webgl.scene.avatarDemo.disable();
 		app.timeline.timer.resetTimer();
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
 	}
@@ -60,6 +62,8 @@ export default class DanceStep extends Step {
 	}
 
 	onPlayerMoved(rig) {
+		if (!assertIsInCamera(rig.keypoints[POSE.RIGHT_WRIST])) return;
+
 		V2.x = rig.keypoints[POSE.RIGHT_WRIST].x;
 		V2.y = rig.keypoints[POSE.RIGHT_WRIST].y;
 

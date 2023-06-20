@@ -16,12 +16,8 @@ export default class TimerStep extends Step {
 		app.dom.ui.title.show();
 
 		app.timeline.titleDOM.innerHTML = this.text;
-		app.timeline.timer.setGauge(this.duration, () => {
-			app.timeline.next()
-		});
-		app.webgl.camera.enter();
-		app.webgl.scene.avatar.enableControl();
-		app.webgl.postProcessing.blurPass.disable();
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
+		app.tensorflow.hide();
 		app.webgl.scene._counterAnimation._timeline.restart();
 		
 	}
