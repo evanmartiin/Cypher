@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { Group, Mesh, MeshStandardMaterial, MirroredRepeatWrapping, PlaneGeometry, ShaderMaterial } from 'three';
+import { Group, Mesh, MirroredRepeatWrapping, PlaneGeometry, ShaderMaterial, Vector2 } from 'three';
 import fragmentShader from '@Webgl/Materials/CounterAnimation/fragment.fs';
 import vertexShader from '@Webgl/Materials/CounterAnimation/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
@@ -13,7 +13,7 @@ export default class CounterAnimation extends Group {
 
 		this._textures = this._getTextures();
 
-		const geometry = new PlaneGeometry(1, 1.25, 1, 1);
+		const geometry = new PlaneGeometry(1, 1, 1, 1);
 
 		this._mesh3 = this._createMesh3(geometry);
 		this._mesh2 = this._createMesh2(geometry);
@@ -43,11 +43,9 @@ export default class CounterAnimation extends Group {
 		liquidTexture.wrapS = MirroredRepeatWrapping;
 		liquidTexture.wrapT = MirroredRepeatWrapping;
 
-		const number1 = app.core.assetsManager.get('1');
-		const number2 = app.core.assetsManager.get('2');
-		const number3 = app.core.assetsManager.get('3');
+		const counterTexture = app.core.assetsManager.get('counter');
 
-		return { number1, number2, number3, liquidTexture, glitchTexture, pixelSortingTexture };
+		return { counterTexture, liquidTexture, glitchTexture, pixelSortingTexture };
 	}
 
 	_createMesh3(geometry) {
@@ -59,9 +57,10 @@ export default class CounterAnimation extends Group {
 				uPixelSortingTexture: { value: this._textures.pixelSortingTexture },
 				uGlitchTexture: { value: this._textures.glitchTexture },
 				uLiquidTexture: { value: this._textures.liquidTexture },
-				uNumberTexture: { value: this._textures.number3 },
+				uNumberTexture: { value: this._textures.counterTexture },
 				uProgress: { value: -1 },
 				uSwitchTransition: { value: true },
+				uTextureOffset: { value: new Vector2(0, 1) },
 			},
 			transparent: true,
 			depthWrite: false,
@@ -86,9 +85,10 @@ export default class CounterAnimation extends Group {
 				uPixelSortingTexture: { value: this._textures.pixelSortingTexture },
 				uGlitchTexture: { value: this._textures.glitchTexture },
 				uLiquidTexture: { value: this._textures.liquidTexture },
-				uNumberTexture: { value: this._textures.number2 },
+				uNumberTexture: { value: this._textures.counterTexture },
 				uProgress: { value: -1 },
 				uSwitchTransition: { value: true },
+				uTextureOffset: { value: new Vector2(1, 1) },
 			},
 			transparent: true,
 			depthWrite: false,
@@ -113,9 +113,10 @@ export default class CounterAnimation extends Group {
 				uPixelSortingTexture: { value: this._textures.pixelSortingTexture },
 				uGlitchTexture: { value: this._textures.glitchTexture },
 				uLiquidTexture: { value: this._textures.liquidTexture },
-				uNumberTexture: { value: this._textures.number1 },
+				uNumberTexture: { value: this._textures.counterTexture },
 				uProgress: { value: -1 },
 				uSwitchTransition: { value: true },
+				uTextureOffset: { value: new Vector2(0, 0) },
 			},
 			transparent: true,
 			depthWrite: false,
@@ -140,9 +141,10 @@ export default class CounterAnimation extends Group {
 				uPixelSortingTexture: { value: this._textures.pixelSortingTexture },
 				uGlitchTexture: { value: this._textures.glitchTexture },
 				uLiquidTexture: { value: this._textures.liquidTexture },
-				uNumberTexture: { value: this._textures.number1 },
+				uNumberTexture: { value: this._textures.counterTexture },
 				uProgress: { value: -1 },
 				uSwitchTransition: { value: true },
+				uTextureOffset: { value: new Vector2(1, 0) },
 			},
 			transparent: true,
 			depthWrite: false,
