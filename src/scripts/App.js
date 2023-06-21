@@ -7,6 +7,7 @@ import { createDebugModules } from '@Debug/index.js';
 import { DEBUG } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
 import { PlayerEnergy } from './PlayerEnergy.js';
+import { PlayerGame } from './PlayerGame.js';
 import { ServerController } from './Server/ServerController.js';
 import { state } from './State.js';
 import { TensorflowController } from './Tensorflow/TensorflowController.js';
@@ -28,6 +29,7 @@ class App {
 		this.tensorflow = new TensorflowController();
 		this.timeline = new Timeline();
 		this.dom = createDomModules();
+		this.game = new PlayerGame();
 		this.energy = new PlayerEnergy();
 		if (DEBUG) this.debug = await createDebugModules();
 

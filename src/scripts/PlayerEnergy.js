@@ -1,4 +1,4 @@
-import Signal from '@utils/Signal.js';
+import { EVENTS } from '@utils/constants.js';
 import { state } from './State.js';
 
 class PlayerEnergy {
@@ -6,19 +6,19 @@ class PlayerEnergy {
 		state.register(this);
 
 		this.current = 0;
+		this.normalizedCurrent = 0;
 		this.max = 2000;
-
-		this.reachedZeroEnergy = new Signal();
-		this.reachedMaxEnergy = new Signal();
 	}
 
 	start() {
 		this.reset();
 		this.active = true;
+		state.emit(EVENTS.ENERGY_STARTED);
 	}
 
 	stop() {
 		this.active = false;
+		state.emit(EVENTS.ENERGY_STOPPED);
 	}
 
 	reset() {
@@ -32,9 +32,11 @@ class PlayerEnergy {
 
 		if (this.current >= this.max) {
 			this.current = this.max;
-			this.reachedMaxEnergy.emit();
+			state.emit(EVENTS.MAX_ENERGY_REACHED);
 			this.reset();
 		}
+
+		this.normalizedCurrent = this.current / this.max;
 	}
 
 	remove(count) {
@@ -44,8 +46,9 @@ class PlayerEnergy {
 
 		if (this.current <= 0) {
 			this.current = 0;
-			this.reachedZeroEnergy.emit();
 		}
+
+		this.normalizedCurrent = this.current / this.max;
 	}
 
 	onRender({ dt }) {

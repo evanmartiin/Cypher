@@ -1,4 +1,4 @@
-import { AnimationMixer, Group, MeshPhysicalMaterial, MeshStandardMaterial } from 'three';
+import { AnimationMixer, Group, MeshStandardMaterial } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 

@@ -25,9 +25,7 @@ const manifest = {
 		glitch: { path: `${import.meta.env.BASE_URL}assets/textures/glitch.jpg`, priority: 2, callback: null },
 		liquid: { path: `${import.meta.env.BASE_URL}assets/textures/liquid.jpg`, priority: 2, callback: null },
 
-		3: { path: `${import.meta.env.BASE_URL}assets/textures/3.png`, priority: 2, callback: null },
-		2: { path: `${import.meta.env.BASE_URL}assets/textures/2.png`, priority: 2, callback: null },
-		1: { path: `${import.meta.env.BASE_URL}assets/textures/1.png`, priority: 2, callback: null },
+		counter: { path: `${import.meta.env.BASE_URL}assets/textures/counter.png`, priority: 2, callback: null },
 
 		logo: { path: `${import.meta.env.BASE_URL}assets/textures/logo.png`, priority: 2, callback: null },
 
