@@ -47,6 +47,12 @@ export default class DanceStep extends Step {
 	}
 
 	stop() {
+
+		app.dom.ui.rec.hide();
+		app.dom.ui.timer.hide();
+		app.dom.ui.title.hide();
+		app.dom.ui.music.hide();
+
 		app.energy.stop();
 		this.isRunning = false;
 		app.tools.recorder.stop();
