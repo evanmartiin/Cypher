@@ -1,8 +1,8 @@
 {
     "sources": [
         {
-            "name": "music-1",
-            "src": "music-1.mp3"
+            "name": "music-attente",
+            "src": "music-attente.mp3"
         },
         {
             "name": "music-2",
