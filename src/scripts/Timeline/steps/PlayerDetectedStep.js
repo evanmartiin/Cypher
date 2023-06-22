@@ -1,4 +1,4 @@
-import { MUSIC_IDS } from '@Core/audio/AudioManager.js';
+import { MUSIC_IDS, UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 
@@ -17,15 +17,14 @@ export default class PlayerDetectedStep extends Step {
 		app.dom.cursor.enable();
 		app.dom.cursor.enterHover.on(() => {
 			app.timeline.timer.setGauge(2000, () => {
-				app.core.audio.playMusic(MUSIC_IDS.MUSIC_2);
+				console.log('enter')
+				app.core.audio.playUI(UI_IDS.CURSOR);
 				app.timeline.next();
 			});
 		});
 		app.dom.cursor.exitHover.on(() => {
 			app.timeline.timer.resetTimer();
 		});
-		app.core.audio.playMusic(MUSIC_IDS.MUSIC_1);
-		app.core.audio.initFrequencies(MUSIC_IDS.MUSIC_1);
 	}
 
 	stop() {

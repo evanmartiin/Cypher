@@ -16,7 +16,7 @@ export default class WaitingStep extends Step {
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.tensorflow.show();
 		app.tensorflow.pose.playerAlreadyHere().then((v) => v && app.timeline.next());
-		app.core.audio.playMusic(MUSIC_IDS.MUSIC_1);
+		app.core.audio.playMusic(MUSIC_IDS.MUSIC_ATTENTE);
 	}
 
 	stop() {

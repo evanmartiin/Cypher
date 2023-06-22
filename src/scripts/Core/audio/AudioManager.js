@@ -7,20 +7,34 @@ import SOUNDS_UI from './ui.json';
 const MUSIC_VOLUME = 1;
 
 export const MUSIC_IDS = {
-	MUSIC_1: 'music-attente',
-	MUSIC_2: 'music-2',
-	MUSIC_3: 'music-3',
+	MUSIC_ATTENTE: 'music_attente',
+	MUSIC_FUNK_1: 'music_funk',
+	MUSIC_FUNK_1_FILTERED: 'music_funk_filtered',
+	MUSIC_FUNK_2: 'music_funk_2',
+	MUSIC_FUNK_2_FILTERED: 'music_funk_filtered_2',
 };
 
 export const UI_IDS = {
-	BUTTON_2: 'button-2',
-	BUTTON_RELEASED: 'button-released',
-	BUTTON: 'button',
+	SCRATCH: 'scratch',
+	TIMER: 'timer',
+	PUBLIC: 'public',
+	PUBLIC_END: 'public_end',
+	CURSOR: 'cursor_placed',
 	TREE: 'tree',
 };
 
 export const UI_POOL_IDS = {
 	READY: ['intro_1', 'intro_2', 'intro_3'],
+	COUNTDOWN: ['3', '2', '1'],
+	GO: ['go_1', 'go_2', 'go_3', 'go_4'],
+	TRANSITION: ['transition_1', 'transition_2', 'transition_3', 'transition_4', 'transition_5', 'transition_6'],
+	END: ['end_1', 'end_2', 'end_3'],
+	SCRATCH: ['scratch'],
+	TEXT_APPARITION: ['text_apparition'],
+	TIMER: ['timer'],
+	TRANSITION_SCENE: ['transition'],
+	PUBLIC: ['public_end', 'public'],
+	CURSOR: ['cursor_placed'],
 };
 
 class AudioManager {
@@ -45,10 +59,10 @@ class AudioManager {
 		// @ts-ignore
 		// this._UI = new Howl(SOUNDS_UI);
 		SOUNDS_UI.sources.forEach((sound) => {
-			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: true, volume: MUSIC_VOLUME }));
+			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: false, volume: MUSIC_VOLUME }));
 		});
 
-		console.log(this._UI);
+		// console.log(this._UI);
 
 		Howler.volume(0);
 
@@ -79,24 +93,35 @@ class AudioManager {
 
 	playUI(name) {
 		// this._UI.play(name);
+		console.log(name)
 		const ui = this._sounds.get(name);
 		if (!ui) return;
-		ui.play(name);
+		ui.play();
 		return ui;
 	}
 
 	playUiRandom(names, random = null) {
 		if (random === null) {
 			const random = Math.floor(Math.random() * names.length);
-			this._UI.play(names[random]);
+			const ui = this._sounds.get(names[random]);
+			if (!ui) return;
+			ui.play();
+			// this._UI.play(names[random]);
 		} else {
-			this._UI.play(names[random]);
+			const ui = this._sounds.get(names[random]);
+			console.log(ui)
+			if (!ui) return;
+			ui.play();
+			// this._UI.play(names[random]);
 		}
 	}
 
 	getUiRandom(names) {
 		const random = Math.floor(Math.random() * names.length);
-		return { randomSoundDuration: Object.values(this._UI._sprite)[random][1], random: random };
+		const ui = this._sounds.get(names[random]);
+		// randomSoundDuration: Object.values(this._UI._sprite)[random][1]
+
+		return { randomSoundDuration: ui._duration * 1000, random: random };
 	}
 
 	playMusic(name) {

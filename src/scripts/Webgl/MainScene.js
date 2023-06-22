@@ -1,10 +1,12 @@
 import gsap from 'gsap';
 import { Scene } from 'three';
+import { UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 import Environment from '@Webgl/Objects/Environment.js';
 import { GroundReflector } from '@Webgl/Objects/GroundReflector.js';
 import RigCoords from '@utils/RigCoords.js';
 import ENVIRONMENTS from '@utils/environments.json';
 import { globalUniforms } from '@utils/globalUniforms.js';
+import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { Avatar } from './Objects/Avatar.js';
 import { AvatarDemo } from './Objects/AvatarDemo.js';
@@ -108,6 +110,10 @@ class MainScene extends Scene {
 	changeEnv() {
 		this.currentEnv++;
 		this.currentEnv = this.currentEnv % this.environments.length;
+
+		app.core.audio.playUiRandom(UI_POOL_IDS.TRANSITION);
+		app.core.audio.playUI(UI_POOL_IDS.TRANSITION_SCENE[0]);
+		app.core.audio.playUiRandom(UI_POOL_IDS.PUBLIC);
 
 		const timeline = gsap.timeline();
 		timeline.then(() => {

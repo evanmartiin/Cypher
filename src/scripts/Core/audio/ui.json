@@ -1,16 +1,105 @@
 {
-    "sources": [
-        {
-            "name": "music-attente",
-            "src": "music-attente.mp3"
-        },
-        {
-            "name": "music-2",
-            "src": "music-2.mp3"
-        },
-        {
-            "name": "music-3",
-            "src": "music-3.mp3"
-        }
-    ]
+	"sources": [
+		{
+			"name": "intro_1",
+			"src": "intro_1.mp3"
+		},
+		{
+			"name": "intro_2",
+			"src": "intro_2.mp3"
+		},
+		{
+			"name": "intro_3",
+			"src": "intro_3.mp3"
+		},
+		{
+			"name": "3",
+			"src": "3.mp3"
+		},
+		{
+			"name": "2",
+			"src": "2.mp3"
+		},
+		{
+			"name": "1",
+			"src": "1.mp3"
+		},
+		{
+			"name": "go_1",
+			"src": "go_1.mp3"
+		},
+		{
+			"name": "go_2",
+			"src": "go_2.mp3"
+		},
+		{
+			"name": "go_3",
+			"src": "go_3.mp3"
+		},
+		{
+			"name": "go_4",
+			"src": "go_4.mp3"
+		},
+    {
+			"name": "transition_1",
+			"src": "transition_1.mp3"
+		},
+    {
+			"name": "transition_2",
+			"src": "transition_2.mp3"
+		},
+    {
+			"name": "transition_3",
+			"src": "transition_3.mp3"
+		},
+    {
+			"name": "transition_4",
+			"src": "transition_4.mp3"
+		},
+    {
+			"name": "transition_5",
+			"src": "transition_5.mp3"
+		},
+		{
+			"name": "end_1",
+			"src": "end_1.mp3"
+		},
+		{
+			"name": "end_2",
+			"src": "end_2.mp3"
+		},
+		{
+			"name": "end_3",
+			"src": "end_3.mp3"
+		},
+		{
+			"name": "scratch",
+			"src": "scratch.mp3"
+		},
+		{
+			"name": "timer",
+			"src": "timer.mp3"
+		},
+		{
+			"name": "text_apparition",
+			"src": "text_apparition.mp3"
+		},
+		{
+			"name": "transition",
+			"src": "transition.mp3"
+		},
+		{
+			"name": "public_end",
+			"src": "public_end.mp3"
+		},
+		{
+			"name": "public",
+			"src": "public.mp3"
+		},
+		{
+			"name": "cursor_placed",
+			"src": "cursor_placed.mp3"
+		}
+    
+	]
 }
