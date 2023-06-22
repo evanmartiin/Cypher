@@ -79,6 +79,13 @@ class Title extends Group {
 			},
 		});
 	}
+
+	stop() {
+		if (!this.mesh.visible) return;
+
+		gsap.killTweensOf(this.material.uniforms.uTransition);
+		this.mesh.visible = false;
+	}
 }
 
 export { Title };

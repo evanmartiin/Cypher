@@ -7,11 +7,20 @@ import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from './TensorflowCamera.js';
 
 const DISTANCE_THRESHOLD = 0.035;
-const CONFIDENCE_THRESHOLD = 0.4;
+const CONFIDENCE_THRESHOLD = 0.5;
 
 class TensorflowPose {
 	constructor() {
 		this.asyncInit();
+	}
+
+	enable() {
+		this.ready = true;
+	}
+
+	disable() {
+		this.ready = false;
+		this.playerDetected = undefined;
 	}
 
 	async asyncInit() {
@@ -113,11 +122,6 @@ class TensorflowPose {
 
 		this.lastPoses = poses;
 		return isMoveEnough;
-	}
-
-	async playerAlreadyHere() {
-		const results = await this.renderResults();
-		return results && results[0];
 	}
 }
 

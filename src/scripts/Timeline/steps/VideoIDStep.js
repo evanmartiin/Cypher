@@ -1,7 +1,7 @@
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 
-export default class NextPlayerStep extends Step {
+export default class VideoIDStep extends Step {
 	constructor() {
 		super();
 		this.text = 'Au suivant';
@@ -12,11 +12,6 @@ export default class NextPlayerStep extends Step {
 		this.isRunning = true;
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
-		app.webgl.scene.avatar.disableControl();
-		app.webgl.scene.carpet.hide();
-		app.webgl.scene._particles.hide();
-		app.webgl.camera.exit();
-		app.webgl.postProcessing.blurPass.enable();
 	}
 
 	stop() {

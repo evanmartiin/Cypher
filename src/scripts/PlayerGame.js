@@ -25,6 +25,7 @@ class PlayerGame {
 		this.isRunning = false;
 		app.energy.stop();
 		app.webgl.scene.avatarDemo.disable();
+		app.webgl.scene.title.stop();
 		this.timer = 0;
 	}
 
@@ -39,6 +40,7 @@ class PlayerGame {
 	}
 
 	onMaxEnergyReached() {
+		if (!this.isRunning) return;
 		app.energy.stop();
 		app.webgl.scene.carpet.hide();
 		app.webgl.scene.avatarDemo.disable();
@@ -49,6 +51,7 @@ class PlayerGame {
 	}
 
 	onTick({ dt }) {
+		if (!this.isRunning) return;
 		if (app.webgl.scene.avatarDemo.active) {
 			this.timer += dt;
 			if (this.timer >= DELAY_BEFORE_ENERGY && !app.energy.active) {

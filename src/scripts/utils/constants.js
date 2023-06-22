@@ -1,10 +1,10 @@
+import ApprovedStep from '@Timeline/steps/ApprovedStep.js';
 import TrainingStep from '@Timeline/steps/TrainingStep.js';
+import VideoIDStep from '@Timeline/steps/VideoIDStep.js';
 import DanceStep from '@scripts/Timeline/steps/DanceStep.js';
-import NextPlayerStep from '@scripts/Timeline/steps/NextPlayerStep.js';
 import PlayerDetectedStep from '@scripts/Timeline/steps/PlayerDetectedStep.js';
 import TimerStep from '@scripts/Timeline/steps/TimerStep.js';
 import WaitingStep from '@scripts/Timeline/steps/WaitingStep.js';
-import WellDoneStep from '@scripts/Timeline/steps/WellDoneStep.js';
 
 let i = 0;
 
@@ -50,7 +50,7 @@ const EVENTS_MAP = Object.fromEntries(
 	]),
 );
 
-const STEPS = [WaitingStep, PlayerDetectedStep, TrainingStep, TimerStep, DanceStep, WellDoneStep, NextPlayerStep];
+const STEPS = [WaitingStep, PlayerDetectedStep, TrainingStep, TimerStep, DanceStep, ApprovedStep, VideoIDStep];
 
 const STORE = {
 	SKELETON: i++,

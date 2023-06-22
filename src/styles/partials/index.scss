@@ -30,8 +30,10 @@
 	transform: rotateZ(-90deg);
 	opacity: 1;
 
-	&.hidden {
+	&.hide {
 		opacity: 0;
+		transition: .5s;
+		width: 0;
 	}
 }
 
@@ -192,21 +194,6 @@
 	position: absolute;
 	right: 6vw;
 	bottom: 4vh;
-
-	&.hide {
-		opacity: 0;
-		transition: .5s;
-		width: 0;
-	}
-}
-
-#move {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translateY(-50%);
-	pointer-events: none;
-	width: auto;
 
 	&.hide {
 		opacity: 0;

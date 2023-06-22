@@ -128,8 +128,6 @@ export class Particles extends Group {
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
 		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.vertexStore.positionMap;
 
-		// console.log(this._material.uniforms.uRigPositionMap.value);
-
 		this.sim.gpuCompute.compute();
 	}
 }

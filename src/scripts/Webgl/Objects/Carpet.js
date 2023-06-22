@@ -14,15 +14,23 @@ class Carpet extends Group {
 	}
 
 	show() {
+		this.killTweens();
 		gsap.to(this, { rotateMultiplier: 0.3, duration: 1, ease: 'power2.out' });
 		gsap.to(this.opacity, { value: 1, duration: 1, ease: 'power2.out' });
 		gsap.to(this.mesh.position, { y: 0.1, duration: 0.5, ease: 'power2.out' });
 	}
 
 	hide() {
+		this.killTweens();
 		gsap.to(this, { rotateMultiplier: 5, duration: 0.5, ease: 'power2.in' });
 		gsap.to(this.opacity, { value: 0, duration: 0.5, ease: 'power2.in' });
 		gsap.to(this.mesh.position, { y: -0.1, duration: 0.9, ease: 'power2.in' });
+	}
+
+	killTweens() {
+		gsap.killTweensOf(this);
+		gsap.killTweensOf(this.opacity);
+		gsap.killTweensOf(this.mesh.position);
 	}
 
 	onAttach() {
