@@ -40,13 +40,13 @@ class Avatar extends Group {
 	onAttach() {
 		app.debug?.mapping.add(this, 'Particles');
 
-		this.head = new Mesh(new SphereGeometry(0.1, 32, 32), new MeshBasicMaterial());
+		this.head = new Mesh(new SphereGeometry(0.04, 32, 32), new MeshBasicMaterial());
 		this.head.scale.y = 1.25;
 
-		this.tubes = new InstancedMesh(new CylinderGeometry(0.02, 0.02, 1, 10, 10), new MeshBasicMaterial(), POSE_CONNECTIONS.length);
+		this.tubes = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 10, 10), new MeshBasicMaterial(), POSE_CONNECTIONS.length);
 		this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
 
-		this.torso = new InstancedMesh(new CylinderGeometry(0.02, 0.02, 1, 10, 10), new MeshBasicMaterial(), TORSO_CYLINDER_NB);
+		this.torso = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 10, 10), new MeshBasicMaterial(), TORSO_CYLINDER_NB);
 		this.torso.instanceMatrix.setUsage(DynamicDrawUsage);
 
 		this.addParticles();

@@ -1,17 +1,26 @@
 import * as posedetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
 import { Vector3 } from 'three';
-import { DEBUG } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from './TensorflowCamera.js';
 
 const DISTANCE_THRESHOLD = 0.035;
+const CONFIDENCE_THRESHOLD = 0.5;
 
 class TensorflowPose {
 	constructor() {
 		this.asyncInit();
+	}
+
+	enable() {
+		this.ready = true;
+	}
+
+	disable() {
+		this.ready = false;
+		this.playerDetected = undefined;
 	}
 
 	async asyncInit() {
@@ -40,19 +49,31 @@ class TensorflowPose {
 		const results = await this.renderResults();
 
 		if (results) {
-			if (results[0] && !this.playerDetected) state.emit(EVENTS.PLAYER_ENTERED);
-			if (!results[0] && this.playerDetected) state.emit(EVENTS.PLAYER_LEFT);
-			this.playerDetected = results[0];
+			const confidenceScores = results.map((result) => result.keypoints.map((keypoint) => keypoint.score).reduce((a, b) => a + b, 0) / result.keypoints.length);
+			const highestConfidenceScore = Math.max(...confidenceScores);
+			const mostReliableRig = results[confidenceScores.indexOf(highestConfidenceScore)];
 
-			if (results[0]) {
-				if (this.playerDetected) {
-					state.emit(EVENTS.PLAYER_MOVED, results[0]);
-					if (DEBUG) app.tensorflow.canvas.drawResults(results[0]);
+			if (mostReliableRig) {
+				app.tensorflow.canvas.drawResults(mostReliableRig);
+			}
+
+			if (mostReliableRig && highestConfidenceScore >= CONFIDENCE_THRESHOLD) {
+				if (!this.playerDetected) {
+					this.playerDetected = mostReliableRig;
+					state.emit(EVENTS.PLAYER_ENTERED);
+				} else {
+					this.playerDetected = mostReliableRig;
+					state.emit(EVENTS.PLAYER_MOVED, mostReliableRig);
 
 					// TODO: filter moves to not count really small moves and big moves (teleportations)
-					if (this.isMoveEnough(results[0].keypoints3D)) {
-						state.emit(EVENTS.PLAYER_MOVED_ENOUGH, posedetection.calculators.keypointsToNormalizedKeypoints(results[0].keypoints, VIDEO_SIZE));
+					if (this.isMoveEnough(mostReliableRig.keypoints3D)) {
+						state.emit(EVENTS.PLAYER_MOVED_ENOUGH, posedetection.calculators.keypointsToNormalizedKeypoints(mostReliableRig.keypoints, VIDEO_SIZE));
 					}
+				}
+			} else {
+				if (this.playerDetected) {
+					this.playerDetected = undefined;
+					state.emit(EVENTS.PLAYER_LEFT);
 				}
 			}
 		}
@@ -101,11 +122,6 @@ class TensorflowPose {
 
 		this.lastPoses = poses;
 		return isMoveEnough;
-	}
-
-	async playerAlreadyHere() {
-		const results = await this.renderResults();
-		return results && results[0];
 	}
 }
 

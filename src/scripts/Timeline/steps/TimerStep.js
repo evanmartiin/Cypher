@@ -11,19 +11,17 @@ export default class TimerStep extends Step {
 	start() {
 		this.isRunning = true;
 
-		//UI 
+		//UI
 		app.timeline.titleDOM.innerHTML = this.text;
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tensorflow.hide();
 		app.webgl.scene._counterAnimation._timeline.restart();
-		
 	}
 
 	stop() {
-		app.tensorflow.hide();
-
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
+		app.webgl.scene._counterAnimation._timeline.pause(0);
 	}
 }

@@ -13,11 +13,9 @@ export default class DanceStep extends Step {
 		state.register(this);
 
 		this.text = 'Danse !';
-		this.duration = 30000;
+		this.duration = 60000;
 
 		this.rightWristPos = new Vector2();
-
-		this.energyDOM = document.getElementById('energy');
 	}
 
 	start() {
@@ -28,10 +26,7 @@ export default class DanceStep extends Step {
 		app.dom.ui.rec.show();
 		app.dom.ui.timer.show();
 
-		app.dom.ui.move.node.innerHTML = 'Nom du move';
-		app.dom.ui.move.spawn(3000);
-
-		//TODO : Faire spawn des mots random avec des encouragements
+		//TODO: Faire spawn des mots random avec des encouragements
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tools.recorder.start();
@@ -39,17 +34,22 @@ export default class DanceStep extends Step {
 	}
 
 	stop() {
-
 		app.dom.ui.rec.hide();
 		app.dom.ui.timer.hide();
-		app.dom.ui.title.hide();
-		app.dom.ui.music.hide();
+		app.dom.ui.energy.hide();
 
-		app.energy.stop();
 		this.isRunning = false;
 		app.tools.recorder.stop();
 		app.timeline.timer.resetTimer();
 		app.game.stop();
+
+		app.webgl.scene.avatar.disableControl();
+		app.webgl.scene.carpet.hide();
+		app.webgl.scene._particles.hide();
+		app.webgl.camera.exit();
+		app.webgl.postProcessing.blurPass.enable();
+
+		//TODO: vérifier que cet event n'est plus écouté à un moment donné
 		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
 	}
 
@@ -61,6 +61,7 @@ export default class DanceStep extends Step {
 	}
 
 	onPlayerMoved(rig) {
+		if (!this.isRunning) return;
 		if (!assertIsInCamera(rig.keypoints[POSE.RIGHT_WRIST])) return;
 
 		V2.x = rig.keypoints[POSE.RIGHT_WRIST].x;
@@ -72,16 +73,19 @@ export default class DanceStep extends Step {
 	}
 
 	onEnergyStarted() {
-		this.energyDOM.classList.remove('hidden');
+		if (!this.isRunning) return;
+		app.dom.ui.energy.show();
 	}
 
 	onEnergyStopped() {
-		this.energyDOM.classList.add('hidden');
+		if (!this.isRunning) return;
+		app.dom.ui.energy.hide();
 	}
 
 	onRender() {
+		if (!this.isRunning) return;
 		if (app.energy.active) {
-			this.energyDOM.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${app.energy.normalizedCurrent * 100}%, rgba(255,255,255,0) ${app.energy.normalizedCurrent * 100}%)`;
+			app.dom.ui.energy.node.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${app.energy.normalizedCurrent * 100}%, rgba(255,255,255,0) ${app.energy.normalizedCurrent * 100}%)`;
 		}
 	}
 }
