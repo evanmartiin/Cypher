@@ -19,11 +19,11 @@ export default class TrainingStep extends Step {
 
 		//Sound
 		app.core.audio.playMusic(MUSIC_IDS.MUSIC_2);
-		// const { randomSoundDuration, random } = app.core.audio.getUiRandom(UI_POOL_IDS.READY);
+		const { randomSoundDuration, random } = app.core.audio.getUiRandom(UI_POOL_IDS.READY);
 		
-		// setTimeout(() => {
-		// 	app.core.audio.playUiRandom(UI_POOL_IDS.READY, random);
-		// }, this.duration - randomSoundDuration);
+		setTimeout(() => {
+			app.core.audio.playUiRandom(UI_POOL_IDS.READY, random);
+		}, this.duration - randomSoundDuration);
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 
