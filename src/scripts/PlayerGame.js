@@ -1,8 +1,9 @@
+import { DANCES } from '@utils/constants.js';
 import { app } from './App.js';
 import { state } from './State.js';
 
 // Timing in seconds
-const DELAY_BEFORE_ENERGY = 5;
+const DELAY_BEFORE_ENERGY = 2;
 const DEMO_DURATION = 10;
 
 class PlayerGame {
@@ -17,6 +18,7 @@ class PlayerGame {
 	start() {
 		this.isRunning = true;
 		app.webgl.scene.avatarDemo.enable();
+		app.webgl.scene.title.show(DANCES.BABY_FREEZE);
 	}
 
 	stop() {
@@ -29,6 +31,7 @@ class PlayerGame {
 	newPhase() {
 		app.webgl.scene.avatarDemo.enable();
 		app.webgl.scene.carpet.show();
+		app.webgl.scene.title.show(DANCES.THREE_STEPS);
 		this.timer = 0;
 	}
 
