@@ -11,7 +11,7 @@
     "build": "vite build -m production -c config/vite.config.js",
     "staging": "vite build -m staging -c config/vite.config.js",
     "preview": "vite preview -c config/vite.config.js",
-    "build-assets": "sh ./assets/audio/create-spritesheet.sh"
+    "build-assets": "bash ./assets/audio/create-spritesheet.sh"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
