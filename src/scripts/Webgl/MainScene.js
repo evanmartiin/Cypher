@@ -15,6 +15,7 @@ import RigCoordsFluid from './Objects/FluidSim/RigCoordsFluid.js';
 import { Lights } from './Objects/Lights.js';
 import MaskOverlay from './Objects/MaskOverlay.js';
 import { Particles } from './Objects/Particles.js';
+import { Title } from './Objects/Title.js';
 import { VolumetricSpots } from './Objects/VolumetricSpots.js';
 
 class MainScene extends Scene {
@@ -29,6 +30,9 @@ class MainScene extends Scene {
 
 		this.carpet = new Carpet();
 		this.add(this.carpet);
+
+		this.title = new Title();
+		this.add(this.title);
 	}
 
 	onAttach() {

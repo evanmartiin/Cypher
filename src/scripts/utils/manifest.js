@@ -30,6 +30,8 @@ const manifest = {
 		logo: { path: `${import.meta.env.BASE_URL}assets/textures/logo.png`, priority: 2, callback: null },
 
 		carpet: { path: `${import.meta.env.BASE_URL}assets/textures/carpet.png`, priority: 2, callback: null },
+		moves: { path: `${import.meta.env.BASE_URL}assets/textures/moves.png`, priority: 2, callback: null },
+		brushNoise: { path: `${import.meta.env.BASE_URL}assets/textures/brush-noise.png`, priority: 2, callback: null },
 		// ...
 	},
 	envMaps: {
