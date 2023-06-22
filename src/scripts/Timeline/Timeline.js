@@ -51,37 +51,40 @@ class Timeline {
 
 	next() {
 		this.current.stop();
-		if (this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length]) {
-			this.current = this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length];
+		const nextStep = this.steps[(this.steps.indexOf(this.current) + 1) % this.steps.length];
+		if (nextStep) {
+			this.current = nextStep;
 			this.current.start();
 		}
 	}
 
 	reset() {
-		this.timer.resetTimer();
-		app.webgl.scene.avatar.disableControl();
-		if (this.current.isRunning) this.current.stop();
+		if (this.standby) {
+			this.standby = false;
+			this.standbyStep.stop();
+		}
 		this.current = this.steps[0];
 		this.current.start();
-	}
 
-	set(step) {
-		this.current.stop();
-		this.current = step;
-		this.current.start();
+		app.dom.ui.title.hide();
 	}
 
 	resume() {
 		this.standby = false;
-		if (this.standbyStep.isRunning) this.standbyStep.stop();
+		this.standbyStep.abort();
 		this.current.start();
 	}
 
 	onPlayerLeft() {
-		if (this.current.constructor.name === 'WaitingStep' || this.current.constructor.name === 'NextPlayerStep') return;
-		this.standby = true;
+		if (this.current.constructor.name === 'WaitingStep') return;
 		this.current.stop();
-		this.standbyStep.start();
+
+		if (this.current.constructor.name === 'PlayerDetectedStep') {
+			this.reset();
+		} else {
+			this.standby = true;
+			this.standbyStep.start();
+		}
 	}
 }
 

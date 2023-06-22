@@ -14,7 +14,6 @@ class UiElement {
 	spawn(duration) {
 		this.node.classList.remove('hide');
 
-        console.log('spawn')
 		setTimeout(() => {
 			this.node.classList.add('hide');
 		}, duration);

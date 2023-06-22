@@ -14,29 +14,34 @@ class PlayerGame {
 		this.isRunning = false;
 
 		this.timer = 0;
+		this.danceID = 0;
 	}
 
 	start() {
 		this.isRunning = true;
-		app.webgl.scene.avatarDemo.enable();
-		app.webgl.scene.title.show(DANCES.BABY_FREEZE);
+		this.newPhase();
 	}
 
 	stop() {
 		this.isRunning = false;
 		app.energy.stop();
 		app.webgl.scene.avatarDemo.disable();
+		app.webgl.scene.title.stop();
 		this.timer = 0;
 	}
 
 	newPhase() {
 		app.webgl.scene.avatarDemo.enable();
 		app.webgl.scene.carpet.show();
-		app.webgl.scene.title.show(DANCES.THREE_STEPS);
+		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
 		this.timer = 0;
+
+		this.danceID++;
+		this.danceID = this.danceID % Object.keys(DANCES).length;
 	}
 
 	onMaxEnergyReached() {
+		if (!this.isRunning) return;
 		app.energy.stop();
 		app.webgl.scene.carpet.hide();
 		app.webgl.scene.avatarDemo.disable();
@@ -47,6 +52,7 @@ class PlayerGame {
 	}
 
 	onTick({ dt }) {
+		if (!this.isRunning) return;
 		if (app.webgl.scene.avatarDemo.active) {
 			this.timer += dt;
 			if (this.timer >= DELAY_BEFORE_ENERGY && !app.energy.active) {

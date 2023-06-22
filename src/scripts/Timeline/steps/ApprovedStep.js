@@ -2,7 +2,7 @@ import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 
-export default class WellDoneStep extends Step {
+export default class ApprovedStep extends Step {
 	constructor() {
 		super();
 		this.duration = 5000;
@@ -13,6 +13,9 @@ export default class WellDoneStep extends Step {
 
 		//UI
 		app.dom.ui.approuved.show();
+		app.dom.ui.title.hide();
+
+		app.tensorflow.pose.disable();
 
 		//SOUND
 		app.core.audio.playUiRandom(UI_POOL_IDS.END)

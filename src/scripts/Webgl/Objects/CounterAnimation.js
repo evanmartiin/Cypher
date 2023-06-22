@@ -69,7 +69,7 @@ export default class CounterAnimation extends Group {
 		});
 
 		const mesh = new Mesh(geometry, material);
-		mesh.position.y = 1;
+		mesh.position.y = 1.2;
 		mesh.position.z = 1;
 
 		app.webgl.scene.add(mesh);
@@ -97,7 +97,7 @@ export default class CounterAnimation extends Group {
 		});
 
 		const mesh = new Mesh(geometry, material);
-		mesh.position.y = 1;
+		mesh.position.y = 1.2;
 		mesh.position.z = 1;
 
 		app.webgl.scene.add(mesh);
@@ -125,7 +125,7 @@ export default class CounterAnimation extends Group {
 		});
 
 		const mesh = new Mesh(geometry, material);
-		mesh.position.y = 1;
+		mesh.position.y = 1.2;
 		mesh.position.z = 1;
 
 		app.webgl.scene.add(mesh);
@@ -153,7 +153,7 @@ export default class CounterAnimation extends Group {
 		});
 
 		const mesh = new Mesh(geometry, material);
-		mesh.position.y = 1;
+		mesh.position.y = 1.2;
 		mesh.position.z = 1;
 
 		app.webgl.scene.add(mesh);

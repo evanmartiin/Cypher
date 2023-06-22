@@ -1,7 +1,7 @@
+import { MUSIC_IDS } from '@Core/audio/AudioManager.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { MUSIC_IDS } from '@Core/audio/AudioManager.js';
 
 export default class WaitingStep extends Step {
 	constructor() {
@@ -15,12 +15,16 @@ export default class WaitingStep extends Step {
 
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.tensorflow.show();
-		app.tensorflow.pose.playerAlreadyHere().then((v) => v && app.timeline.next());
+		app.tensorflow.pose.enable();
+		app.dom.ui.logo.show();
 		app.core.audio.playMusic(MUSIC_IDS.MUSIC_ATTENTE);
+
+		if (app.tensorflow.pose.playerDetected) app.timeline.next();
 	}
 
 	stop() {
 		this.isRunning = false;
+		app.dom.ui.logo.hide();
 	}
 
 	onPlayerEntered() {

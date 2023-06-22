@@ -62,8 +62,6 @@ class AudioManager {
 			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: false, volume: MUSIC_VOLUME }));
 		});
 
-		// console.log(this._UI);
-
 		Howler.volume(0);
 
 		//AudioContext

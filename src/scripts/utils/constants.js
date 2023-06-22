@@ -1,10 +1,10 @@
+import ApprovedStep from '@Timeline/steps/ApprovedStep.js';
 import TrainingStep from '@Timeline/steps/TrainingStep.js';
+import VideoIDStep from '@Timeline/steps/VideoIDStep.js';
 import DanceStep from '@scripts/Timeline/steps/DanceStep.js';
-import NextPlayerStep from '@scripts/Timeline/steps/NextPlayerStep.js';
 import PlayerDetectedStep from '@scripts/Timeline/steps/PlayerDetectedStep.js';
 import TimerStep from '@scripts/Timeline/steps/TimerStep.js';
 import WaitingStep from '@scripts/Timeline/steps/WaitingStep.js';
-import WellDoneStep from '@scripts/Timeline/steps/WellDoneStep.js';
 
 let i = 0;
 
@@ -32,6 +32,7 @@ const EVENTS = {
 	MAX_ENERGY_REACHED: i++,
 	ENERGY_STARTED: i++,
 	ENERGY_STOPPED: i++,
+	ENERGY_CHANGED: i++,
 };
 
 const SERVER_EVENTS = {
@@ -49,7 +50,7 @@ const EVENTS_MAP = Object.fromEntries(
 	]),
 );
 
-const STEPS = [WaitingStep, PlayerDetectedStep, TrainingStep, TimerStep, DanceStep, WellDoneStep, NextPlayerStep];
+const STEPS = [WaitingStep, PlayerDetectedStep, TrainingStep, TimerStep, DanceStep, ApprovedStep, VideoIDStep];
 
 const STORE = {
 	SKELETON: i++,
@@ -119,11 +120,13 @@ const POSE_CONNECTIONS = [
 	[POSE.LEFT_ANKLE, POSE.LEFT_FOOT_INDEX],
 ];
 
+let j = -1;
+
 const DANCES = {
-	BABY_FREEZE: i++,
-	BACK_SPIN: i++,
-	THREE_STEPS: i++,
-	SIX_STEPS: i++,
+	BABY_FREEZE: j++,
+	BACK_SPIN: j++,
+	THREE_STEPS: j++,
+	SIX_STEPS: j++,
 };
 
 export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS, STORE, POSE, POSE_CONNECTIONS, DANCES };

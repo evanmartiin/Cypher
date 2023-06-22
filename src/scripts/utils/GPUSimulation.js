@@ -13,6 +13,8 @@ const NUM_CUBES = 1;
 
 export class GPUSimulation {
 	constructor(renderer, size, coords, acceleration) {
+		state.register(this);
+
 		this.renderer = renderer;
 		this.size = size;
 		this.coords = coords;
@@ -110,7 +112,7 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.03 };
+		this.posUniforms.uDieSpeed = { value: 0.02 };
 		this.posUniforms.uAcceleration = { value: this.acceleration.value };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
@@ -180,5 +182,9 @@ export class GPUSimulation {
 		}
 
 		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);
+	}
+
+	onEnergyChanged(energy) {
+		this.posUniforms.uDieSpeed.value = 0.04 - 0.03 * energy;
 	}
 }
