@@ -13,7 +13,7 @@ export default class DanceStep extends Step {
 		state.register(this);
 
 		this.text = 'Danse !';
-		this.duration = 30000;
+		this.duration = 60000;
 
 		this.rightWristPos = new Vector2();
 

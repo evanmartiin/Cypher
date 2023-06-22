@@ -36,9 +36,9 @@ class AvatarDemo extends Group {
 
 		this.add(this.mesh);
 		this.mesh.castShadow = true;
-		this.mesh.position.x = -2;
+		this.mesh.position.x = -3;
 		this.mesh.position.y = 0;
-		this.mesh.position.z = -3;
+		this.mesh.position.z = -2;
 		this.mesh.visible = false;
 
 		this.mixer = new AnimationMixer(this.mesh);

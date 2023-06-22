@@ -7,7 +7,7 @@ class PlayerEnergy {
 
 		this.current = 0;
 		this.normalizedCurrent = 0;
-		this.max = 2000;
+		this.max = 500;
 	}
 
 	start() {
@@ -37,6 +37,8 @@ class PlayerEnergy {
 		}
 
 		this.normalizedCurrent = this.current / this.max;
+
+		state.emit(EVENTS.ENERGY_CHANGED, this.normalizedCurrent);
 	}
 
 	remove(count) {
@@ -49,6 +51,8 @@ class PlayerEnergy {
 		}
 
 		this.normalizedCurrent = this.current / this.max;
+
+		state.emit(EVENTS.ENERGY_CHANGED, this.normalizedCurrent);
 	}
 
 	onRender({ dt }) {

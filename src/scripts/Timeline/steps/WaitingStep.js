@@ -1,7 +1,7 @@
+import { MUSIC_IDS } from '@Core/audio/AudioManager.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { MUSIC_IDS } from '@Core/audio/AudioManager.js';
 
 export default class WaitingStep extends Step {
 	constructor() {

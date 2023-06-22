@@ -43,7 +43,7 @@ class Title extends Group {
 		});
 
 		this.mesh = new Mesh(geometry, this.material);
-		this.mesh.position.set(0, 1.2, 2.5);
+		this.mesh.position.set(0, 1.2, 2);
 		this.mesh.rotateZ(Math.PI / 32);
 		this.mesh.visible = false;
 

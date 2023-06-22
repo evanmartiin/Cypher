@@ -55,7 +55,7 @@ export class Particles extends Group {
 		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = new SphereGeometry();
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(3, 3, 3);
+		baseGeometry.scale(2, 2, 2);
 
 		const geometry = new BufferGeometry();
 
@@ -112,10 +112,10 @@ export class Particles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.scale.set(0.015, 0.015, 0.015);
+		mesh.scale.set(0.03, 0.03, 0.03);
 
 		this.add(mesh);
-		mesh.position.set(-0.5, 0.3, 2);
+		mesh.position.set(-1.1, 0, 2.5);
 		mesh.frustumCulled = false;
 		mesh.renderOrder = 2;
 

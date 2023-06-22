@@ -44,11 +44,9 @@ class AudioManager {
 
 		// @ts-ignore
 		// this._UI = new Howl(SOUNDS_UI);
-		SOUNDS_UI.sources.forEach((sound) => {
-			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: true, volume: MUSIC_VOLUME }));
-		});
-
-		console.log(this._UI);
+		// SOUNDS_UI.sources.forEach((sound) => {
+		// 	this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: true, volume: MUSIC_VOLUME }));
+		// });
 
 		Howler.volume(0);
 

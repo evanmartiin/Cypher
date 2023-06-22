@@ -13,12 +13,12 @@ class PlayerGame {
 		this.isRunning = false;
 
 		this.timer = 0;
+		this.danceID = 0;
 	}
 
 	start() {
 		this.isRunning = true;
-		app.webgl.scene.avatarDemo.enable();
-		app.webgl.scene.title.show(DANCES.BABY_FREEZE);
+		this.newPhase();
 	}
 
 	stop() {
@@ -31,8 +31,11 @@ class PlayerGame {
 	newPhase() {
 		app.webgl.scene.avatarDemo.enable();
 		app.webgl.scene.carpet.show();
-		app.webgl.scene.title.show(DANCES.THREE_STEPS);
+		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
 		this.timer = 0;
+
+		this.danceID++;
+		this.danceID = this.danceID % Object.keys(DANCES).length;
 	}
 
 	onMaxEnergyReached() {
