@@ -5,6 +5,7 @@ import { POSE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
+import { UI_IDS } from '@Core/audio/AudioManager.js';
 
 const MAGNET_DISTANCE = 100;
 

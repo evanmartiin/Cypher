@@ -1,16 +1,32 @@
 {
     "sources": [
         {
-            "name": "music-attente",
-            "src": "music-attente.mp3"
+            "name": "music_attente",
+            "src": "music_attente.mp3"
         },
         {
-            "name": "music-2",
-            "src": "music-2.mp3"
+            "name": "music_funk",
+            "src": "music_funk.mp3"
         },
         {
-            "name": "music-3",
-            "src": "music-3.mp3"
+            "name": "music_funk_filtered",
+            "src": "music_funk_filtered.mp3"
+        },
+        {
+            "name": "music_funk_2",
+            "src": "music_funk_2.mp3"
+        },
+        {
+            "name": "music_funk_filtered_2",
+            "src": "music_funk_filtered_2.mp3"
+        },
+        {
+            "name": "music_2",
+            "src": "music_2.mp3"
+        },
+        {
+            "name": "music_3",
+            "src": "music_3.mp3"
         }
     ]
 }

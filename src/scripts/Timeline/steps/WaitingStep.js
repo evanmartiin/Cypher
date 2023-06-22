@@ -17,8 +17,7 @@ export default class WaitingStep extends Step {
 		app.tensorflow.show();
 		app.tensorflow.pose.enable();
 		app.dom.ui.logo.show();
-		app.core.audio.playMusic(MUSIC_IDS.MUSIC_1);
-		app.core.audio.initFrequencies(MUSIC_IDS.MUSIC_1);
+		app.core.audio.playMusic(MUSIC_IDS.MUSIC_ATTENTE);
 
 		if (app.tensorflow.pose.playerDetected) app.timeline.next();
 	}

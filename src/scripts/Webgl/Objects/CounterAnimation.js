@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { Group, Mesh, MirroredRepeatWrapping, PlaneGeometry, ShaderMaterial, Vector2 } from 'three';
+import { MUSIC_IDS, UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 import fragmentShader from '@Webgl/Materials/CounterAnimation/fragment.fs';
 import vertexShader from '@Webgl/Materials/CounterAnimation/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
@@ -164,25 +165,71 @@ export default class CounterAnimation extends Group {
 		const timeline = gsap.timeline({ paused: true });
 		timeline.timeScale(1.25);
 
-		timeline.to(this._mesh3.material.uniforms.uProgress, { duration: 0.5, value: 1.25 }, 0);
+		timeline.to(
+			this._mesh3.material.uniforms.uProgress,
+			{
+				duration: 0.5,
+				value: 1.25,
+				onStart: () => {
+					app.core.audio.playUI(UI_POOL_IDS.COUNTDOWN[0]);
+					app.core.audio.playUI(UI_IDS.TIMER);
+				},
+			},
+			0,
+		);
 		timeline.fromTo(this._mesh3.position, { duration: 0, z: 0 }, { duration: 0.75, z: 1.25, ease: 'Power1.in' }, 0);
 		timeline.to(this._mesh3.material.uniforms.uSwitchTransition, { duration: 0, value: false }, 0.6);
 		timeline.to(this._mesh3.material.uniforms.uProgress, { duration: 0.5, value: -1.15 }, 0.6);
 		timeline.fromTo(this._mesh3.position, { duration: 0, z: 1.25 }, { duration: 0.5, z: 2.75, ease: 'Power1.out' }, 0.6);
 
-		timeline.to(this._mesh2.material.uniforms.uProgress, { duration: 0.5, value: 1.25 }, 0.8);
+		timeline.to(
+			this._mesh2.material.uniforms.uProgress,
+			{
+				duration: 0.5,
+				value: 1.25,
+				onStart: () => {
+					app.core.audio.playUI(UI_IDS.PUBLIC);
+					app.core.audio.playUI(UI_POOL_IDS.COUNTDOWN[1]);
+				},
+			},
+			0.8,
+		);
 		timeline.fromTo(this._mesh2.position, { duration: 0, z: 0 }, { duration: 0.75, z: 1.25, ease: 'Power1.in' }, 0.8);
 		timeline.to(this._mesh2.material.uniforms.uSwitchTransition, { duration: 0, value: false }, 1.4);
 		timeline.to(this._mesh2.material.uniforms.uProgress, { duration: 0.5, value: -1.15 }, 1.4);
 		timeline.fromTo(this._mesh2.position, { duration: 0, z: 1.25 }, { duration: 0.5, z: 2.75, ease: 'Power1.out' }, 1.4);
 
-		timeline.to(this._mesh1.material.uniforms.uProgress, { duration: 0.5, value: 1.25 }, 1.6);
+		timeline.to(
+			this._mesh1.material.uniforms.uProgress,
+			{
+				duration: 0.5,
+				value: 1.25,
+				onStart: () => {
+					app.core.audio.playUI(UI_POOL_IDS.COUNTDOWN[2]);
+				},
+			},
+			1.6,
+		);
 		timeline.fromTo(this._mesh1.position, { duration: 0, z: 0 }, { duration: 0.75, z: 1.25, ease: 'Power1.in' }, 1.6);
 		timeline.to(this._mesh1.material.uniforms.uSwitchTransition, { duration: 0, value: false }, 2.2);
 		timeline.to(this._mesh1.material.uniforms.uProgress, { duration: 0.5, value: -1.15 }, 2.2);
 		timeline.fromTo(this._mesh1.position, { duration: 0, z: 1.25 }, { duration: 0.5, z: 2.75, ease: 'Power1.out' }, 2.2);
 
-		timeline.to(this._meshGo.material.uniforms.uProgress, { duration: 0.5, value: 1.25 }, 2.4);
+		timeline.to(
+			this._meshGo.material.uniforms.uProgress,
+			{
+				duration: 0.5,
+				value: 1.25,
+				onStart: () => {
+					app.core.audio.playUiRandom(UI_POOL_IDS.GO);
+				},
+				onComplete: () => {
+					app.core.audio.playUI(UI_IDS.SCRATCH);
+					app.core.audio.playMusic(MUSIC_IDS.MUSIC_FUNK_1);
+				}
+			},
+			2.4,
+		);
 		timeline.fromTo(this._meshGo.position, { duration: 0, z: 0 }, { duration: 0.75, z: 1.25, ease: 'Power1.in' }, 2.4);
 		timeline.fromTo(this._meshGo.position, { duration: 0, z: 1.25 }, { duration: 2.75, z: 2.5, ease: 'Sine.out' }, 2.5);
 		timeline.to(this._meshGo.material.uniforms.uSwitchTransition, { duration: 0, value: false }, 3.5);
