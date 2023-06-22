@@ -1,6 +1,7 @@
 import { Howl, Howler } from 'howler';
 import { state } from '@scripts/State.js';
 import SOUNDS_MUSIC from './musics.json';
+// import SOUNDS_UI from './ui-spritesheet.json';
 import SOUNDS_UI from './ui.json';
 
 const MUSIC_VOLUME = 1;
@@ -20,6 +21,7 @@ export const UI_IDS = {
 
 class AudioManager {
 	_musics = new Map();
+	_sounds = new Map();
 	canPlay = false;
 	currentAmbientName;
 	currentAmbientId;
@@ -37,7 +39,10 @@ class AudioManager {
 		});
 
 		// @ts-ignore
-		this._UI = new Howl(SOUNDS_UI);
+		// this._UI = new Howl(SOUNDS_UI);
+		SOUNDS_UI.sources.forEach((sound) => {
+			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: true, volume: MUSIC_VOLUME }));
+		});
 
 		Howler.volume(0);
 
@@ -67,7 +72,11 @@ class AudioManager {
 	}
 
 	playUI(name) {
-		this._UI.play(name);
+		// this._UI.play(name);
+		const ui = this._sounds.get(name);
+		if (!ui) return;
+		ui.play(name);
+		return ui;
 	}
 
 	playMusic(name) {

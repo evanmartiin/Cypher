@@ -1,19 +1,16 @@
 {
-  "src": [
-    "src/assets/audio/ui.mp3"
-  ],
-  "sprite": {
-    "intro_1": [
-      0,
-      4281.156462585033
-    ],
-    "intro_2": [
-      6000,
-      4498.480725623584
-    ],
-    "intro_3": [
-      12000,
-      3620.272108843537
+    "sources": [
+        {
+            "name": "music-attente",
+            "src": "music-attente.mp3"
+        },
+        {
+            "name": "music-2",
+            "src": "music-2.mp3"
+        },
+        {
+            "name": "music-3",
+            "src": "music-3.mp3"
+        }
     ]
-  }
 }
