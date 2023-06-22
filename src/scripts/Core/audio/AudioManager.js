@@ -19,6 +19,10 @@ export const UI_IDS = {
 	TREE: 'tree',
 };
 
+export const UI_POOL_IDS = {
+	READY: ['intro_1', 'intro_2', 'intro_3'],
+};
+
 class AudioManager {
 	_musics = new Map();
 	_sounds = new Map();
@@ -43,6 +47,8 @@ class AudioManager {
 		SOUNDS_UI.sources.forEach((sound) => {
 			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: true, volume: MUSIC_VOLUME }));
 		});
+
+		console.log(this._UI);
 
 		Howler.volume(0);
 
@@ -79,6 +85,20 @@ class AudioManager {
 		return ui;
 	}
 
+	playUiRandom(names, random = null) {
+		if (random === null) {
+			const random = Math.floor(Math.random() * names.length);
+			this._UI.play(names[random]);
+		} else {
+			this._UI.play(names[random]);
+		}
+	}
+
+	getUiRandom(names) {
+		const random = Math.floor(Math.random() * names.length);
+		return { randomSoundDuration: Object.values(this._UI._sprite)[random][1], random: random };
+	}
+
 	playMusic(name) {
 		if (name !== this.currentAmbientName) {
 			if (this.currentAmbient) {
@@ -89,10 +109,6 @@ class AudioManager {
 			this.currentAmbientName = name;
 			this.currentAmbientId = this.fadeIn(this.currentAmbientName, MUSIC_VOLUME, 1000);
 		}
-	}
-
-	beat(id) {
-		const howl = this._musics.get(id);
 	}
 
 	initFrequencies(id) {

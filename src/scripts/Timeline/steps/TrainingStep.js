@@ -1,3 +1,4 @@
+import { MUSIC_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -17,6 +18,14 @@ export default class TrainingStep extends Step {
 		app.timeline.titleDOM.innerHTML = this.text;
 		app.dom.ui.music.show();
 		app.dom.ui.title.show();
+
+		//Sound
+		app.core.audio.playMusic(MUSIC_IDS.MUSIC_2);
+		const { randomSoundDuration, random } = app.core.audio.getUiRandom(UI_POOL_IDS.READY);
+		
+		setTimeout(() => {
+			app.core.audio.playUiRandom(UI_POOL_IDS.READY, random);
+		}, this.duration - randomSoundDuration);
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.webgl.camera.enter();
