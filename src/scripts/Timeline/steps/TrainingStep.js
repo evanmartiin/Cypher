@@ -6,13 +6,18 @@ export default class TrainingStep extends Step {
 	constructor() {
 		super();
 		state.register(this);
-		this.text = 'Entraîne-toi';
+		this.text = 'Prépare-toi !';
 		this.duration = 10000;
 	}
 
 	start() {
 		this.isRunning = true;
+
+		//UI
 		app.timeline.titleDOM.innerHTML = this.text;
+		app.dom.ui.music.show();
+		app.dom.ui.title.show();
+
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.webgl.camera.enter();
 		app.webgl.scene.avatar.enableControl();

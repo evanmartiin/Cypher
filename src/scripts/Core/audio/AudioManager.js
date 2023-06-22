@@ -6,7 +6,7 @@ import SOUNDS_UI from './ui.json';
 const MUSIC_VOLUME = 1;
 
 export const MUSIC_IDS = {
-	MUSIC_1: 'music-1',
+	MUSIC_1: 'music-attente',
 	MUSIC_2: 'music-2',
 	MUSIC_3: 'music-3',
 };

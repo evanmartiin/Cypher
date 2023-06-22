@@ -9,6 +9,7 @@ class Ui {
         this.music = new UiElement(document.getElementById('music-container'));
         this.randomWord = new UiElement(document.getElementById('random-word'));
         this.move = new UiElement(document.getElementById('move'));
+        this.approuved = new UiElement(document.getElementById('approuved-wrapper'));
 	}
 }
 

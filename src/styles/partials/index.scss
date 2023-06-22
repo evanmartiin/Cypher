@@ -73,12 +73,12 @@
 	top: 30px;
 	right: 30px;
 	animation: blink .5s ease-in-out infinite alternate;
-	display: none;
 
 	&.hide {
 		opacity: 0;
 		transition: .5s;
 		width: 0;
+		display: none;
 	}
 }
 
@@ -89,11 +89,6 @@
 	width: 0;
 }
 
-#rec.hide {
-	opacity: 0;
-	transition: .5s;
-	width: 0;
-}
 
 @keyframes blink {
 	0% {
@@ -130,6 +125,27 @@
 #logo-container.hide {
 	opacity: 0;
 	transition: .5s;
+}
+
+#approuved-wrapper {
+	position: absolute;
+    top: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&.hide {
+		opacity: 0;
+		transition: .5s;
+		width: 0;
+	}
+}
+
+#approuved {
+	width: 50%;
+	height: 50%;
 }
 
 .custom-cursor {
@@ -187,9 +203,19 @@
 #move {
 	position: absolute;
 	left: 50%;
-	right: 50%;
+	top: 50%;
 	transform: translateY(-50%);
 	pointer-events: none;
+	width: auto;
+
+	&.hide {
+		opacity: 0;
+		transition: .5s;
+		width: 0;
+	}
+}
+
+#random-word {
 
 	&.hide {
 		opacity: 0;
