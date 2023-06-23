@@ -45,13 +45,17 @@ class AvatarDemo extends Group {
 		this.action = this.mixer.clipAction(this.gltf.animations[0]);
 		this.action.play();
 	}
+	
+	dance(danceID) {
+		const animID = ANIM_IDS[danceID];
 
-	enable() {
-		this.active = true;
+		if (animID === undefined) return;
+
 		this.mesh.visible = true;
+		this.active = true;
 	}
 
-	disable() {
+	stop() {
 		this.active = false;
 		this.mesh.visible = false;
 	}

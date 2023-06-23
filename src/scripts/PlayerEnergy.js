@@ -56,6 +56,8 @@ class PlayerEnergy {
 	}
 
 	onRender({ dt }) {
+		if (!this.active) return;
+
 		this.remove(dt * 500);
 	}
 }
