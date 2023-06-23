@@ -223,10 +223,6 @@ export default class CounterAnimation extends Group {
 				onStart: () => {
 					app.core.audio.playUiRandom(UI_POOL_IDS.GO);
 				},
-				onComplete: () => {
-					app.core.audio.playUI(UI_IDS.SCRATCH);
-					app.core.audio.playMusic(MUSIC_IDS.MUSIC_FUNK_1);
-				}
 			},
 			2.4,
 		);

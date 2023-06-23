@@ -1,4 +1,4 @@
-import { MUSIC_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
+import { MUSIC_IDS, UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -18,8 +18,18 @@ export default class TrainingStep extends Step {
 		//UI
 		app.dom.ui.title.node.innerHTML = this.text;
 
+
 		//Sound
-		app.core.audio.playMusic(MUSIC_IDS.MUSIC_FUNK_1_FILTERED);
+		app.core.audio.playUI(UI_IDS.TRANSITION_SCENE);
+
+		setTimeout(() => {
+			app.core.audio.playUI(UI_IDS.SCRATCH);
+		}, 300);
+
+		setTimeout(() => {
+			app.core.audio.playMusic(MUSIC_IDS.MUSIC_1);
+		}, 600);
+
 		const { randomSoundDuration, random } = app.core.audio.getUiRandom(UI_POOL_IDS.READY);
 		this.readySound = {
 			id: random,

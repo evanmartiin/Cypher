@@ -4,7 +4,8 @@ import SOUNDS_MUSIC from './musics.json';
 // import SOUNDS_UI from './ui-spritesheet.json';
 import SOUNDS_UI from './ui.json';
 
-const MUSIC_VOLUME = 1;
+const MUSIC_VOLUME = 0.2;
+const UI_VOLUME = 1;
 
 export const MUSIC_IDS = {
 	MUSIC_ATTENTE: 'music_attente',
@@ -12,22 +13,27 @@ export const MUSIC_IDS = {
 	MUSIC_FUNK_1_FILTERED: 'music_funk_filtered',
 	MUSIC_FUNK_2: 'music_funk_2',
 	MUSIC_FUNK_2_FILTERED: 'music_funk_filtered_2',
+	MUSIC_1: 'music_2',
 };
 
 export const UI_IDS = {
 	SCRATCH: 'scratch',
 	TIMER: 'timer',
-	PUBLIC: 'public',
+	PUBLIC: 'public_end',
+	PUBLIC_TRANSITION: 'public_end',
 	PUBLIC_END: 'public_end',
 	CURSOR: 'cursor_placed',
-	TREE: 'tree',
+	TRANSITION_SCENE: 'transition',
+	TEXT_APPARITION: 'text_apparition',
+	CAMERA_TRANSITION: 'transition',
+	TAMPON: 'scratch',
 };
 
 export const UI_POOL_IDS = {
 	READY: ['intro_1', 'intro_2', 'intro_3'],
 	COUNTDOWN: ['3', '2', '1'],
 	GO: ['go_1', 'go_2', 'go_3', 'go_4'],
-	TRANSITION: ['transition_1', 'transition_2', 'transition_3', 'transition_4', 'transition_5', 'transition_6'],
+	TRANSITION_MC: ['transition_1', 'transition_2', 'transition_3', 'transition_4', 'transition_5', 'transition_6'],
 	END: ['end_1', 'end_2', 'end_3'],
 	SCRATCH: ['scratch'],
 	TEXT_APPARITION: ['text_apparition'],
@@ -59,7 +65,7 @@ class AudioManager {
 		// @ts-ignore
 		// this._UI = new Howl(SOUNDS_UI);
 		SOUNDS_UI.sources.forEach((sound) => {
-			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: false, volume: MUSIC_VOLUME }));
+			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: false, volume: UI_VOLUME }));
 		});
 
 		Howler.volume(0);
@@ -86,7 +92,7 @@ class AudioManager {
 	fadeVolume(id, soundId, volume, duration = 1000) {
 		if (!this.canPlay) return;
 		const howl = this._musics.get(id);
-		howl.fade(howl.volume(undefined, soundId), volume, duration, soundId);
+		howl.fade(howl.volume(undefined, howl), volume, duration, soundId);
 	}
 
 	playUI(name) {
@@ -190,6 +196,9 @@ class AudioManager {
 
 		const howl = this._musics.get(id);
 		const soundId = howl.play();
+
+		console.log(soundId)
+		console.log(volume)
 
 		howl.fade(0, volume, duration, soundId);
 
