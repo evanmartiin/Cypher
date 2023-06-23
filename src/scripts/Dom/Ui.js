@@ -10,6 +10,7 @@ class Ui {
 		this.randomWord = new UiElement(document.getElementById('random-word'));
 		this.approved = new UiElement(document.getElementsByClassName('approved-container')[0]);
 		this.energy = new UiElement(document.getElementById('energy'));
+		this.requireSound = new UiElement(document.getElementById('require-sound'));
 	}
 }
 

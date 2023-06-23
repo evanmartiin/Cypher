@@ -7,7 +7,8 @@ import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from './TensorflowCamera.js';
 
 const DISTANCE_THRESHOLD = 0.035;
-const CONFIDENCE_THRESHOLD = 0.5;
+const DETECTION_THRESHOLD = 0.6;
+const UNDETECTION_THRESHOLD = 0.5;
 
 class TensorflowPose {
 	constructor() {
@@ -57,7 +58,7 @@ class TensorflowPose {
 				app.tensorflow.canvas.drawResults(mostReliableRig);
 			}
 
-			if (mostReliableRig && highestConfidenceScore >= CONFIDENCE_THRESHOLD) {
+			if ((mostReliableRig && highestConfidenceScore >= DETECTION_THRESHOLD) || (mostReliableRig && highestConfidenceScore >= UNDETECTION_THRESHOLD && this.playerDetected)) {
 				if (!this.playerDetected) {
 					this.playerDetected = mostReliableRig;
 					state.emit(EVENTS.PLAYER_ENTERED);
