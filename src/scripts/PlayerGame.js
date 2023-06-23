@@ -1,7 +1,6 @@
 import { DANCES } from '@utils/constants.js';
 import { app } from './App.js';
 import { state } from './State.js';
-import { UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 
 // Timing in seconds
 const DELAY_BEFORE_ENERGY = 2;
@@ -25,26 +24,45 @@ class PlayerGame {
 	stop() {
 		this.isRunning = false;
 		app.energy.stop();
-		app.webgl.scene.avatarDemo.disable();
+		app.webgl.scene.avatarDemo.stop();
 		app.webgl.scene.title.stop();
 		this.timer = 0;
 	}
 
 	newPhase() {
-		app.webgl.scene.avatarDemo.enable();
+		app.webgl.scene.avatarDemo.dance(Object.values(DANCES)[this.danceID]);
 		app.webgl.scene.carpet.show();
 		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
 		this.timer = 0;
+	}
 
-		this.danceID++;
-		this.danceID = this.danceID % Object.keys(DANCES).length;
+	save() {
+		return {
+			danceID: this.danceID,
+			timer: this.timer,
+			energyActive: app.energy.active,
+		}
+	}
+
+	restore(save) {
+		this.isRunning = true;
+		this.danceID = save.danceID;
+		this.timer = save.timer;
+		save.energyActive && app.energy.start();
+
+		app.webgl.scene.avatarDemo.dance(Object.values(DANCES)[this.danceID]);
+		app.webgl.scene.carpet.show();
+		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
 	}
 
 	onMaxEnergyReached() {
 		if (!this.isRunning) return;
+		this.danceID++;
+		this.danceID = this.danceID % Object.keys(DANCES).length;
+
 		app.energy.stop();
 		app.webgl.scene.carpet.hide();
-		app.webgl.scene.avatarDemo.disable();
+		app.webgl.scene.avatarDemo.stop();
 		app.webgl.scene.changeEnv().then(() => {
 			if (!this.isRunning) return;
 			this.newPhase();
@@ -59,8 +77,7 @@ class PlayerGame {
 				app.energy.start();
 			}
 			if (this.timer >= DEMO_DURATION) {
-				this.timer = 0;
-				app.webgl.scene.avatarDemo.disable();
+				app.webgl.scene.avatarDemo.stop();
 			}
 		}
 	}

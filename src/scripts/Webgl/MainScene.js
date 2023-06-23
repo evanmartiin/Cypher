@@ -108,6 +108,10 @@ class MainScene extends Scene {
 	}
 
 	changeEnv() {
+		globalUniforms.uTransitionColor.value.r = this.environments[this.currentEnv].light1.color.r;
+		globalUniforms.uTransitionColor.value.r = this.environments[this.currentEnv].light1.color.r;
+		globalUniforms.uTransitionColor.value.r = this.environments[this.currentEnv].light1.color.r;
+
 		this.currentEnv++;
 		this.currentEnv = this.currentEnv % this.environments.length;
 
@@ -120,14 +124,19 @@ class MainScene extends Scene {
 			timeline.kill();
 		});
 
+		timeline.to(
+			globalUniforms.uTransitionColor.value,
+			{
+				r: this.environments[this.currentEnv].light1.color.r,
+				g: this.environments[this.currentEnv].light1.color.g,
+				b: this.environments[this.currentEnv].light1.color.b,
+				duration: 2.5,
+			},
+			0,
+		);
 		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.5, value: 1 }, 0);
 		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 1.25, value: 0.75 }, 0);
 		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: false }, 2);
-		timeline.to(
-			globalUniforms.uTransitionColor.value,
-			{ r: globalUniforms.uTransitionColor.value.r, g: globalUniforms.uTransitionColor.value.g, b: globalUniforms.uTransitionColor.value.b, duration: 0 },
-			1.25,
-		);
 
 		timeline.to(
 			this._lights._lights.light1.color,

@@ -22,8 +22,6 @@ class Timeline {
 	}
 
 	onAttach() {
-		this.start();
-
 		/// #if DEBUG
 		if (app.tools.urlParams.has('step')) {
 			const loweredSteps = STEPS.map((Step) => Step.name.slice(0, -4).toLowerCase());
@@ -61,6 +59,7 @@ class Timeline {
 		if (this.standby) {
 			this.standby = false;
 			this.standbyStep.stop();
+			this.savedConfig = null;
 		}
 		this.current = this.steps[0];
 		this.current.start();
@@ -71,16 +70,19 @@ class Timeline {
 	resume() {
 		this.standby = false;
 		this.standbyStep.abort();
-		this.current.start();
+		this.current.restore(this.savedConfig);
+		this.savedConfig = null;
 	}
 
 	onPlayerLeft() {
 		if (this.current.constructor.name === 'WaitingStep') return;
-		this.current.stop();
 
 		if (this.current.constructor.name === 'PlayerDetectedStep') {
+			this.current.stop();
 			this.reset();
 		} else {
+			this.savedConfig = this.current.save();
+			this.current.stop();
 			this.standby = true;
 			this.standbyStep.start();
 		}

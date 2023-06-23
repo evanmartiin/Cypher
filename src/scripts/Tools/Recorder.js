@@ -9,7 +9,6 @@ export default class Recorder {
 	}
 
 	onAttach() {
-		this.recDOM = document.getElementById('rec');
 		app.debug?.mapping.add(this, 'Recorder');
 	}
 
@@ -34,7 +33,7 @@ export default class Recorder {
 		/// #endif
 
 		this.mediaRecorder.start();
-		this.recDOM.style.display = 'block';
+		app.dom.ui.rec.show();
 	}
 
 	stop() {
@@ -44,7 +43,7 @@ export default class Recorder {
 
 		this.mediaRecorder.stop();
 		this.mediaRecorder.addEventListener('dataavailable', this.handleDataAvailable);
-		this.recDOM.style.display = 'none';
+		app.dom.ui.rec.hide();
 	}
 
 	handleDataAvailable = async (event) => {

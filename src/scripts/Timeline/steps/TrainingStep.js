@@ -13,6 +13,7 @@ export default class TrainingStep extends Step {
 
 	start() {
 		this.isRunning = true;
+		this.readySoundPlayed = false;
 
 		//UI
 		app.dom.ui.title.node.innerHTML = this.text;
@@ -30,8 +31,13 @@ export default class TrainingStep extends Step {
 		}, 600);
 
 		const { randomSoundDuration, random } = app.core.audio.getUiRandom(UI_POOL_IDS.READY);
+		this.readySound = {
+			id: random,
+			duration: randomSoundDuration,
+		};
 
-		setTimeout(() => {
+		this.readySoundTimeout = setTimeout(() => {
+			this.readySoundPlayed = true;
 			app.core.audio.playUiRandom(UI_POOL_IDS.READY, random);
 		}, this.duration - randomSoundDuration);
 
@@ -47,5 +53,27 @@ export default class TrainingStep extends Step {
 	stop() {
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
+		clearTimeout(this.readySoundTimeout);
+	}
+
+	save() {
+		return {
+			time: app.timeline.timer.gauge.elapsed,
+		};
+	}
+
+	restore(save) {
+		this.isRunning = true;
+
+		app.dom.ui.title.node.innerHTML = this.text;
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true, save.time);
+
+		if (!this.readySoundPlayed) {
+			setTimeout(() => {
+				if (!this.isRunning) return;
+				this.readySoundPlayed = true;
+				app.core.audio.playUiRandom(UI_POOL_IDS.READY, this.readySound.id);
+			}, this.duration - save.time - this.readySound.duration);
+		}
 	}
 }
