@@ -1,6 +1,7 @@
 // import 'https://greggman.github.io/webgl-lint/webgl-lint.js';
 import { createCoreModules } from '@Core/index.js';
 import { WebglController } from '@Webgl/WebglController.js';
+import { UiElement } from '@Dom/UiElement.js';
 import { createDomModules } from '@Dom/index.js';
 import { createToolsModules } from '@Tools/index.js';
 import { createDebugModules } from '@Debug/index.js';
@@ -24,13 +25,16 @@ class App {
 
 		this.core = createCoreModules();
 		this.tools = createToolsModules();
+		this.dom = createDomModules();
 		this.webgl = new WebglController();
 		this.server = new ServerController();
 		this.tensorflow = new TensorflowController();
 		this.timeline = new Timeline();
-		this.dom = createDomModules();
 		this.game = new PlayerGame();
 		this.energy = new PlayerEnergy();
+
+		window.addEventListener('click', this.handleFirstClick);
+
 		if (DEBUG) this.debug = await createDebugModules();
 
 		await this.load();
@@ -43,6 +47,13 @@ class App {
 		state.emit(EVENTS.ATTACH);
 		state.emit(EVENTS.RESIZE, this.tools.viewport.infos);
 	}
+
+	handleFirstClick = () => {
+		window.removeEventListener('click', this.handleFirstClick);
+		this.dom.ui.requireSound.hide();
+		this.timeline.start();
+		this.tensorflow.pose.enable();
+	};
 
 	static getInstance() {
 		if (!App.instance) App.instance = new App();

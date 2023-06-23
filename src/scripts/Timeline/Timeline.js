@@ -22,8 +22,6 @@ class Timeline {
 	}
 
 	onAttach() {
-		this.start();
-
 		/// #if DEBUG
 		if (app.tools.urlParams.has('step')) {
 			const loweredSteps = STEPS.map((Step) => Step.name.slice(0, -4).toLowerCase());
