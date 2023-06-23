@@ -12,7 +12,7 @@ export default class DanceStep extends Step {
 		super();
 		state.register(this);
 
-		this.text = 'Danse !';
+		this.text = 'Freestyle';
 		this.duration = 60000;
 
 		this.rightWristPos = new Vector2();
@@ -22,20 +22,18 @@ export default class DanceStep extends Step {
 		this.isRunning = true;
 
 		//UI
-		app.timeline.titleDOM.innerHTML = this.text;
+		app.dom.ui.title.node.innerHTML = this.text;
 		app.dom.ui.rec.show();
-		app.dom.ui.timer.show();
 
 		//TODO: Faire spawn des mots random avec des encouragements
 
-		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true);
 		app.tools.recorder.start();
 		app.game.start();
 	}
 
 	stop() {
 		app.dom.ui.rec.hide();
-		app.dom.ui.timer.hide();
 		app.dom.ui.energy.hide();
 
 		this.isRunning = false;

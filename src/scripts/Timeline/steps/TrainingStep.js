@@ -15,7 +15,7 @@ export default class TrainingStep extends Step {
 		this.isRunning = true;
 
 		//UI
-		app.timeline.titleDOM.innerHTML = this.text;
+		app.dom.ui.title.node.innerHTML = this.text;
 
 		//Sound
 		app.core.audio.playMusic(MUSIC_IDS.MUSIC_FUNK_1_FILTERED);
@@ -25,7 +25,7 @@ export default class TrainingStep extends Step {
 			app.core.audio.playUiRandom(UI_POOL_IDS.READY, random);
 		}, this.duration - randomSoundDuration);
 
-		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true);
 
 		app.webgl.camera.enter();
 		app.webgl.scene.avatar.enableControl();

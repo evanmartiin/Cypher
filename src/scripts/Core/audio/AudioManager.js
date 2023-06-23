@@ -91,7 +91,7 @@ class AudioManager {
 
 	playUI(name) {
 		// this._UI.play(name);
-		console.log(name)
+		// console.log(name)
 		const ui = this._sounds.get(name);
 		if (!ui) return;
 		ui.play();
@@ -107,7 +107,7 @@ class AudioManager {
 			// this._UI.play(names[random]);
 		} else {
 			const ui = this._sounds.get(names[random]);
-			console.log(ui)
+			// console.log(ui)
 			if (!ui) return;
 			ui.play();
 			// this._UI.play(names[random]);
