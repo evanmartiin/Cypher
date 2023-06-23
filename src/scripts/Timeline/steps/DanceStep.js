@@ -1,6 +1,6 @@
 import { Vector2 } from 'three';
 import { assertIsInCamera } from '@utils/assertions.js';
-import { EVENTS, POSE, SERVER_EVENTS } from '@utils/constants.js';
+import { POSE } from '@utils/constants.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -12,7 +12,7 @@ export default class DanceStep extends Step {
 		super();
 		state.register(this);
 
-		this.text = 'Freestyle';
+		this.text = 'Reproduis ce move';
 		this.duration = 60000;
 
 		this.rightWristPos = new Vector2();
@@ -26,33 +26,16 @@ export default class DanceStep extends Step {
 		//TODO: Faire spawn des mots random avec des encouragements
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true);
-		app.tools.recorder.start();
 		app.game.start();
 	}
 
 	stop() {
+		this.isRunning = false;
+
 		app.dom.ui.energy.hide();
 
-		this.isRunning = false;
-		app.tools.recorder.stop();
 		app.timeline.timer.resetTimer();
 		app.game.stop();
-
-		app.webgl.scene.avatar.disableControl();
-		app.webgl.scene.carpet.hide();
-		app.webgl.scene._particles.hide();
-		app.webgl.camera.exit();
-		app.webgl.postProcessing.blurPass.enable();
-
-		//TODO: vérifier que cet event n'est plus écouté à un moment donné
-		state.on(EVENTS.VIDEO_READY, this.handleVideoReady);
-	}
-
-	handleVideoReady(args) {
-		if (app.timeline.standby !== false) return;
-		app.server.emit(SERVER_EVENTS.CREATE_VIDEO, args);
-
-		state.off(EVENTS.VIDEO_READY, this.handleVideoReady);
 	}
 
 	onPlayerMoved(rig) {

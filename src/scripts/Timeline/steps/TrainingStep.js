@@ -18,11 +18,11 @@ export default class TrainingStep extends Step {
 		//UI
 		app.dom.ui.title.node.innerHTML = this.text;
 
-
 		//Sound
 		app.core.audio.playUI(UI_IDS.TRANSITION_SCENE);
 
 		setTimeout(() => {
+			if (!this.isRunning) return;
 			app.core.audio.playUI(UI_IDS.SCRATCH);
 		}, 300);
 
