@@ -24,4 +24,12 @@ export default class TimerStep extends Step {
 		app.timeline.timer.resetTimer();
 		app.webgl.scene._counterAnimation._timeline.pause(0);
 	}
+
+	save() {
+		return {};
+	}
+
+	restore() {
+		this.start();
+	}
 }

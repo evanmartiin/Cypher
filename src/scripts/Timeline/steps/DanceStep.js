@@ -21,9 +21,7 @@ export default class DanceStep extends Step {
 	start() {
 		this.isRunning = true;
 
-		//UI
 		app.dom.ui.title.node.innerHTML = this.text;
-		app.dom.ui.rec.show();
 
 		//TODO: Faire spawn des mots random avec des encouragements
 
@@ -33,7 +31,6 @@ export default class DanceStep extends Step {
 	}
 
 	stop() {
-		app.dom.ui.rec.hide();
 		app.dom.ui.energy.hide();
 
 		this.isRunning = false;
@@ -85,5 +82,21 @@ export default class DanceStep extends Step {
 		if (app.energy.active) {
 			app.dom.ui.energy.node.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${app.energy.normalizedCurrent * 100}%, rgba(255,255,255,0) ${app.energy.normalizedCurrent * 100}%)`;
 		}
+	}
+
+	save() {
+		return {
+			time: app.timeline.timer.gauge.elapsed,
+			...app.game.save(),
+		};
+	}
+
+	restore(save) {
+		this.isRunning = true;
+
+		app.dom.ui.title.node.innerHTML = this.text;
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true, save.time);
+
+		app.game.restore(save);
 	}
 }

@@ -13,18 +13,20 @@ export default class Timer {
 		if (this.gauge) this.updateGauge();
 	}
 
-	setGauge(duration, callback, showUI = false) {
+	setGauge(duration, callback, showUI = false, offset = 0) {
 		this.gauge = {
-			start: this.elapsed,
+			start: this.elapsed - offset,
 			duration,
 			callback,
 			showUI,
+			elapsed: 0,
 		};
 		if (showUI) app.dom.ui.timer.show();
 	}
 
 	updateGauge() {
-		if (this.elapsed - this.gauge.start >= this.gauge.duration) {
+		this.gauge.elapsed = this.elapsed - this.gauge.start;
+		if (this.gauge.elapsed >= this.gauge.duration) {
 			this.stopGauge();
 			return;
 		}
@@ -35,7 +37,8 @@ export default class Timer {
 		const minutes = Math.floor(seconds / 60);
 		seconds = seconds % 60;
 
-		const time = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+		let time = minutes.toString().padStart(2, 'O') + ':' + seconds.toString().padStart(2, 'O');
+		time = time.replaceAll('0', 'O');
 		app.dom.ui.timer.node.innerHTML = time;
 	}
 
