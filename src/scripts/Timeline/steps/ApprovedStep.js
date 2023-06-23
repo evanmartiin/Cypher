@@ -27,6 +27,9 @@ export default class ApprovedStep extends Step {
 		app.core.audio.playUI(UI_IDS.CAMERA_TRANSITION);
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
+
+		app.tools.recorder.stop();
+
 		app.server.on('SEND_ID', this.handleId);
 	}
 

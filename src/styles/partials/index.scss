@@ -6,7 +6,7 @@
 	transition: 0.1s;
 	font-family: 'RoadRage';
 	font-size: 70px;
-	transform: rotateZ(-5deg) translateY(-30px);
+	transform: rotateZ(-5deg) translateY(-40px);
 	text-align: center;
 	transition: 0.5s;
 
@@ -94,6 +94,8 @@
 	transform: rotateZ(-5deg);
 	transform-origin: center center;
 	transition: 0.5s;
+	width: 500px;
+	margin-top: 10px;
 
 	&.hide {
 		opacity: 0;

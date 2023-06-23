@@ -1,4 +1,4 @@
-import { EVENTS } from '@utils/constants.js';
+import { SERVER_EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -32,6 +32,7 @@ export default class Recorder {
 		if (app.tools.urlParams.has('skip-screen-record')) return;
 		/// #endif
 
+		this.recording = true;
 		this.mediaRecorder.start();
 		app.dom.ui.rec.show();
 	}
@@ -41,15 +42,26 @@ export default class Recorder {
 		if (app.tools.urlParams.has('skip-screen-record')) return;
 		/// #endif
 
+		this.recording = false;
 		this.mediaRecorder.stop();
 		this.mediaRecorder.addEventListener('dataavailable', this.handleDataAvailable);
+		app.dom.ui.rec.hide();
+	}
+
+	cancel() {
+		/// #if DEBUG
+		if (app.tools.urlParams.has('skip-screen-record')) return;
+		/// #endif
+
+		this.recording = false;
+		this.mediaRecorder.pause();
 		app.dom.ui.rec.hide();
 	}
 
 	handleDataAvailable = async (event) => {
 		const buffer = await event.data.arrayBuffer();
 		for (let i = 0; i < Math.ceil(buffer.byteLength / 1_000_000); i++) {
-			state.emit(EVENTS.VIDEO_READY, {
+			app.server.emit(SERVER_EVENTS.CREATE_VIDEO, {
 				id: this.id,
 				index: i,
 				length: Math.ceil(buffer.byteLength / 1_000_000),

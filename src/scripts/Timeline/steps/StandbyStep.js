@@ -15,6 +15,7 @@ export default class StandbyStep extends Step {
 		app.dom.ui.title.node.innerHTML = this.text;
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.reset(), true);
 		app.tensorflow.show();
+		app.tools.recorder.recording && app.tools.recorder.cancel();
 
 		app.webgl.scene.avatar.disableControl();
 		app.webgl.scene.carpet.hide();

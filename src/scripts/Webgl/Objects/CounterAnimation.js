@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { Group, Mesh, MirroredRepeatWrapping, PlaneGeometry, ShaderMaterial, Vector2 } from 'three';
-import { MUSIC_IDS, UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
+import { UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 import fragmentShader from '@Webgl/Materials/CounterAnimation/fragment.fs';
 import vertexShader from '@Webgl/Materials/CounterAnimation/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
