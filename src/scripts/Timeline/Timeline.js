@@ -10,7 +10,6 @@ class Timeline {
 
 	constructor() {
 		state.register(this);
-		this.titleDOM = document.querySelector('#title');
 		this.nextDOM = document.getElementById('next');
 		this.timer = new Timer();
 		this.standby = false;

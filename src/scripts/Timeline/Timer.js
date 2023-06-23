@@ -1,9 +1,9 @@
+import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
 export default class Timer {
 	constructor() {
 		state.register(this);
-		this.DOM = document.getElementById('timer');
 	}
 
 	onTick({ et, dt }) {
@@ -13,25 +13,30 @@ export default class Timer {
 		if (this.gauge) this.updateGauge();
 	}
 
-	setGauge(duration, callback) {
+	setGauge(duration, callback, showUI = false) {
 		this.gauge = {
 			start: this.elapsed,
-			percent: 0,
 			duration,
 			callback,
+			showUI,
 		};
-		this.DOM.classList.remove('hidden');
+		if (showUI) app.dom.ui.timer.show();
 	}
 
 	updateGauge() {
-		this.gauge.percent = (this.elapsed - this.gauge.start) / this.gauge.duration;
-
-		if (this.gauge.percent >= 1) {
+		if (this.elapsed - this.gauge.start >= this.gauge.duration) {
 			this.stopGauge();
 			return;
 		}
 
-		this.DOM.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${this.gauge.percent * 100}%, rgba(255,255,255,0) ${this.gauge.percent * 100}%)`;
+		if (!this.gauge.showUI) return;
+
+		let seconds = Math.floor((this.gauge.duration - this.elapsed + this.gauge.start) / 1000);
+		const minutes = Math.floor(seconds / 60);
+		seconds = seconds % 60;
+
+		const time = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+		app.dom.ui.timer.node.innerHTML = time;
 	}
 
 	stopGauge() {
@@ -39,7 +44,7 @@ export default class Timer {
 	}
 
 	resetTimer() {
+		app.dom.ui.timer.hide();
 		this.gauge = null;
-		this.DOM.classList.add('hidden');
 	}
 }

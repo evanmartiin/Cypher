@@ -11,7 +11,7 @@ export default class PlayerDetectedStep extends Step {
 		this.isRunning = true;
 
 		// app.dom.ui.panel.show();
-		app.timeline.titleDOM.innerHTML = this.text;
+		app.dom.ui.title.node.innerHTML = this.text;
 		app.dom.cursor.enable();
 		app.dom.cursor.enterHover.on(() => {
 			app.timeline.timer.setGauge(2000, () => app.timeline.next());

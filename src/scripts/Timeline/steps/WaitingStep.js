@@ -7,13 +7,13 @@ export default class WaitingStep extends Step {
 	constructor() {
 		super();
 		state.register(this);
-		this.text = 'Viens jouer !';
+		this.text = '';
 	}
 
 	start() {
 		this.isRunning = true;
 
-		app.timeline.titleDOM.innerHTML = this.text;
+		app.dom.ui.title.node.innerHTML = this.text;
 		app.tensorflow.show();
 		app.tensorflow.pose.enable();
 		app.dom.ui.logo.show();
