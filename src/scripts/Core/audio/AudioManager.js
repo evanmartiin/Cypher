@@ -197,8 +197,8 @@ class AudioManager {
 		const howl = this._musics.get(id);
 		const soundId = howl.play();
 
-		console.log(soundId)
-		console.log(volume)
+		// console.log(soundId)
+		// console.log(volume)
 
 		howl.fade(0, volume, duration, soundId);
 
