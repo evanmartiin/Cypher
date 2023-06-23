@@ -1,7 +1,7 @@
 import { DANCES } from '@utils/constants.js';
 import { app } from './App.js';
 import { state } from './State.js';
-import { UI_POOL_IDS } from '@Core/audio/AudioManager.js';
+import { UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 
 // Timing in seconds
 const DELAY_BEFORE_ENERGY = 2;

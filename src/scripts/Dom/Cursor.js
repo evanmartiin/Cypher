@@ -1,11 +1,11 @@
 import { Vector2 } from 'three';
+import { UI_IDS } from '@Core/audio/AudioManager.js';
 import Signal from '@utils/Signal.js';
 import { assertIsInCamera } from '@utils/assertions.js';
 import { POSE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
-import { UI_IDS } from '@Core/audio/AudioManager.js';
 
 const MAGNET_DISTANCE = 100;
 
@@ -68,13 +68,14 @@ class Cursor {
 		this.targetPos.y = (rawPos.y / VIDEO_SIZE.height) * app.tools.viewport.height;
 
 		if (this.getDistanceFromCursor(this.startDOM) < MAGNET_DISTANCE) {
-			this.startDOM.classList.add('hovered');
 			this.targetPos.x = app.tools.viewport.width / 2;
 			this.targetPos.y = app.tools.viewport.height / 2;
 
 			if (!this.hovered) {
 				this.hovered = true;
 				this.enterHover.emit();
+				app.core.audio.playUI(UI_IDS.CURSOR);
+				this.startDOM.classList.add('hovered');
 			}
 		} else {
 			this.startDOM.classList.remove('hovered');
