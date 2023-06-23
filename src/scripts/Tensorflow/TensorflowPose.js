@@ -16,6 +16,7 @@ class TensorflowPose {
 	}
 
 	enable() {
+		if (!this.detector) return;
 		this.ready = true;
 	}
 
@@ -42,7 +43,6 @@ class TensorflowPose {
 			this.runtime = 'tfjs';
 		}
 
-		if (this.detector !== null) this.ready = true;
 		this.tick();
 	}
 
