@@ -42,8 +42,6 @@ class AvatarDemo extends Group {
 		this.mesh.visible = false;
 
 		this.mixer = new AnimationMixer(this.mesh);
-		this.action = this.mixer.clipAction(this.gltf.animations[0]);
-		this.action.play();
 	}
 	
 	dance(danceID) {
@@ -51,11 +49,25 @@ class AvatarDemo extends Group {
 
 		if (animID === undefined) return;
 
+		if (this.action) {
+			this.action.stop();
+			this.action.reset();
+		}
+		this.action = this.mixer.clipAction(this.gltf.animations[animID]);
+		this.action.play();
+
+		this.mesh.visible = true;
+		this.active = true;
+	}
+
+	resume() {
+		this.action.paused = false;
 		this.mesh.visible = true;
 		this.active = true;
 	}
 
 	stop() {
+		this.action.paused = true;
 		this.active = false;
 		this.mesh.visible = false;
 	}

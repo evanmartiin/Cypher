@@ -17,25 +17,34 @@
 	}
 }
 
-#energy {
-	width: 200px;
-	height: 30px;
-	border: 1px solid white;
-	background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 0%);
-	opacity: 1;
-	pointer-events: all;
-	transition: 0.1s;
-	position: absolute;
-	top: 50vh;
-	right: 0vw;
-	transform: rotateZ(-90deg);
-	opacity: 1;
+#energy-container {
 	transition: 0.5s;
+	opacity: 1;
+	position: absolute;
+	bottom: 50px;
+	left: 50px;
+	display: flex;
+	flex-direction: column;
 
 	&.hide {
 		opacity: 0;
 		width: 0;
 	}
+
+	p {
+		font-family: 'RoadRage';
+		font-size: 30px;
+	}
+}
+
+#energy {
+	width: 200px;
+	height: 30px;
+	border: 3px solid white;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 0%);
+	opacity: 1;
+	transform: skew(-15deg);
+	margin-left: 10px;
 }
 
 #tf-video,
@@ -58,16 +67,6 @@
 #tf-video {
 	border: 15px solid #646cff;
 }
-
-// #tf-canvas {
-// 	position: absolute;
-// 	bottom: 56px;
-// 	right: -293px;
-// 	box-sizing: content-box;
-// 	transform: scale(.58) translateX(-50%) translateY(50%) rotateY(180deg);
-//     -webkit-transform: scale(.58) translateX(-50%) translateY(50%) rotateY(180deg); /* Safari and Chrome */
-//     -moz-transform: scale(.58) translateX(-50%) translateY(50%) rotateY(180deg); /* Firefox */
-// }
 
 #rec {
 	color: red;
