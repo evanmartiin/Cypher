@@ -151,7 +151,7 @@ class Avatar extends Group {
 
 	addParticles() {
 		this.vertexStore = this.createVertexStore([this.head, this.tubes, this.torso]);
-		this.numParticles = this.vertexStore.numVertices;
+		this.numVertices = this.vertexStore.numVertices;
 
 		this.vertexStore.update();
 	}
