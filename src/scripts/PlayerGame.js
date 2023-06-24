@@ -4,7 +4,6 @@ import { state } from './State.js';
 
 // Timing in seconds
 const DELAY_BEFORE_ENERGY = 2;
-const DEMO_DURATION = 10;
 
 class PlayerGame {
 	constructor() {
@@ -50,7 +49,7 @@ class PlayerGame {
 		this.timer = save.timer;
 		save.energyActive && app.energy.start();
 
-		app.webgl.scene.avatarDemo.dance(Object.values(DANCES)[this.danceID]);
+		app.webgl.scene.avatarDemo.resume();
 		app.webgl.scene.carpet.show();
 		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
 	}
@@ -75,9 +74,6 @@ class PlayerGame {
 			this.timer += dt;
 			if (this.timer >= DELAY_BEFORE_ENERGY && !app.energy.active) {
 				app.energy.start();
-			}
-			if (this.timer >= DEMO_DURATION) {
-				app.webgl.scene.avatarDemo.stop();
 			}
 		}
 	}

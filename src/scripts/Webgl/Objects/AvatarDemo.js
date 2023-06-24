@@ -2,6 +2,7 @@ import { AnimationMixer, Group, MeshStandardMaterial } from 'three';
 import { DANCES } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+import { gsap } from 'gsap';
 
 const ANIM_IDS = {
 	[DANCES.BABY_FREEZE]: 0,
@@ -21,16 +22,18 @@ class AvatarDemo extends Group {
 		this.gltf = app.core.assetsManager.get('avatarDemo');
 		this.mesh = this.gltf.scene;
 
-		const material = new MeshStandardMaterial({
+		this.material = new MeshStandardMaterial({
 			metalness: 0.4,
 			roughness: 0.8,
 			fog: false,
+			transparent: true,
+			opacity: 0,
 		});
 
 		this.mesh.traverse((object) => {
 			if (object.isMesh) {
 				object.castShadow = true;
-				object.material = material;
+				object.material = this.material;
 			}
 		});
 
@@ -42,8 +45,6 @@ class AvatarDemo extends Group {
 		this.mesh.visible = false;
 
 		this.mixer = new AnimationMixer(this.mesh);
-		this.action = this.mixer.clipAction(this.gltf.animations[0]);
-		this.action.play();
 	}
 	
 	dance(danceID) {
@@ -51,17 +52,43 @@ class AvatarDemo extends Group {
 
 		if (animID === undefined) return;
 
-		this.mesh.visible = true;
+		if (this.action) {
+			this.action.stop();
+			this.action.reset();
+		}
+		this.action = this.mixer.clipAction(this.gltf.animations[animID]);
+		this.action.play();
+
 		this.active = true;
+		this.show();
+	}
+
+	resume() {
+		this.action.paused = false;
+		this.active = true;
+		this.show();
 	}
 
 	stop() {
 		this.active = false;
-		this.mesh.visible = false;
+		this.hide();
+	}
+
+	show() {
+		this.mesh.visible = true;
+		gsap.to(this.material, { opacity: 1, duration: 1 })
+	}
+
+	hide() {
+		gsap.to(this.material, { opacity: 0, duration: 1, onComplete: () => {
+			if (this.active) return;
+			this.mesh.visible = false;
+			this.action.paused = true;
+		}})
 	}
 
 	onRender({ dt }) {
-		if (this.mixer && this.active) {
+		if (this.mixer && this.mesh.visible) {
 			this.mixer.update(dt);
 		}
 	}

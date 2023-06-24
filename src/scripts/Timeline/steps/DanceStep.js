@@ -32,7 +32,7 @@ export default class DanceStep extends Step {
 	stop() {
 		this.isRunning = false;
 
-		app.dom.ui.energy.hide();
+		app.dom.ui.energyContainer.hide();
 
 		app.timeline.timer.resetTimer();
 		app.game.stop();
@@ -52,12 +52,12 @@ export default class DanceStep extends Step {
 
 	onEnergyStarted() {
 		if (!this.isRunning) return;
-		app.dom.ui.energy.show();
+		app.dom.ui.energyContainer.show();
 	}
 
 	onEnergyStopped() {
 		if (!this.isRunning) return;
-		app.dom.ui.energy.hide();
+		app.dom.ui.energyContainer.hide();
 	}
 
 	onRender() {

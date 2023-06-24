@@ -2,6 +2,7 @@ attribute float aRandom;
 
 uniform float uSize;
 uniform float uAcceleration;
+uniform float uScale;
 uniform vec2 uVideoBounds;
 
 uniform sampler2D posMap;
@@ -58,7 +59,7 @@ void main() {
       // vec2 st = gl_FragCoord.xy / u_resolution.xy;
 
   // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
-  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w;
+  vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uScale;
   // vec3 transformedPos = position;
   transformedPos = (particleRotation * transformedPos);
   transformedPos.x += positionTexture.x;

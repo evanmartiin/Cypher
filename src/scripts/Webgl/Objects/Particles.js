@@ -1,3 +1,4 @@
+import { gsap } from 'gsap';
 import {
 	BoxGeometry,
 	BufferGeometry,
@@ -42,11 +43,21 @@ export class Particles extends Group {
 	}
 
 	show() {
+		this.active = true;
 		this.visible = true;
+		gsap.to(this._material.uniforms.uScale, { value: 1, duration: 1 });
 	}
 
 	hide() {
-		this.visible = false;
+		this.active = false;
+		gsap.to(this._material.uniforms.uScale, {
+			value: 0,
+			duration: 1,
+			onComplete: () => {
+				if (this.active) return;
+				this.visible = false;
+			},
+		});
 	}
 
 	_createGeometry() {
@@ -100,6 +111,7 @@ export class Particles extends Group {
 				uPixelSortingTexture: { value: pixelSortingTexture },
 				uGlitchTexture: { value: glitchTexture },
 				uVideoBounds: { value: new Vector2(VIDEO_SIZE.width, VIDEO_SIZE.height) },
+				uScale: { value: 0 },
 			},
 			side: DoubleSide,
 			metalness: 0.5,
