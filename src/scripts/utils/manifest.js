@@ -25,13 +25,10 @@ const manifest = {
 		glitch: { path: `${import.meta.env.BASE_URL}assets/textures/glitch.jpg`, priority: 2, callback: null },
 		liquid: { path: `${import.meta.env.BASE_URL}assets/textures/liquid.jpg`, priority: 2, callback: null },
 
-		counter: { path: `${import.meta.env.BASE_URL}assets/textures/counter.png`, priority: 2, callback: null },
-
 		logo: { path: `${import.meta.env.BASE_URL}assets/textures/logo.png`, priority: 2, callback: null },
 
 		carpet: { path: `${import.meta.env.BASE_URL}assets/textures/carpet.png`, priority: 2, callback: null },
-		moves: { path: `${import.meta.env.BASE_URL}assets/textures/moves.png`, priority: 2, callback: null },
-		reactions: { path: `${import.meta.env.BASE_URL}assets/textures/reactions.png`, priority: 2, callback: null },
+		roadrage: { path: `${import.meta.env.BASE_URL}assets/textures/roadrage.png`, priority: 2, callback: null },
 		brushNoise: { path: `${import.meta.env.BASE_URL}assets/textures/brush-noise.png`, priority: 2, callback: null },
 		// ...
 	},

@@ -44,7 +44,7 @@ export default class CounterAnimation extends Group {
 		liquidTexture.wrapS = MirroredRepeatWrapping;
 		liquidTexture.wrapT = MirroredRepeatWrapping;
 
-		const counterTexture = app.core.assetsManager.get('counter');
+		const counterTexture = app.core.assetsManager.get('roadrage');
 
 		return { counterTexture, liquidTexture, glitchTexture, pixelSortingTexture };
 	}

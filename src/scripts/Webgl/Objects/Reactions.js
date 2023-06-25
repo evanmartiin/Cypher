@@ -16,7 +16,7 @@ class Reactions extends Group {
 	}
 
 	onAttach() {
-		const textTex = app.core.assetsManager.get('reactions');
+		const textTex = app.core.assetsManager.get('roadrage');
 
 		const geometry = new PlaneGeometry(4, 1);
 		const lifes = new Float32Array(REACTIONS_NB);

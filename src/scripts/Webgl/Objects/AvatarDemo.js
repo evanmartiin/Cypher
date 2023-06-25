@@ -8,7 +8,6 @@ const ANIM_IDS = {
 	[DANCES.BABY_FREEZE]: 0,
 	[DANCES.BACK_SPIN]: 1,
 	[DANCES.THREE_STEPS]: 2,
-	[DANCES.SIX_STEPS]: 3,
 };
 
 class AvatarDemo extends Group {

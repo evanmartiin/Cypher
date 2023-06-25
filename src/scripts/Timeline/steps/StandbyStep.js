@@ -7,7 +7,7 @@ export default class StandbyStep extends Step {
 		super();
 		state.register(this);
 		this.text = 'Joueur perdu...';
-		this.duration = 3000;
+		this.duration = 5000;
 	}
 
 	start() {
