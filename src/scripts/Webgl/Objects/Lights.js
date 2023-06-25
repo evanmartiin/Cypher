@@ -39,4 +39,14 @@ export class Lights extends Group {
 
 		return { light1, light2, light3, light4, helper1, helper2, helper3 };
 	}
+
+	// THOMA: Exemple de changement de l'environnement en fonction de l'énergie
+	// onEnergyChanged() {
+	// 	this._lights.light1.intensity = app.energy.normalizedCurrent;
+	// }
+
+	// THOMA: Exemple de changement de l'environnement en fonction des fréquences du son
+	// onRender() {
+	// 	this._lights.light1.intensity = app.core.audio.frequencies[0] / 200;
+	// }
 }
