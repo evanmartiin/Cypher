@@ -7,7 +7,7 @@ export default class TrainingStep extends Step {
 	constructor() {
 		super();
 		state.register(this);
-		this.text = 'Prépare-toi !';
+		this.text = 'Échauffement';
 		this.duration = 10000;
 	}
 

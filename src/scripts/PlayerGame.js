@@ -54,6 +54,11 @@ class PlayerGame {
 		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
 	}
 
+	onMidEnergyReached() {
+		if (!this.isRunning) return;
+		app.webgl.scene.reactions.show();
+	}
+
 	onMaxEnergyReached() {
 		if (!this.isRunning) return;
 		this.danceID++;

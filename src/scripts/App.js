@@ -50,9 +50,8 @@ class App {
 
 	handleFirstClick = () => {
 		window.removeEventListener('click', this.handleFirstClick);
+		state.emit(EVENTS.FIRST_CLICK);
 		this.dom.ui.requireSound.hide();
-		this.timeline.start();
-		this.tensorflow.pose.enable();
 	};
 
 	static getInstance() {

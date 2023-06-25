@@ -15,29 +15,37 @@ class PlayerEnergy {
 		this.max = 500;
 
 		this.tutorial = false;
-
 		this.rightWristPos = new Vector2();
 	}
 
 	start() {
 		this.reset();
 		this.active = true;
+		this.reachedMid = false;
+		this.firstMove = true;
 		state.emit(EVENTS.ENERGY_STARTED);
 	}
 
 	stop() {
 		this.active = false;
+		this.reachedMid = false;
 		state.emit(EVENTS.ENERGY_STOPPED);
 	}
 
 	reset() {
 		this.current = 0;
+		this.firstMove = true;
 	}
 
 	add(count) {
 		if (!this.active) return;
 
 		this.current += count;
+
+		if (this.current >= this.max / 2 && !this.reachedMid) {
+			this.reachedMid = true;
+			state.emit(EVENTS.MID_ENERGY_REACHED);
+		}
 
 		if (this.current >= this.max) {
 			this.current = this.max;
@@ -80,7 +88,11 @@ class PlayerEnergy {
 		V2.x = rig.keypoints[POSE.RIGHT_WRIST].x;
 		V2.y = rig.keypoints[POSE.RIGHT_WRIST].y;
 
-		this.add(V2.distanceTo(this.rightWristPos));
+		if (this.firstMove) {
+			this.firstMove = false;
+		} else {
+			this.add(V2.distanceTo(this.rightWristPos));
+		}
 
 		this.rightWristPos.copy(V2);
 	}
