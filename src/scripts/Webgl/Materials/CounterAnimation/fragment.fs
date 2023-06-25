@@ -22,7 +22,7 @@ void main() {
     vec4 pixelSortingTex = texture2D(uPixelSortingTexture, rotatedUvs * 0.2);
     vec4 liquidTex = texture2D(uLiquidTexture, rotatedUvs2 * 0.3);
 
-    vec4 number = texture2D(uNumberTexture, vUv);
+    float number = texture2D(uNumberTexture, vUv).r;
 
     float progress = uProgress;
 
@@ -38,8 +38,8 @@ void main() {
 
     progress = smoothstep(progress - 0.5, progress, dist);
 
-    vec4 render = mix(number, vec4(0.0), progress);
+    float render = mix(number, 0., progress);
 
     gl_FragColor = vec4(vec3(pixelSortingTex.r), 1.0);
-    gl_FragColor = render;
+    gl_FragColor = vec4(render);
 }

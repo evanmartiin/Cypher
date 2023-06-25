@@ -11,7 +11,7 @@ const TITLE_IDS = {
 	[DANCES.BABY_FREEZE]: 0,
 	[DANCES.BACK_SPIN]: 1,
 	[DANCES.THREE_STEPS]: 2,
-	[DANCES.SIX_STEPS]: 3,
+	FREESTYLE: 3,
 };
 
 class Title extends Group {
@@ -21,7 +21,7 @@ class Title extends Group {
 	}
 
 	onAttach() {
-		const textTex = app.core.assetsManager.get('moves');
+		const textTex = app.core.assetsManager.get('roadrage');
 		const noiseTex = app.core.assetsManager.get('noise');
 		const brushNoiseTex = app.core.assetsManager.get('brushNoise');
 

@@ -19,7 +19,7 @@ void main() {
     float brushNoise = texture2D(tBrushNoise, vUv + vec2(0., noise * 0.2)).r;
     brushNoise = map(brushNoise, 0., 1., 0.2, 0.8);
 
-    float text = texture2D(tTex, vTextureUv).r;
+    float text = texture2D(tTex, vTextureUv).b;
 
     float anim = step(uTransition, brushNoise);
 

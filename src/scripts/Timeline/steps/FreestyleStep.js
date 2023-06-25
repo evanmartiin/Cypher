@@ -16,6 +16,7 @@ export default class FreestyleStep extends Step {
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true);
 		app.tools.recorder.start();
+		app.webgl.scene.title.show('FREESTYLE');
 	}
 
 	stop() {
@@ -28,6 +29,7 @@ export default class FreestyleStep extends Step {
 		app.webgl.scene._particles.hide();
 		app.webgl.camera.exit();
 		app.webgl.postProcessing.blurPass.enable();
+		app.webgl.scene.title.stop();
 	}
 
 	save() {
