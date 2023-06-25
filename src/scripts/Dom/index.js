@@ -1,12 +1,12 @@
-import { Cursor } from './Cursor.js';
+import { Cursors } from './Cursors.js';
 import { Ui } from './Ui.js';
 
 function createDomModules() {
-	const cursor = new Cursor();
+	const cursors = new Cursors();
 	const ui = new Ui();
 
 	return {
-		cursor,
+		cursors,
 		ui,
 	};
 }

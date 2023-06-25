@@ -1,5 +1,10 @@
-import { EVENTS } from '@utils/constants.js';
+import { EVENTS, POSE } from '@utils/constants.js';
 import { state } from './State.js';
+import { assertIsInCamera } from '@utils/assertions.js';
+import { Vector2 } from 'three';
+import { app } from './App.js';
+
+const V2 = new Vector2();
 
 class PlayerEnergy {
 	constructor() {
@@ -8,6 +13,10 @@ class PlayerEnergy {
 		this.current = 0;
 		this.normalizedCurrent = 0;
 		this.max = 500;
+
+		this.tutorial = false;
+
+		this.rightWristPos = new Vector2();
 	}
 
 	start() {
@@ -32,6 +41,7 @@ class PlayerEnergy {
 
 		if (this.current >= this.max) {
 			this.current = this.max;
+			if (this.tutorial) return;
 			state.emit(EVENTS.MAX_ENERGY_REACHED);
 			this.reset();
 		}
@@ -59,6 +69,20 @@ class PlayerEnergy {
 		if (!this.active) return;
 
 		this.remove(dt * 500);
+
+		app.dom.ui.energy.node.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${this.normalizedCurrent * 100}%, rgba(255,255,255,0) ${this.normalizedCurrent * 100}%)`;
+	}
+
+	onPlayerMoved(rig) {
+		if (!this.active) return;
+		if (!assertIsInCamera(rig.keypoints[POSE.RIGHT_WRIST])) return;
+
+		V2.x = rig.keypoints[POSE.RIGHT_WRIST].x;
+		V2.y = rig.keypoints[POSE.RIGHT_WRIST].y;
+
+		this.add(V2.distanceTo(this.rightWristPos));
+
+		this.rightWristPos.copy(V2);
 	}
 }
 

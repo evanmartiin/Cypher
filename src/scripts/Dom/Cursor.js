@@ -1,23 +1,18 @@
 import { Vector2 } from 'three';
-import { UI_IDS } from '@Core/audio/AudioManager.js';
 import Signal from '@utils/Signal.js';
 import { assertIsInCamera } from '@utils/assertions.js';
-import { POSE } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
+import { UiElement } from './UiElement.js';
 
-const MAGNET_DISTANCE = 100;
-
-class Cursor {
-	constructor() {
+class Cursor extends UiElement {
+	constructor(bone, node) {
+		super(node);
 		state.register(this);
 
-		this.startDOM = document.getElementsByClassName('start')[0];
-
-		this.cursorDOM = document.createElement('div');
-		this.cursorDOM.classList.add('custom-cursor', 'hide');
-		app.$root.appendChild(this.cursorDOM);
+		this.bone = bone;
+		this.node = node;
 
 		this.pos = new Vector2();
 		this.targetPos = new Vector2();
@@ -26,64 +21,59 @@ class Cursor {
 		this.exitHover = new Signal();
 
 		this.active = false;
-		this.hovered = false;
+		this.hoveredButton = undefined;
+
+		this.buttons = [];
+	}
+
+	onAttach() {
+		for (const key in app.dom.ui) {
+			if (Object.hasOwnProperty.call(app.dom.ui, key)) {
+				if (app.dom.ui[key].constructor.name === 'Button') this.buttons.push(app.dom.ui[key]);
+			}
+		}
 	}
 
 	enable() {
 		this.active = true;
-		this.show();
+		super.show();
 	}
 
 	disable() {
 		this.active = false;
-		this.hide();
-
-		this.enterHover.release();
-		this.exitHover.release();
-	}
-
-	show() {
-		this.cursorDOM.classList.remove('hide');
-		this.startDOM.classList.add('show');
-	}
-
-	hide() {
-		this.cursorDOM.classList.add('hide');
-		this.startDOM.classList.remove('show');
+		super.hide();
 	}
 
 	onPlayerMoved(rig) {
 		if (!this.active) return;
 
-		const rawPos = rig.keypoints[POSE.RIGHT_WRIST];
+		const rawPos = rig.keypoints[this.bone];
 
 		if (!assertIsInCamera(rawPos)) {
-			if (!this.cursorDOM.classList.contains('hide')) this.cursorDOM.classList.add('hide');
+			if (!this.node.classList.contains('hide')) super.hide();
 			return;
 		} else {
-			if (this.cursorDOM.classList.contains('hide')) this.cursorDOM.classList.remove('hide');
+			if (this.node.classList.contains('hide')) super.show();
 		}
 
 		this.targetPos.x = app.tools.viewport.width - (rawPos.x / VIDEO_SIZE.width) * app.tools.viewport.width;
 		this.targetPos.y = (rawPos.y / VIDEO_SIZE.height) * app.tools.viewport.height;
 
-		if (this.getDistanceFromCursor(this.startDOM) < MAGNET_DISTANCE) {
-			this.targetPos.x = app.tools.viewport.width / 2;
-			this.targetPos.y = app.tools.viewport.height / 2;
+		const hoveredButton = this.buttons
+			.filter((button) => button.active)
+			.map((button) => button.isHovering(this.targetPos) && button)
+			.filter((v) => v)[0];
 
-			if (!this.hovered) {
-				this.hovered = true;
-				this.enterHover.emit();
-				app.core.audio.playUI(UI_IDS.CURSOR);
-				this.startDOM.classList.add('hovered');
-			}
-		} else {
-			this.startDOM.classList.remove('hovered');
+		if (hoveredButton !== this.hoveredButton) {
+			if (hoveredButton) this.enterHover.emit();
+			else this.exitHover.emit();
+		}
 
-			if (this.hovered) {
-				this.hovered = false;
-				this.exitHover.emit();
-			}
+		this.hoveredButton = hoveredButton;
+
+		if (this.hoveredButton) {
+			this.targetPos.x = this.hoveredButton.position.x;
+			this.targetPos.y = this.hoveredButton.position.y;
 		}
 	}
 
@@ -92,21 +82,7 @@ class Cursor {
 		if (this.pos.distanceTo(this.targetPos) < 3) return;
 
 		this.pos.lerp(this.targetPos, 0.05);
-		this.cursorDOM.style.transform = `translateX(calc(${this.pos.x}px - 50%)) translateY(calc(${this.pos.y}px - 50%))`;
-	}
-
-	getPositionAtCenter(element) {
-		const { top, left, width, height } = element.getBoundingClientRect();
-		return {
-			x: left + width / 2,
-			y: top + height / 2,
-		};
-	}
-
-	getDistanceFromCursor(element) {
-		const elementPosition = this.getPositionAtCenter(element);
-
-		return Math.hypot(elementPosition.x - this.targetPos.x, elementPosition.y - this.targetPos.y);
+		this.node.style.transform = `translateX(calc(${this.pos.x}px - 50%)) translateY(calc(${this.pos.y}px - 50%))`;
 	}
 }
 

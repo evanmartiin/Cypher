@@ -83,7 +83,7 @@ class AvatarDemo extends Group {
 		gsap.to(this.material, { opacity: 0, duration: 1, onComplete: () => {
 			if (this.active) return;
 			this.mesh.visible = false;
-			this.action.paused = true;
+			if (this.action) this.action.paused = true;
 		}})
 	}
 
