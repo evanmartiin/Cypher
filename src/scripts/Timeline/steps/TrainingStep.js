@@ -48,6 +48,8 @@ export default class TrainingStep extends Step {
 		app.webgl.scene._particles.show();
 		app.webgl.postProcessing.blurPass.disable();
 		app.webgl.scene.carpet.show();
+
+		app.tensorflow.show();
 	}
 
 	stop() {

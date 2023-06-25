@@ -27,13 +27,16 @@ export default class StandbyStep extends Step {
 	abort() {
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
+		app.webgl.camera.enter();
+		app.webgl.postProcessing.blurPass.disable();
+
+		if (app.timeline.current.constructor.name === 'TutorialStep') return;
+
 		if (app.timeline.current.constructor.name !== 'TrainingStep') app.tensorflow.hide();
 
 		app.webgl.scene.avatar.enableControl();
 		app.webgl.scene.carpet.show();
 		app.webgl.scene._particles.show();
-		app.webgl.camera.enter();
-		app.webgl.postProcessing.blurPass.disable();
 	}
 
 	stop() {

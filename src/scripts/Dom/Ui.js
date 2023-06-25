@@ -1,3 +1,6 @@
+import { app } from '@scripts/App.js';
+import { Button } from './Button.js';
+import { Text } from './Text.js';
 import { UiElement } from './UiElement.js';
 
 class Ui {
@@ -12,6 +15,16 @@ class Ui {
 		this.energyContainer = new UiElement(document.getElementById('energy-container'));
 		this.energy = new UiElement(document.getElementById('energy'));
 		this.requireSound = new UiElement(document.getElementById('require-sound'));
+		this.tutorialLight = new UiElement(document.getElementById('tutorial-light'));
+
+		this.bottomText = new Text(document.getElementById('bottom-text'));
+
+		this.tutoNoButton = new Button(document.getElementsByClassName('start')[0], () => {
+			app.timeline.next();
+			app.timeline.next();
+		});
+		this.tutoYesButton = new Button(document.getElementsByClassName('start-tutorial')[0], () => app.timeline.next());
+		this.tutoEndButton = new Button(document.getElementsByClassName('end-tutorial')[0], () => app.timeline.next());
 	}
 }
 
