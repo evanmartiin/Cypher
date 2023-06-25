@@ -53,9 +53,20 @@ class AudioManager {
 
 	constructor() {
 		state.register(this);
+
+		this.frequencies = [];
+		this.analyser;
+		this.frequencyData;
+	}
+
+	onFirstClick() {
+		this.audioContext = new window.AudioContext();
+
 		Howler.autoSuspend = false;
 		Howler.html5PoolSize = 0;
 		Howler.usingWebAudio = true;
+
+		Howler.volume(1);
 
 		// @ts-ignore
 		SOUNDS_MUSIC.sources.forEach((music) => {
@@ -68,22 +79,8 @@ class AudioManager {
 			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: false, volume: UI_VOLUME }));
 		});
 
-		Howler.volume(0);
-
-		//AudioContext
-		this.audioContext = new window.AudioContext();
-		this.frequencies = [];
-		this.analyser;
-		this.frequencyData;
-
-		window.addEventListener('click', this.setCanPlay);
-	}
-
-	setCanPlay = () => {
-		window.removeEventListener('click', this.setCanPlay);
 		this.canPlay = true;
-		Howler.volume(1);
-	};
+	}
 
 	setMute(flag) {
 		Howler.volume(flag ? 0 : 1);

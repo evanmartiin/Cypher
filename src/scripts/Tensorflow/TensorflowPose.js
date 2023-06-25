@@ -12,7 +12,12 @@ const UNDETECTION_THRESHOLD = 0.5;
 
 class TensorflowPose {
 	constructor() {
+		state.register(this);
 		this.asyncInit();
+	}
+
+	onFirstClick() {
+		this.enable();
 	}
 
 	enable() {

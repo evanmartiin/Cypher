@@ -13,6 +13,7 @@ let i = 0;
 const EVENTS = {
 	LOADER_PROGRESS: i++,
 
+	FIRST_CLICK: i++,
 	ATTACH: i++,
 	RESIZE: i++,
 
@@ -32,6 +33,7 @@ const EVENTS = {
 	PLAYER_MOVED_ENOUGH: i++,
 
 	MAX_ENERGY_REACHED: i++,
+	MID_ENERGY_REACHED: i++,
 	ENERGY_STARTED: i++,
 	ENERGY_STOPPED: i++,
 	ENERGY_CHANGED: i++,

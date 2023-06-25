@@ -1,11 +1,11 @@
 import { gsap } from 'gsap';
 import { Group, Mesh, PlaneGeometry, ShaderMaterial } from 'three';
+import { UI_IDS } from '@Core/audio/AudioManager.js';
 import fragmentShader from '@Webgl/Materials/Title/fragment.fs';
 import vertexShader from '@Webgl/Materials/Title/vertex.vs';
 import { DANCES } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { UI_IDS } from '@Core/audio/AudioManager.js';
 
 const TITLE_IDS = {
 	[DANCES.BABY_FREEZE]: 0,
@@ -62,7 +62,7 @@ class Title extends Group {
 		this.material.uniforms.uReverse.value = false;
 		this.material.uniforms.uTextureOffset.value = titleID;
 
-		app.core.audio.playUI(UI_IDS.TEXT_APPARITION)
+		app.core.audio.playUI(UI_IDS.TEXT_APPARITION);
 
 		gsap.to(this.material.uniforms.uTransition, {
 			value: 1,

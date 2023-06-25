@@ -16,8 +16,6 @@ export default class DanceStep extends Step {
 
 		app.dom.ui.title.node.innerHTML = this.text;
 
-		//TODO: Faire spawn des mots random avec des encouragements
-
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true);
 		app.game.start();
 	}

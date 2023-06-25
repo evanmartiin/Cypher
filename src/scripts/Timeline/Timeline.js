@@ -21,6 +21,10 @@ class Timeline {
 		else this.nextDOM.style.display = 'none';
 	}
 
+	onFirstClick() {
+		this.start();
+	}
+
 	onAttach() {
 		/// #if DEBUG
 		if (app.tools.urlParams.has('step')) {
