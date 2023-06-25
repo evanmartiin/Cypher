@@ -1,7 +1,7 @@
 export default {
 	build: {
 		rollupOptions: {
-			external: ['@tensorflow/tfjs-core'],
+			external: ['@tensorflow-models/pose-detection', '@tensorflow/tfjs-core'],
 		},
 	},
 };
