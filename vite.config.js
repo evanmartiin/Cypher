@@ -1,7 +1,13 @@
-export default {
+import { defineConfig } from 'vite';
+
+export default defineConfig({
 	build: {
 		rollupOptions: {
-			external: ['@tensorflow-models/pose-detection', '@tensorflow/tfjs-core'],
+			manualChunks(id) {
+				if (id.includes('@tensorflow/tfjs-core')) {
+					return 'tensorflow';
+				}
+			},
 		},
 	},
-};
+});
