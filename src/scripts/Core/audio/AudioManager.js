@@ -134,6 +134,7 @@ class AudioManager {
 			this.currentAmbient = this._musics.get(name);
 			this.currentAmbientName = name;
 			this.currentAmbientId = this.fadeIn(this.currentAmbientName, MUSIC_VOLUME, 1000);
+			this.initFrequencies(name);
 		}
 	}
 

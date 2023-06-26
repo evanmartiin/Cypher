@@ -1,4 +1,3 @@
-import { makeZerosNestedTypedArray } from '@tensorflow/tfjs-core/dist/util_base.js';
 import { Box3, BoxGeometry, MathUtils, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, Texture, Vector3, Vector4, ZeroStencilOp } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import positionShader from '@Webgl/Materials/Particles/simulation/positionShader.fs';
