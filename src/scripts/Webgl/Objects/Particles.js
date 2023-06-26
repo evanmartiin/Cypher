@@ -61,9 +61,9 @@ export class Particles extends Group {
 	}
 
 	_createGeometry() {
-		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
+		const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
 		// const baseGeometry = new BoxGeometry(1, 1, 1, 1);
-		const baseGeometry = new OctahedronGeometry(1, 0);
+		// const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = new SphereGeometry();
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
 		baseGeometry.scale(2, 2, 2);
