@@ -72,8 +72,8 @@ class Cursor extends UiElement {
 		this.hoveredButton = hoveredButton;
 
 		if (this.hoveredButton) {
-			this.targetPos.x = this.hoveredButton.position.x;
-			this.targetPos.y = this.hoveredButton.position.y;
+			this.targetPos.x = this.hoveredButton.position.x + 50;
+			this.targetPos.y = this.hoveredButton.position.y + 50;
 		}
 	}
 

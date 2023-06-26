@@ -148,7 +148,6 @@
 	z-index: 10;
 	transition: opacity 0.5s ease-in-out;
 	opacity: 1;
-	mix-blend-mode: difference;
 
 	img {
 		left: 50%;
@@ -163,12 +162,18 @@
 	}
 }
 
-.start {
+.left-cursor {
+	img {
+		transform: translate(-50%, -50%) rotateY(180deg);
+	}
+}
+
+.start-game {
+	position: absolute;
+	top: 40vh;
+	left: 30vw;
 	width: 75px;
 	height: 75px;
-	position: absolute;
-	top: 35vh;
-	left: 60vw;
 	transform: translateX(-50%) translateY(-50%);
 	z-index: 10;
 	display: flex;
@@ -179,35 +184,39 @@
 	font-family: 'ModernGothic';
 	text-transform: uppercase;
 
-	span {
-		width: 80px;
-		height: 85px;
-		margin-left: 6px;
-		border-radius: 100%;
+	img {
 		position: absolute;
+		width: 100px;
+	}
+
+	.hovering {
+		position: absolute;
+		width: 83px;
+		height: 83px;
 		background-color: white;
+		border-radius: 50%;
+		transform: scale(0%);
 		mix-blend-mode: difference;
 	}
 
-	svg {
-		position: absolute;
+	&.hovered {
+		.hovering {
+			transform: scale(100%);
+			transition: transform 2s ease-in-out;
+		}
 	}
 
 	&.hide {
 		opacity: 0;
-	}
-
-	&.hovered {
-		// background-color: green;
 	}
 }
 
 .start-tutorial {
+	position: absolute;
+	top: 40vh;
+	left: 70vw;
 	width: 75px;
 	height: 75px;
-	position: absolute;
-	top: 65vh;
-	left: 60vw;
 	transform: translateX(-50%) translateY(-50%);
 	z-index: 10;
 	display: flex;
@@ -218,49 +227,116 @@
 	font-family: 'ModernGothic';
 	text-transform: uppercase;
 
-	span {
-		width: 80px;
-		height: 85px;
-		margin-left: 6px;
-		border-radius: 100%;
+	img {
 		position: absolute;
+		width: 100px;
+	}
+
+	.hovering {
+		position: absolute;
+		width: 83px;
+		height: 83px;
 		background-color: white;
+		border-radius: 50%;
+		transform: scale(0%);
 		mix-blend-mode: difference;
 	}
 
-	svg {
-		position: absolute;
+	&.hovered {
+		.hovering {
+			transform: scale(100%);
+			transition: transform 2s ease-in-out;
+		}
 	}
 
 	&.hide {
 		opacity: 0;
 	}
-
-	&.hovered {
-		// background-color: green;
-	}
 }
 
 .end-tutorial {
-	width: 75px;
-	height: 75px;
-	background-color: blue;
 	position: absolute;
 	top: 50vh;
-	left: 70vw;
+	left: 75vw;
+	width: 75px;
+	height: 75px;
 	transform: translateX(-50%) translateY(-50%);
 	z-index: 10;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	transition: opacity 0.5s ease-in-out;
+	font-size: 15px;
+	font-family: 'ModernGothic';
+	text-transform: uppercase;
+
+	img {
+		position: absolute;
+		width: 150px;
+	}
+
+	.hovering {
+		position: absolute;
+		width: 120px;
+		height: 120px;
+		background-color: white;
+		border-radius: 50%;
+		transform: scale(0%);
+		mix-blend-mode: difference;
+	}
+
+	&.hovered {
+		.hovering {
+			transform: scale(100%);
+			transition: transform 2s ease-in-out;
+		}
+	}
 
 	&.hide {
 		opacity: 0;
 	}
+}
+
+.skip-tutorial {
+	position: absolute;
+	top: 50vh;
+	left: 75vw;
+	width: 75px;
+	height: 75px;
+	transform: translateX(-50%) translateY(-50%);
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.5s ease-in-out;
+	font-size: 15px;
+	font-family: 'ModernGothic';
+	text-transform: uppercase;
+
+	img {
+		position: absolute;
+		width: 150px;
+	}
+
+	.hovering {
+		position: absolute;
+		width: 120px;
+		height: 120px;
+		background-color: white;
+		border-radius: 50%;
+		transform: scale(0%);
+		mix-blend-mode: difference;
+	}
 
 	&.hovered {
-		background-color: green;
+		.hovering {
+			transform: scale(100%);
+			transition: transform 2s ease-in-out;
+		}
+	}
+
+	&.hide {
+		opacity: 0;
 	}
 }
 

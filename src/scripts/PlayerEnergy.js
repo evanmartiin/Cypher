@@ -1,10 +1,11 @@
-import { EVENTS, POSE } from '@utils/constants.js';
-import { state } from './State.js';
-import { assertIsInCamera } from '@utils/assertions.js';
 import { Vector2 } from 'three';
+import { assertIsInCamera } from '@utils/assertions.js';
+import { EVENTS, POSE } from '@utils/constants.js';
 import { app } from './App.js';
+import { state } from './State.js';
 
-const V2 = new Vector2();
+const V2A = new Vector2();
+const V2B = new Vector2();
 
 class PlayerEnergy {
 	constructor() {
@@ -12,17 +13,16 @@ class PlayerEnergy {
 
 		this.current = 0;
 		this.normalizedCurrent = 0;
-		this.max = 500;
+		this.max = 5000;
 
 		this.tutorial = false;
-		this.rightWristPos = new Vector2();
 	}
 
-	start() {
+	start(max) {
 		this.reset();
 		this.active = true;
 		this.reachedMid = false;
-		this.firstMove = true;
+		if (max) this.max = max;
 		state.emit(EVENTS.ENERGY_STARTED);
 	}
 
@@ -34,7 +34,6 @@ class PlayerEnergy {
 
 	reset() {
 		this.current = 0;
-		this.firstMove = true;
 	}
 
 	add(count) {
@@ -73,28 +72,36 @@ class PlayerEnergy {
 		state.emit(EVENTS.ENERGY_CHANGED, this.normalizedCurrent);
 	}
 
-	onRender({ dt }) {
+	onRender() {
 		if (!this.active) return;
-
-		this.remove(dt * 500);
 
 		app.dom.ui.energy.node.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${this.normalizedCurrent * 100}%, rgba(255,255,255,0) ${this.normalizedCurrent * 100}%)`;
 	}
 
 	onPlayerMoved(rig) {
 		if (!this.active) return;
-		if (!assertIsInCamera(rig.keypoints[POSE.RIGHT_WRIST])) return;
 
-		V2.x = rig.keypoints[POSE.RIGHT_WRIST].x;
-		V2.y = rig.keypoints[POSE.RIGHT_WRIST].y;
+		if (this.previousKeypoints) {
+			let totalDistance = 0;
+			let bonesInCamera = 0;
 
-		if (this.firstMove) {
-			this.firstMove = false;
-		} else {
-			this.add(V2.distanceTo(this.rightWristPos));
+			Object.values(POSE).forEach((pose) => {
+				if (assertIsInCamera(rig.keypoints[pose])) {
+					V2A.x = rig.keypoints[POSE.RIGHT_WRIST].x;
+					V2A.y = rig.keypoints[POSE.RIGHT_WRIST].y;
+					V2B.x = this.previousKeypoints[POSE.RIGHT_WRIST].x;
+					V2B.y = this.previousKeypoints[POSE.RIGHT_WRIST].y;
+					totalDistance += V2A.distanceTo(V2B);
+					bonesInCamera++;
+				}
+			});
+
+			if (bonesInCamera === 0) return;
+
+			this.add(Math.min(totalDistance / bonesInCamera, 30));
 		}
 
-		this.rightWristPos.copy(V2);
+		this.previousKeypoints = rig.keypoints;
 	}
 }
 

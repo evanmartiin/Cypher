@@ -5,6 +5,8 @@ import { state } from './State.js';
 // Timing in seconds
 const DELAY_BEFORE_ENERGY = 2;
 
+const DIFFICULTY = [1000, 2000, 4000, 7000, 11000, 16000, 22000];
+
 class PlayerGame {
 	constructor() {
 		state.register(this);
@@ -13,10 +15,12 @@ class PlayerGame {
 
 		this.timer = 0;
 		this.danceID = 0;
+		this.level = 0;
 	}
 
 	start() {
 		this.isRunning = true;
+		this.level = 0;
 		this.newPhase();
 	}
 
@@ -29,6 +33,7 @@ class PlayerGame {
 	}
 
 	newPhase() {
+		this.level++;
 		app.webgl.scene.avatarDemo.dance(Object.values(DANCES)[this.danceID]);
 		app.webgl.scene.carpet.show();
 		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
@@ -40,7 +45,7 @@ class PlayerGame {
 			danceID: this.danceID,
 			timer: this.timer,
 			energyActive: app.energy.active,
-		}
+		};
 	}
 
 	restore(save) {
@@ -78,7 +83,7 @@ class PlayerGame {
 		if (app.webgl.scene.avatarDemo.active) {
 			this.timer += dt;
 			if (this.timer >= DELAY_BEFORE_ENERGY && !app.energy.active) {
-				app.energy.start();
+				app.energy.start(DIFFICULTY[this.level]);
 			}
 		}
 	}
