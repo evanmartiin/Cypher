@@ -21,6 +21,8 @@ export default class TutorialStep extends Step {
 
 		app.dom.ui.tutorialLight.show();
 		app.dom.ui.bottomText.show();
+		app.dom.ui.tutoSkipButton.show();
+		app.dom.cursors.enable();
 
 		this.timeline = gsap.timeline();
 		this.timeline.to(this, {
@@ -105,8 +107,8 @@ export default class TutorialStep extends Step {
 				delay: 1,
 				onStart: () => {
 					app.dom.ui.bottomText.showText('Alors, prêt ?');
-					app.dom.cursors.enable();
 					app.dom.ui.tutoEndButton.show();
+					app.dom.ui.tutoSkipButton.hide();
 				},
 			},
 			'>',
@@ -123,6 +125,7 @@ export default class TutorialStep extends Step {
 		app.energy.stop();
 		app.energy.tutorial = false;
 		app.webgl.scene.avatarDemo.stop();
+		app.dom.ui.tutoSkipButton.hide();
 	}
 
 	save() {

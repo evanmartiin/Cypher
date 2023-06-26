@@ -4,8 +4,8 @@ import SOUNDS_MUSIC from './musics.json';
 // import SOUNDS_UI from './ui-spritesheet.json';
 import SOUNDS_UI from './ui.json';
 
-const MUSIC_VOLUME = 0.2;
-const UI_VOLUME = 1;
+const MUSIC_VOLUME = 0.5;
+const UI_VOLUME = 0.7;
 
 export const MUSIC_IDS = {
 	MUSIC_ATTENTE: 'music_attente',

@@ -19,12 +19,13 @@ class Ui {
 
 		this.bottomText = new Text(document.getElementById('bottom-text'));
 
-		this.tutoNoButton = new Button(document.getElementsByClassName('start')[0], () => {
+		this.tutoNoButton = new Button(document.getElementsByClassName('start-game')[0], () => {
 			app.timeline.next();
 			app.timeline.next();
 		});
 		this.tutoYesButton = new Button(document.getElementsByClassName('start-tutorial')[0], () => app.timeline.next());
 		this.tutoEndButton = new Button(document.getElementsByClassName('end-tutorial')[0], () => app.timeline.next());
+		this.tutoSkipButton = new Button(document.getElementsByClassName('skip-tutorial')[0], () => app.timeline.next());
 	}
 }
 

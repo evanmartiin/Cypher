@@ -7,8 +7,8 @@ import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from './TensorflowCamera.js';
 
 const DISTANCE_THRESHOLD = 0.035;
-const DETECTION_THRESHOLD = 0.6;
-const UNDETECTION_THRESHOLD = 0.5;
+const DETECTION_THRESHOLD = 0.4;
+const UNDETECTION_THRESHOLD = 0.3;
 
 class TensorflowPose {
 	constructor() {

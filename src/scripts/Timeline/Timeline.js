@@ -23,6 +23,14 @@ class Timeline {
 
 	onFirstClick() {
 		this.start();
+
+		/// #if DEBUG
+		if (this.requestedStep) {
+			while (this.current.constructor.name.slice(0, -4).toLowerCase() !== this.requestedStep) {
+				this.next();
+			}
+		}
+		/// #endif
 	}
 
 	onAttach() {
@@ -31,9 +39,7 @@ class Timeline {
 			const loweredSteps = STEPS.map((Step) => Step.name.slice(0, -4).toLowerCase());
 			const requestedStep = app.tools.urlParams.getString('step').toLowerCase();
 			if (loweredSteps.includes(requestedStep)) {
-				while (this.current.constructor.name.slice(0, -4).toLowerCase() !== requestedStep) {
-					this.next();
-				}
+				this.requestedStep = requestedStep;
 			}
 		}
 		/// #endif
