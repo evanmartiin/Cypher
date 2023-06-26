@@ -15,10 +15,37 @@ const manifest = {
 		groundNormal: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/normal.jpg`, priority: 2, callback: null },
 		groundBase: { path: `${import.meta.env.BASE_URL}assets/textures/ground3/base.jpg`, priority: 2, callback: null },
 
-		sceneBase: { path: `${import.meta.env.BASE_URL}assets/textures/scene/base.jpg`, priority: 2, callback: null },
-		sceneNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/normal.jpg`, priority: 2, callback: null },
-		sceneRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/roughness.jpg`, priority: 2, callback: null },
-		sceneAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ao.jpg`, priority: 2, callback: null },
+		sceneDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/env/diffuse.png`, priority: 2, callback: null },
+		sceneNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/env/normal.png`, priority: 2, callback: null },
+		sceneRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/env/roughness.png`, priority: 2, callback: null },
+		sceneAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/env/ao.png`, priority: 2, callback: null },
+
+		rampeDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/rampe/diffuse.png`, priority: 2, callback: null },
+		rampeNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/rampe/normal.png`, priority: 2, callback: null },
+
+		enceintesDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/enceintes/diffuse.png`, priority: 2, callback: null },
+		enceintesNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/enceintes/normal.png`, priority: 2, callback: null },
+		enceintesRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/enceintes/roughness.png`, priority: 2, callback: null },
+
+		bombeDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/bombe/diffuse.png`, priority: 2, callback: null },
+		bombeNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/bombe/normal.png`, priority: 2, callback: null },
+
+		compteurDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/compteur/diffuse.png`, priority: 2, callback: null },
+		compteurNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/compteur/normal.png`, priority: 2, callback: null },
+		compteurRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/compteur/roughness.png`, priority: 2, callback: null },
+
+		logoDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/logo/diffuse.png`, priority: 2, callback: null },
+		logoRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/logo/roughness.png`, priority: 2, callback: null },
+		logoNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/logo/normal.png`, priority: 2, callback: null },
+
+		skateDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/skate/diffuse.png`, priority: 2, callback: null },
+		skateRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/skate/roughness.png`, priority: 2, callback: null },
+		skateNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/skate/normal.png`, priority: 2, callback: null },
+
+		bancDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/banc/diffuse.png`, priority: 2, callback: null },
+		bancRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/banc/roughness.png`, priority: 2, callback: null },
+		bancNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/banc/normal.png`, priority: 2, callback: null },
+		bancAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/banc/ao.png`, priority: 2, callback: null },
 
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg`, priority: 2, callback: null },
 		pixelSorting: { path: `${import.meta.env.BASE_URL}assets/textures/pixelSorting.jpg`, priority: 2, callback: null },
@@ -30,6 +57,8 @@ const manifest = {
 		carpet: { path: `${import.meta.env.BASE_URL}assets/textures/carpet.png`, priority: 2, callback: null },
 		roadrage: { path: `${import.meta.env.BASE_URL}assets/textures/roadrage.png`, priority: 2, callback: null },
 		brushNoise: { path: `${import.meta.env.BASE_URL}assets/textures/brush-noise.png`, priority: 2, callback: null },
+
+		rampeTexture: { path: `${import.meta.env.BASE_URL}assets/textures/rampe.png`, priority: 2, callback: null },
 		// ...
 	},
 	envMaps: {
@@ -41,6 +70,8 @@ const manifest = {
 		// cube: { path: `${import.meta.env.BASE_URL}assets/models/cube.glb`, priority: 1, callback: null },
 		scene: { path: `${import.meta.env.BASE_URL}assets/models/env.glb`, priority: 1, callback: null },
 		sceneTex: { path: `${import.meta.env.BASE_URL}assets/models/envTex.glb`, priority: 1, callback: null },
+		rampe: { path: `${import.meta.env.BASE_URL}assets/models/rampe.glb`, priority: 1, callback: null },
+		finalScene: { path: `${import.meta.env.BASE_URL}assets/models/finalEnv.glb`, priority: 1, callback: null },
 		collider: { path: `${import.meta.env.BASE_URL}assets/models/collider.glb`, priority: 1, callback: null },
 		// ...
 	},

@@ -20,7 +20,7 @@ export class Lights extends Group {
 
 		const helper1 = new PointLightHelper(light1, 1);
 
-		const light2 = new PointLight('#ff7c00', 1);
+		const light2 = new PointLight('#aee8a8', 1);
 		// const light2 = new PointLight('#ffffff', 0.5);
 		light2.position.set(7.4, 10, 0);
 

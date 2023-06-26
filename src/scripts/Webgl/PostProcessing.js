@@ -28,9 +28,9 @@ class PostProcessing {
 		this.blurPass = new BlurPass();
 		this._effectComposer.addPass(this.blurPass);
 
-		this._fishEyesPass = this._addFishEyesPass(camera);
+		// this._fishEyesPass = this._addFishEyesPass(camera);
 		this._afterImagePass = this._addAfterImagePass();
-		this._SMAAPass = this._addSMAAPass();
+		// this._SMAAPass = this._addSMAAPass();
 
 		// this._addRenderPass(this.sceneWithoutPP, camera);
 
