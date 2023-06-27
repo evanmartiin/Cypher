@@ -1,30 +1,23 @@
-import { Box3, BoxGeometry, MathUtils, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, Texture, Vector3, Vector4, ZeroStencilOp } from 'three';
+import { Box3, BoxGeometry, MathUtils, Mesh, MeshNormalMaterial, MeshStandardMaterial, Vector3, Vector4, ZeroStencilOp } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
-import positionShader from '@Webgl/Materials/Particles/simulation/positionShader.fs';
-import velocityShader from '@Webgl/Materials/Particles/simulation/velocityShader.fs';
-import Simulation from '@Webgl/Objects/FluidSim/Simulation.js';
+import positionShader from '@Webgl/Materials/FreestyleParticles/simulation/positionShader.fs';
+import velocityShader from '@Webgl/Materials/FreestyleParticles/simulation/velocityShader.fs';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import RigCoords from './RigCoords.js';
-import { globalUniforms } from './globalUniforms.js';
+import { globalUniforms } from '../../../utils/globalUniforms.js';
 
 const NUM_CUBES = 1;
 
 export class GPUSimulation {
-	constructor(renderer, size, coords, acceleration) {
-		state.register(this);
-
+	constructor(renderer, size, coords) {
 		this.renderer = renderer;
 		this.size = size;
 		this.coords = coords;
-		this.acceleration = acceleration;
 
 		this.coordsPositions = new Vector3();
 		this.tempCoordsPositions = new Vector3();
 
 		this.cubes = this.createCube();
-
-		this.fluidSim();
 
 		this.init();
 		state.register(this);
@@ -76,19 +69,18 @@ export class GPUSimulation {
 		const velArray = this.dataVel.image.data;
 
 		for (let i = 0, il = posArray.length; i < il; i += 4) {
-			const r = 0.5 + Math.random() * 2;
+			// const phi = Math.random() * 2 * Math.PI;
+			// const theta = Math.random() * Math.PI;
+			const r = 0.25 + Math.random() * 3;
 
 			const bruhI = MathUtils.randFloat(0, 360);
 			const bruhJ = MathUtils.randFloat(-90, 90);
 
 			const theta = bruhI * (Math.PI / 180);
 			const phi = bruhJ * (Math.PI / 180);
-			const x = (Math.random() * 2 - 1) * 100;
-			const y = (Math.random() * 2 - 1) * 100;
-			const z = (Math.random() * 2 - 1) * 20;
-			// const x = Math.cos(theta) * Math.cos(phi) * r;
-			// const y = Math.sin(theta) * Math.cos(phi) * r;
-			// const z = Math.sin(phi) * r;
+			const x = Math.cos(theta) * Math.cos(phi) * r;
+			const y = Math.sin(theta) * Math.cos(phi) * r;
+			const z = Math.sin(phi) * r;
 
 			posArray[i + 0] = x;
 			posArray[i + 1] = y;
@@ -111,30 +103,24 @@ export class GPUSimulation {
 
 		this.posUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.posUniforms.uDelta = { value: 0.0 };
-		this.posUniforms.uDieSpeed = { value: 0.02 };
-		this.posUniforms.uAcceleration = { value: this.acceleration.value };
+		this.posUniforms.uDieSpeed = { value: 0.005 };
 		this.posUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.posUniforms.uTextureDefaultPosition = {
 			value: textureDefaultPosition,
 		};
-		this.posUniforms.uFluidTexture = { value: this.simulation.fbos.vel_0.texture };
-		this.posUniforms.uRigPositionTexture = { value: new Texture() };
 
 		this.velUniforms = this.vel.material.uniforms;
 
 		this.velUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.velUniforms.uDelta = { value: 0.0 };
-		this.velUniforms.uSpeed = { value: 0.05 };
-		this.velUniforms.uAcceleration = { value: this.acceleration.value };
+		this.velUniforms.uSpeed = { value: 0.1 };
 		this.velUniforms.uAttraction = { value: 1 };
-		this.velUniforms.uCurlSize = { value: 0.02 };
-		this.velUniforms.uTimeScale = { value: 0.5 };
+		this.velUniforms.uCurlSize = { value: 0.1 };
+		this.velUniforms.uTimeScale = { value: 0.75 };
 		this.velUniforms.uCoordsPositions = { value: this.coordsPositions };
 		this.velUniforms.uCubePositions = { value: this.cubePositions };
 		this.velUniforms.uCubeQuaternions = { value: this.cubeQuaternions };
 		this.velUniforms.uNumCubes = { value: NUM_CUBES };
-		this.velUniforms.uFluidTexture = { value: this.simulation.fbos.vel_0.texture };
-		this.velUniforms.uRigPositionTexture = { value: new Texture() };
 
 		const error = this.gpuCompute.init();
 		if (error !== null) {
@@ -142,48 +128,12 @@ export class GPUSimulation {
 		}
 	}
 
-	fluidSim() {
-		this.simulation = new Simulation();
-
-		this.material = new MeshBasicMaterial({
-			map: this.simulation.fbos.vel_0.texture,
-			// map: new Texture(),
-			fog: false,
-		});
-
-		const mesh = new Mesh(new PlaneGeometry(1.6, 0.9), this.material);
-		// app.webgl.scene.add(mesh);
-		mesh.position.x = 2;
-		mesh.position.y = 1;
-	}
-
-	onResize() {
-		this.simulation.resize();
-	}
-
 	onRender({ dt }) {
-		RigCoords.update();
-		this.simulation.update();
-
-		this.posUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;
-		this.velUniforms.uFluidTexture.value = this.simulation.fbos.vel_0.texture;
-
 		let deltaRatio = 60 * dt;
 		deltaRatio = Math.min(deltaRatio, 0.6);
 
 		this.posUniforms.uDelta.value = deltaRatio;
-		this.velUniforms.uAcceleration.value = this.acceleration.value;
-		this.posUniforms.uAcceleration.value = this.acceleration.value;
 
-		if (app.webgl.scene.avatar.vertexStore.positionMap) {
-			this.posUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.vertexStore.positionMap;
-			this.velUniforms.uRigPositionTexture.value = app.webgl.scene.avatar.vertexStore.positionMap;
-		}
-
-		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.1);
-	}
-
-	onEnergyChanged(energy) {
-		this.posUniforms.uDieSpeed.value = 0.04 - 0.03 * energy;
+		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.08);
 	}
 }

@@ -42,7 +42,7 @@ class PostProcessing {
 	}
 
 	onAttach() {
-		// app.debug?.mapping.add(this, 'PostProcessing');
+		app.debug?.mapping.add(this, 'PostProcessing');
 	}
 
 	_setupRenderTarget() {

@@ -1,17 +1,8 @@
 uniform float uTime;
-uniform float uAcceleration;
-uniform float uDelta;
 uniform float uSpeed;
 uniform float uAttraction;
 uniform float uCurlSize;
 uniform float uTimeScale;
-uniform vec3 uCoordsPositions;
-
-uniform int uNumCubes;
-uniform vec4 uCubePositions[1];
-uniform vec4 uCubeQuaternions[1];
-
-uniform sampler2D uFluidTexture;
 uniform sampler2D uRigPositionTexture;
 
 vec4 mod289(vec4 x) {
@@ -136,108 +127,20 @@ vec3 curl(in vec3 p, in float noiseTime, in float persistence) {
 
 }
 
-const float PI = 3.14159265359;
-
-float hash(float n) { // 0 - 1
-	return fract(sin(n) * 3538.5453);
-}
-
-vec3 randomSphereDir(vec2 rnd) {
-	float s = rnd.x * PI * 2.;
-	float t = rnd.y * 2. - 1.;
-	return vec3(sin(s), cos(s), t) / sqrt(1.0 + t * t);
-}
-
-vec3 randomHemisphereDir(vec3 dir, float i) {
-	vec3 v = randomSphereDir(vec2(hash(i + 1.), hash(i + 2.)));
-	return v * sign(dot(v, dir));
-}
-
-float sdBox(vec3 p, vec3 b) {
-	vec3 d = abs(p) - b;
-	return min(max(d.x, max(d.y, d.z)), 0.0) + length(max(d, 0.0));
-}
-
-vec3 rotateVector(vec4 quat, vec3 vec) {
-	return vec + 2.0 * cross(cross(vec, quat.xyz) + quat.w * vec, quat.xyz);
-}
-
-vec3 calcBoxNormal(vec3 p, vec4 q, vec3 b, float e) {
-	const vec3 v1 = vec3(1.0, -1.0, -1.0);
-	const vec3 v2 = vec3(-1.0, -1.0, 1.0);
-	const vec3 v3 = vec3(-1.0, 1.0, -1.0);
-	const vec3 v4 = vec3(1.0, 1.0, 1.0);
-
-	return normalize(v1 * sdBox(rotateVector(q, p + v1 * e), b) +
-		v2 * sdBox(rotateVector(q, p + v2 * e), b) +
-		v3 * sdBox(rotateVector(q, p + v3 * e), b) +
-		v4 * sdBox(rotateVector(q, p + v4 * e), b));
-}
-
-const float RayRange = 1.0;
-
-vec3 bounce(vec3 v, vec3 n) {
-	vec3 r = reflect(v, n);
-	n = r;
-	n = mix(r, randomHemisphereDir(r, length(v)), 1.0);//vec3( .5 - rand( vUv + v.xz ), .5 - rand( vUv + v.yz ),.5 - rand( vUv + v.zy ) );
-	n = normalize(n);
-	float l = length(v.xyz) * (1. - 0.7);
-	return n * l;
-}
-
 void main() {
 	vec2 uv = gl_FragCoord.xy / resolution.xy;
 
 	vec4 positionTexture = texture2D(posTex, uv);
 	vec3 position = positionTexture.xyz;
 
-	vec4 velocityTexture = texture2D(velTex, uv);
-	vec3 previousVelocity = velocityTexture.xyz;
-
 	float life = positionTexture.a;
-
-	vec4 positionFluidTexture = texture2D(uFluidTexture, uv);
-	vec3 positionFluid = positionFluidTexture.xyz;
 
 	vec4 rigPositionTexture = texture2D(uRigPositionTexture, uv);
 	vec3 rigPosition = rigPositionTexture.xyz;
 
 	vec3 toHand;
-	// toHand.x += uCoordsPositions.x * 35. - position.x;
-	// toHand.y += uCoordsPositions.y * 15. - position.y;
-	// toHand.z += uCoordsPositions.z * - position.z;
 
 	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
-	// velocity.y += 5.;
-
-	vec4 collidersQuaternions;
-
-	float scaleFactor = 5.;
-
-	// vec3 diffToTtransition = toHand;
-
-	// float dist = length(diffToTtransition);
-
-	// vec3 acceleration = diffToTtransition * dist;
-
-	// velocity = mix(previousVelocity, acceleration * uSpeed, 0.99);
-
-	// for(int i = 0; i < uNumCubes; i++) {
-	// 	if(i >= uNumCubes)
-	// 		continue;
-	// 	collidersQuaternions = uCubeQuaternions[i];
-	// 	vec3 collidersScale = vec3(uCubePositions[i].w * scaleFactor, uCubePositions[i].w * scaleFactor, uCubePositions[i].w * scaleFactor);
-
-	// 	vec3 collidersPositions = (uCubePositions[i].xyz * 10.) - (position + velocity);
-
-	// 	float d = sdBox(rotateVector(collidersQuaternions, collidersPositions), collidersScale);
-	// 	if(d <= RayRange) {
-	// 		vec3 n = -calcBoxNormal(collidersPositions, collidersQuaternions, collidersScale, RayRange);
-	// 		// velocity = bounce(velocity, n);
-	// 		velocity -= normalize(collidersPositions * 3. + curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.3);
-	// 		continue;
-	// 	}
-	// }
 
 	// if(position.y < 1.0) {
 	// 	vec3 diff = vec3(0., 0., 0.) - position;
@@ -261,9 +164,6 @@ void main() {
 	if(life < 0.1) {
 		velocity = curl(position * uCurlSize * 0.5, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
 	}
-	// if(rigPosition.x === 0.) {
-	// 	velocity = curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
-	// }
 
 	gl_FragColor = vec4(velocity, life);
 }

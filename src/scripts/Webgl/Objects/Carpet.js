@@ -17,7 +17,7 @@ class Carpet extends Group {
 		this.killTweens();
 		gsap.to(this, { rotateMultiplier: 0.3, duration: 1, ease: 'power2.out' });
 		gsap.to(this.opacity, { value: 1, duration: 1, ease: 'power2.out' });
-		gsap.to(this.mesh.position, { y: 0.1, duration: 0.5, ease: 'power2.out' });
+		gsap.to(this.mesh.position, { y: 0.025, duration: 0.5, ease: 'power2.out' });
 	}
 
 	hide() {

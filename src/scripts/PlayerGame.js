@@ -5,7 +5,7 @@ import { state } from './State.js';
 // Timing in seconds
 const DELAY_BEFORE_ENERGY = 2;
 
-const DIFFICULTY = [1000, 2000, 4000, 7000, 11000, 16000, 22000];
+const DIFFICULTY = [1000, 2000, 3000, 4000, 5000, 6000, 7000];
 
 class PlayerGame {
 	constructor() {
