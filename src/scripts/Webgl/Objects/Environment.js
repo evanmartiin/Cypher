@@ -1,10 +1,12 @@
 import { Group, MeshNormalMaterial, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Environment/fragment.fs';
+import logoFragmentShader from '@Webgl/Materials/Environment/logo/fragment.fs';
 import vertexShader from '@Webgl/Materials/Environment/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
+
 
 export default class Environment extends Group {
 	constructor() {
@@ -74,16 +76,23 @@ export default class Environment extends Group {
 				const roughness = app.core.assetsManager.get('logoRoughness');
 				roughness.flipY = false;
 
+				const noiseTexture = app.core.assetsManager.get('noise');
+				noiseTexture.wrapS = MirroredRepeatWrapping;
+				noiseTexture.wrapT = MirroredRepeatWrapping;
+
 				o.material = new CustomShaderMaterial({
 					baseMaterial: MeshStandardMaterial,
-					fragmentShader: fragmentShader,
+					fragmentShader: logoFragmentShader,
 					vertexShader: vertexShader,
 					uniforms: {
 						...globalUniforms,
 						uPixelSortingTexture: { value: pixelSortingTexture },
 						uGlitchTexture: { value: glitchTexture },
+						uNoiseTexture: { value: noiseTexture },
 					},
 					map: diffuse,
+					normalMap: normal,
+					roughnessMap: roughness,
 					transparent: true,
 					// metalness: 0.6,
 					// roughness: 0.4,
