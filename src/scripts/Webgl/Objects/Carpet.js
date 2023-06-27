@@ -17,7 +17,7 @@ class Carpet extends Group {
 		this.killTweens();
 		gsap.to(this, { rotateMultiplier: 0.3, duration: 1, ease: 'power2.out' });
 		gsap.to(this.opacity, { value: 1, duration: 1, ease: 'power2.out' });
-		gsap.to(this.mesh.position, { y: 0.1, duration: 0.5, ease: 'power2.out' });
+		gsap.to(this.mesh.position, { y: 0.025, duration: 0.5, ease: 'power2.out' });
 	}
 
 	hide() {
@@ -36,6 +36,19 @@ class Carpet extends Group {
 	onAttach() {
 		const tex = app.core.assetsManager.get('carpet');
 		tex.wrapS = tex.wrapT = ClampToEdgeWrapping;
+
+		// const material = new CustomShaderMaterial({
+		// 	baseMaterial: MeshStandardMaterial,
+		// 	fragmentShader: fragmentShader,
+		// 	vertexShader: vertexShader,
+		// 	uniforms: {
+		// 		...globalUniforms,
+		// 		uPixelSortingTexture: { value: pixelSortingTexture },
+		// 		uGlitchTexture: { value: glitchTexture },
+		// 	},
+		// 	metalness: 0.01,
+		// 	roughness: 0.99,
+		// });
 
 		const material = new ShaderMaterial({
 			vertexShader: `

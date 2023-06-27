@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, MirroredRepeatWrapping, OctahedronGeometry, Texture } from 'three';
+import { BoxGeometry, BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, MirroredRepeatWrapping, OctahedronGeometry, Texture } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
@@ -107,10 +107,10 @@ export class Particles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.scale.set(0.03, 0.03, 0.03);
+		mesh.scale.set(0.035, 0.035, 0.035);
 
 		this.add(mesh);
-		mesh.position.set(-1.1, 0, 2.5);
+		mesh.position.set(-1.1, -0.1, 2);
 		mesh.frustumCulled = false;
 
 		return mesh;

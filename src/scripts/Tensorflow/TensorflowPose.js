@@ -73,7 +73,7 @@ class TensorflowPose {
 
 					// TODO: filter moves to not count really small moves and big moves (teleportations)
 					if (this.isMoveEnough(mostReliableRig.keypoints3D)) {
-						state.emit(EVENTS.PLAYER_MOVED_ENOUGH, posedetection.calculators.keypointsToNormalizedKeypoints(mostReliableRig.keypoints, VIDEO_SIZE));
+						state.emit(EVENTS.PLAYER_MOVED_ENOUGH, mostReliableRig);
 					}
 				}
 			} else {

@@ -29,6 +29,7 @@ export class FreestyleParticles extends Group {
 		this.size = size;
 		this.coords = coords;
 		this.acceleration = acceleration;
+		this.visible = false;
 
 		this.init();
 	}
@@ -44,7 +45,7 @@ export class FreestyleParticles extends Group {
 		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
 		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(0.75, 0.75, 0.75);
+		baseGeometry.scale(1, 1, 1);
 
 		const geometry = new BufferGeometry();
 
@@ -100,13 +101,21 @@ export class FreestyleParticles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.scale.set(0.1, 0.1, 0.1);
+		mesh.scale.set(0.15, 0.15, 0.15);
 
 		this.add(mesh);
-		mesh.position.set(0, 0, 1.25);
+		mesh.position.set(0, -2, 0);
 		mesh.frustumCulled = false;
 
 		return mesh;
+	}
+
+	show() {
+		this.visible = true;
+	}
+
+	hide() {
+		this.visible = false;
 	}
 
 	onRender() {

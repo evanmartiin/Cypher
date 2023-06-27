@@ -4,8 +4,9 @@ float time = uTime * 0.001;
 float fogFactor2 = smoothstep(0., 10., vFogDepth);
 
 vec3 avatarWorldPos = vWorldPosition;
-avatarWorldPos.xz *= 1.5;
-avatarWorldPos.y *= 0.5;
+avatarWorldPos.xyz *= 2.;
+// avatarWorldPos.y *= 0.5;
+avatarWorldPos.z -= 6.;
 
 // transitionsUvs += fract(time * 0.01);
 
@@ -42,7 +43,8 @@ if(fresnelFactor <= 0.0) {
 discard;
 }
 
-vec3 render = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.5, avatarDist);
+// vec3 render = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.75, avatarDist);
+vec3 render = gl_FragColor.rgb;
 
 vec3 tempRender = render;
 
