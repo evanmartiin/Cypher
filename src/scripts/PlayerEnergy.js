@@ -78,7 +78,7 @@ class PlayerEnergy {
 		app.dom.ui.energy.node.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${this.normalizedCurrent * 100}%, rgba(255,255,255,0) ${this.normalizedCurrent * 100}%)`;
 	}
 
-	onPlayerMoved(rig) {
+	onPlayerMovedEnough(rig) {
 		if (!this.active) return;
 
 		if (this.previousKeypoints) {
