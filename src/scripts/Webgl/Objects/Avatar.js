@@ -31,7 +31,7 @@ import meshFragmentShader from '../Materials/ParticulesMan/skinnedMesh/fragment.
 import meshVertexShader from '../Materials/ParticulesMan/skinnedMesh/vertex.glsl';
 
 const DUMMY = new Object3D();
-const TORSO_CYLINDER_NB = 5;
+const TORSO_CYLINDER_NB = 30;
 
 class Avatar extends Group {
 	constructor() {
@@ -42,11 +42,11 @@ class Avatar extends Group {
 	onAttach() {
 		app.debug?.mapping.add(this, 'Particles');
 
-		this.scene = new Scene();
-		this.camera = new PerspectiveCamera();
-		this.camera.position.set(0.5, 0.5, 1);
-		this.camera.lookAt(0.5, 0.5, 0);
-		this.fbo = new WebGLRenderTarget(512, 512, { magFilter: NearestFilter, type: HalfFloatType });
+		// this.scene = new Scene();
+		// this.camera = new PerspectiveCamera();
+		// this.camera.position.set(0.5, 0.5, 1);
+		// this.camera.lookAt(0.5, 0.5, 0);
+		// this.fbo = new WebGLRenderTarget(512, 512, { magFilter: NearestFilter, type: HalfFloatType });
 
 		this.wPosMaterial = new ShaderMaterial({
 			vertexShader: `
@@ -88,7 +88,7 @@ class Avatar extends Group {
 		this.torso = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 64, 64), this.wPosMaterialInstanced, TORSO_CYLINDER_NB);
 		this.torso.instanceMatrix.setUsage(DynamicDrawUsage);
 
-		this.scene.add(this.head, this.tubes, this.torso);
+		// this.scene.add(this.head, this.tubes, this.torso);
 
 		this.addParticles();
 
@@ -111,15 +111,15 @@ class Avatar extends Group {
 		}
 		`,
 				uniforms: {
-					tTex: { value: this.fbo.texture },
-					// tTex: { value: this.vertexStore.positionMap },
+					// tTex: { value: this.fbo.texture },
+					tTex: { value: this.vertexStore.positionMap },
 				},
 			}),
 		);
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		app.webgl.scene.add(this.quad);
+		// app.webgl.scene.add(this.quad);
 	}
 
 	onPlayerMoved(rig) {
@@ -182,12 +182,12 @@ class Avatar extends Group {
 	onRender() {
 		if (this.vertexStore && this.canControl) this.vertexStore.update();
 
-		if (this.scene && app.webgl.camera) {
-			app.webgl.renderer.setRenderTarget(this.fbo);
-			app.webgl.renderer.clear(true, true, false);
-			app.webgl.renderer.render(this.scene, this.camera);
-			app.webgl.renderer.setRenderTarget(null);
-		}
+		// if (this.scene && app.webgl.camera) {
+		// 	app.webgl.renderer.setRenderTarget(this.fbo);
+		// 	app.webgl.renderer.clear(true, true, false);
+		// 	app.webgl.renderer.render(this.scene, this.camera);
+		// 	app.webgl.renderer.setRenderTarget(null);
+		// }
 	}
 
 	enableControl() {

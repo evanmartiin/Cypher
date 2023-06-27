@@ -6,7 +6,7 @@ import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { GPUSimulation } from '../../utils/GPUSimulation.js';
+import { GPUSimulation } from './GPUSimulation.js';
 
 export class Particles extends Group {
 	constructor(size, coords, acceleration) {
@@ -112,7 +112,6 @@ export class Particles extends Group {
 		this.add(mesh);
 		mesh.position.set(-1.1, 0, 2.5);
 		mesh.frustumCulled = false;
-		mesh.renderOrder = 2;
 
 		return mesh;
 	}
@@ -120,7 +119,7 @@ export class Particles extends Group {
 	onRender() {
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
-		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.fbo.texture;
+		// this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.fbo.texture;
 
 		this.sim.gpuCompute.compute();
 	}

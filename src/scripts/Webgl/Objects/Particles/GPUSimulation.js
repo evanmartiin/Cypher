@@ -4,7 +4,7 @@ import positionShader from '@Webgl/Materials/Particles/simulation/positionShader
 import velocityShader from '@Webgl/Materials/Particles/simulation/velocityShader.fs';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { globalUniforms } from './globalUniforms.js';
+import { globalUniforms } from '../../../utils/globalUniforms.js';
 
 export class GPUSimulation {
 	constructor(renderer, size) {

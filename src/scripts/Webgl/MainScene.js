@@ -13,10 +13,10 @@ import { AvatarDemo } from './Objects/AvatarDemo.js';
 import { Carpet } from './Objects/Carpet.js';
 import CounterAnimation from './Objects/CounterAnimation.js';
 import { CustomFog } from './Objects/CustomFog.js';
-import RigCoordsFluid from './Objects/FluidSim/RigCoordsFluid.js';
+import { FreestyleParticles } from './Objects/FreestyleParticles/Particles.js';
 import { Lights } from './Objects/Lights.js';
 import MaskOverlay from './Objects/MaskOverlay.js';
-import { Particles } from './Objects/Particles.js';
+import { Particles } from './Objects/Particles/Particles.js';
 import { Reactions } from './Objects/Reactions.js';
 import { Title } from './Objects/Title.js';
 import { VolumetricSpots } from './Objects/VolumetricSpots.js';
@@ -47,6 +47,7 @@ class MainScene extends Scene {
 		this._groundReflector = this.addGroundReflector();
 		this._environment = this.addEnvironment();
 		this._particles = this.addParticles();
+		this.addFreestyleParticles();
 		this._fog = this.addFog();
 		this._counterAnimation = this.addCounterAnimation();
 
@@ -86,10 +87,17 @@ class MainScene extends Scene {
 	}
 
 	addParticles() {
-		const particle = new Particles(128, RigCoordsFluid.coords, RigCoords.leftWristSpeed);
+		const particle = new Particles(256);
 		this.add(particle);
 
 		return particle;
+	}
+
+	addFreestyleParticles() {
+		const leftHandParticles = new FreestyleParticles(256, RigCoords.leftWrist, RigCoords.leftWristSpeed);
+		const rightHandParticles = new FreestyleParticles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+
+		this.add(leftHandParticles, rightHandParticles);
 	}
 
 	addFog() {
@@ -171,7 +179,6 @@ class MainScene extends Scene {
 
 	onRender() {
 		RigCoords.update();
-		RigCoordsFluid.update();
 	}
 
 	// fluidSimulation() {
