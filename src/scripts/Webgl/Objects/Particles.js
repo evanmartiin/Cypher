@@ -1,26 +1,11 @@
 import { gsap } from 'gsap';
-import {
-	BoxGeometry,
-	BufferGeometry,
-	DoubleSide,
-	Group,
-	InstancedBufferAttribute,
-	InstancedMesh,
-	MeshStandardMaterial,
-	MirroredRepeatWrapping,
-	OctahedronGeometry,
-	PlaneGeometry,
-	SphereGeometry,
-	Texture,
-	Vector2,
-} from 'three';
+import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, MirroredRepeatWrapping, OctahedronGeometry, Texture } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { VIDEO_SIZE } from '@scripts/Tensorflow/TensorflowCamera.js';
 import { GPUSimulation } from '../../utils/GPUSimulation.js';
 
 export class Particles extends Group {
@@ -61,9 +46,9 @@ export class Particles extends Group {
 	}
 
 	_createGeometry() {
-		const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
+		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
 		// const baseGeometry = new BoxGeometry(1, 1, 1, 1);
-		// const baseGeometry = new OctahedronGeometry(1, 0);
+		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = new SphereGeometry();
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
 		baseGeometry.scale(2, 2, 2);
@@ -107,10 +92,8 @@ export class Particles extends Group {
 				velMap: { value: this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture },
 				uRigPositionMap: { value: new Texture() },
 				uSize: { value: this.size },
-				uAcceleration: { value: this.acceleration.value },
 				uPixelSortingTexture: { value: pixelSortingTexture },
 				uGlitchTexture: { value: glitchTexture },
-				uVideoBounds: { value: new Vector2(VIDEO_SIZE.width, VIDEO_SIZE.height) },
 				uScale: { value: 0 },
 			},
 			side: DoubleSide,
@@ -135,10 +118,9 @@ export class Particles extends Group {
 	}
 
 	onRender() {
-		this._material.uniforms.uAcceleration.value = this.acceleration.value;
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
-		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.vertexStore.positionMap;
+		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.fbo.texture;
 
 		this.sim.gpuCompute.compute();
 	}

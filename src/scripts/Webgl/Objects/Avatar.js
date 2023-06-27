@@ -5,6 +5,7 @@ import {
 	Float32BufferAttribute,
 	FloatType,
 	Group,
+	HalfFloatType,
 	InstancedBufferAttribute,
 	InstancedMesh,
 	MathUtils,
@@ -12,6 +13,7 @@ import {
 	MeshBasicMaterial,
 	NearestFilter,
 	Object3D,
+	PerspectiveCamera,
 	PlaneGeometry,
 	RGBAFormat,
 	Scene,
@@ -40,14 +42,53 @@ class Avatar extends Group {
 	onAttach() {
 		app.debug?.mapping.add(this, 'Particles');
 
-		this.head = new Mesh(new SphereGeometry(0.04, 32, 32), new MeshBasicMaterial());
+		this.scene = new Scene();
+		this.camera = new PerspectiveCamera();
+		this.camera.position.set(0.5, 0.5, 1);
+		this.camera.lookAt(0.5, 0.5, 0);
+		this.fbo = new WebGLRenderTarget(512, 512, { magFilter: NearestFilter, type: HalfFloatType });
+
+		this.wPosMaterial = new ShaderMaterial({
+			vertexShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+					vPosition = gl_Position;
+				}
+				`,
+			fragmentShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_FragColor = vPosition;
+				}
+				`,
+		});
+		this.wPosMaterialInstanced = new ShaderMaterial({
+			vertexShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_Position = projectionMatrix * viewMatrix * modelMatrix * instanceMatrix * vec4(position, 1.0);
+					vPosition = gl_Position;
+				}
+				`,
+			fragmentShader: `
+				varying vec4 vPosition;
+				void main() {
+					gl_FragColor = vPosition;
+				}
+				`,
+		});
+
+		this.head = new Mesh(new SphereGeometry(0.04, 64, 64), this.wPosMaterial);
 		this.head.scale.y = 1.25;
 
-		this.tubes = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 10, 10), new MeshBasicMaterial(), POSE_CONNECTIONS.length);
+		this.tubes = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 64, 64), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
 		this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
 
-		this.torso = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 10, 10), new MeshBasicMaterial(), TORSO_CYLINDER_NB);
+		this.torso = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 64, 64), this.wPosMaterialInstanced, TORSO_CYLINDER_NB);
 		this.torso.instanceMatrix.setUsage(DynamicDrawUsage);
+
+		this.scene.add(this.head, this.tubes, this.torso);
 
 		this.addParticles();
 
@@ -70,14 +111,15 @@ class Avatar extends Group {
 		}
 		`,
 				uniforms: {
-					tTex: { value: this.vertexStore.positionMap },
+					tTex: { value: this.fbo.texture },
+					// tTex: { value: this.vertexStore.positionMap },
 				},
 			}),
 		);
 		this.quad.position.y = -0.2;
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
-		// app.webgl.scene.add(this.quad);
+		app.webgl.scene.add(this.quad);
 	}
 
 	onPlayerMoved(rig) {
@@ -139,6 +181,13 @@ class Avatar extends Group {
 
 	onRender() {
 		if (this.vertexStore && this.canControl) this.vertexStore.update();
+
+		if (this.scene && app.webgl.camera) {
+			app.webgl.renderer.setRenderTarget(this.fbo);
+			app.webgl.renderer.clear(true, true, false);
+			app.webgl.renderer.render(this.scene, this.camera);
+			app.webgl.renderer.setRenderTarget(null);
+		}
 	}
 
 	enableControl() {

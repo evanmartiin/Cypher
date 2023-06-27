@@ -1,9 +1,7 @@
 attribute float aRandom;
 
 uniform float uSize;
-uniform float uAcceleration;
 uniform float uScale;
-uniform vec2 uVideoBounds;
 
 uniform sampler2D posMap;
 uniform sampler2D velMap;
@@ -11,17 +9,6 @@ uniform sampler2D uRigPositionMap;
 
 varying float vlifeOpacity;
 varying vec3 vNewNormal;
-varying vec3 vNewViewPosition;
-varying vec3 vWorldPos;
-
-mat3 calcLookAtMatrix(vec3 vector, float roll) {
-  vec3 rr = vec3(sin(roll), cos(roll), 0.0);
-  vec3 ww = normalize(vector);
-  vec3 uu = normalize(cross(ww, rr));
-  vec3 vv = normalize(cross(uu, ww));
-
-  return mat3(uu, ww, vv);
-}
 
 mat3 getRotation(vec3 velocity) {
   velocity = normalize(velocity);
@@ -56,24 +43,16 @@ void main() {
 
   vec3 particleScale = vec3(min(1.0, 10.0 * length(velocityTexture.xyz)), 1.0, 1.0);
 
-      // vec2 st = gl_FragCoord.xy / u_resolution.xy;
-
-  // vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uAcceleration;
   vec3 transformedPos = position * particleScale * aRandom * positionTexture.w * uScale;
-  // vec3 transformedPos = position;
   transformedPos = (particleRotation * transformedPos);
   transformedPos.x += positionTexture.x;
   transformedPos.y += positionTexture.y;
   transformedPos.z += positionTexture.z;
 
-  // if(positionTexture.x == 0.0) {
-  //   transformedPos *= 0.;
-  // }
-
   csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
 
-  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos , 1.0);
+  csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);
 
   vlifeOpacity = positionTexture.w;
 }
