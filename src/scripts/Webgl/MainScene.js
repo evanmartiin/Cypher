@@ -95,7 +95,9 @@ class MainScene extends Scene {
 
 	addFreestyleParticles() {
 		this.leftHandParticles = new FreestyleParticles(256, RigCoords.leftWrist, RigCoords.leftWristSpeed);
+		this.leftHandParticles.position.x = -1;
 		this.rightHandParticles = new FreestyleParticles(256, RigCoords.rightWrist, RigCoords.rightWristSpeed);
+		this.rightHandParticles.position.x = 1;
 
 		this.add(this.leftHandParticles, this.rightHandParticles);
 	}
@@ -152,23 +154,23 @@ class MainScene extends Scene {
 
 		timeline.to(
 			this._lights._lights.light1.color,
-			{ r: this.environments[this.currentEnv].light1.color.r, g: this.environments[this.currentEnv].light1.color.g, b: this.environments[this.currentEnv].light1.color.b, duration: 0 },
+			{ r: this.environments[this.currentEnv].light1.color.r, g: this.environments[this.currentEnv].light1.color.g, b: this.environments[this.currentEnv].light1.color.b, duration: 2.5 },
 			1.25,
 		);
 		timeline.to(
 			this._lights._lights.light2.color,
-			{ r: this.environments[this.currentEnv].light2.color.r, g: this.environments[this.currentEnv].light2.color.g, b: this.environments[this.currentEnv].light2.color.b, duration: 0 },
+			{ r: this.environments[this.currentEnv].light2.color.r, g: this.environments[this.currentEnv].light2.color.g, b: this.environments[this.currentEnv].light2.color.b, duration: 2.5 },
 			1.25,
 		);
 		timeline.to(
 			this._lights._lights.light3.color,
-			{ r: this.environments[this.currentEnv].light3.color.r, g: this.environments[this.currentEnv].light3.color.g, b: this.environments[this.currentEnv].light3.color.b, duration: 0 },
+			{ r: this.environments[this.currentEnv].light3.color.r, g: this.environments[this.currentEnv].light3.color.g, b: this.environments[this.currentEnv].light3.color.b, duration: 2.5 },
 			1.25,
 		);
 
-		// timeline.to(this._lights._lights.light1, { intensity: this.environments[this.currentEnv].light1.intensity, duration: 0 }, 0);
-		// timeline.to(this._lights._lights.light2, { intensity: this.environments[this.currentEnv].light2.intensity, duration: 0 }, 0);
-		// timeline.to(this._lights._lights.light3, { intensity: this.environments[this.currentEnv].light3.intensity, duration: 0 }, 0);
+		timeline.to(this._lights._lights.light1, { intensity: this.environments[this.currentEnv].light1.intensity, duration: 2.5 }, 0);
+		timeline.to(this._lights._lights.light2, { intensity: this.environments[this.currentEnv].light2.intensity, duration: 2.5 }, 0);
+		timeline.to(this._lights._lights.light3, { intensity: this.environments[this.currentEnv].light3.intensity, duration: 2.5 }, 0);
 
 		// timeline.to(this._environment._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
 		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.75, value: -1.35 }, 2);

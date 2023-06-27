@@ -37,6 +37,19 @@ class Carpet extends Group {
 		const tex = app.core.assetsManager.get('carpet');
 		tex.wrapS = tex.wrapT = ClampToEdgeWrapping;
 
+		// const material = new CustomShaderMaterial({
+		// 	baseMaterial: MeshStandardMaterial,
+		// 	fragmentShader: fragmentShader,
+		// 	vertexShader: vertexShader,
+		// 	uniforms: {
+		// 		...globalUniforms,
+		// 		uPixelSortingTexture: { value: pixelSortingTexture },
+		// 		uGlitchTexture: { value: glitchTexture },
+		// 	},
+		// 	metalness: 0.01,
+		// 	roughness: 0.99,
+		// });
+
 		const material = new ShaderMaterial({
 			vertexShader: `
             uniform float uRotation;

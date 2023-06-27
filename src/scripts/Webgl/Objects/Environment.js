@@ -52,8 +52,8 @@ export default class Environment extends Group {
 			roughnessMap: sceneRoughness,
 			normalMap: sceneNormal,
 			aoMap: sceneAo,
-			// metalness: 0.01,
-			// roughness: 0.99,
+			metalness: 0.01,
+			roughness: 0.99,
 		});
 
 		return material;

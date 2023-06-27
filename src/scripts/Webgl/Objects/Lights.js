@@ -14,13 +14,15 @@ export class Lights extends Group {
 	}
 
 	_createLights() {
-		const light1 = new PointLight('#0f0fff', 1);
+		// const light1 = new PointLight('#8032FF', 1);
+		const light1 = new PointLight('#ff3939', 1);
 		// const light1 = new PointLight('#ffffff', 0.5);
 		light1.position.set(-7.4, 10, 0);
 
 		const helper1 = new PointLightHelper(light1, 1);
 
-		const light2 = new PointLight('#FF0000', 1);
+		// const light2 = new PointLight('#ecFFe0', 1);
+		const light2 = new PointLight('#96EF61', 0.4);
 		// const light2 = new PointLight('#ffffff', 0.5);
 		light2.position.set(7.4, 10, 0);
 

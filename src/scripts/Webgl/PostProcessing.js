@@ -86,7 +86,7 @@ class PostProcessing {
 
 	_addBloomPass() {
 		const unrealBloomPass = new UnrealBloomPass();
-		unrealBloomPass.strength = 0.65;
+		unrealBloomPass.strength = 0.6;
 		// unrealBloomPass.strength = 0.0;
 		unrealBloomPass.radius = 1;
 		unrealBloomPass.threshold = 0.0;
