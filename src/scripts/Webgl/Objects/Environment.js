@@ -89,11 +89,169 @@ export default class Environment extends Group {
 					// roughness: 0.4,
 				});
 			}
-			if (o.name === 'coca') {
-				o.material = new MeshNormalMaterial();
+			if (o.name === 'ventilationI') {
+				const diffuse = app.core.assetsManager.get('ventilationIDiffuse');
+				diffuse.flipY = false;
+				const normal = app.core.assetsManager.get('ventilationINormal');
+				normal.flipY = false;
+				const roughness = app.core.assetsManager.get('ventilationIRoughness');
+				roughness.flipY = false;
+				const ao = app.core.assetsManager.get('ventilationIAo');
+				ao.flipY = false;
+
+				o.material = new CustomShaderMaterial({
+					baseMaterial: MeshStandardMaterial,
+					fragmentShader: fragmentShader,
+					vertexShader: vertexShader,
+					uniforms: {
+						...globalUniforms,
+						uPixelSortingTexture: { value: pixelSortingTexture },
+						uGlitchTexture: { value: glitchTexture },
+					},
+					map: diffuse,
+					roughnessMap: roughness,
+					aoMap: ao,
+					normalMap: normal,
+					// metalness: 0.6,
+					// roughness: 0.4,
+				});
 			}
-			if (o.name === 'redbull') {
-				o.material = new MeshNormalMaterial();
+			if (o.name === 'ventilationO') {
+				const diffuse = app.core.assetsManager.get('ventilationODiffuse');
+				diffuse.flipY = false;
+				const normal = app.core.assetsManager.get('ventilationONormal');
+				normal.flipY = false;
+				const roughness = app.core.assetsManager.get('ventilationORoughness');
+				roughness.flipY = false;
+				const ao = app.core.assetsManager.get('ventilationOAo');
+				ao.flipY = false;
+
+				o.material = new CustomShaderMaterial({
+					baseMaterial: MeshStandardMaterial,
+					fragmentShader: fragmentShader,
+					vertexShader: vertexShader,
+					uniforms: {
+						...globalUniforms,
+						uPixelSortingTexture: { value: pixelSortingTexture },
+						uGlitchTexture: { value: glitchTexture },
+					},
+					map: diffuse,
+					roughnessMap: roughness,
+					aoMap: ao,
+					normalMap: normal,
+					// metalness: 0.6,
+					// roughness: 0.4,
+				});
+			}
+			if (o.name === 'fenetreO') {
+				const diffuse = app.core.assetsManager.get('fenetreODiffuse');
+				diffuse.flipY = false;
+				const normal = app.core.assetsManager.get('fenetreONormal');
+				normal.flipY = false;
+				const roughness = app.core.assetsManager.get('fenetreORoughness');
+				roughness.flipY = false;
+				const ao = app.core.assetsManager.get('fenetreOAo');
+				ao.flipY = false;
+
+				o.material = new CustomShaderMaterial({
+					baseMaterial: MeshStandardMaterial,
+					fragmentShader: fragmentShader,
+					vertexShader: vertexShader,
+					uniforms: {
+						...globalUniforms,
+						uPixelSortingTexture: { value: pixelSortingTexture },
+						uGlitchTexture: { value: glitchTexture },
+					},
+					map: diffuse,
+					roughnessMap: roughness,
+					aoMap: ao,
+					normalMap: normal,
+					transparent: true,
+					// metalness: 0.6,
+					// roughness: 0.4,
+				});
+			}
+			if (o.name === 'fenetreI') {
+				const diffuse = app.core.assetsManager.get('fenetreIDiffuse');
+				diffuse.flipY = false;
+				const normal = app.core.assetsManager.get('fenetreINormal');
+				normal.flipY = false;
+				const roughness = app.core.assetsManager.get('fenetreIRoughness');
+				roughness.flipY = false;
+				const ao = app.core.assetsManager.get('fenetreIAo');
+				ao.flipY = false;
+
+				o.material = new CustomShaderMaterial({
+					baseMaterial: MeshStandardMaterial,
+					fragmentShader: fragmentShader,
+					vertexShader: vertexShader,
+					uniforms: {
+						...globalUniforms,
+						uPixelSortingTexture: { value: pixelSortingTexture },
+						uGlitchTexture: { value: glitchTexture },
+					},
+					map: diffuse,
+					roughnessMap: roughness,
+					aoMap: ao,
+					normalMap: normal,
+					transparent: true,
+					// metalness: 0.6,
+					// roughness: 0.4,
+				});
+			}
+			if (o.name === 'coca') {
+				const diffuse = app.core.assetsManager.get('cocaDiffuse');
+				diffuse.flipY = false;
+
+				o.material = new CustomShaderMaterial({
+					baseMaterial: MeshStandardMaterial,
+					fragmentShader: fragmentShader,
+					vertexShader: vertexShader,
+					uniforms: {
+						...globalUniforms,
+						uPixelSortingTexture: { value: pixelSortingTexture },
+						uGlitchTexture: { value: glitchTexture },
+					},
+					map: diffuse,
+					// metalness: 0.6,
+					// roughness: 0.4,
+				});
+			}
+			if (o.name === 'redbullI') {
+				const diffuse = app.core.assetsManager.get('redbullIDiffuse');
+				diffuse.flipY = false;
+
+				o.material = new CustomShaderMaterial({
+					baseMaterial: MeshStandardMaterial,
+					fragmentShader: fragmentShader,
+					vertexShader: vertexShader,
+					uniforms: {
+						...globalUniforms,
+						uPixelSortingTexture: { value: pixelSortingTexture },
+						uGlitchTexture: { value: glitchTexture },
+					},
+					map: diffuse,
+					// metalness: 0.6,
+					// roughness: 0.4,
+				});
+			}
+			if (o.name === 'redbullO') {
+				const diffuse = app.core.assetsManager.get('redbullODiffuse');
+				diffuse.flipY = false;
+
+				o.material = new CustomShaderMaterial({
+					baseMaterial: MeshStandardMaterial,
+					fragmentShader: fragmentShader,
+					vertexShader: vertexShader,
+					uniforms: {
+						...globalUniforms,
+						uPixelSortingTexture: { value: pixelSortingTexture },
+						uGlitchTexture: { value: glitchTexture },
+					},
+					map: diffuse,
+					// metalness: 0.6,
+					// roughness: 0.4,
+				});
 			}
 			if (o.name === 'bombe') {
 				const diffuse = app.core.assetsManager.get('bombeDiffuse');

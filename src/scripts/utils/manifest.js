@@ -47,6 +47,30 @@ const manifest = {
 		bancNormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/banc/normal.png`, priority: 2, callback: null },
 		bancAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/banc/ao.png`, priority: 2, callback: null },
 
+		ventilationIDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/inner/diffuse.png`, priority: 2, callback: null },
+		ventilationIRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/inner/roughness.png`, priority: 2, callback: null },
+		ventilationINormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/inner/normal.png`, priority: 2, callback: null },
+		ventilationIAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/inner/ao.png`, priority: 2, callback: null },
+
+		ventilationODiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/outer/diffuse.png`, priority: 2, callback: null },
+		ventilationORoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/outer/roughness.png`, priority: 2, callback: null },
+		ventilationONormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/outer/normal.png`, priority: 2, callback: null },
+		ventilationOAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/ventilation/outer/ao.png`, priority: 2, callback: null },
+
+		fenetreIDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/inner/diffuse.png`, priority: 2, callback: null },
+		fenetreIRoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/inner/roughness.png`, priority: 2, callback: null },
+		fenetreINormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/inner/normal.png`, priority: 2, callback: null },
+		fenetreIAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/inner/ao.png`, priority: 2, callback: null },
+
+		fenetreODiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/outer/diffuse.png`, priority: 2, callback: null },
+		fenetreORoughness: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/outer/roughness.png`, priority: 2, callback: null },
+		fenetreONormal: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/outer/normal.png`, priority: 2, callback: null },
+		fenetreOAo: { path: `${import.meta.env.BASE_URL}assets/textures/scene/fenetre/outer/ao.png`, priority: 2, callback: null },
+
+		cocaDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/coca/diffuse.png`, priority: 2, callback: null },
+		redbullIDiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/redbull/diffuseI.png`, priority: 2, callback: null },
+		redbullODiffuse: { path: `${import.meta.env.BASE_URL}assets/textures/scene/redbull/diffuseO.png`, priority: 2, callback: null },
+
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg`, priority: 2, callback: null },
 		pixelSorting: { path: `${import.meta.env.BASE_URL}assets/textures/pixelSorting.jpg`, priority: 2, callback: null },
 		glitch: { path: `${import.meta.env.BASE_URL}assets/textures/glitch.jpg`, priority: 2, callback: null },

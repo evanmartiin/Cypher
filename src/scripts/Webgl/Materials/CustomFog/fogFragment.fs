@@ -42,8 +42,7 @@ if(fresnelFactor <= 0.0) {
 discard;
 }
 
-vec3 render = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.25, avatarDist);
-// vec3 render = gl_FragColor.rgb;
+vec3 render = mix((gl_FragColor.rgb), gl_FragColor.rgb * 0.5, avatarDist);
 
 vec3 tempRender = render;
 
