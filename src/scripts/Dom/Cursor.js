@@ -81,7 +81,7 @@ class Cursor extends UiElement {
 		if (!this.active) return;
 		if (this.pos.distanceTo(this.targetPos) < 3) return;
 
-		this.pos.lerp(this.targetPos, 0.05);
+		this.pos.lerp(this.targetPos, 0.15);
 		this.node.style.transform = `translateX(calc(${this.pos.x}px - 50%)) translateY(calc(${this.pos.y}px - 50%))`;
 	}
 }

@@ -48,6 +48,9 @@ void main() {
   transformedPos.x += positionTexture.x;
   transformedPos.y += positionTexture.y;
   transformedPos.z += positionTexture.z;
+  // transformedPos.x += rigPositionMap.x * 50.;
+  // transformedPos.y += rigPositionMap.y * 50.;
+  // transformedPos.z += rigPositionMap.z * 75.;
 
   csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;

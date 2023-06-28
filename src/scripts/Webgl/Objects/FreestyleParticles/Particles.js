@@ -91,8 +91,9 @@ export class FreestyleParticles extends Group {
 				uScale: { value: 0 },
 			},
 			side: DoubleSide,
-			metalness: 0.7,
-			roughness: 0.3,
+			metalness: 0.6,
+			roughness: 0.4,
+			// transparent: true,
 			envMap: app.core.assetsManager.get('envmap'),
 		});
 

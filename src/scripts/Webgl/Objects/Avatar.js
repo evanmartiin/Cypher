@@ -31,7 +31,7 @@ import meshFragmentShader from '../Materials/ParticulesMan/skinnedMesh/fragment.
 import meshVertexShader from '../Materials/ParticulesMan/skinnedMesh/vertex.glsl';
 
 const DUMMY = new Object3D();
-const TORSO_CYLINDER_NB = 30;
+const TORSO_CYLINDER_NB = 10;
 
 class Avatar extends Group {
 	constructor() {
@@ -82,10 +82,10 @@ class Avatar extends Group {
 		this.head = new Mesh(new SphereGeometry(0.04, 64, 64), this.wPosMaterial);
 		this.head.scale.y = 1.25;
 
-		this.tubes = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 64, 64), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
+		this.tubes = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 25, 25), this.wPosMaterialInstanced, POSE_CONNECTIONS.length);
 		this.tubes.instanceMatrix.setUsage(DynamicDrawUsage);
 
-		this.torso = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 64, 64), this.wPosMaterialInstanced, TORSO_CYLINDER_NB);
+		this.torso = new InstancedMesh(new CylinderGeometry(0.01, 0.01, 1, 25, 25), this.wPosMaterialInstanced, TORSO_CYLINDER_NB);
 		this.torso.instanceMatrix.setUsage(DynamicDrawUsage);
 
 		// this.scene.add(this.head, this.tubes, this.torso);

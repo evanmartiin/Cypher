@@ -22,11 +22,6 @@ export default class DanceStep extends Step {
 
 	stop() {
 		this.isRunning = false;
-
-		app.dom.ui.energyContainer.hide();
-
-		app.timeline.timer.resetTimer();
-		app.game.stop();
 	}
 
 	onEnergyStarted() {
