@@ -10,8 +10,10 @@ class Text extends UiElement {
 	}
 
 	showText(text) {
+		this.text = text;
 		this.node.innerHTML = text;
 		this.node.style.opacity = 1;
+		gsap.killTweensOf(this.node);
 		const splittedChars = new SplitText(this.node, { type: 'words' }).words;
 		gsap.fromTo(splittedChars, { opacity: 0, translateY: '15px' }, { opacity: 1, translateY: '0px', duration: 1, stagger: 0.075 });
 	}

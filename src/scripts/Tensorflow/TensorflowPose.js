@@ -8,7 +8,7 @@ import { state } from '@scripts/State.js';
 const DISTANCE_THRESHOLD = 0.035;
 const DETECTION_THRESHOLD = 0.4;
 const UNDETECTION_THRESHOLD = 0.3;
-const UNDETECTION_DURATION = 2000;
+const UNDETECTION_DURATION = 2;
 
 class TensorflowPose {
 	constructor() {
@@ -29,6 +29,7 @@ class TensorflowPose {
 	disable() {
 		this.ready = false;
 		this.playerDetected = undefined;
+		this.undetectedDuration = 0;
 	}
 
 	async asyncInit() {
@@ -68,6 +69,7 @@ class TensorflowPose {
 			if ((mostReliableRig && highestConfidenceScore >= DETECTION_THRESHOLD) || (mostReliableRig && highestConfidenceScore >= UNDETECTION_THRESHOLD && this.playerDetected)) {
 				if (!this.playerDetected) {
 					this.playerDetected = mostReliableRig;
+					this.undetectedDuration = 0;
 					state.emit(EVENTS.PLAYER_ENTERED);
 				} else {
 					this.playerDetected = mostReliableRig;
@@ -81,12 +83,16 @@ class TensorflowPose {
 			} else {
 				if (this.playerDetected) {
 					this.playerDetected = undefined;
-					this.undetectedDuration += dt;
-
-					// TODO: trigger PLAYER_LEFT after 2s undetected
-					// if (this.undetectedDuration)
-					state.emit(EVENTS.PLAYER_LEFT);
 				}
+			}
+		}
+
+		if (!this.playerDetected && this.ready && !app.timeline.standby) {
+			this.undetectedDuration += dt;
+
+			if (this.undetectedDuration > UNDETECTION_DURATION) {
+				this.undetectedDuration = 0;
+				state.emit(EVENTS.PLAYER_LEFT);
 			}
 		}
 	}

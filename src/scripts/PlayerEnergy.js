@@ -3,6 +3,7 @@ import { assertIsInCamera } from '@utils/assertions.js';
 import { EVENTS, POSE } from '@utils/constants.js';
 import { app } from './App.js';
 import { state } from './State.js';
+import { VIDEO_SIZE } from './Tensorflow/TensorflowCamera.js';
 
 const V2A = new Vector2();
 const V2B = new Vector2();
@@ -89,10 +90,10 @@ class PlayerEnergy {
 
 			Object.values(POSE).forEach((pose) => {
 				if (assertIsInCamera(rig.keypoints[pose])) {
-					V2A.x = rig.keypoints[POSE.RIGHT_WRIST].x;
-					V2A.y = rig.keypoints[POSE.RIGHT_WRIST].y;
-					V2B.x = this.previousKeypoints[POSE.RIGHT_WRIST].x;
-					V2B.y = this.previousKeypoints[POSE.RIGHT_WRIST].y;
+					V2A.x = rig.keypoints[POSE.RIGHT_WRIST].x / VIDEO_SIZE.width;
+					V2A.y = rig.keypoints[POSE.RIGHT_WRIST].y / VIDEO_SIZE.width;
+					V2B.x = this.previousKeypoints[POSE.RIGHT_WRIST].x / VIDEO_SIZE.height;
+					V2B.y = this.previousKeypoints[POSE.RIGHT_WRIST].y / VIDEO_SIZE.height;
 					totalDistance += V2A.distanceTo(V2B);
 					bonesInCamera++;
 				}
@@ -100,7 +101,7 @@ class PlayerEnergy {
 
 			if (bonesInCamera === 0) return;
 
-			this.add(Math.min(totalDistance / bonesInCamera, 30));
+			this.add(Math.min(totalDistance / bonesInCamera, 10) * 100);
 		}
 
 		this.previousKeypoints = rig.keypoints;

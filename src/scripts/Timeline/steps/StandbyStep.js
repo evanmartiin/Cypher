@@ -12,14 +12,6 @@ export default class StandbyStep extends Step {
 
 	start() {
 		this.isRunning = true;
-
-		this.timeout = setTimeout(() => {
-			this.startTimer();
-		}, 2000);
-	}
-
-	startTimer() {
-		clearTimeout(this.timeout);
 		app.dom.ui.title.node.innerHTML = this.text;
 		app.timeline.timer.resetTimer();
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.reset(), true);
@@ -31,13 +23,9 @@ export default class StandbyStep extends Step {
 		app.webgl.scene._particles.hide();
 		app.webgl.camera.exit();
 		app.webgl.postProcessing.blurPass.enable();
-
-		app.dom.ui.energyContainer.hide();
-		app.game.stop();
 	}
 
 	abort() {
-		clearTimeout(this.timeout);
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
 		app.webgl.camera.enter();
@@ -53,7 +41,6 @@ export default class StandbyStep extends Step {
 	}
 
 	stop() {
-		clearTimeout(this.timeout);
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
 	}

@@ -1,8 +1,8 @@
 import { gsap } from 'gsap';
 import { AnimationMixer, Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
-import fragmentShader from '@Webgl/Materials/Environment/fragment.fs';
-import vertexShader from '@Webgl/Materials/Environment/vertex.vs';
+import fragmentShader from '@Webgl/Materials/AvatarDemo/fragment.fs';
+import vertexShader from '@Webgl/Materials/AvatarDemo/vertex.vs';
 import { DANCES } from '@utils/constants.js';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
@@ -41,12 +41,13 @@ class AvatarDemo extends Group {
 			vertexShader: vertexShader,
 			uniforms: {
 				...globalUniforms,
-				uPixelSortingTexture: { value: pixelSortingTexture },
-				uGlitchTexture: { value: glitchTexture },
+				uOpacity: { value: 0 },
 			},
 			// color: '#000000',
 			metalness: 0.35,
 			roughness: 0.65,
+			transparent: true,
+			fog: false,
 		});
 
 		this.mesh.traverse((object) => {
@@ -95,12 +96,12 @@ class AvatarDemo extends Group {
 
 	show() {
 		this.mesh.visible = true;
-		gsap.to(this.material, { opacity: 1, duration: 1 });
+		gsap.to(this.material.uniforms.uOpacity, { value: 1, duration: 1 });
 	}
 
 	hide() {
-		gsap.to(this.material, {
-			opacity: 0,
+		gsap.to(this.material.uniforms.uOpacity, {
+			value: 0,
 			duration: 1,
 			onComplete: () => {
 				if (this.active) return;
