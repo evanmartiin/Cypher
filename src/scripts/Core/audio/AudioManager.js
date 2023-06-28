@@ -209,7 +209,7 @@ class AudioManager {
 		const howl = this._musics.get(id);
 
 		howl.off('fade', undefined, soundId);
-		howl.fade(1, 0, duration, soundId);
+		howl.fade(MUSIC_VOLUME, 0, duration, soundId);
 
 		return new Promise((resolve) => {
 			howl.once('fade', resolve, soundId);
