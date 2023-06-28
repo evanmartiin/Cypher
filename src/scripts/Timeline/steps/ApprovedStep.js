@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
+import { MUSIC_IDS, UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
 import { SplitText } from '@utils/gsap/SplitText.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
@@ -24,7 +24,6 @@ export default class ApprovedStep extends Step {
 		//SOUND
 		app.core.audio.playUiRandom(UI_POOL_IDS.END);
 		app.core.audio.playUI(UI_IDS.PUBLIC_END);
-		app.core.audio.playUI(UI_IDS.CAMERA_TRANSITION);
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 
@@ -57,16 +56,25 @@ export default class ApprovedStep extends Step {
 				stagger: 0.07,
 			},
 		);
-		tl.fromTo('.approved-logo', { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'power2.in' }, '>-0.5');
+		tl.fromTo(
+			'.approved-logo',
+			{
+				scale: 3,
+				opacity: 0,
+			},
+			{ scale: 1, opacity: 1, duration: 0.5, ease: 'power2.in' },
+			'>-0.5',
+		);
+
+		setTimeout(() => {
+			app.core.audio.playUI(UI_IDS.STAMP);
+		}, 300);
 
 		tl.to(
 			'.approved-container',
 			{
 				scale: 0.98,
 				duration: 0.07,
-				onComplete: () => {
-					app.core.audio.playUI(UI_IDS.TAMPON);
-				},
 			},
 			'>',
 		);

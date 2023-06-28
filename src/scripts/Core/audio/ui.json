@@ -40,23 +40,23 @@
 			"name": "go_4",
 			"src": "go_4.mp3"
 		},
-    {
+		{
 			"name": "transition_1",
 			"src": "transition_1.mp3"
 		},
-    {
+		{
 			"name": "transition_2",
 			"src": "transition_2.mp3"
 		},
-    {
+		{
 			"name": "transition_3",
 			"src": "transition_3.mp3"
 		},
-    {
+		{
 			"name": "transition_4",
 			"src": "transition_4.mp3"
 		},
-    {
+		{
 			"name": "transition_5",
 			"src": "transition_5.mp3"
 		},
@@ -89,6 +89,14 @@
 			"src": "transition.mp3"
 		},
 		{
+			"name": "transition_ui_1",
+			"src": "transition_ui_1.mp3"
+		},
+		{
+			"name": "transition_ui_2",
+			"src": "transition_ui_2.mp3"
+		},
+		{
 			"name": "public_end",
 			"src": "public_end.mp3"
 		},
@@ -98,8 +106,31 @@
 		},
 		{
 			"name": "cursor_placed",
-			"src": "cursor_placed.mp3"
+			"src": "cursor_placed_click.mp3"
+		},
+		{
+			"name": "stamp",
+			"src": "stamp.mp3"
+		},
+		{
+			"name": "freestyle",
+			"src": "freestyle.mp3"
+		},
+		{
+			"name": "lets_go",
+			"src": "lets_go.mp3"
+		},
+		{
+			"name": "nice",
+			"src": "nice.mp3"
+		},
+		{
+			"name": "insane",
+			"src": "insane.mp3"
+		},
+		{
+			"name": "yeah",
+			"src": "yeah.mp3"
 		}
-    
 	]
 }

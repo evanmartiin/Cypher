@@ -25,8 +25,9 @@ export const UI_IDS = {
 	CURSOR: 'cursor_placed',
 	TRANSITION_SCENE: 'transition',
 	TEXT_APPARITION: 'text_apparition',
-	CAMERA_TRANSITION: 'transition',
-	TAMPON: 'scratch',
+	CAMERA_TRANSITION: 'transition_ui_1',
+	STAMP: 'stamp',
+	FREESTYLE: 'freestyle',
 };
 
 export const UI_POOL_IDS = {
@@ -38,9 +39,11 @@ export const UI_POOL_IDS = {
 	SCRATCH: ['scratch'],
 	TEXT_APPARITION: ['text_apparition'],
 	TIMER: ['timer'],
-	TRANSITION_SCENE: ['transition'],
+	RANDOM_WORD: ['yeah', 'nice', 'lets_go', 'insane'],
+	TRANSITION_SCENE: ['transition', 'transition_ui_1', 'transition_ui_2'],
 	PUBLIC: ['public_end', 'public'],
 	CURSOR: ['cursor_placed'],
+	STAMP: ['stamp'],
 };
 
 class AudioManager {
@@ -95,6 +98,7 @@ class AudioManager {
 	playUI(name) {
 		// this._UI.play(name);
 		// console.log(name)
+		console.log(name)
 		const ui = this._sounds.get(name);
 		if (!ui) return;
 		ui.play();
