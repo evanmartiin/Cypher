@@ -53,7 +53,7 @@ class Title extends Group {
 		this.add(this.mesh);
 	}
 
-	show(danceID) {
+	show(danceID, r) {
 		const titleID = TITLE_IDS[danceID];
 
 		if (this.mesh.visible || titleID === undefined) return;
@@ -87,7 +87,8 @@ class Title extends Group {
 		});
 	}
 
-	stop() {
+	stop(r) {
+		console.log(r + ' STOP');
 		if (!this.mesh.visible) return;
 
 		gsap.killTweensOf(this.material.uniforms.uTransition);

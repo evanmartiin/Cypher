@@ -23,9 +23,6 @@ export default class StandbyStep extends Step {
 		app.webgl.scene._particles.hide();
 		app.webgl.camera.exit();
 		app.webgl.postProcessing.blurPass.enable();
-
-		app.dom.ui.energyContainer.hide();
-		app.game.stop();
 	}
 
 	abort() {
