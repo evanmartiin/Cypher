@@ -51,7 +51,7 @@ export class Particles extends Group {
 		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = new SphereGeometry();
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
-		baseGeometry.scale(2, 2, 2);
+		baseGeometry.scale(1.25, 1.25, 1.25);
 
 		const geometry = new BufferGeometry();
 
@@ -97,8 +97,8 @@ export class Particles extends Group {
 				uScale: { value: 0 },
 			},
 			side: DoubleSide,
-			metalness: 0.5,
-			roughness: 0.5,
+			metalness: 0.6,
+			roughness: 0.4,
 			envMap: app.core.assetsManager.get('envmap'),
 		});
 
@@ -107,10 +107,10 @@ export class Particles extends Group {
 
 	_createMesh() {
 		const mesh = new InstancedMesh(this._geometry, this._material, this.size * this.size);
-		mesh.scale.set(0.035, 0.035, 0.035);
+		mesh.scale.set(0.032, 0.032, 0.032);
 
 		this.add(mesh);
-		mesh.position.set(-1.1, -0.1, 2);
+		mesh.position.set(-1.1, -0.1, 2.8);
 		mesh.frustumCulled = false;
 
 		return mesh;
@@ -119,7 +119,7 @@ export class Particles extends Group {
 	onRender() {
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
-		// this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.fbo.texture;
+		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.vertexStore.positionMap;
 
 		this.sim.gpuCompute.compute();
 	}

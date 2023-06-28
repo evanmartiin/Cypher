@@ -65,7 +65,7 @@
 	}
 }
 #tf-video {
-	border: 15px solid #646cff;
+	border: 15px solid white;
 }
 
 #rec {
@@ -98,7 +98,6 @@
 
 	&.hide {
 		opacity: 0;
-		width: 0;
 	}
 }
 
@@ -186,13 +185,13 @@
 
 	img {
 		position: absolute;
-		width: 100px;
+		width: 150px;
 	}
 
 	.hovering {
 		position: absolute;
-		width: 83px;
-		height: 83px;
+		width: 120px;
+		height: 120px;
 		background-color: white;
 		border-radius: 50%;
 		transform: scale(0%);
@@ -229,13 +228,13 @@
 
 	img {
 		position: absolute;
-		width: 100px;
+		width: 150px;
 	}
 
 	.hovering {
 		position: absolute;
-		width: 83px;
-		height: 83px;
+		width: 120px;
+		height: 120px;
 		background-color: white;
 		border-radius: 50%;
 		transform: scale(0%);
@@ -359,7 +358,7 @@
 #bottom-text {
 	position: absolute;
 	left: 50vw;
-	bottom: 50px;
+	bottom: 100px;
 	transform: translateX(-50%);
 	z-index: 10;
 	color: white;

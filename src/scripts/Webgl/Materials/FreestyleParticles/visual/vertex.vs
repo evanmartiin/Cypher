@@ -8,6 +8,8 @@ uniform sampler2D velMap;
 
 varying vec3 vNewNormal;
 
+varying float vLife;
+
 mat3 calcLookAtMatrix(vec3 vector, float roll) {
   vec3 rr = vec3(sin(roll), cos(roll), 0.0);
   vec3 ww = normalize(vector);
@@ -50,6 +52,8 @@ void main() {
 
   csm_Normal *= particleRotation;
   vNewNormal = csm_Normal;
+
+  vLife = positionTexture.w;
 
   csm_PositionRaw = projectionMatrix * modelViewMatrix * vec4(transformedPos, 1.0);
 }
