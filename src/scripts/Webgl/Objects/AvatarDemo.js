@@ -10,8 +10,10 @@ import { state } from '@scripts/State.js';
 
 const ANIM_IDS = {
 	[DANCES.BABY_FREEZE]: 0,
-	[DANCES.BACK_SPIN]: 1,
-	[DANCES.THREE_STEPS]: 2,
+	[DANCES.BACK_SPIN]: 4,
+	[DANCES.THREE_STEPS]: 5,
+	[DANCES.JSP_LE_NOM]: 2,
+	[DANCES.DERNIERE_DANSE]: 3,
 };
 
 class AvatarDemo extends Group {
@@ -82,12 +84,12 @@ class AvatarDemo extends Group {
 	resume() {
 		this.action.paused = false;
 		this.active = true;
-		// this.show();
+		this.show();
 	}
 
 	stop() {
 		this.active = false;
-		// this.hide();
+		this.hide();
 	}
 
 	show() {

@@ -53,7 +53,7 @@ export default class TutorialStep extends Step {
 				duration: 8,
 				delay: 1,
 				onStart: () => {
-					app.dom.ui.bottomText.showText("Et ça, c'est aussi toi, bouge pour tester !");
+					app.dom.ui.bottomText.showText("Et ça, c'est encore toi, bouge pour tester !");
 					this.lightOn(40, new Vector2(50, 60));
 					app.webgl.scene.avatar.enableControl();
 					app.webgl.scene._particles.show();
@@ -73,7 +73,7 @@ export default class TutorialStep extends Step {
 				delay: 1,
 				onStart: () => {
 					app.dom.ui.bottomText.showText('À chaque niveau, Bernard-Boy te montre un mouvement que tu dois reproduire.');
-					this.lightOn(15, new Vector2(23, 50));
+					this.lightOn(15, new Vector2(27, 50));
 					app.webgl.scene.avatarDemo.dance(0);
 				},
 				onComplete: () => {
@@ -106,7 +106,7 @@ export default class TutorialStep extends Step {
 			{
 				delay: 1,
 				onStart: () => {
-					app.dom.ui.bottomText.showText('Alors, prêt ?');
+					app.dom.ui.bottomText.showText("Alors, t'es prêt ?");
 					app.dom.ui.tutoEndButton.show();
 					app.dom.ui.tutoSkipButton.hide();
 				},
