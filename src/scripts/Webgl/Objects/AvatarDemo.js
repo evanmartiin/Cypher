@@ -63,7 +63,6 @@ class AvatarDemo extends Group {
 		this.mesh.visible = false;
 
 		this.mixer = new AnimationMixer(this.mesh);
-		console.log(this.gltf.animations);
 	}
 
 	dance(danceID) {

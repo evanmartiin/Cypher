@@ -12,7 +12,6 @@ export default class StandbyStep extends Step {
 
 	start() {
 		this.isRunning = true;
-		console.log('Undetected');
 
 		this.timeout = setTimeout(() => {
 			this.startTimer();
@@ -20,7 +19,6 @@ export default class StandbyStep extends Step {
 	}
 
 	startTimer() {
-		console.log('Standby');
 		clearTimeout(this.timeout);
 		app.dom.ui.title.node.innerHTML = this.text;
 		app.timeline.timer.resetTimer();
