@@ -14,18 +14,18 @@ float map(float value, float min1, float max1, float min2, float max2) {
 float SMOOTH = 0.3;
 
 void main() {
-    float noise = texture2D(tNoise, vUv * vec2(.5, 1.)).r;
+  float noise = texture2D(tNoise, vUv * vec2(.5, 1.)).r;
 
-    float brushNoise = texture2D(tBrushNoise, vUv + vec2(0., noise * 0.2)).r;
-    brushNoise = map(brushNoise, 0., 1., 0.2, 0.8);
+  float brushNoise = texture2D(tBrushNoise, vUv + vec2(0., noise * 0.2)).r;
+  brushNoise = map(brushNoise, 0., 1., 0.2, 0.8);
 
-    float text = texture2D(tTex, vTextureUv).b;
+  float text = texture2D(tTex, vTextureUv).b;
 
-    float anim = step(uTransition, brushNoise);
+  float anim = step(uTransition, brushNoise);
 
-    if (!uReverse) {
-        anim = 1. - anim;
-    }
+  if(!uReverse) {
+    anim = 1. - anim;
+  }
 
-    gl_FragColor = vec4(anim * text);
+  gl_FragColor = vec4(anim * text);
 }

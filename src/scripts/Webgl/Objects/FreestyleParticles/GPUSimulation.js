@@ -71,7 +71,7 @@ export class GPUSimulation {
 		for (let i = 0, il = posArray.length; i < il; i += 4) {
 			// const phi = Math.random() * 2 * Math.PI;
 			// const theta = Math.random() * Math.PI;
-			const r = 0.25 + Math.random() * 2;
+			const r = 0.25 + Math.random();
 
 			const bruhI = MathUtils.randFloat(0, 360);
 			const bruhJ = MathUtils.randFloat(-90, 90);
@@ -134,6 +134,6 @@ export class GPUSimulation {
 
 		this.posUniforms.uDelta.value = deltaRatio;
 
-		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.08);
+		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.25);
 	}
 }

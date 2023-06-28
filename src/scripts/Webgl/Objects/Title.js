@@ -44,7 +44,7 @@ class Title extends Group {
 		});
 
 		this.mesh = new Mesh(geometry, this.material);
-		this.mesh.position.set(0, 1.2, 2);
+		this.mesh.position.set(0, 1.2, 1.5);
 		this.mesh.rotateZ(Math.PI / 32);
 		this.mesh.visible = false;
 
@@ -64,9 +64,11 @@ class Title extends Group {
 
 		app.core.audio.playUI(UI_IDS.TEXT_APPARITION);
 
+		gsap.fromTo(this.mesh.position, { z: 1.5 }, { z: 3, duration: 5, ease: 'Power1.out' });
+
 		gsap.to(this.material.uniforms.uTransition, {
 			value: 1,
-			duration: 2,
+			duration: 2.25,
 			onComplete: () => {
 				this.material.uniforms.uTransition.value = 0;
 				this.material.uniforms.uReverse.value = true;
@@ -75,8 +77,8 @@ class Title extends Group {
 
 		gsap.to(this.material.uniforms.uTransition, {
 			value: 1,
-			duration: 2,
-			delay: 2,
+			duration: 2.25,
+			delay: 2.25,
 			onComplete: () => {
 				this.mesh.visible = false;
 			},

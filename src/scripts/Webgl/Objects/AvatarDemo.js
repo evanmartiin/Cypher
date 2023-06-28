@@ -1,8 +1,12 @@
-import { AnimationMixer, Group, MeshStandardMaterial } from 'three';
+import { gsap } from 'gsap';
+import { AnimationMixer, Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
+import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
+import fragmentShader from '@Webgl/Materials/Environment/fragment.fs';
+import vertexShader from '@Webgl/Materials/Environment/vertex.vs';
 import { DANCES } from '@utils/constants.js';
+import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { gsap } from 'gsap';
 
 const ANIM_IDS = {
 	[DANCES.BABY_FREEZE]: 0,
@@ -21,12 +25,25 @@ class AvatarDemo extends Group {
 		this.gltf = app.core.assetsManager.get('avatarDemo');
 		this.mesh = this.gltf.scene;
 
-		this.material = new MeshStandardMaterial({
-			metalness: 0.4,
-			roughness: 0.8,
-			fog: false,
-			transparent: true,
-			opacity: 0,
+		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
+		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
+		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
+
+		const glitchTexture = app.core.assetsManager.get('glitch');
+		glitchTexture.wrapS = MirroredRepeatWrapping;
+		glitchTexture.wrapT = MirroredRepeatWrapping;
+
+		this.material = new CustomShaderMaterial({
+			baseMaterial: MeshStandardMaterial,
+			fragmentShader: fragmentShader,
+			vertexShader: vertexShader,
+			uniforms: {
+				...globalUniforms,
+				uPixelSortingTexture: { value: pixelSortingTexture },
+				uGlitchTexture: { value: glitchTexture },
+			},
+			metalness: 0.01,
+			roughness: 0.99,
 		});
 
 		this.mesh.traverse((object) => {
@@ -45,7 +62,7 @@ class AvatarDemo extends Group {
 
 		this.mixer = new AnimationMixer(this.mesh);
 	}
-	
+
 	dance(danceID) {
 		const animID = ANIM_IDS[danceID];
 
@@ -65,25 +82,29 @@ class AvatarDemo extends Group {
 	resume() {
 		this.action.paused = false;
 		this.active = true;
-		this.show();
+		// this.show();
 	}
 
 	stop() {
 		this.active = false;
-		this.hide();
+		// this.hide();
 	}
 
 	show() {
 		this.mesh.visible = true;
-		gsap.to(this.material, { opacity: 1, duration: 1 })
+		gsap.to(this.material, { opacity: 1, duration: 1 });
 	}
 
 	hide() {
-		gsap.to(this.material, { opacity: 0, duration: 1, onComplete: () => {
-			if (this.active) return;
-			this.mesh.visible = false;
-			if (this.action) this.action.paused = true;
-		}})
+		gsap.to(this.material, {
+			opacity: 0,
+			duration: 1,
+			onComplete: () => {
+				if (this.active) return;
+				this.mesh.visible = false;
+				if (this.action) this.action.paused = true;
+			},
+		});
 	}
 
 	onRender({ dt }) {

@@ -12,7 +12,6 @@
 
 	&.hide {
 		opacity: 0;
-		width: 0;
 		pointer-events: none;
 	}
 }
@@ -65,7 +64,7 @@
 	}
 }
 #tf-video {
-	border: 15px solid #646cff;
+	border: 15px solid white;
 }
 
 #rec {
@@ -94,11 +93,11 @@
 	transform-origin: center center;
 	transition: 0.5s;
 	width: 500px;
-	margin-top: 10px;
+	margin-top: 25px;
+	line-height: 50px;
 
 	&.hide {
 		opacity: 0;
-		width: 0;
 	}
 }
 
@@ -186,15 +185,16 @@
 
 	img {
 		position: absolute;
-		width: 100px;
+		width: 150px;
 	}
 
 	.hovering {
 		position: absolute;
-		width: 83px;
-		height: 83px;
+		width: 120px;
+		margin-left: 7px;
+		height: 120px;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 100%;
 		transform: scale(0%);
 		mix-blend-mode: difference;
 	}
@@ -229,15 +229,16 @@
 
 	img {
 		position: absolute;
-		width: 100px;
+		width: 150px;
 	}
 
 	.hovering {
 		position: absolute;
-		width: 83px;
-		height: 83px;
+		width: 120px;
+		margin-left: 7px;
+		height: 120px;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 100%;
 		transform: scale(0%);
 		mix-blend-mode: difference;
 	}
@@ -278,9 +279,10 @@
 	.hovering {
 		position: absolute;
 		width: 120px;
+		margin-left: 7px;
 		height: 120px;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 100%;
 		transform: scale(0%);
 		mix-blend-mode: difference;
 	}
@@ -321,9 +323,10 @@
 	.hovering {
 		position: absolute;
 		width: 120px;
+		margin-left: 7px;
 		height: 120px;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 100%;
 		transform: scale(0%);
 		mix-blend-mode: difference;
 	}
@@ -359,7 +362,7 @@
 #bottom-text {
 	position: absolute;
 	left: 50vw;
-	bottom: 50px;
+	bottom: 100px;
 	transform: translateX(-50%);
 	z-index: 10;
 	color: white;

@@ -14,11 +14,16 @@ export default class FreestyleStep extends Step {
 
 		app.dom.ui.title.node.innerHTML = this.text;
 
+		app.timeline.timer.resetTimer();
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true);
 		app.tools.recorder.start();
 		app.webgl.scene.title.show('FREESTYLE');
 		app.webgl.scene.leftHandParticles.show();
+		app.webgl.scene.carpet.show();
 		app.webgl.scene.rightHandParticles.show();
+
+		app.dom.ui.energyContainer.hide();
+		app.game.stop();
 	}
 
 	stop() {
