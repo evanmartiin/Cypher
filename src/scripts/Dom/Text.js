@@ -13,7 +13,7 @@ class Text extends UiElement {
 		this.node.innerHTML = text;
 		this.node.style.opacity = 1;
 		const splittedChars = new SplitText(this.node, { type: 'words' }).words;
-		gsap.fromTo(splittedChars, { opacity: 0, translateY: '10px' }, { opacity: 1, translateY: '0px', duration: 0.2, stagger: 0.07 });
+		gsap.fromTo(splittedChars, { opacity: 0, translateY: '13px' }, { opacity: 1, translateY: '0px', duration: 0.2, stagger: 0.05 });
 	}
 
 	hideText(hideAtTheEnd = false) {
