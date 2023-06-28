@@ -4,16 +4,17 @@ import { Vector3 } from 'three';
 import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
-import { VIDEO_SIZE } from './TensorflowCamera.js';
 
 const DISTANCE_THRESHOLD = 0.035;
 const DETECTION_THRESHOLD = 0.4;
 const UNDETECTION_THRESHOLD = 0.3;
+const UNDETECTION_DURATION = 2000;
 
 class TensorflowPose {
 	constructor() {
 		state.register(this);
 		this.asyncInit();
+		this.undetectedDuration = 0;
 	}
 
 	onFirstClick() {
@@ -48,10 +49,11 @@ class TensorflowPose {
 			this.runtime = 'tfjs';
 		}
 
-		this.tick();
+		this.loaded = true;
 	}
 
-	tick = async () => {
+	async onRender({ dt }) {
+		if (!this.loaded) return;
 		const results = await this.renderResults();
 
 		if (results) {
@@ -79,13 +81,15 @@ class TensorflowPose {
 			} else {
 				if (this.playerDetected) {
 					this.playerDetected = undefined;
+					this.undetectedDuration += dt;
+
+					// TODO: trigger PLAYER_LEFT after 2s undetected
+					// if (this.undetectedDuration)
 					state.emit(EVENTS.PLAYER_LEFT);
 				}
 			}
 		}
-
-		requestAnimationFrame(this.tick);
-	};
+	}
 
 	async renderResults() {
 		if (this.ready !== true || app.tensorflow.camera.ready !== true) return;
