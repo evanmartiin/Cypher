@@ -140,7 +140,7 @@ void main() {
 
 	vec3 toHand;
 
-	vec3 velocity = toHand * (1.0 - smoothstep(50.0, 350.0, length(toHand))) * (life * 0.01) * uAttraction;
+	vec3 velocity = vec3(0.0);
 
 	// if(position.y < 1.0) {
 	// 	vec3 diff = vec3(0., 0., 0.) - position;

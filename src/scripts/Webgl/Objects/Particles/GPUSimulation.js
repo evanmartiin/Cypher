@@ -58,9 +58,9 @@ export class GPUSimulation {
 
 		this.velUniforms.uTime = { value: globalUniforms.uTime.value };
 		this.velUniforms.uDelta = { value: 0.0 };
-		this.velUniforms.uSpeed = { value: 0.02 };
+		this.velUniforms.uSpeed = { value: 0.01 };
 		this.velUniforms.uAttraction = { value: 1 };
-		this.velUniforms.uCurlSize = { value: 0.02 };
+		this.velUniforms.uCurlSize = { value: 0.04 };
 		this.velUniforms.uTimeScale = { value: 0.5 };
 		this.velUniforms.uRigPositionTexture = { value: new Texture() };
 
