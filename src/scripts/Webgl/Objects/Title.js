@@ -8,12 +8,12 @@ import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
 const TITLE_IDS = {
-	[DANCES.BABY_FREEZE]: 0,
-	[DANCES.BACK_SPIN]: 1,
-	[DANCES.THREE_STEPS]: 2,
-	[DANCES.JSP_LE_NOM]: 2,
-	[DANCES.DERNIERE_DANSE]: 2,
-	FREESTYLE: 3,
+	[DANCES.STEP_DOWN]: 0,
+	[DANCES.CROSS_STEP_360]: 1,
+	[DANCES.FONT_JUMP]: 2,
+	[DANCES.SIDE_TO_SIDE]: 3,
+	[DANCES.KICK_SIDE]: 4,
+	FREESTYLE: 5,
 };
 
 class Title extends Group {
@@ -27,7 +27,7 @@ class Title extends Group {
 		const noiseTex = app.core.assetsManager.get('noise');
 		const brushNoiseTex = app.core.assetsManager.get('brushNoise');
 
-		const geometry = new PlaneGeometry(4, 1);
+		const geometry = new PlaneGeometry(6, 1);
 
 		this.material = new ShaderMaterial({
 			vertexShader: vertexShader,
@@ -66,7 +66,7 @@ class Title extends Group {
 
 		app.core.audio.playUI(UI_IDS.TEXT_APPARITION);
 
-		gsap.fromTo(this.mesh.position, { z: 1.5 }, { z: 3, duration: 5, ease: 'Power1.out' });
+		gsap.fromTo(this.mesh.position, { z: 1 }, { z: 2, duration: 5, ease: 'Power1.out' });
 
 		gsap.to(this.material.uniforms.uTransition, {
 			value: 1,

@@ -131,6 +131,30 @@
 		{
 			"name": "yeah",
 			"src": "yeah.mp3"
+		},
+		{
+			"name": "sub1",
+			"src": "sub1.mp3"
+		},
+		{
+			"name": "sub2",
+			"src": "sub2.mp3"
+		},
+		{
+			"name": "sub3",
+			"src": "sub3.mp3"
+		},
+		{
+			"name": "sub4",
+			"src": "sub4.mp3"
+		},
+		{
+			"name": "sub5",
+			"src": "sub5.mp3"
+		},
+		{
+			"name": "sub6",
+			"src": "sub6.mp3"
 		}
 	]
 }

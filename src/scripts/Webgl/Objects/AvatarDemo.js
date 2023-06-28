@@ -1,19 +1,19 @@
 import { gsap } from 'gsap';
 import { AnimationMixer, Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
-import fragmentShader from '@Webgl/Materials/Environment/fragment.fs';
-import vertexShader from '@Webgl/Materials/Environment/vertex.vs';
+import fragmentShader from '@Webgl/Materials/AvatarDemo/fragment.fs';
+import vertexShader from '@Webgl/Materials/AvatarDemo/vertex.vs';
 import { DANCES } from '@utils/constants.js';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
 const ANIM_IDS = {
-	[DANCES.BABY_FREEZE]: 0,
-	[DANCES.BACK_SPIN]: 4,
-	[DANCES.THREE_STEPS]: 5,
-	[DANCES.JSP_LE_NOM]: 2,
-	[DANCES.DERNIERE_DANSE]: 3,
+	[DANCES.KICK_SIDE]: 0,
+	[DANCES.SIDE_TO_SIDE]: 4,
+	[DANCES.FONT_JUMP]: 5,
+	[DANCES.CROSS_STEP_360]: 2,
+	[DANCES.STEP_DOWN]: 3,
 };
 
 class AvatarDemo extends Group {
@@ -41,12 +41,13 @@ class AvatarDemo extends Group {
 			vertexShader: vertexShader,
 			uniforms: {
 				...globalUniforms,
-				uPixelSortingTexture: { value: pixelSortingTexture },
-				uGlitchTexture: { value: glitchTexture },
+				uOpacity: { value: 0 },
 			},
 			// color: '#000000',
 			metalness: 0.35,
 			roughness: 0.65,
+			transparent: true,
+			fog: false,
 		});
 
 		this.mesh.traverse((object) => {
@@ -95,12 +96,12 @@ class AvatarDemo extends Group {
 
 	show() {
 		this.mesh.visible = true;
-		gsap.to(this.material, { opacity: 1, duration: 1 });
+		gsap.to(this.material.uniforms.uOpacity, { value: 1, duration: 1 });
 	}
 
 	hide() {
-		gsap.to(this.material, {
-			opacity: 0,
+		gsap.to(this.material.uniforms.uOpacity, {
+			value: 0,
 			duration: 1,
 			onComplete: () => {
 				if (this.active) return;
