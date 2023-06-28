@@ -9,7 +9,7 @@ export default class TutorialStep extends Step {
 		this.text = 'Tutoriel';
 	}
 
-	start() {
+	start(timing = 0) {
 		this.isRunning = true;
 
 		this.resetLight();
@@ -24,7 +24,7 @@ export default class TutorialStep extends Step {
 		app.dom.ui.tutoSkipButton.show();
 		app.dom.cursors.enable();
 
-		this.timeline = gsap.timeline();
+		this.timeline = gsap.timeline({ paused: true });
 		this.timeline.to(this, {
 			duration: 4,
 			delay: 1,
@@ -113,6 +113,9 @@ export default class TutorialStep extends Step {
 			},
 			'>',
 		);
+
+		this.timeline.time(timing);
+		this.timeline.play();
 	}
 
 	stop() {
@@ -129,11 +132,15 @@ export default class TutorialStep extends Step {
 	}
 
 	save() {
-		return {};
+		return {
+			timing: this.timeline.time(),
+			text: app.dom.ui.bottomText.text,
+		};
 	}
 
-	restore() {
-		this.start();
+	restore(save) {
+		this.start(save.timing);
+		app.dom.ui.bottomText.showText(save.text);
 	}
 
 	lightOff() {
