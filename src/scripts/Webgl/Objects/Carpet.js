@@ -16,7 +16,7 @@ class Carpet extends Group {
 	show() {
 		this.killTweens();
 		gsap.to(this, { rotateMultiplier: 0.3, duration: 1, ease: 'power2.out' });
-		gsap.to(this.opacity, { value: 1, duration: 1, ease: 'power2.out' });
+		gsap.to(this.opacity, { value: 0.6, duration: 1, ease: 'power2.out' });
 		gsap.to(this.mesh.position, { y: 0.025, duration: 0.5, ease: 'power2.out' });
 	}
 
@@ -84,6 +84,7 @@ class Carpet extends Group {
 			},
 			side: FrontSide,
 			blending: AdditiveBlending,
+			opacity: 0.2,
 		});
 
 		this.mesh = new Mesh(new PlaneGeometry(1, 1), material);
