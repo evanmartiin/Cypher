@@ -14,21 +14,21 @@ vec4 glitchTex = texture2D(uGlitchTexture, vTransitionUvs * 5.);
 vec4 pixelSortingTex = texture2D(uPixelSortingTexture, vTransitionUvs * 5.);
 
 float tempIn = uTransitionProgress * 25.;
-tempIn -= (pixelSortingTex.r + glitchTex.r) * 15.;
+tempIn -= (pixelSortingTex.r + glitchTex.r) * 17.5;
 
 float distIn = 1.0 - length(avatarWorldPos);
-tempIn = smoothstep(tempIn - 0.5, tempIn, distIn);
+tempIn = smoothstep(tempIn - 0.8, tempIn, distIn);
 
 float tempOut = uTransitionProgress * 25.;
-tempOut += (pixelSortingTex.r + glitchTex.r) * 15.;
+tempOut += (pixelSortingTex.r + glitchTex.r) * 17.5;
 
 float distOut = length(avatarWorldPos);
-tempOut = smoothstep(tempOut - 0.5, tempOut, distOut);
+tempOut = smoothstep(tempOut - 0.8, tempOut, distOut);
 
 // float dist = length(vTransitionUvs - 0.5);
 
 float avatarDist = smoothstep(2., 3., length(avatarWorldPos));
-float dist = smoothstep(0., 25., length(avatarWorldPos));
+float dist = smoothstep(0., 50., length(avatarWorldPos));
 
 float avatarDemoDist = smoothstep(0., 2.0, length(avatarWorldPos - vec3(3.0, 0.0, 3.0) * 1.5));
 

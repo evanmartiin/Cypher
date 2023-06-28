@@ -23,9 +23,6 @@ export default class FreestyleStep extends Step {
 		app.webgl.scene.leftHandParticles.show();
 		app.webgl.scene.carpet.show();
 		app.webgl.scene.rightHandParticles.show();
-
-		app.dom.ui.energyContainer.hide();
-		app.game.stop();
 	}
 
 	stop() {

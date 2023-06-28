@@ -1,11 +1,30 @@
 import { gsap } from 'gsap';
 import { Group, InstancedBufferAttribute, InstancedMesh, Matrix4, PlaneGeometry, ShaderMaterial } from 'three';
+import { UI_IDS } from '@Core/audio/AudioManager.js';
 import fragmentShader from '@Webgl/Materials/Reactions/fragment.fs';
 import vertexShader from '@Webgl/Materials/Reactions/vertex.vs';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
 const REACTIONS_NB = 7;
+const REACTIONS = [
+	{
+		sound: UI_IDS.LETS_GO,
+		texOffset: 0,
+	},
+	{
+		sound: UI_IDS.YEAH,
+		texOffset: 1,
+	},
+	{
+		sound: UI_IDS.INSANE,
+		texOffset: 2,
+	},
+	{
+		sound: UI_IDS.NICE,
+		texOffset: 3,
+	},
+];
 
 const DUMMY = new Matrix4();
 
@@ -60,10 +79,12 @@ class Reactions extends Group {
 	show() {
 		if (this.mesh.visible) return;
 
+		const reactionID = REACTIONS[Math.floor(Math.random() * REACTIONS.length)];
+
 		this.mesh.visible = true;
 
 		this.material.uniforms.uTransition.value = 0;
-		this.material.uniforms.uTextureOffset.value = Math.floor(Math.random() * 4);
+		this.material.uniforms.uTextureOffset.value = reactionID.texOffset;
 
 		gsap.to(this.material.uniforms.uTransition, {
 			value: 1,
@@ -73,6 +94,8 @@ class Reactions extends Group {
 				this.stop();
 			},
 		});
+
+		app.core.audio.playUI(reactionID.sound);
 	}
 
 	stop() {

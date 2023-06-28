@@ -1,14 +1,17 @@
+body {
+	overflow: hidden;
+}
+
 #timer {
 	width: 200px;
 	height: 30px;
 	opacity: 1;
 	pointer-events: all;
-	transition: 0.1s;
 	font-family: 'RoadRage';
 	font-size: 70px;
 	transform: rotateZ(-5deg) translateY(-40px);
 	text-align: center;
-	transition: 0.5s;
+	transition: 0.75s;
 
 	&.hide {
 		opacity: 0;
@@ -51,7 +54,6 @@
 	position: absolute;
 	bottom: 50px;
 	left: 50px;
-	border-radius: 50px;
 	box-sizing: content-box;
 	transform: scale(0.5) translateX(-50%) translateY(50%) rotateY(180deg);
 	-webkit-transform: scale(0.5) translateX(-50%) translateY(50%) rotateY(180deg); /* Safari and Chrome */
@@ -64,7 +66,7 @@
 	}
 }
 #tf-video {
-	border: 15px solid white;
+	border: 5px solid white;
 }
 
 #rec {
@@ -91,7 +93,7 @@
 	text-align: center;
 	transform: rotateZ(-5deg);
 	transform-origin: center center;
-	transition: 0.5s;
+	transition: 1s;
 	width: 500px;
 	margin-top: 25px;
 	line-height: 50px;
@@ -258,7 +260,7 @@
 .end-tutorial {
 	position: absolute;
 	top: 50vh;
-	left: 75vw;
+	left: 65vw;
 	width: 75px;
 	height: 75px;
 	transform: translateX(-50%) translateY(-50%);
@@ -302,7 +304,7 @@
 .skip-tutorial {
 	position: absolute;
 	top: 50vh;
-	left: 75vw;
+	left: 65vw;
 	width: 75px;
 	height: 75px;
 	transform: translateX(-50%) translateY(-50%);
@@ -367,9 +369,9 @@
 	z-index: 10;
 	color: white;
 	font-family: 'ModernGothic';
-	font-size: 25px;
+	font-size: 29px;
 	text-align: center;
-	width: 500px;
+	width: 600px;
 	transition: 0.5s;
 	pointer-events: none;
 
@@ -474,7 +476,7 @@
 	top: 50vh;
 	left: 50vw;
 	transform: translateX(-50%) translateY(-50%);
-	transition: .5s;
+	transition: 0.5s;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -485,8 +487,6 @@
 	&.hide {
 		opacity: 0;
 	}
-
-	
 }
 
 .id {

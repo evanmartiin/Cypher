@@ -85,6 +85,7 @@ class Carpet extends Group {
 				uGlitchTexture: { value: glitchTexture },
 			},
 			blending: AdditiveBlending,
+			opacity: 0.2,
 		});
 
 		this.mesh = new Mesh(new PlaneGeometry(1, 1), material);

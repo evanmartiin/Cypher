@@ -2,7 +2,7 @@ import { Color } from 'three';
 
 const globalUniforms = {
 	uTime: { value: 0.0 },
-	uTransitionProgress: { value: -1 },
+	uTransitionProgress: { value: -1.3 },
 	uSwitchTransition: { value: true },
 	uTransitionColor: { value: new Color('#18f89d') },
 };

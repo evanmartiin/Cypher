@@ -28,6 +28,16 @@ export const UI_IDS = {
 	CAMERA_TRANSITION: 'transition_ui_1',
 	STAMP: 'stamp',
 	FREESTYLE: 'freestyle',
+	YEAH: 'yeah',
+	NICE: 'nice',
+	LETS_GO: 'lets_go',
+	INSANE: 'insane',
+	SUB1: 'sub1',
+	SUB2: 'sub2',
+	SUB3: 'sub3',
+	SUB4: 'sub4',
+	SUB5: 'sub5',
+	SUB6: 'sub6',
 };
 
 export const UI_POOL_IDS = {
@@ -39,7 +49,6 @@ export const UI_POOL_IDS = {
 	SCRATCH: ['scratch'],
 	TEXT_APPARITION: ['text_apparition'],
 	TIMER: ['timer'],
-	RANDOM_WORD: ['yeah', 'nice', 'lets_go', 'insane'],
 	TRANSITION_SCENE: ['transition', 'transition_ui_1', 'transition_ui_2'],
 	PUBLIC: ['public_end', 'public'],
 	CURSOR: ['cursor_placed'],
@@ -95,12 +104,11 @@ class AudioManager {
 		howl.fade(howl.volume(undefined, howl), volume, duration, soundId);
 	}
 
-	playUI(name) {
+	playUI(name, volume = UI_VOLUME) {
 		// this._UI.play(name);
-		// console.log(name)
-		console.log(name)
 		const ui = this._sounds.get(name);
 		if (!ui) return;
+		ui.volume(volume);
 		ui.play();
 		return ui;
 	}
@@ -114,7 +122,6 @@ class AudioManager {
 			// this._UI.play(names[random]);
 		} else {
 			const ui = this._sounds.get(names[random]);
-			// console.log(ui)
 			if (!ui) return;
 			ui.play();
 			// this._UI.play(names[random]);
@@ -198,9 +205,6 @@ class AudioManager {
 
 		const howl = this._musics.get(id);
 		const soundId = howl.play();
-
-		// console.log(soundId)
-		// console.log(volume)
 
 		howl.fade(0, volume, duration, soundId);
 

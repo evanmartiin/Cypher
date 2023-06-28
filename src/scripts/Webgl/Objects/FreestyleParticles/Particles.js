@@ -21,6 +21,7 @@ import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { GPUSimulation } from './GPUSimulation.js';
+import { gsap } from 'gsap';
 
 export class FreestyleParticles extends Group {
 	constructor(size, coords, acceleration) {
@@ -41,9 +42,27 @@ export class FreestyleParticles extends Group {
 		this._mesh = this._createMesh();
 	}
 
+	show() {
+		this.active = true;
+		this.visible = true;
+		gsap.to(this._material.uniforms.uScale, { value: 1, duration: 1 });
+	}
+
+	hide() {
+		this.active = false;
+		gsap.to(this._material.uniforms.uScale, {
+			value: 0,
+			duration: 1,
+			onComplete: () => {
+				if (this.active) return;
+				this.visible = false;
+			},
+		});
+	}
+
 	_createGeometry() {
-		const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
-		// const baseGeometry = new OctahedronGeometry(1, 0);
+		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
+		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
 		baseGeometry.scale(1, 1, 1);
 
@@ -109,14 +128,6 @@ export class FreestyleParticles extends Group {
 		mesh.frustumCulled = false;
 
 		return mesh;
-	}
-
-	show() {
-		this.visible = true;
-	}
-
-	hide() {
-		this.visible = false;
 	}
 
 	onRender() {

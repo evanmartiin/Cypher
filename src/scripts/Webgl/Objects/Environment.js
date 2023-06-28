@@ -7,7 +7,6 @@ import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
-
 export default class Environment extends Group {
 	constructor() {
 		super();
@@ -80,7 +79,7 @@ export default class Environment extends Group {
 				noiseTexture.wrapS = MirroredRepeatWrapping;
 				noiseTexture.wrapT = MirroredRepeatWrapping;
 
-				o.material = new CustomShaderMaterial({
+				this.logoMaterial = new CustomShaderMaterial({
 					baseMaterial: MeshStandardMaterial,
 					fragmentShader: logoFragmentShader,
 					vertexShader: vertexShader,
@@ -89,14 +88,18 @@ export default class Environment extends Group {
 						uPixelSortingTexture: { value: pixelSortingTexture },
 						uGlitchTexture: { value: glitchTexture },
 						uNoiseTexture: { value: noiseTexture },
+						uEnergyAmount: { value: 0 },
 					},
 					map: diffuse,
 					normalMap: normal,
 					roughnessMap: roughness,
 					transparent: true,
+					opacity: 0.85,
 					// metalness: 0.6,
 					// roughness: 0.4,
 				});
+
+				o.material = this.logoMaterial;
 			}
 			if (o.name === 'ventilationI') {
 				const diffuse = app.core.assetsManager.get('ventilationIDiffuse');
@@ -148,62 +151,6 @@ export default class Environment extends Group {
 					roughnessMap: roughness,
 					aoMap: ao,
 					normalMap: normal,
-					// metalness: 0.6,
-					// roughness: 0.4,
-				});
-			}
-			if (o.name === 'fenetreO') {
-				const diffuse = app.core.assetsManager.get('fenetreODiffuse');
-				diffuse.flipY = false;
-				const normal = app.core.assetsManager.get('fenetreONormal');
-				normal.flipY = false;
-				const roughness = app.core.assetsManager.get('fenetreORoughness');
-				roughness.flipY = false;
-				const ao = app.core.assetsManager.get('fenetreOAo');
-				ao.flipY = false;
-
-				o.material = new CustomShaderMaterial({
-					baseMaterial: MeshStandardMaterial,
-					fragmentShader: fragmentShader,
-					vertexShader: vertexShader,
-					uniforms: {
-						...globalUniforms,
-						uPixelSortingTexture: { value: pixelSortingTexture },
-						uGlitchTexture: { value: glitchTexture },
-					},
-					map: diffuse,
-					roughnessMap: roughness,
-					aoMap: ao,
-					normalMap: normal,
-					transparent: true,
-					// metalness: 0.6,
-					// roughness: 0.4,
-				});
-			}
-			if (o.name === 'fenetreI') {
-				const diffuse = app.core.assetsManager.get('fenetreIDiffuse');
-				diffuse.flipY = false;
-				const normal = app.core.assetsManager.get('fenetreINormal');
-				normal.flipY = false;
-				const roughness = app.core.assetsManager.get('fenetreIRoughness');
-				roughness.flipY = false;
-				const ao = app.core.assetsManager.get('fenetreIAo');
-				ao.flipY = false;
-
-				o.material = new CustomShaderMaterial({
-					baseMaterial: MeshStandardMaterial,
-					fragmentShader: fragmentShader,
-					vertexShader: vertexShader,
-					uniforms: {
-						...globalUniforms,
-						uPixelSortingTexture: { value: pixelSortingTexture },
-						uGlitchTexture: { value: glitchTexture },
-					},
-					map: diffuse,
-					roughnessMap: roughness,
-					aoMap: ao,
-					normalMap: normal,
-					transparent: true,
 					// metalness: 0.6,
 					// roughness: 0.4,
 				});
@@ -413,5 +360,9 @@ export default class Environment extends Group {
 		app.webgl.scene.add(mesh);
 
 		return mesh;
+	}
+
+	onRender() {
+		this.logoMaterial.uniforms.uEnergyAmount.value = app.energy.normalizedCurrent;
 	}
 }
