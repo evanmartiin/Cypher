@@ -472,6 +472,37 @@ body {
 	}
 }
 
+.id-container {
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	transform: translateX(-50%) translateY(-50%);
+	transition: .5s;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	// margin-top: -10vh;
+	text-align: center;
+
+	&.hide {
+		opacity: 0;
+	}
+
+	
+}
+
+.id {
+	font-family: 'RoadRage';
+	font-size: 170px;
+	color: #ffc700;
+}
+
+.id-recover {
+	font-family: 'ModernGothic';
+	font-size: 50px;
+}
+
 #require-sound {
 	position: absolute;
 	top: 0;
