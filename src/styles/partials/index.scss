@@ -55,7 +55,6 @@ body {
 	position: absolute;
 	bottom: 50px;
 	left: 50px;
-	border-radius: 50px;
 	box-sizing: content-box;
 	transform: scale(0.5) translateX(-50%) translateY(50%) rotateY(180deg);
 	-webkit-transform: scale(0.5) translateX(-50%) translateY(50%) rotateY(180deg); /* Safari and Chrome */
@@ -68,7 +67,7 @@ body {
 	}
 }
 #tf-video {
-	border: 15px solid white;
+	border: 5px solid white;
 }
 
 #rec {
