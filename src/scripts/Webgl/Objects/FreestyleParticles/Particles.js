@@ -42,8 +42,8 @@ export class FreestyleParticles extends Group {
 	}
 
 	_createGeometry() {
-		const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
-		// const baseGeometry = new OctahedronGeometry(1, 0);
+		// const baseGeometry = new PlaneGeometry(1, 1, 1, 1);
+		const baseGeometry = new OctahedronGeometry(1, 0);
 		// const baseGeometry = app.core.assetsManager.get('cube').children[0].geometry;
 		baseGeometry.scale(1, 1, 1);
 
