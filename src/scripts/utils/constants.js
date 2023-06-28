@@ -127,11 +127,11 @@ const POSE_CONNECTIONS = [
 let j = -1;
 
 const DANCES = {
-	BABY_FREEZE: j++,
-	BACK_SPIN: j++,
-	THREE_STEPS: j++,
-	JSP_LE_NOM: j++,
-	DERNIERE_DANSE: j++,
+	KICK_SIDE: j++,
+	SIDE_TO_SIDE: j++,
+	FONT_JUMP: j++,
+	CROSS_STEP_360: j++,
+	STEP_DOWN: j++,
 };
 
 export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS, STORE, POSE, POSE_CONNECTIONS, DANCES };
