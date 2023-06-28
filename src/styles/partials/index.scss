@@ -261,7 +261,7 @@ body {
 .end-tutorial {
 	position: absolute;
 	top: 50vh;
-	left: 75vw;
+	left: 65vw;
 	width: 75px;
 	height: 75px;
 	transform: translateX(-50%) translateY(-50%);
@@ -305,7 +305,7 @@ body {
 .skip-tutorial {
 	position: absolute;
 	top: 50vh;
-	left: 75vw;
+	left: 65vw;
 	width: 75px;
 	height: 75px;
 	transform: translateX(-50%) translateY(-50%);
@@ -370,9 +370,9 @@ body {
 	z-index: 10;
 	color: white;
 	font-family: 'ModernGothic';
-	font-size: 25px;
+	font-size: 29px;
 	text-align: center;
-	width: 510px;
+	width: 600px;
 	transition: 0.5s;
 	pointer-events: none;
 
@@ -477,7 +477,7 @@ body {
 	top: 50vh;
 	left: 50vw;
 	transform: translateX(-50%) translateY(-50%);
-	transition: .5s;
+	transition: 0.5s;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -488,8 +488,6 @@ body {
 	&.hide {
 		opacity: 0;
 	}
-
-	
 }
 
 .id {
