@@ -20,7 +20,7 @@ body {
 }
 
 #energy-container {
-	transition: 0.5s;
+	transition: 0.75s;
 	opacity: 1;
 	position: absolute;
 	bottom: 50px;
@@ -93,7 +93,7 @@ body {
 	text-align: center;
 	transform: rotateZ(-5deg);
 	transform-origin: center center;
-	transition: 1s;
+	transition: 0.75s;
 	width: 500px;
 	margin-top: 25px;
 	line-height: 50px;
