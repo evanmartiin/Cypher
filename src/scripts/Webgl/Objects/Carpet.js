@@ -1,5 +1,7 @@
 import { gsap } from 'gsap';
-import { AdditiveBlending, ClampToEdgeWrapping, FrontSide, Group, Mesh, PlaneGeometry, ShaderMaterial } from 'three';
+import { AdditiveBlending, ClampToEdgeWrapping, FrontSide, Group, Mesh, MeshStandardMaterial, MirroredRepeatWrapping, PlaneGeometry, ShaderMaterial } from 'three';
+import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
+import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -37,7 +39,16 @@ class Carpet extends Group {
 		const tex = app.core.assetsManager.get('carpet');
 		tex.wrapS = tex.wrapT = ClampToEdgeWrapping;
 
-		const material = new ShaderMaterial({
+		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
+		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
+		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
+
+		const glitchTexture = app.core.assetsManager.get('glitch');
+		glitchTexture.wrapS = MirroredRepeatWrapping;
+		glitchTexture.wrapT = MirroredRepeatWrapping;
+
+		const material = new CustomShaderMaterial({
+			baseMaterial: MeshStandardMaterial,
 			vertexShader: `
             uniform float uRotation;
 		    varying vec2 vUv;
@@ -55,23 +66,25 @@ class Carpet extends Group {
 		    `,
 			fragmentShader: `
 			uniform float uOpacity;
+			uniform float uTime;
 		    uniform sampler2D tTex;
 		    varying vec2 vUv;
 		    void main() {
 				if (vUv.x < 0. || vUv.x > 1. || vUv.y < 0. || vUv.y > 1.) discard;
                 vec4 tex = texture2D(tTex, vUv);
 				if (tex.a <= 0.6) discard;
-		        gl_FragColor = tex * uOpacity;
+		        csm_DiffuseColor = tex * uOpacity;
 		    }
 		    `,
 			uniforms: {
+				...globalUniforms,
 				uOpacity: this.opacity,
 				uRotation: this.rotationZ,
 				tTex: { value: tex },
+				uPixelSortingTexture: { value: pixelSortingTexture },
+				uGlitchTexture: { value: glitchTexture },
 			},
-			side: FrontSide,
 			blending: AdditiveBlending,
-			fog: false,
 		});
 
 		this.mesh = new Mesh(new PlaneGeometry(1, 1), material);
