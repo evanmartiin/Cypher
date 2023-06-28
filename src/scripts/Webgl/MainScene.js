@@ -148,23 +148,38 @@ class MainScene extends Scene {
 			},
 			0,
 		);
-		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.5, value: 1 }, 0);
-		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 1.25, value: 0.75 }, 0);
-		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: false }, 2);
+		timeline.to(globalUniforms.uTransitionProgress, { duration: 3, value: 1.5 }, 0);
+		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 1.25, value: 0.35 }, 0);
+		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: false }, 1.75);
 
 		timeline.to(
 			this._lights._lights.light1.color,
-			{ r: this.environments[this.currentEnv].light1.color.r, g: this.environments[this.currentEnv].light1.color.g, b: this.environments[this.currentEnv].light1.color.b, duration: 2.5 },
+			{
+				r: this.environments[this.currentEnv].light1.color.r,
+				g: this.environments[this.currentEnv].light1.color.g,
+				b: this.environments[this.currentEnv].light1.color.b,
+				duration: 2.5,
+			},
 			1.25,
 		);
 		timeline.to(
 			this._lights._lights.light2.color,
-			{ r: this.environments[this.currentEnv].light2.color.r, g: this.environments[this.currentEnv].light2.color.g, b: this.environments[this.currentEnv].light2.color.b, duration: 2.5 },
+			{
+				r: this.environments[this.currentEnv].light2.color.r,
+				g: this.environments[this.currentEnv].light2.color.g,
+				b: this.environments[this.currentEnv].light2.color.b,
+				duration: 2.5,
+			},
 			1.25,
 		);
 		timeline.to(
 			this._lights._lights.light3.color,
-			{ r: this.environments[this.currentEnv].light3.color.r, g: this.environments[this.currentEnv].light3.color.g, b: this.environments[this.currentEnv].light3.color.b, duration: 2.5 },
+			{
+				r: this.environments[this.currentEnv].light3.color.r,
+				g: this.environments[this.currentEnv].light3.color.g,
+				b: this.environments[this.currentEnv].light3.color.b,
+				duration: 2.5,
+			},
 			1.25,
 		);
 
@@ -173,8 +188,9 @@ class MainScene extends Scene {
 		timeline.to(this._lights._lights.light3, { intensity: this.environments[this.currentEnv].light3.intensity, duration: 2.5 }, 0);
 
 		// timeline.to(this._environment._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
-		timeline.to(globalUniforms.uTransitionProgress, { duration: 2.75, value: -1.35 }, 2);
-		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 2.75, value: 0 }, 2);
+		timeline.to(globalUniforms.uTransitionProgress, { duration: 3, value: -1.5 }, 1.75);
+		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: true }, 4.75);
+		timeline.to(this._maskOverlay._mesh.material.uniforms.uOpacity, { duration: 3, value: 0 }, 1.75);
 
 		return timeline;
 	}
