@@ -5,7 +5,7 @@ import { state } from './State.js';
 // Timing in seconds
 const DELAY_BEFORE_ENERGY = 2;
 
-const DIFFICULTY = [1000, 2000, 3000, 4000, 5000, 6000, 7000];
+const DIFFICULTY = [1000, 2000, 3000, 4000, 5000];
 
 class PlayerGame {
 	constructor() {
@@ -34,6 +34,10 @@ class PlayerGame {
 
 	newPhase() {
 		this.level++;
+		if (this.level > Object.keys(DANCES).length) {
+			app.timeline.next();
+			return;
+		}
 		app.webgl.scene.avatarDemo.dance(Object.values(DANCES)[this.danceID]);
 		app.webgl.scene.carpet.show();
 		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
@@ -56,7 +60,6 @@ class PlayerGame {
 
 		app.webgl.scene.avatarDemo.resume();
 		app.webgl.scene.carpet.show();
-		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
 	}
 
 	onMidEnergyReached() {
