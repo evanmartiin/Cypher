@@ -51,9 +51,9 @@ vec3 tempRender = render;
 vec3 switchColorTransition = mix(render, uTransitionColor, 1.0 - dist);
 
 if(uSwitchTransition) {
-tempRender = mix(switchColorTransition * 1.5, render, tempIn);
+tempRender = mix(switchColorTransition, render, tempIn);
 } else {
-tempRender = mix(switchColorTransition * 1.5, render, tempOut);
+tempRender = mix(switchColorTransition, render, tempOut);
 }
 
 gl_FragColor.rgb *= (vec3(fresnelFactor));

@@ -7,6 +7,7 @@ export class Lights extends Group {
 		super();
 		state.register(this);
 		this._lights = this._createLights();
+		this.onEnergyChanged();
 	}
 
 	onAttach() {
@@ -43,9 +44,9 @@ export class Lights extends Group {
 	}
 
 	// THOMA: Exemple de changement de l'environnement en fonction de l'énergie
-	// onEnergyChanged() {
-	// 	this._lights.light1.intensity = app.energy.normalizedCurrent;
-	// }
+	onEnergyChanged() {
+		// this._lights.light1.intensity = app.energy.normalizedCurrent;
+	}
 
 	// THOMA: Exemple de changement de l'environnement en fonction des fréquences du son
 	// onRender() {

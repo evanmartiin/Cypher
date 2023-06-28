@@ -44,13 +44,14 @@ class AvatarDemo extends Group {
 				uPixelSortingTexture: { value: pixelSortingTexture },
 				uGlitchTexture: { value: glitchTexture },
 			},
-			metalness: 0.01,
-			roughness: 0.99,
+			// color: '#000000',
+			metalness: 0.35,
+			roughness: 0.65,
 		});
 
 		this.mesh.traverse((object) => {
 			if (object.isMesh) {
-				object.castShadow = true;
+				// object.castShadow = true;
 				object.material = this.material;
 			}
 		});
