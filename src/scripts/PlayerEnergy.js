@@ -75,7 +75,7 @@ class PlayerEnergy {
 	onRender({ dt }) {
 		if (!this.active) return;
 
-		this.remove(dt * 50);
+		this.remove(dt * 150);
 
 		app.dom.ui.energy.node.style.background = `linear-gradient(90deg, rgba(255,255,255,1) ${this.normalizedCurrent * 100}%, rgba(255,255,255,0) ${this.normalizedCurrent * 100}%)`;
 	}
