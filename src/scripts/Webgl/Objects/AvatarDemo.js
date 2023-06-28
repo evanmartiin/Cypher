@@ -1,10 +1,6 @@
 import { gsap } from 'gsap';
-import { AnimationMixer, Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
-import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
-import fragmentShader from '@Webgl/Materials/Environment/fragment.fs';
-import vertexShader from '@Webgl/Materials/Environment/vertex.vs';
+import { AnimationMixer, Group, MeshStandardMaterial } from 'three';
 import { DANCES } from '@utils/constants.js';
-import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -27,25 +23,12 @@ class AvatarDemo extends Group {
 		this.gltf = app.core.assetsManager.get('avatarDemo');
 		this.mesh = this.gltf.scene;
 
-		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
-		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
-		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
-
-		const glitchTexture = app.core.assetsManager.get('glitch');
-		glitchTexture.wrapS = MirroredRepeatWrapping;
-		glitchTexture.wrapT = MirroredRepeatWrapping;
-
-		this.material = new CustomShaderMaterial({
-			baseMaterial: MeshStandardMaterial,
-			fragmentShader: fragmentShader,
-			vertexShader: vertexShader,
-			uniforms: {
-				...globalUniforms,
-				uPixelSortingTexture: { value: pixelSortingTexture },
-				uGlitchTexture: { value: glitchTexture },
-			},
-			metalness: 0.01,
-			roughness: 0.99,
+		this.material = new MeshStandardMaterial({
+			metalness: 0.4,
+			roughness: 0.8,
+			fog: false,
+			transparent: true,
+			opacity: 0,
 		});
 
 		this.mesh.traverse((object) => {
