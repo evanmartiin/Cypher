@@ -1,6 +1,10 @@
 import { gsap } from 'gsap';
-import { AnimationMixer, Group, MeshStandardMaterial } from 'three';
+import { AnimationMixer, Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
+import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
+import fragmentShader from '@Webgl/Materials/AvatarDemo/fragment.fs';
+import vertexShader from '@Webgl/Materials/AvatarDemo/vertex.vs';
 import { DANCES } from '@utils/constants.js';
+import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
@@ -23,17 +27,32 @@ class AvatarDemo extends Group {
 		this.gltf = app.core.assetsManager.get('avatarDemo');
 		this.mesh = this.gltf.scene;
 
-		this.material = new MeshStandardMaterial({
-			metalness: 0.4,
-			roughness: 0.8,
-			fog: false,
+		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
+		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
+		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
+
+		const glitchTexture = app.core.assetsManager.get('glitch');
+		glitchTexture.wrapS = MirroredRepeatWrapping;
+		glitchTexture.wrapT = MirroredRepeatWrapping;
+
+		this.material = new CustomShaderMaterial({
+			baseMaterial: MeshStandardMaterial,
+			fragmentShader: fragmentShader,
+			vertexShader: vertexShader,
+			uniforms: {
+				...globalUniforms,
+				uOpacity: { value: 0 },
+			},
+			// color: '#000000',
+			metalness: 0.35,
+			roughness: 0.65,
 			transparent: true,
-			opacity: 0,
+			fog: false,
 		});
 
 		this.mesh.traverse((object) => {
 			if (object.isMesh) {
-				object.castShadow = true;
+				// object.castShadow = true;
 				object.material = this.material;
 			}
 		});
@@ -77,12 +96,12 @@ class AvatarDemo extends Group {
 
 	show() {
 		this.mesh.visible = true;
-		gsap.to(this.material, { opacity: 1, duration: 1 });
+		gsap.to(this.material.uniforms.uOpacity, { value: 1, duration: 1 });
 	}
 
 	hide() {
-		gsap.to(this.material, {
-			opacity: 0,
+		gsap.to(this.material.uniforms.uOpacity, {
+			value: 0,
 			duration: 1,
 			onComplete: () => {
 				if (this.active) return;

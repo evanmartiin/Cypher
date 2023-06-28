@@ -138,30 +138,13 @@ void main() {
 	vec4 rigPositionTexture = texture2D(uRigPositionTexture, uv);
 	vec3 rigPosition = rigPositionTexture.xyz;
 
-	vec3 toHand;
-
 	vec3 velocity = vec3(0.0);
 
-	// if(position.y < 1.0) {
-	// 	vec3 diff = vec3(0., 0., 0.) - position;
-	// 	velocity -= normalize(diff);
-	// 	velocity -= (curl(velocity * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1)) * 0.1;
-
-	// } 
-	// velocity = positionFluid * 50. - position;
-
-	// if(position.z > 0.) {
-	// 	position.xz += rigPosition.xz * 100.;
-
-	// } else {
-
-	// 	position.xz -= rigPosition.xz * 100.;
-	// }
 	velocity += rigPosition * 75. - position;
 	velocity *= uSpeed;
 	velocity = curl(position * uCurlSize, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1) * 0.25;
 
-	if(life < 0.1) {
+	if(life < 0.15) {
 		velocity = curl(position * uCurlSize * 0.5, uTime * uTimeScale, 0.1 + (1.0 - life) * 0.1);
 	}
 

@@ -79,7 +79,7 @@ export default class Environment extends Group {
 				noiseTexture.wrapS = MirroredRepeatWrapping;
 				noiseTexture.wrapT = MirroredRepeatWrapping;
 
-				o.material = new CustomShaderMaterial({
+				this.logoMaterial = new CustomShaderMaterial({
 					baseMaterial: MeshStandardMaterial,
 					fragmentShader: logoFragmentShader,
 					vertexShader: vertexShader,
@@ -88,14 +88,18 @@ export default class Environment extends Group {
 						uPixelSortingTexture: { value: pixelSortingTexture },
 						uGlitchTexture: { value: glitchTexture },
 						uNoiseTexture: { value: noiseTexture },
+						uEnergyAmount: { value: 0 },
 					},
 					map: diffuse,
 					normalMap: normal,
 					roughnessMap: roughness,
 					transparent: true,
+					opacity: 0.85,
 					// metalness: 0.6,
 					// roughness: 0.4,
 				});
+
+				o.material = this.logoMaterial;
 			}
 			if (o.name === 'ventilationI') {
 				const diffuse = app.core.assetsManager.get('ventilationIDiffuse');
@@ -356,5 +360,9 @@ export default class Environment extends Group {
 		app.webgl.scene.add(mesh);
 
 		return mesh;
+	}
+
+	onRender() {
+		this.logoMaterial.uniforms.uEnergyAmount.value = app.energy.normalizedCurrent;
 	}
 }
