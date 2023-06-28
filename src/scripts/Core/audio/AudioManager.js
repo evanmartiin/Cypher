@@ -13,7 +13,7 @@ export const MUSIC_IDS = {
 	MUSIC_FUNK_1_FILTERED: 'music_funk_filtered',
 	MUSIC_FUNK_2: 'music_funk_2',
 	MUSIC_FUNK_2_FILTERED: 'music_funk_filtered_2',
-	MUSIC_1: 'music_2',
+	MUSIC_POOL: ['music_1', 'music_2', 'music_3', 'music_4', 'music_5', 'music_6', 'music_7'],
 };
 
 export const UI_IDS = {

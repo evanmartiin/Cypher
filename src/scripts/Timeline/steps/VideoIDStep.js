@@ -21,6 +21,5 @@ export default class VideoIDStep extends Step {
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
 		app.dom.ui.idContainer.hide();
-
 	}
 }

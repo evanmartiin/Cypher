@@ -27,7 +27,8 @@ export default class TrainingStep extends Step {
 		}, 300);
 
 		setTimeout(() => {
-			app.core.audio.playMusic(MUSIC_IDS.MUSIC_1);
+			const random = Math.floor(Math.random() * MUSIC_IDS.MUSIC_POOL.length);
+			app.core.audio.playMusic(MUSIC_IDS.MUSIC_POOL[random]);
 		}, 600);
 
 		const { randomSoundDuration, random } = app.core.audio.getUiRandom(UI_POOL_IDS.READY);
