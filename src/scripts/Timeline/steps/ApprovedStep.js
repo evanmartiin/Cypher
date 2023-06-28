@@ -73,7 +73,7 @@ export default class ApprovedStep extends Step {
 		tl.to(
 			'.approved-container',
 			{
-				scale: 0.98,
+				scale: 0.9,
 				duration: 0.07,
 			},
 			'>',

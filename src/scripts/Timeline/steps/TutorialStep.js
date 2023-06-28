@@ -2,6 +2,7 @@ import { gsap } from 'gsap';
 import { Vector2 } from 'three';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
+import { UI_IDS } from '@Core/audio/AudioManager.js';
 
 export default class TutorialStep extends Step {
 	constructor() {
@@ -28,7 +29,10 @@ export default class TutorialStep extends Step {
 		this.timeline.to(this, {
 			duration: 4,
 			delay: 1,
-			onStart: () => app.dom.ui.bottomText.showText("Bienvenue dans Cypher, c'est un jeu de breakdance en plusieurs niveaux."),
+			onStart: () => {
+				app.dom.ui.bottomText.showText("Bienvenue dans Cypher, c'est un jeu de breakdance en plusieurs niveaux.");
+				app.core.audio.playUI(UI_IDS.SUB1, 1);
+			},
 			onComplete: () => app.dom.ui.bottomText.hideText(),
 		});
 		this.timeline.to(
@@ -38,6 +42,7 @@ export default class TutorialStep extends Step {
 				delay: 1,
 				onStart: () => {
 					app.dom.ui.bottomText.showText("Ça, c'est toi.");
+					app.core.audio.playUI(UI_IDS.SUB2, 1);
 					this.lightOn(15, new Vector2(15, 80));
 				},
 				onComplete: () => {
@@ -54,6 +59,7 @@ export default class TutorialStep extends Step {
 				delay: 1,
 				onStart: () => {
 					app.dom.ui.bottomText.showText("Et ça, c'est encore toi, bouge pour tester !");
+					app.core.audio.playUI(UI_IDS.SUB3, 1);
 					this.lightOn(40, new Vector2(50, 60));
 					app.webgl.scene.avatar.enableControl();
 					app.webgl.scene._particles.show();
@@ -73,6 +79,7 @@ export default class TutorialStep extends Step {
 				delay: 1,
 				onStart: () => {
 					app.dom.ui.bottomText.showText('À chaque niveau, Bernard-Boy te montre un mouvement que tu dois reproduire.');
+					app.core.audio.playUI(UI_IDS.SUB4, 1);
 					this.lightOn(15, new Vector2(27, 50));
 					app.webgl.scene.avatarDemo.dance(0);
 				},
@@ -90,6 +97,7 @@ export default class TutorialStep extends Step {
 				delay: 1,
 				onStart: () => {
 					app.dom.ui.bottomText.showText("Pour passer au niveau suivant, il faut remplir ta barre d'énergie en bougeant.");
+					app.core.audio.playUI(UI_IDS.SUB5, 1);
 					this.lightOn(10, new Vector2(10, 85));
 					app.energy.start();
 					app.energy.tutorial = true;
@@ -107,6 +115,7 @@ export default class TutorialStep extends Step {
 				delay: 1,
 				onStart: () => {
 					app.dom.ui.bottomText.showText("Alors, t'es prêt ?");
+					app.core.audio.playUI(UI_IDS.SUB6, 1);
 					app.dom.ui.tutoEndButton.show();
 					app.dom.ui.tutoSkipButton.hide();
 				},

@@ -32,6 +32,12 @@ export const UI_IDS = {
 	NICE: 'nice',
 	LETS_GO: 'lets_go',
 	INSANE: 'insane',
+	SUB1: 'sub1',
+	SUB2: 'sub2',
+	SUB3: 'sub3',
+	SUB4: 'sub4',
+	SUB5: 'sub5',
+	SUB6: 'sub6',
 };
 
 export const UI_POOL_IDS = {
@@ -98,10 +104,11 @@ class AudioManager {
 		howl.fade(howl.volume(undefined, howl), volume, duration, soundId);
 	}
 
-	playUI(name) {
+	playUI(name, volume = UI_VOLUME) {
 		// this._UI.play(name);
 		const ui = this._sounds.get(name);
 		if (!ui) return;
+		ui.volume(volume);
 		ui.play();
 		return ui;
 	}

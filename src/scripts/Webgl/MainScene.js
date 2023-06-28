@@ -126,8 +126,11 @@ class MainScene extends Scene {
 		globalUniforms.uTransitionColor.value.r = this.environments[this.currentEnv].light1.color.r;
 		globalUniforms.uTransitionColor.value.r = this.environments[this.currentEnv].light1.color.r;
 
-		this.currentEnv++;
-		this.currentEnv = this.currentEnv % this.environments.length;
+		let newEnv;
+		do {
+			newEnv = Math.floor(Math.random() * this.environments.length);
+		} while (newEnv === this.currentEnv);
+		this.currentEnv = newEnv;
 
 		app.core.audio.playUiRandom(UI_POOL_IDS.TRANSITION_MC);
 		app.core.audio.playUI(UI_IDS.TRANSITION_SCENE);
