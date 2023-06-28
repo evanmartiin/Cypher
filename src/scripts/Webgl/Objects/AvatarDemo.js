@@ -9,11 +9,11 @@ import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 
 const ANIM_IDS = {
-	[DANCES.BABY_FREEZE]: 0,
-	[DANCES.BACK_SPIN]: 4,
-	[DANCES.THREE_STEPS]: 5,
-	[DANCES.JSP_LE_NOM]: 2,
-	[DANCES.DERNIERE_DANSE]: 3,
+	[DANCES.KICK_SIDE]: 0,
+	[DANCES.SIDE_TO_SIDE]: 4,
+	[DANCES.FONT_JUMP]: 5,
+	[DANCES.CROSS_STEP_360]: 2,
+	[DANCES.STEP_DOWN]: 3,
 };
 
 class AvatarDemo extends Group {
