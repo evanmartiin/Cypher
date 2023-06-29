@@ -134,6 +134,6 @@ export class GPUSimulation {
 
 		this.posUniforms.uDelta.value = deltaRatio;
 
-		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.2);
+		this.coordsPositions.lerp(this.tempCoordsPositions.set(this.coords.x, this.coords.y + 1, this.coords.z), 0.22);
 	}
 }
