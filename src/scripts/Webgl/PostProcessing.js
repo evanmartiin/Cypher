@@ -243,6 +243,8 @@ class PostProcessing {
 
 	onRender() {
 		this._effectComposer.render();
+
+		// this._bloomPass.strength = 0.6 + app.core.audio.frequencies[3] / 500;
 	}
 }
 
