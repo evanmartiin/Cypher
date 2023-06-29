@@ -10,10 +10,10 @@ import { state } from '@scripts/State.js';
 
 const ANIM_IDS = {
 	[DANCES.KICK_SIDE]: 0,
-	[DANCES.SIDE_TO_SIDE]: 4,
-	[DANCES.FONT_JUMP]: 5,
-	[DANCES.CROSS_STEP_360]: 2,
-	[DANCES.STEP_DOWN]: 3,
+	[DANCES.SIDE_TO_SIDE]: 8,
+	[DANCES.FONT_JUMP]: 10,
+	[DANCES.CROSS_STEP_360]: 4,
+	[DANCES.STEP_DOWN]: 6,
 };
 
 class AvatarDemo extends Group {
@@ -68,6 +68,7 @@ class AvatarDemo extends Group {
 		this.mesh.visible = false;
 
 		this.mixer = new AnimationMixer(this.mesh);
+		console.log(this.gltf.animations);
 	}
 
 	dance(danceID) {

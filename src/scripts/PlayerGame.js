@@ -32,7 +32,7 @@ class PlayerGame {
 	}
 
 	newPhase() {
-		if (this.level > Object.keys(DANCES).length) {
+		if (this.level > 4) {
 			app.timeline.next();
 			return;
 		}
