@@ -133,7 +133,11 @@ class MainScene extends Scene {
 		this.currentEnv = newEnv;
 
 		app.core.audio.playUiRandom(UI_POOL_IDS.TRANSITION_MC);
-		app.core.audio.playUI(UI_IDS.TRANSITION_SCENE);
+		app.core.audio.playUI(UI_IDS.TRANSITION_ENV_IN);
+
+		setTimeout(() => {
+			app.core.audio.playUI(UI_IDS.TRANSITION_ENV_OUT);
+		}, 1000);
 		app.core.audio.playUI(UI_IDS.PUBLIC_TRANSITION);
 
 		const timeline = gsap.timeline();

@@ -156,5 +156,15 @@
 			"name": "sub6",
 			"src": "sub6.mp3"
 		}
+		,
+		{
+			"name": "transition_env_out",
+			"src": "transition_env_out.mp3"
+		}
+		,
+		{
+			"name": "transition_env_in",
+			"src": "transition_env_in.mp3"
+		}
 	]
 }
