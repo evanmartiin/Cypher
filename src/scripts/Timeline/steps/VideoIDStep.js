@@ -10,7 +10,7 @@ export default class VideoIDStep extends Step {
 
 	start() {
 		app.dom.ui.idContainer.show();
-		app.dom.ui.id.node.innerHTML = 'ID : ' + app.tools.recorder.id;
+		app.dom.ui.id.node.innerHTML = 'ID : ' + (app.tools.recorder.id - 1);
 
 		this.isRunning = true;
 		app.dom.ui.title.node.innerHTML = this.text;
