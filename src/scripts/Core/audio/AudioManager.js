@@ -13,7 +13,7 @@ export const MUSIC_IDS = {
 	MUSIC_FUNK_1_FILTERED: 'music_funk_filtered',
 	MUSIC_FUNK_2: 'music_funk_2',
 	MUSIC_FUNK_2_FILTERED: 'music_funk_filtered_2',
-	MUSIC_1: 'music_2',
+	MUSIC_POOL: ['music_1', 'music_2', 'music_3', 'music_4', 'music_5', 'music_6', 'music_7'],
 };
 
 export const UI_IDS = {
@@ -24,6 +24,8 @@ export const UI_IDS = {
 	PUBLIC_END: 'public_end',
 	CURSOR: 'cursor_placed',
 	TRANSITION_SCENE: 'transition',
+	TRANSITION_ENV_IN: 'transition_env_in',
+	TRANSITION_ENV_OUT: 'transition_env_out',
 	TEXT_APPARITION: 'text_apparition',
 	CAMERA_TRANSITION: 'transition_ui_1',
 	STAMP: 'stamp',
@@ -107,6 +109,7 @@ class AudioManager {
 	playUI(name, volume = UI_VOLUME) {
 		// this._UI.play(name);
 		const ui = this._sounds.get(name);
+
 		if (!ui) return;
 		ui.volume(volume);
 		ui.play();
@@ -134,6 +137,11 @@ class AudioManager {
 		// randomSoundDuration: Object.values(this._UI._sprite)[random][1]
 
 		return { randomSoundDuration: ui._duration * 1000, random: random };
+	}
+
+	getDuration(name) {
+		const ui = this._sounds.get(name);
+		return ui._duration * 1000;
 	}
 
 	playMusic(name) {
