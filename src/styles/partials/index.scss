@@ -134,9 +134,12 @@ body {
 	z-index: 1000;
 }
 
+#logo-container {
+	transition: 0.5s;
+}
+
 #logo-container.hide {
 	opacity: 0;
-	transition: 0.5s;
 }
 
 .left-cursor,
