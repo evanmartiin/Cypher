@@ -14,7 +14,6 @@ class PlayerGame {
 		this.isRunning = false;
 
 		this.timer = 0;
-		this.danceID = 0;
 		this.level = 0;
 	}
 
@@ -33,20 +32,19 @@ class PlayerGame {
 	}
 
 	newPhase() {
-		this.level++;
 		if (this.level > Object.keys(DANCES).length) {
 			app.timeline.next();
 			return;
 		}
-		app.webgl.scene.avatarDemo.dance(Object.values(DANCES)[this.danceID]);
+		app.webgl.scene.avatarDemo.dance(Object.values(DANCES)[this.level]);
 		app.webgl.scene.carpet.show();
-		app.webgl.scene.title.show(Object.values(DANCES)[this.danceID]);
+		app.webgl.scene.title.show(Object.values(DANCES)[this.level]);
 		this.timer = 0;
 	}
 
 	save() {
 		return {
-			danceID: this.danceID,
+			level: this.level,
 			timer: this.timer,
 			energyActive: app.energy.active,
 		};
@@ -54,7 +52,7 @@ class PlayerGame {
 
 	restore(save) {
 		this.isRunning = true;
-		this.danceID = save.danceID;
+		this.level = save.level;
 		this.timer = save.timer;
 		save.energyActive && app.energy.start();
 
@@ -69,9 +67,7 @@ class PlayerGame {
 
 	onMaxEnergyReached() {
 		if (!this.isRunning) return;
-		this.danceID++;
-		this.danceID = this.danceID % Object.keys(DANCES).length;
-
+		this.level++;
 		app.energy.stop();
 		app.webgl.scene.carpet.hide();
 		app.webgl.scene.avatarDemo.stop();
