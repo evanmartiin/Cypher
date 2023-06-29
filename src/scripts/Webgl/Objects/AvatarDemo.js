@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { AnimationMixer, Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
+import { AnimationMixer, DoubleSide, Group, MeshStandardMaterial, MirroredRepeatWrapping } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/AvatarDemo/fragment.fs';
 import vertexShader from '@Webgl/Materials/AvatarDemo/vertex.vs';
@@ -41,13 +41,16 @@ class AvatarDemo extends Group {
 			vertexShader: vertexShader,
 			uniforms: {
 				...globalUniforms,
+				uPixelSortingTexture: { value: pixelSortingTexture },
+				uGlitchTexture: { value: glitchTexture },
 				uOpacity: { value: 0 },
 			},
 			// color: '#000000',
-			metalness: 0.35,
-			roughness: 0.65,
+			metalness: 0.5,
+			roughness: 0.5,
 			transparent: true,
-			fog: false,
+			// fog: false,
+			side: DoubleSide,
 		});
 
 		this.mesh.traverse((object) => {

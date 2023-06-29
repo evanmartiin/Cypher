@@ -42,16 +42,8 @@ export class Lights extends Group {
 		return { light1, light2, light3, light4, helper1, helper2, helper3 };
 	}
 
-	// THOMA: Exemple de changement de l'environnement en fonction des fréquences du son
-	onRender() {
-		if (app.core.audio.frequencies[0]) {
-			// this._lights.light3.intensity += app.core.audio.frequencies[2] / 300;
-
-			console.log(this._lights.light1.intensity, app.core.audio.frequencies[0]);
-		}
-		this._lights.light1.intensity = app.core.audio.frequencies[0] / 350 + 0.2;
-		this._lights.light2.intensity = app.core.audio.frequencies[1] / 350 + 0.2;
-		// this._lights.light3.intensity = app.core.audio.frequencies[2] / 250 + 0.1;
-		// console.log(app.core.audio.frequencies[3]);
-	}
+	// onRender() {
+	// this._lights.light1.intensity = app.core.audio.frequencies[0] / 500 + 0.2;
+	// this._lights.light2.intensity = app.core.audio.frequencies[1] / 500 + 0.2;
+	// }
 }
