@@ -21,12 +21,32 @@
             "src": "music_funk_filtered_2.mp3"
         },
         {
+            "name": "music_1",
+            "src": "music_1.mp3"
+        },
+        {
             "name": "music_2",
             "src": "music_2.mp3"
         },
         {
             "name": "music_3",
             "src": "music_3.mp3"
+        },
+        {
+            "name": "music_4",
+            "src": "music_4.mp3"
+        },
+        {
+            "name": "music_5",
+            "src": "music_5.mp3"
+        },
+        {
+            "name": "music_6",
+            "src": "music_6.mp3"
+        },
+        {
+            "name": "music_7",
+            "src": "music_7.mp3"
         }
     ]
 }
