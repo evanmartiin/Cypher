@@ -1,5 +1,5 @@
 import * as posedetection from '@tensorflow-models/pose-detection';
-import '@tensorflow/tfjs-backend-webgl';
+// import '@tensorflow/tfjs-backend-webgl';
 import { Vector3 } from 'three';
 import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
@@ -33,7 +33,7 @@ class TensorflowPose {
 	}
 
 	async asyncInit() {
-		if (app.tools.urlParams.has('tensorflow') && app.tools.urlParams.getString('tensorflow') === 'cpu') {
+		// if (app.tools.urlParams.has('tensorflow') && app.tools.urlParams.getString('tensorflow') === 'cpu') {
 			this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
 				runtime: 'mediapipe',
 				modelType: 'lite',
@@ -41,14 +41,14 @@ class TensorflowPose {
 				solutionPath: '/node_modules/@mediapipe/pose',
 			});
 			this.runtime = 'mediapipe';
-		} else {
-			this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
-				runtime: 'tfjs',
-				modelType: 'lite',
-				enableSmoothing: true,
-			});
-			this.runtime = 'tfjs';
-		}
+		// } else {
+		// 	this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
+		// 		runtime: 'tfjs',
+		// 		modelType: 'lite',
+		// 		enableSmoothing: true,
+		// 	});
+		// 	this.runtime = 'tfjs';
+		// }
 
 		this.loaded = true;
 	}

@@ -5,7 +5,7 @@ export default class TimerStep extends Step {
 	constructor() {
 		super();
 		this.text = '';
-		this.duration = 4300;
+		this.duration = 4100;
 	}
 
 	start() {
@@ -14,12 +14,13 @@ export default class TimerStep extends Step {
 		//UI
 		app.dom.ui.title.node.innerHTML = this.text;
 
-		// app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
+		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tensorflow.hide();
-		app.webgl.scene._counterAnimation._timeline.restart().then(() => {
-			if (!this.isRunning) return;
-			app.timeline.next();
-		});
+		app.webgl.scene._counterAnimation._timeline.restart();
+		// .then(() => {
+		// 	if (!this.isRunning) return;
+		// 	app.timeline.next();
+		// });
 	}
 
 	stop() {

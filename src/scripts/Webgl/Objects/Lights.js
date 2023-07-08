@@ -43,7 +43,7 @@ export class Lights extends Group {
 	}
 
 	onRender() {
-		this._lights.light1.intensity = app.core.audio.frequencies[0] / 400 + 0.2;
-		this._lights.light2.intensity = app.core.audio.frequencies[1] / 400 + 0.2;
+		// this._lights.light1.intensity = app.core.audio.frequencies[0] / 400 + 0.2;
+		// this._lights.light2.intensity = app.core.audio.frequencies[1] / 400 + 0.2;
 	}
 }
