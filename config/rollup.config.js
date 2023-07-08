@@ -1,3 +1,3 @@
 export default {
-	external: ['./@tensorflow/tfjs-core/dist/ops/ops_for_converter'],
+	external: ['@mediapipe/pose', '@tensorflow-models/pose-detection', '@tensorflow/tfjs-converter', '@tensorflow/tfjs-core'],
 };
