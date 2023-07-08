@@ -19,7 +19,7 @@ specifiers:
   socket.io-client: ^4.6.1
   stats-js: ^1.0.1
   three: ^0.149.0
-  three-custom-shader-material: ^5.2.1
+  three-custom-shader-material: 5.2.1
   tweakpane: ^3.1.4
   typescript: ^4.9.5
   vite: ^4.1.1
@@ -34,7 +34,7 @@ dependencies:
   postprocessing: 6.32.2_three@0.149.0
   socket.io-client: 4.7.1
   three: 0.149.0
-  three-custom-shader-material: 5.3.8_three@0.149.0
+  three-custom-shader-material: 5.2.1_three@0.149.0
 
 devDependencies:
   '@trivago/prettier-plugin-sort-imports': 4.1.1_prettier@2.8.8
@@ -524,6 +524,10 @@ packages:
       tweakpane: 3.1.10
     dev: true
 
+  /@types/diff/5.0.3:
+    resolution: {integrity: sha512-amrLbRqTU9bXMCc6uX0sWpxsQzRIo9z6MJPkH1pkez/qOxuqSZVuryJAWoBRq94CeG8JxY+VK4Le9HtjQR5T9A==}
+    dev: false
+
   /@types/long/4.0.2:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
     dev: false
@@ -707,6 +711,11 @@ packages:
   /deep-is/0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
     dev: true
+
+  /diff/1.4.0:
+    resolution: {integrity: sha512-VzVc42hMZbYU9Sx/ltb7KYuQ6pqAw+cbFWVy4XKdkuEL2CFaRLGEnISPs7YdzaUGpi+CpIqvRmu7hPQ4T7EQ5w==}
+    engines: {node: '>=0.3.1'}
+    dev: false
 
   /doctrine/3.0.0:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
@@ -938,7 +947,6 @@ packages:
 
   /fast-diff/1.3.0:
     resolution: {integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==}
-    dev: true
 
   /fast-json-stable-stringify/2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
@@ -1494,22 +1502,36 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
-  /three-custom-shader-material/5.3.8_three@0.149.0:
-    resolution: {integrity: sha512-2gg0VGCV5RRabXInoxM8qzPOkbiJV2jEOP5FunNUZA6Ch/vp/UaxDUfO53clz3B85ZToeldGZLfqRRqEiqjjCg==}
+  /textdiff-create/1.1.6:
+    resolution: {integrity: sha512-Q/X0la0JhqEdJRxGSAJ1D+o4MwjO1SEf32QH57spDbuoqYmklsnTgs/fRHXXWoP9l/0dJ6voVtiL7VG6qP0LCw==}
+    dependencies:
+      fast-diff: 1.3.0
+    dev: false
+
+  /textdiff-patch/1.1.5:
+    resolution: {integrity: sha512-nlCaVozjlocK8EVS6C8ImH0Etpg1VevsXw9CLUyTu+69tdVYRRZeih/mEhq807z+0QtaZ1x/NWj3RKHRMjkScw==}
+    dev: false
+
+  /three-custom-shader-material/5.2.1_three@0.149.0:
+    resolution: {integrity: sha512-j1rwpPHEglr3XHPZgWEJlLLkFBnMP1pYW1m5m0rjcg5bn/mxG9cLoZx7JAL4wJmim8ljbTl94CGLVd0huPy1lQ==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
       react: '>=18.0'
-      three: '>=0.151'
+      three: '>=0.149'
     peerDependenciesMeta:
       '@react-three/fiber':
         optional: true
       react:
         optional: true
     dependencies:
+      '@types/diff': 5.0.3
+      diff: 1.4.0
       glsl-token-functions: 1.0.1
       glsl-token-string: 1.0.1
       glsl-tokenizer: 2.1.5
       object-hash: 3.0.0
+      textdiff-create: 1.1.6
+      textdiff-patch: 1.1.5
       three: 0.149.0
     dev: false
 
