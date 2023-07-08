@@ -28,12 +28,10 @@
     "vite": "^4.1.1"
   },
   "dependencies": {
-    "@mediapipe/pose": "0.5.1635988162",
-    "@tensorflow-models/pose-detection": "2.0.0",
-    "@tensorflow/tfjs-backend-webgl": "4.2.0",
-    "@tensorflow/tfjs-converter": "4.2.0",
-    "@tensorflow/tfjs-core": "4.2.0",
-    "@tensorflow/tfjs-layers": "4.2.0",
+    "@mediapipe/pose": "^0.5.1675469404",
+    "@tensorflow-models/pose-detection": "^2.1.0",
+    "@tensorflow/tfjs-converter": "^4.8.0",
+    "@tensorflow/tfjs-core": "^4.8.0",
     "gsap": "^3.11.5",
     "howler": "^2.2.3",
     "postprocessing": "^6.30.2",
