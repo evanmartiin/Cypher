@@ -101,7 +101,7 @@ class PlayerEnergy {
 
 			if (bonesInCamera === 0) return;
 
-			this.add(Math.min(totalDistance / bonesInCamera, 10) * 100);
+			this.add(Math.min(totalDistance / bonesInCamera, 10) * 150);
 		}
 
 		this.previousKeypoints = rig.keypoints;
