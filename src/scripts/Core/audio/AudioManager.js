@@ -84,13 +84,13 @@ class AudioManager {
 
 		// @ts-ignore
 		SOUNDS_MUSIC.sources.forEach((music) => {
-			this._musics.set(music.name, new Howl({ src: `src/assets/audio/musics/${music.src}`, loop: true, volume: MUSIC_VOLUME }));
+			this._musics.set(music.name, new Howl({ src: `/assets/audio/musics/${music.src}`, loop: true, volume: MUSIC_VOLUME }));
 		});
 
 		// @ts-ignore
 		// this._UI = new Howl(SOUNDS_UI);
 		SOUNDS_UI.sources.forEach((sound) => {
-			this._sounds.set(sound.name, new Howl({ src: `src/assets/audio/ui/${sound.src}`, loop: false, volume: UI_VOLUME }));
+			this._sounds.set(sound.name, new Howl({ src: `/assets/audio/ui/${sound.src}`, loop: false, volume: UI_VOLUME }));
 		});
 
 		this.canPlay = true;

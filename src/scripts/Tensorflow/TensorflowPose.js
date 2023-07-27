@@ -1,5 +1,3 @@
-import * as posedetection from '@tensorflow-models/pose-detection';
-// import '@tensorflow/tfjs-backend-webgl';
 import { Vector3 } from 'three';
 import { EVENTS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
@@ -34,13 +32,16 @@ class TensorflowPose {
 
 	async asyncInit() {
 		// if (app.tools.urlParams.has('tensorflow') && app.tools.urlParams.getString('tensorflow') === 'cpu') {
-			this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
+		this.detector = await poseDetection
+			.createDetector(poseDetection.SupportedModels.BlazePose, {
 				runtime: 'mediapipe',
 				modelType: 'lite',
 				enableSmoothing: true,
-				solutionPath: '/node_modules/@mediapipe/pose',
-			});
-			this.runtime = 'mediapipe';
+				// solutionPath: `/assets/pose`,
+				solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose',
+			})
+			.catch((err) => console.error(err));
+		this.runtime = 'mediapipe';
 		// } else {
 		// 	this.detector = await posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
 		// 		runtime: 'tfjs',

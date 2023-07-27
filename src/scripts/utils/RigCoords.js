@@ -1,4 +1,3 @@
-import * as posedetection from '@tensorflow-models/pose-detection';
 import { Vector3 } from 'three';
 import { POSE } from '@utils/constants.js';
 import { state } from '@scripts/State.js';
@@ -22,7 +21,7 @@ class RigCoords {
 	}
 
 	onPlayerMovedEnough(points) {
-		const normalizedPoints = posedetection.calculators.keypointsToNormalizedKeypoints(points.keypoints, VIDEO_SIZE);
+		const normalizedPoints = poseDetection.calculators.keypointsToNormalizedKeypoints(points.keypoints, VIDEO_SIZE);
 		// Left Wrist Movement
 		this.leftWrist.set(1.0 - normalizedPoints[POSE.LEFT_WRIST].x * 2, 1.0 - normalizedPoints[POSE.LEFT_WRIST].y * 2, 1.0 - normalizedPoints[POSE.LEFT_WRIST].z * 2);
 

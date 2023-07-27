@@ -1,3 +1,5 @@
+import { app } from '@scripts/App.js';
+
 async function createDebugModules() {
 	await import('@styles/debug/debug.scss');
 
@@ -8,6 +10,8 @@ async function createDebugModules() {
 	const Stats = (await import('./Stats.js')).Stats;
 	const stats = new Stats();
 	await stats.load();
+
+	window['APP'] = app;
 
 	return {
 		mapping,

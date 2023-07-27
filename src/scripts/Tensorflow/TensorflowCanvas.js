@@ -1,4 +1,3 @@
-import * as posedetection from '@tensorflow-models/pose-detection';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { VIDEO_SIZE } from './TensorflowCamera.js';
@@ -47,7 +46,7 @@ class TensorflowCanvas {
 	}
 
 	drawKeypoints(keypoints) {
-		const keypointInd = posedetection.util.getKeypointIndexBySide(posedetection.SupportedModels.BlazePose);
+		const keypointInd = poseDetection.util.getKeypointIndexBySide(poseDetection.SupportedModels.BlazePose);
 		this.ctx.fillStyle = 'Red';
 		this.ctx.strokeStyle = 'White';
 		this.ctx.lineWidth = 2;
@@ -84,7 +83,7 @@ class TensorflowCanvas {
 		this.ctx.strokeStyle = 'Red';
 		this.ctx.lineWidth = 2;
 
-		posedetection.util.getAdjacentPairs(posedetection.SupportedModels.BlazePose).forEach(([i, j]) => {
+		poseDetection.util.getAdjacentPairs(poseDetection.SupportedModels.BlazePose).forEach(([i, j]) => {
 			const kp1 = keypoints[i];
 			const kp2 = keypoints[j];
 

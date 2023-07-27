@@ -13,15 +13,11 @@ const EXTS = Object.keys(TYPES).reduce((p, v) => ((p[v] = true), p), {});
 
 const DEFAULT_EXTENSION = 'glsl';
 
-const hotShaderPath = '/config/hotShaders/hotShader.js';
+const hotShaderPath = '/config/plugins/hotShaders/hotShader.js';
 
 export default function ({ isDev = false, warnDuplicatedImports = true, defaultExtension = DEFAULT_EXTENSION, compress = false, root = '/' } = {}) {
 	return {
 		name: 'vite-glsl-plugin',
-		// config: () => (),
-		config() {
-			return { resolve: { extensions: Object.keys(EXTS) } };
-		},
 		transform: (src, id) => {
 			const split = path.extname(id).split('?');
 			const ext = split[0];

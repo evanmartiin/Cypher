@@ -1,87 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<link rel="icon" type="image/x-icon" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Cypher</title>
-	</head>
-	<body>
-		<div id="app">
-			<div id="canvas-wrapper"></div>
-			<div id="root">
-				<div id="logo-container">
-					<div class="black-filter"></div>
-					<div class="logo-wrapper">
-						<img id="logo" src="./src/assets/images/logo.png" alt="logo" />
-					</div>
-				</div>
 
-				<div id="rec" class="hide">REC</div>
+<head>
+	<meta charset="UTF-8" />
+	<link rel="icon" type="image/x-icon" href="/favicon.svg" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Cypher</title>
 
-				<div id="panel">
-					<h1 id="title" class="hide"></h1>
-					<div id="timer" class="hide"></div>
-				</div>
 
-				<div id="music-container">
-					<img src="./src/assets/images/disc.png" alt="Disc" />
-					<div class="marquee-container">
-						<div class="marquee">Rentre dans le cercle &nbsp;&nbsp;—</div>
-						<div class="marquee" aria-hidden="true">Rentre dans le cercle &nbsp;&nbsp;—</div>
-						<div class="marquee" aria-hidden="true">Rentre dans le cercle &nbsp;&nbsp;—</div>
-					</div>
-				</div>
+	<!-- Require the peer dependencies of pose-detection. 
+	TODO: replace with static public assets to keep these versions
+	-->
+	<script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
 
-				<div id="energy-container" class="hide">
-					<div id="energy"></div>
-					<p>Energy</p>
-				</div>
-				<button id="next" type="button">Suivant</button>
-				<div class="start-game hide">
-					Oui
-					<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
-					<div class="hovering"></div>
-				</div>
-				<div class="start-tutorial hide">
-					Non
-					<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
-					<div class="hovering"></div>
-				</div>
-				<div id="tutorial-light" class="hide"></div>
-				<div class="end-tutorial hide">
-					Dance
-					<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
-					<div class="hovering"></div>
-				</div>
-				<div class="skip-tutorial hide">
-					Passer
-					<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
-					<div class="hovering"></div>
-				</div>
-				<div id="bottom-text" class="hide"></div>
+	<!-- You must explicitly require a TF.js backend if you're not using the TF.js union bundle. -->
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
 
-				<div class="left-cursor hide">
-					<img src="./src/assets/images/hand.png" alt="logo" />
-				</div>
-				<div class="right-cursor hide">
-					<img src="./src/assets/images/hand.png" alt="logo" />
-				</div>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+</head>
 
-				<div id="random-word" class="hide"></div>
-
-				<div class="approved-container hide">
-					<div class="approved-text">Approved by the</div>
-					<img class="approved-logo" src="./src/assets/images/logo.png" alt="logo" />
-				</div>
-
-				<div class="id-container hide">
-					<div class="id">ID : 3</div>
-					<div class="id-recover">retiens ton ID et récupère ta performance à la sortie !</div>
+<body>
+	<div id="app">
+		<div id="canvas-wrapper"></div>
+		<div id="root">
+			<div id="logo-container">
+				<div class="black-filter"></div>
+				<div class="logo-wrapper">
+					<img id="logo" src="./src/assets/images/logo.png" alt="logo" />
 				</div>
 			</div>
-			<div id="require-sound"><p>Clique pour commencer</p></div>
+
+			<div id="rec" class="hide">REC</div>
+
+			<div id="panel">
+				<h1 id="title" class="hide"></h1>
+				<div id="timer" class="hide"></div>
+			</div>
+
+			<div id="music-container">
+				<img src="./src/assets/images/disc.png" alt="Disc" />
+				<div class="marquee-container">
+					<div class="marquee">Rentre dans le cercle &nbsp;&nbsp;—</div>
+					<div class="marquee" aria-hidden="true">Rentre dans le cercle &nbsp;&nbsp;—</div>
+					<div class="marquee" aria-hidden="true">Rentre dans le cercle &nbsp;&nbsp;—</div>
+				</div>
+			</div>
+
+			<div id="energy-container" class="hide">
+				<div id="energy"></div>
+				<p>Energy</p>
+			</div>
+			<button id="next" type="button">Suivant</button>
+			<div class="start-game hide">
+				Oui
+				<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
+				<div class="hovering"></div>
+			</div>
+			<div class="start-tutorial hide">
+				Non
+				<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
+				<div class="hovering"></div>
+			</div>
+			<div id="tutorial-light" class="hide"></div>
+			<div class="end-tutorial hide">
+				Dance
+				<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
+				<div class="hovering"></div>
+			</div>
+			<div class="skip-tutorial hide">
+				Passer
+				<img src="./src/assets/images/disc-empty.png" alt="Empty disc" />
+				<div class="hovering"></div>
+			</div>
+			<div id="bottom-text" class="hide"></div>
+
+			<div class="left-cursor hide">
+				<img src="./src/assets/images/hand.png" alt="logo" />
+			</div>
+			<div class="right-cursor hide">
+				<img src="./src/assets/images/hand.png" alt="logo" />
+			</div>
+
+			<div id="random-word" class="hide"></div>
+
+			<div class="approved-container hide">
+				<div class="approved-text">Approved by the</div>
+				<img class="approved-logo" src="./src/assets/images/logo.png" alt="logo" />
+			</div>
+
+			<div class="id-container hide">
+				<div class="id">ID : 3</div>
+				<div class="id-recover">retiens ton ID et récupère ta performance à la sortie !</div>
+			</div>
 		</div>
-		<script type="module" src="/main.js"></script>
-	</body>
+		<div id="require-sound">
+			<p>Clique pour commencer</p>
+		</div>
+	</div>
+	<script type="module" src="/main.js"></script>
+</body>
+
 </html>
