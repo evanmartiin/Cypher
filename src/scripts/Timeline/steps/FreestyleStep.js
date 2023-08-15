@@ -1,6 +1,7 @@
+import { UI_IDS } from '@Core/audio/AudioManager.js';
+import { INSTALL } from '@utils/config.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
-import { UI_IDS } from '@Core/audio/AudioManager.js';
 
 export default class FreestyleStep extends Step {
 	constructor() {
@@ -17,12 +18,13 @@ export default class FreestyleStep extends Step {
 
 		app.timeline.timer.resetTimer();
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next(), true);
-		app.tools.recorder.start();
 		app.core.audio.playUI(UI_IDS.FREESTYLE);
 		app.webgl.scene.title.show('FREESTYLE');
 		app.webgl.scene.leftHandParticles.show();
 		app.webgl.scene.carpet.show();
 		app.webgl.scene.rightHandParticles.show();
+
+		if (INSTALL) app.tools.recorder.start();
 	}
 
 	stop() {

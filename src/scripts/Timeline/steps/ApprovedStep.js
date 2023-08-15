@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
-import { MUSIC_IDS, UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
+import { UI_IDS, UI_POOL_IDS } from '@Core/audio/AudioManager.js';
+import { INSTALL } from '@utils/config.js';
 import { SplitText } from '@utils/gsap/SplitText.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
@@ -27,9 +28,10 @@ export default class ApprovedStep extends Step {
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 
-		app.tools.recorder.stop();
-
-		app.server.on('SEND_ID', this.handleId);
+		if (INSTALL) {
+			app.tools.recorder.stop();
+			app.server.on('SEND_ID', this.handleId);
+		}
 	}
 
 	stop() {
@@ -38,7 +40,7 @@ export default class ApprovedStep extends Step {
 		app.dom.ui.approved.hide();
 
 		app.timeline.timer.resetTimer();
-		app.server.off('SEND_ID', this.handleId);
+		if (INSTALL) app.server.off('SEND_ID', this.handleId);
 	}
 
 	animText() {

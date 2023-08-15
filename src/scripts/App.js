@@ -1,11 +1,10 @@
 // import 'https://greggman.github.io/webgl-lint/webgl-lint.js';
 import { createCoreModules } from '@Core/index.js';
 import { WebglController } from '@Webgl/WebglController.js';
-import { UiElement } from '@Dom/UiElement.js';
 import { createDomModules } from '@Dom/index.js';
 import { createToolsModules } from '@Tools/index.js';
 import { createDebugModules } from '@Debug/index.js';
-import { DEBUG } from '@utils/config.js';
+import { DEBUG, INSTALL } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
 import { PlayerEnergy } from './PlayerEnergy.js';
 import { PlayerGame } from './PlayerGame.js';
@@ -27,13 +26,14 @@ class App {
 		this.tools = createToolsModules();
 		this.dom = createDomModules();
 		this.webgl = new WebglController();
-		this.server = new ServerController();
 		this.tensorflow = new TensorflowController();
 		this.timeline = new Timeline();
 		this.game = new PlayerGame();
 		this.energy = new PlayerEnergy();
 
 		window.addEventListener('click', this.handleFirstClick);
+
+		if (INSTALL) this.server = new ServerController();
 
 		if (DEBUG) this.debug = await createDebugModules();
 
@@ -42,7 +42,7 @@ class App {
 
 	async load() {
 		await this.core.assetsManager.load();
-		await this.tools.recorder.init();
+		if (INSTALL) await this.tools.recorder.init();
 		this.debug?.mapping.init();
 		state.emit(EVENTS.ATTACH);
 		state.emit(EVENTS.RESIZE, this.tools.viewport.infos);

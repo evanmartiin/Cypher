@@ -1,3 +1,4 @@
+import { INSTALL } from '@utils/config.js';
 import Step from '@utils/models/Step.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
@@ -16,7 +17,8 @@ export default class StandbyStep extends Step {
 		app.timeline.timer.resetTimer();
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.reset(), true);
 		app.tensorflow.show();
-		app.tools.recorder.recording && app.tools.recorder.cancel();
+
+		if (INSTALL) app.tools.recorder.recording && app.tools.recorder.cancel();
 
 		app.webgl.scene.avatar.disableControl();
 		app.webgl.scene.carpet.hide();
