@@ -37,8 +37,6 @@ export class GPUSimulation {
 			mesh.material = new MeshNormalMaterial();
 		});
 
-		console.log(this.cubePositions, this.cubeQuaternions);
-
 		// function randomInRange(min, max) {
 		// 	return min + Math.random() * (max - min);
 		// }

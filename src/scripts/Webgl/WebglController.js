@@ -22,8 +22,6 @@ class WebglController {
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2, this.renderer, this.scene, this.camera);
 	}
 
-
-
 	onAttach() {
 		app.$wrapper.prepend(this.renderer.domElement);
 	}
