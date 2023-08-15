@@ -11,7 +11,9 @@ export default class CounterAnimation extends Group {
 	constructor() {
 		super();
 		state.register(this);
+	}
 
+	onAttach() {
 		this._textures = this._getTextures();
 
 		const geometry = new PlaneGeometry(1, 1, 1, 1);
@@ -21,14 +23,9 @@ export default class CounterAnimation extends Group {
 		this._mesh1 = this._createMesh1(geometry);
 		this._meshGo = this._createMeshGo(geometry);
 
-		this._timeline = this.setTransitionTimeline();
-		// document.addEventListener('click', () => {
-		// 	this._timeline.restart();
-		// });
-	}
+		this.add(this._mesh3, this._mesh2, this._mesh1, this._meshGo);
 
-	onAttach() {
-		// app.debug?.mapping.add(this, 'Environment');
+		this._timeline = this.setTransitionTimeline();
 	}
 
 	_getTextures() {
@@ -72,8 +69,6 @@ export default class CounterAnimation extends Group {
 		mesh.position.y = 1.2;
 		mesh.position.z = 1;
 
-		app.webgl.scene.add(mesh);
-
 		return mesh;
 	}
 
@@ -99,8 +94,6 @@ export default class CounterAnimation extends Group {
 		const mesh = new Mesh(geometry, material);
 		mesh.position.y = 1.2;
 		mesh.position.z = 1;
-
-		app.webgl.scene.add(mesh);
 
 		return mesh;
 	}
@@ -128,8 +121,6 @@ export default class CounterAnimation extends Group {
 		mesh.position.y = 1.2;
 		mesh.position.z = 1;
 
-		app.webgl.scene.add(mesh);
-
 		return mesh;
 	}
 
@@ -155,8 +146,6 @@ export default class CounterAnimation extends Group {
 		const mesh = new Mesh(geometry, material);
 		mesh.position.y = 1.2;
 		mesh.position.z = 1;
-
-		app.webgl.scene.add(mesh);
 
 		return mesh;
 	}

@@ -1,10 +1,10 @@
-import * as THREE from 'three';
+import { Clock, WebGLRenderer } from 'three';
 
 class Common {
 	constructor() {
 		this.width = null;
 		this.height = null;
-		this.aspect = this.width / this.height;
+		this.aspect = 0;
 		this.isMobile = false;
 		this.breakpoint = 768;
 
@@ -22,7 +22,7 @@ class Common {
 
 		this.resize();
 
-		this.renderer = new THREE.WebGLRenderer({
+		this.renderer = new WebGLRenderer({
 			antialias: false,
 			alpha: false,
 		});
@@ -35,7 +35,7 @@ class Common {
 
 		this.renderer.setPixelRatio(this.pixelRatio);
 
-		this.clock = new THREE.Clock();
+		this.clock = new Clock();
 		this.clock.start();
 	}
 

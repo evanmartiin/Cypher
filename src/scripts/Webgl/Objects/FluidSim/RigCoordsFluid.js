@@ -1,5 +1,4 @@
 import { Vector2 } from 'three';
-import { POSE } from '@utils/constants.js';
 import { state } from '@scripts/State.js';
 
 class RigCoordsFluid {

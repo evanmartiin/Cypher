@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@trivago/prettier-plugin-sort-imports': ^4.0.0
   '@tweakpane/plugin-essentials': ^0.1.8
+  '@types/three': 0.149.0
   eslint: ^8.34.0
   eslint-config-prettier: ^8.6.0
   eslint-plugin-html: ^7.1.0
@@ -21,6 +22,7 @@ specifiers:
   vite: ^4.1.1
 
 dependencies:
+  '@types/three': 0.149.0
   gsap: 3.12.2
   howler: 2.2.3
   postprocessing: 6.32.2_three@0.149.0
@@ -473,6 +475,16 @@ packages:
 
   /@types/diff/5.0.3:
     resolution: {integrity: sha512-amrLbRqTU9bXMCc6uX0sWpxsQzRIo9z6MJPkH1pkez/qOxuqSZVuryJAWoBRq94CeG8JxY+VK4Le9HtjQR5T9A==}
+    dev: false
+
+  /@types/three/0.149.0:
+    resolution: {integrity: sha512-fgNBm9LWc65ER/W0cvoXdC0iMy7Ke9e2CONmEr6Jt8sDSY3sw4DgOubZfmdZ747dkPhbQrgRQAWwDEr2S/7IEg==}
+    dependencies:
+      '@types/webxr': 0.5.3
+    dev: false
+
+  /@types/webxr/0.5.3:
+    resolution: {integrity: sha512-orrXqFCuuRE5hMuwLZhPaQrukAZxpkMzNJHmKCNJ16XT5yiR5iNBLNdn+xONbfzU2XAXTZR0GA2R99ciUd/2hg==}
     dev: false
 
   /acorn-jsx/5.3.2_acorn@8.10.0:

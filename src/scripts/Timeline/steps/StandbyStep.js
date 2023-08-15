@@ -22,7 +22,7 @@ export default class StandbyStep extends Step {
 
 		app.webgl.scene.avatar.disableControl();
 		app.webgl.scene.carpet.hide();
-		app.webgl.scene._particles.hide();
+		app.webgl.scene.particles.hide();
 		app.webgl.camera.exit();
 		app.webgl.postProcessing.blurPass.enable();
 	}
@@ -39,7 +39,7 @@ export default class StandbyStep extends Step {
 
 		app.webgl.scene.avatar.enableControl();
 		app.webgl.scene.carpet.show();
-		app.webgl.scene._particles.show();
+		app.webgl.scene.particles.show();
 	}
 
 	stop() {

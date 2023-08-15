@@ -1,4 +1,4 @@
-import { Box3, BoxGeometry, MathUtils, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshStandardMaterial, PlaneGeometry, Texture, Vector3, Vector4, ZeroStencilOp } from 'three';
+import { Texture } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import positionShader from '@Webgl/Materials/Particles/simulation/positionShader.fs';
 import velocityShader from '@Webgl/Materials/Particles/simulation/velocityShader.fs';
@@ -14,7 +14,6 @@ export class GPUSimulation {
 		this.size = size;
 
 		this.init();
-		state.register(this);
 	}
 
 	init() {

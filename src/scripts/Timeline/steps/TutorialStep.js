@@ -62,7 +62,7 @@ export default class TutorialStep extends Step {
 					app.core.audio.playUI(UI_IDS.SUB3, 1);
 					this.lightOn(40, new Vector2(50, 60));
 					app.webgl.scene.avatar.enableControl();
-					app.webgl.scene._particles.show();
+					app.webgl.scene.particles.show();
 				},
 				onComplete: () => {
 					this.lightOff();

@@ -5,15 +5,12 @@ import {
 	Float32BufferAttribute,
 	FloatType,
 	Group,
-	HalfFloatType,
 	InstancedBufferAttribute,
 	InstancedMesh,
 	MathUtils,
 	Mesh,
-	MeshBasicMaterial,
 	NearestFilter,
 	Object3D,
-	PerspectiveCamera,
 	PlaneGeometry,
 	RGBAFormat,
 	Scene,
@@ -40,8 +37,6 @@ class Avatar extends Group {
 	}
 
 	onAttach() {
-		app.debug?.mapping.add(this, 'Particles');
-
 		// this.scene = new Scene();
 		// this.camera = new PerspectiveCamera();
 		// this.camera.position.set(0.5, 0.5, 1);
@@ -120,6 +115,8 @@ class Avatar extends Group {
 		this.quad.position.x = 0.35;
 		this.quad.position.z = -1;
 		// app.webgl.scene.add(this.quad);
+
+		app.debug?.mapping.add(this, 'Particles');
 	}
 
 	onPlayerMoved(rig) {

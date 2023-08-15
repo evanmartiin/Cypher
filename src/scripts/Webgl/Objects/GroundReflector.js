@@ -7,27 +7,23 @@ export class GroundReflector extends Group {
 	constructor() {
 		super();
 		state.register(this);
-		this._reflector = this._createReflector();
 	}
 
 	onAttach() {
-		app.debug?.mapping.add(this, 'GroundReflector');
-	}
-
-	_createReflector() {
 		const geometry = new PlaneGeometry(1, 1);
-		const reflector = new Reflector(geometry, {
+		this.reflector = new Reflector(geometry, {
 			textureWidth: 512 * window.devicePixelRatio,
 			textureHeight: 512 * window.devicePixelRatio,
 		});
 
-		reflector.rotation.x = -Math.PI * 0.5;
-		reflector.rotation.z = 0.75;
-		reflector.position.z = -1;
+		this.reflector.rotation.x = -Math.PI * 0.5;
+		this.reflector.rotation.z = 0.75;
+		this.reflector.position.y = 0.01;
+		this.reflector.position.z = -1;
 		const scale = 28;
-		reflector.scale.set(scale, scale, 1);
-		this.add(reflector);
+		this.reflector.scale.set(scale, scale, 1);
+		this.add(this.reflector);
 
-		return reflector;
+		app.debug?.mapping.add(this, 'GroundReflector');
 	}
 }

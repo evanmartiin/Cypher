@@ -1,4 +1,4 @@
-import { DepthFormat, DepthStencilFormat, DepthTexture, MathUtils, NearestFilter, Scene, UnsignedShortType, WebGLRenderTarget } from 'three';
+import { DepthTexture, MathUtils, NearestFilter, UnsignedShortType, Vector2, WebGLRenderTarget } from 'three';
 import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { ClearPass } from 'three/examples/jsm/postprocessing/ClearPass.js';
@@ -46,16 +46,11 @@ class PostProcessing {
 	}
 
 	_setupRenderTarget() {
-		const format = parseFloat(DepthFormat);
-		const type = parseFloat(UnsignedShortType);
-
 		const rt = new WebGLRenderTarget(window.innerWidth, window.innerHeight);
 		rt.texture.minFilter = NearestFilter;
 		rt.texture.magFilter = NearestFilter;
-		rt.stencilBuffer = format === DepthStencilFormat ? true : false;
-		rt.depthTexture = new DepthTexture();
-		rt.depthTexture.format = format;
-		rt.depthTexture.type = type;
+		rt.stencilBuffer = false;
+		rt.depthTexture = new DepthTexture(window.innerWidth, window.innerHeight, UnsignedShortType);
 
 		return rt;
 	}
@@ -85,11 +80,7 @@ class PostProcessing {
 	}
 
 	_addBloomPass() {
-		const unrealBloomPass = new UnrealBloomPass();
-		unrealBloomPass.strength = 0.6;
-		// unrealBloomPass.strength = 0.0;
-		unrealBloomPass.radius = 1;
-		unrealBloomPass.threshold = 0.0;
+		const unrealBloomPass = new UnrealBloomPass(new Vector2(), 0.6, 1, 0.0);
 		this._effectComposer.addPass(unrealBloomPass);
 
 		return unrealBloomPass;
@@ -169,7 +160,6 @@ class PostProcessing {
 	_addAfterImagePass() {
 		const afterImagePass = new AfterimagePass();
 		afterImagePass.uniforms['damp'].value = 0.85;
-		// afterImagePass.uniforms['damp'].value = 0.0;
 		this._effectComposer.addPass(afterImagePass);
 
 		return afterImagePass;
@@ -224,7 +214,7 @@ class PostProcessing {
 	}
 
 	_addSMAAPass() {
-		const smaaPass = new SMAAPass();
+		const smaaPass = new SMAAPass(window.innerWidth, window.innerHeight);
 		this._effectComposer.addPass(smaaPass);
 
 		return smaaPass;

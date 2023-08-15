@@ -11,7 +11,9 @@ export default class Environment extends Group {
 	constructor() {
 		super();
 		state.register(this);
+	}
 
+	onAttach() {
 		const pixelSortingTexture = app.core.assetsManager.get('pixelSorting');
 		pixelSortingTexture.wrapS = MirroredRepeatWrapping;
 		pixelSortingTexture.wrapT = MirroredRepeatWrapping;
@@ -22,9 +24,8 @@ export default class Environment extends Group {
 
 		this._material = this._createMaterial(pixelSortingTexture, glitchTexture);
 		this._mesh = this._createMesh(pixelSortingTexture, glitchTexture);
-	}
+		this.add(this._mesh);
 
-	onAttach() {
 		app.debug?.mapping.add(this, 'Environment');
 	}
 
@@ -357,12 +358,11 @@ export default class Environment extends Group {
 		});
 		mesh.rotation.y = Math.PI * 0.15;
 		mesh.position.z = 0.35;
-		app.webgl.scene.add(mesh);
 
 		return mesh;
 	}
 
 	onRender() {
-		this.logoMaterial.uniforms.uEnergyAmount.value = app.energy.normalizedCurrent;
+		if (this.logoMaterial) this.logoMaterial.uniforms.uEnergyAmount.value = app.energy.normalizedCurrent;
 	}
 }

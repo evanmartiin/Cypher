@@ -34,7 +34,7 @@ export default class FreestyleStep extends Step {
 
 		app.webgl.scene.avatar.disableControl();
 		app.webgl.scene.carpet.hide();
-		app.webgl.scene._particles.hide();
+		app.webgl.scene.particles.hide();
 		app.webgl.camera.exit();
 		app.webgl.postProcessing.blurPass.enable();
 		app.webgl.scene.title.stop();

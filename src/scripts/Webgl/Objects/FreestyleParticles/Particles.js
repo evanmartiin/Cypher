@@ -1,19 +1,5 @@
-import {
-	AdditiveBlending,
-	BufferGeometry,
-	Clock,
-	DoubleSide,
-	Group,
-	InstancedBufferAttribute,
-	InstancedMesh,
-	MeshStandardMaterial,
-	MirroredRepeatWrapping,
-	MultiplyBlending,
-	OctahedronGeometry,
-	PlaneGeometry,
-	RepeatWrapping,
-	ShaderMaterial,
-} from 'three';
+import { gsap } from 'gsap';
+import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, MirroredRepeatWrapping, OctahedronGeometry } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/FreestyleParticles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/FreestyleParticles/visual/vertex.vs';
@@ -21,7 +7,6 @@ import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import { GPUSimulation } from './GPUSimulation.js';
-import { gsap } from 'gsap';
 
 export class FreestyleParticles extends Group {
 	constructor(size, coords, acceleration) {
@@ -31,11 +16,9 @@ export class FreestyleParticles extends Group {
 		this.coords = coords;
 		this.acceleration = acceleration;
 		this.visible = false;
-
-		this.init();
 	}
 
-	init() {
+	onAttach() {
 		this.sim = new GPUSimulation(app.webgl.renderer, this.size, this.coords);
 		this._geometry = this._createGeometry();
 		this._material = this._createMaterial();
@@ -131,6 +114,8 @@ export class FreestyleParticles extends Group {
 	}
 
 	onRender() {
+		if (!this._material) return;
+
 		this._material.uniforms.uAcceleration.value = this.acceleration.value;
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;

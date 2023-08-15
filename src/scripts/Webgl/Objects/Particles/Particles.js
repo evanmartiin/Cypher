@@ -1,17 +1,5 @@
 import { gsap } from 'gsap';
-import {
-	BoxGeometry,
-	BufferGeometry,
-	DoubleSide,
-	Group,
-	InstancedBufferAttribute,
-	InstancedMesh,
-	MeshStandardMaterial,
-	MirroredRepeatWrapping,
-	OctahedronGeometry,
-	PlaneGeometry,
-	Texture,
-} from 'three';
+import { BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh, MeshStandardMaterial, MirroredRepeatWrapping, OctahedronGeometry, Texture } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import fragmentShader from '@Webgl/Materials/Particles/visual/fragment.fs';
 import vertexShader from '@Webgl/Materials/Particles/visual/vertex.vs';
@@ -28,12 +16,10 @@ export class Particles extends Group {
 		this.coords = coords;
 		this.acceleration = acceleration;
 		this.visible = false;
-
-		this.init();
 	}
 
-	init() {
-		this.sim = new GPUSimulation(app.webgl.renderer, this.size, this.coords, this.acceleration);
+	onAttach() {
+		this.sim = new GPUSimulation(app.webgl.renderer, this.size);
 		this._geometry = this._createGeometry();
 		this._material = this._createMaterial();
 		this._mesh = this._createMesh();
@@ -129,6 +115,8 @@ export class Particles extends Group {
 	}
 
 	onRender() {
+		if (!this._material) return;
+
 		this._material.uniforms.posMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.pos).texture;
 		this._material.uniforms.velMap.value = this.sim.gpuCompute.getCurrentRenderTarget(this.sim.vel).texture;
 		this._material.uniforms.uRigPositionMap.value = app.webgl.scene.avatar.vertexStore.positionMap;

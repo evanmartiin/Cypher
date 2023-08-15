@@ -37,48 +37,29 @@ class MainScene extends Scene {
 
 		this.reactions = new Reactions();
 		this.add(this.reactions);
-	}
 
-	onAttach() {
-		this._lights = this.addLights();
-		this._groundReflector = this.addGroundReflector();
-		this._environment = this.addEnvironment();
-		this._particles = this.addParticles();
+		this.lights = new Lights();
+		this.add(this.lights);
+
+		this.groundReflector = new GroundReflector();
+		this.add(this.groundReflector);
+
+		this.room = new Environment();
+		this.add(this.room);
+
+		this.particles = new Particles(256);
+		this.add(this.particles);
+
+		this.counterAnimation = new CounterAnimation();
+		this.add(this.counterAnimation);
+
 		this.addFreestyleParticles();
-		this.fog = this.addFog();
-		this._counterAnimation = this.addCounterAnimation();
+
+		this.fog = new CustomFog().fog;
 
 		//@ts-ignore
 		this.environments = ENVIRONMENTS.list;
 		this.currentEnv = 0;
-	}
-
-	addLights() {
-		const lights = new Lights();
-		this.add(lights);
-
-		return lights;
-	}
-
-	addGroundReflector() {
-		const groundReflector = new GroundReflector();
-		groundReflector.position.y = 0.01;
-		this.add(groundReflector);
-
-		return groundReflector;
-	}
-
-	addEnvironment() {
-		const environment = new Environment();
-
-		return environment;
-	}
-
-	addParticles() {
-		const particle = new Particles(256);
-		this.add(particle);
-
-		return particle;
 	}
 
 	addFreestyleParticles() {
@@ -88,17 +69,6 @@ class MainScene extends Scene {
 		this.rightHandParticles.position.x = 1;
 
 		this.add(this.leftHandParticles, this.rightHandParticles);
-	}
-
-	addFog() {
-		const customFog = new CustomFog();
-		return customFog._fog;
-	}
-
-	addCounterAnimation() {
-		const counterAnimation = new CounterAnimation();
-
-		return counterAnimation;
 	}
 
 	changeEnv() {
@@ -139,7 +109,7 @@ class MainScene extends Scene {
 		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: false }, 1.75);
 
 		timeline.to(
-			this._lights._lights.light1.color,
+			this.lights._lights.light1.color,
 			{
 				r: this.environments[this.currentEnv].light1.color.r,
 				g: this.environments[this.currentEnv].light1.color.g,
@@ -149,7 +119,7 @@ class MainScene extends Scene {
 			1.25,
 		);
 		timeline.to(
-			this._lights._lights.light2.color,
+			this.lights._lights.light2.color,
 			{
 				r: this.environments[this.currentEnv].light2.color.r,
 				g: this.environments[this.currentEnv].light2.color.g,
@@ -159,7 +129,7 @@ class MainScene extends Scene {
 			1.25,
 		);
 		timeline.to(
-			this._lights._lights.light3.color,
+			this.lights._lights.light3.color,
 			{
 				r: this.environments[this.currentEnv].light3.color.r,
 				g: this.environments[this.currentEnv].light3.color.g,
@@ -169,11 +139,11 @@ class MainScene extends Scene {
 			1.25,
 		);
 
-		timeline.to(this._lights._lights.light1, { intensity: this.environments[this.currentEnv].light1.intensity, duration: 2.5 }, 0);
-		timeline.to(this._lights._lights.light2, { intensity: this.environments[this.currentEnv].light2.intensity, duration: 2.5 }, 0);
-		timeline.to(this._lights._lights.light3, { intensity: this.environments[this.currentEnv].light3.intensity, duration: 2.5 }, 0);
+		timeline.to(this.lights._lights.light1, { intensity: this.environments[this.currentEnv].light1.intensity, duration: 2.5 }, 0);
+		timeline.to(this.lights._lights.light2, { intensity: this.environments[this.currentEnv].light2.intensity, duration: 2.5 }, 0);
+		timeline.to(this.lights._lights.light3, { intensity: this.environments[this.currentEnv].light3.intensity, duration: 2.5 }, 0);
 
-		// timeline.to(this._environment._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
+		// timeline.to(this.room._material, { metalness: 0.5, roughness: 0.5, duration: 2.75 }, 0);
 		timeline.to(globalUniforms.uTransitionProgress, { duration: 3, value: -1.5 }, 1.75);
 		timeline.to(globalUniforms.uSwitchTransition, { duration: 0, value: true }, 4.75);
 

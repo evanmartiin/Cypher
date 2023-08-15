@@ -62,7 +62,7 @@ export default class Simulation {
 	createAllFBO() {
 		const type = /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ? HalfFloatType : FloatType;
 
-		for (let key in this.fbos) {
+		for (const key in this.fbos) {
 			this.fbos[key] = new WebGLRenderTarget(this.fboSize.x, this.fboSize.y, {
 				type: type,
 			});
@@ -134,7 +134,7 @@ export default class Simulation {
 	resize() {
 		this.calcSize();
 
-		for (let key in this.fbos) {
+		for (const key in this.fbos) {
 			this.fbos[key].setSize(this.fboSize.x, this.fboSize.y);
 		}
 	}
