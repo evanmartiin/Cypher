@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { AdditiveBlending, ClampToEdgeWrapping, FrontSide, Group, Mesh, MeshStandardMaterial, MirroredRepeatWrapping, PlaneGeometry, ShaderMaterial } from 'three';
+import { AdditiveBlending, ClampToEdgeWrapping, Group, Mesh, MeshStandardMaterial, MirroredRepeatWrapping, PlaneGeometry } from 'three';
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '@scripts/App.js';

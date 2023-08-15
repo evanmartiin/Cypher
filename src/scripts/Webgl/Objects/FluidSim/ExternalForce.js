@@ -1,4 +1,4 @@
-import { AdditiveBlending, Mesh, MeshNormalMaterial, PlaneGeometry, RawShaderMaterial, SphereGeometry, Vector2 } from 'three';
+import { AdditiveBlending, Mesh, PlaneGeometry, RawShaderMaterial, Vector2 } from 'three';
 import externalForceFragment from '@Webgl/Materials/FluidSimulation/simulation/externalForce.frag';
 import mouseVertex from '@Webgl/Materials/FluidSimulation/simulation/mouse.vert';
 import { app } from '@scripts/App.js';

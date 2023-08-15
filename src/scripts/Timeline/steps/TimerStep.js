@@ -16,7 +16,7 @@ export default class TimerStep extends Step {
 
 		app.timeline.timer.setGauge(this.duration, () => app.timeline.next());
 		app.tensorflow.hide();
-		app.webgl.scene._counterAnimation._timeline.restart();
+		app.webgl.scene.counterAnimation._timeline.restart();
 		// .then(() => {
 		// 	if (!this.isRunning) return;
 		// 	app.timeline.next();
@@ -26,7 +26,7 @@ export default class TimerStep extends Step {
 	stop() {
 		this.isRunning = false;
 		app.timeline.timer.resetTimer();
-		app.webgl.scene._counterAnimation._timeline.pause(0);
+		app.webgl.scene.counterAnimation._timeline.pause(0);
 	}
 
 	save() {

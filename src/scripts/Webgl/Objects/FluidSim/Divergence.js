@@ -2,7 +2,6 @@ import divergenceFragment from '@Webgl/Materials/FluidSimulation/simulation/dive
 import faceVertex from '@Webgl/Materials/FluidSimulation/simulation/face.vert';
 import ShaderPass from './ShaderPass.js';
 
-
 export default class Divergence extends ShaderPass {
 	constructor(simProps) {
 		super({

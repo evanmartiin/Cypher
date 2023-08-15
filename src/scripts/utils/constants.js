@@ -54,11 +54,8 @@ const EVENTS_MAP = Object.fromEntries(
 	]),
 );
 
-const STEPS = [WaitingStep, PlayerDetectedStep, TutorialStep, TrainingStep, TimerStep, DanceStep, FreestyleStep, ApprovedStep, VideoIDStep];
-
-const STORE = {
-	SKELETON: i++,
-};
+const STEPS = [WaitingStep, PlayerDetectedStep, TutorialStep, TrainingStep, TimerStep, DanceStep, FreestyleStep, ApprovedStep];
+const INSTALL_STEPS = [WaitingStep, PlayerDetectedStep, TutorialStep, TrainingStep, TimerStep, DanceStep, FreestyleStep, ApprovedStep, VideoIDStep];
 
 const POSE = {
 	NOSE: 0,
@@ -134,4 +131,4 @@ const DANCES = {
 	STEP_DOWN: j++,
 };
 
-export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS, STORE, POSE, POSE_CONNECTIONS, DANCES };
+export { EVENTS, EVENTS_MAP, SERVER_EVENTS, STEPS, INSTALL_STEPS, POSE, POSE_CONNECTIONS, DANCES };

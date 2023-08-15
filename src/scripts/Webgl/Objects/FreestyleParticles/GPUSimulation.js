@@ -1,4 +1,4 @@
-import { Box3, BoxGeometry, MathUtils, Mesh, MeshNormalMaterial, MeshStandardMaterial, Vector3, Vector4, ZeroStencilOp } from 'three';
+import { MathUtils, MeshNormalMaterial, Vector3, Vector4 } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import positionShader from '@Webgl/Materials/FreestyleParticles/simulation/positionShader.fs';
 import velocityShader from '@Webgl/Materials/FreestyleParticles/simulation/velocityShader.fs';
@@ -36,27 +36,6 @@ export class GPUSimulation {
 			// app.webgl.scene.add(mesh.clone());
 			mesh.material = new MeshNormalMaterial();
 		});
-
-		// function randomInRange(min, max) {
-		// 	return min + Math.random() * (max - min);
-		// }
-
-		// for (let j = 0; j < NUM_CUBES; j++) {
-		// 	this.cubeQuaternions.push(new Vector4(randomInRange(-1, 1), randomInRange(-1, 1), randomInRange(-1, 1), randomInRange(-1, 1)).normalize());
-		// 	this.cubePositions.push(new Vector4(randomInRange(-3, 3), randomInRange(0, 2), 0, randomInRange(0.3, 0.6)));
-
-		// 	const cube = new Mesh(
-		// 		new BoxGeometry(1, 1, 1),
-		// 		new MeshStandardMaterial({
-		// 			metalness: 0.6,
-		// 			roughness: 0.4,
-		// 		}),
-		// 	);
-		// 	cube.scale.set(this.cubePositions[j].w, this.cubePositions[j].w, this.cubePositions[j].w);
-		// 	cube.quaternion.copy(this.cubeQuaternions[j]);
-		// 	cube.position.set(this.cubePositions[j].x, this.cubePositions[j].y, this.cubePositions[j].z);
-		// 	app.webgl.scene.add(cube.clone());
-		// }
 	}
 
 	init() {

@@ -46,7 +46,7 @@ export default class TrainingStep extends Step {
 
 		app.webgl.camera.enter();
 		app.webgl.scene.avatar.enableControl();
-		app.webgl.scene._particles.show();
+		app.webgl.scene.particles.show();
 		app.webgl.postProcessing.blurPass.disable();
 		app.webgl.scene.carpet.show();
 

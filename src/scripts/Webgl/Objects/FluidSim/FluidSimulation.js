@@ -1,8 +1,4 @@
-import { Group, Mesh, MeshStandardMaterial, MirroredRepeatWrapping, PlaneGeometry, RepeatWrapping, Vector2 } from 'three';
-import CustomShaderMaterial from 'three-custom-shader-material/vanilla';
-import fragmentShader from '@Webgl/Materials/FluidSimulation/fragment.fs';
-import vertexShader from '@Webgl/Materials/FluidSimulation/vertex.vs';
-import { globalUniforms } from '@utils/globalUniforms.js';
+import { Group, Mesh, MeshStandardMaterial, PlaneGeometry, RepeatWrapping } from 'three';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import RigCoords from './RigCoordsFluid.js';

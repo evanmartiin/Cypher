@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { Camera, Mesh, PlaneGeometry, RawShaderMaterial, Scene } from 'three';
 import { app } from '@scripts/App.js';
 
 export default class ShaderPass {
@@ -8,13 +8,13 @@ export default class ShaderPass {
 	}
 
 	init() {
-		this.scene = new THREE.Scene();
-		this.camera = new THREE.Camera();
+		this.scene = new Scene();
+		this.camera = new Camera();
 
 		if (this.uniforms) {
-			this.material = new THREE.RawShaderMaterial(this.props.material);
-			this.geometry = new THREE.PlaneGeometry(2.0, 2.0);
-			this.plane = new THREE.Mesh(this.geometry, this.material);
+			this.material = new RawShaderMaterial(this.props.material);
+			this.geometry = new PlaneGeometry(2.0, 2.0);
+			this.plane = new Mesh(this.geometry, this.material);
 			this.scene.add(this.plane);
 		}
 	}

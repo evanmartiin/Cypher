@@ -42,8 +42,8 @@ export default class Viscous extends ShaderPass {
 	update({ viscous, iterations, dt }) {
 		let fbo_in, fbo_out;
 		this.uniforms.v.value = viscous;
-		for (var i = 0; i < iterations; i++) {
-			if (i % 2 == 0) {
+		for (let i = 0; i < iterations; i++) {
+			if (i % 2 === 0) {
 				fbo_in = this.props.output0;
 				fbo_out = this.props.output1;
 			} else {

@@ -1,5 +1,5 @@
-import { DEBUG } from '@utils/config.js';
-import { STEPS } from '@utils/constants.js';
+import { DEBUG, INSTALL } from '@utils/config.js';
+import { INSTALL_STEPS, STEPS } from '@utils/constants.js';
 import { app } from '@scripts/App.js';
 import { state } from '@scripts/State.js';
 import Timer from './Timer.js';
@@ -14,7 +14,7 @@ class Timeline {
 		this.timer = new Timer();
 		this.standby = false;
 
-		STEPS.forEach((Step) => this.steps.push(new Step()));
+		(INSTALL ? INSTALL_STEPS : STEPS).forEach((Step) => this.steps.push(new Step()));
 		this.standbyStep = new StandbyStep();
 
 		if (DEBUG) this.nextDOM.addEventListener('click', () => this.next());
@@ -36,7 +36,7 @@ class Timeline {
 	onAttach() {
 		/// #if DEBUG
 		if (app.tools.urlParams.has('step')) {
-			const loweredSteps = STEPS.map((Step) => Step.name.slice(0, -4).toLowerCase());
+			const loweredSteps = (INSTALL ? INSTALL_STEPS : STEPS).map((Step) => Step.name.slice(0, -4).toLowerCase());
 			const requestedStep = app.tools.urlParams.getString('step').toLowerCase();
 			if (loweredSteps.includes(requestedStep)) {
 				this.requestedStep = requestedStep;

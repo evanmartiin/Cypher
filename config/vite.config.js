@@ -5,7 +5,6 @@ import { defineConfig, loadEnv } from 'vite';
 import hotEnvMap from './hotEnvMap/hotEnvMap.js';
 import hotShaders from './hotShaders/hotShadersRollupPlugin.js';
 import ifdef from './ifdef/ifdefRollupPlugin.js';
-import rollupOptions from './rollup.config.js';
 
 export default ({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
@@ -28,9 +27,6 @@ export default ({ mode }) => {
 		plugins: [hotShaders({ isDev: env.CYPHER_DEBUG === 'true', compress: true }), hotEnvMap({ isDev: env.CYPHER_DEBUG === 'true' }), ifdef({ DEBUG: env.CYPHER_DEBUG === 'true' })],
 		resolve: {
 			alias: getAliasesFromJsConfig(),
-		},
-		build: {
-			rollupOptions,
 		},
 		appType: 'spa',
 		envPrefix: 'CYPHER_',
